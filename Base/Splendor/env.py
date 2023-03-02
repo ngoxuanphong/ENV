@@ -559,7 +559,8 @@ def check_run_under_njit(Agent, perData):
 
 
 def numba_main_2(p0, num_game, per_player, level, *args):
-    list_other = np.array([1, 2, 3, -1], dtype=np.int64)
+    num_bot = getAgentSize() - 1
+    list_other = np.array([-1] + [i+1 for i in range(num_bot)])
     try: check_njit = check_run_under_njit(p0, per_player)
     except: check_njit = False
 
@@ -580,8 +581,8 @@ def numba_main_2(p0, num_game, per_player, level, *args):
         _list_bot_level_ = []
 
         if _level_ == 0:
-            _list_per_level_ = [np.array([[0.]], dtype=np.float64) for _ in range(3)]
-            _list_bot_level_ = [bot_lv0 for _ in range(3)]
+            _list_per_level_ = [np.array([[0.]], dtype=np.float64) for _ in range(num_bot)]
+            _list_bot_level_ = [bot_lv0 for _ in range(num_bot)]
         else:
             env_name = sys.argv[1]
             if len(args) > 0:
@@ -593,8 +594,8 @@ def numba_main_2(p0, num_game, per_player, level, *args):
                 raise Exception('Hiện tại không có level này')
 
             lst_agent_level = dict_level[env_name][str(level)][2]
-            lst_module_level = [load_module_player(lst_agent_level[i]) for i in range(3)]
-            for i in range(3):
+            lst_module_level = [load_module_player(lst_agent_level[i]) for i in range(num_bot)]
+            for i in range(num_bot):
                 data_agent_level = np.load(f'{SHORT_PATH}Agent/{lst_agent_level[i]}/Data/{env_name}_{level}/Train.npy',allow_pickle=True)
                 _list_per_level_.append(lst_module_level[i].convert_to_test(data_agent_level))
                 _list_bot_level_.append(lst_module_level[i].Test)
