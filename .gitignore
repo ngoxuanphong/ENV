@@ -1,0 +1,10 @@
+*.pyc
+*.nbc
+*.nbi
+
+/venv
+
+# !/Agent/player_random/
+**/__pycache__/
+/test
+**/Data
