@@ -600,11 +600,11 @@ def numba_main_2(p0, num_game, per_player, level, *args):
                 _list_per_level_.append(lst_module_level[i].convert_to_test(data_agent_level))
                 _list_bot_level_.append(lst_module_level[i].Test)
 
-        if check_njit:
-            return n_games_numba(p0, num_game, per_player, list_other,
-                                 _list_per_level_[0], _list_per_level_[1], _list_per_level_[2],
-                                 _list_bot_level_[0], _list_bot_level_[1], _list_bot_level_[2])
-        else:
-            return n_games_normal(p0, num_game, per_player, list_other,
-                                 _list_per_level_[0], _list_per_level_[1], _list_per_level_[2],
-                                 _list_bot_level_[0], _list_bot_level_[1], _list_bot_level_[2])
+    if check_njit:
+        return n_games_numba(p0, num_game, per_player, list_other,
+                                _list_per_level_[0], _list_per_level_[1], _list_per_level_[2],
+                                _list_bot_level_[0], _list_bot_level_[1], _list_bot_level_[2])
+    else:
+        return n_games_normal(p0, num_game, per_player, list_other,
+                                _list_per_level_[0], _list_per_level_[1], _list_per_level_[2],
+                                _list_bot_level_[0], _list_bot_level_[1], _list_bot_level_[2])
