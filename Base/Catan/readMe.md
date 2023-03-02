@@ -3,7 +3,7 @@
 
     * [95:114] Vị trí Robber
 
-    * [114:133] Value trên các ô đất
+    * [114:133] Ô đất nào có value = 2
 
     * [133:187] 6 vị trí liên tiếp là trạng thái cảng trên một cảng (tổng 9 cảng), thứ tự là Cây Gạch Cừu Lúa Đá, cuối cùng là cảng 3:1
 
@@ -81,6 +81,11 @@
 
     * [1047]: Đánh dấu game đã kết thúc
 
+    * [1048+19*v:1048*(v+1)] Ô đất nào có value = v, v = 3, 4, 5, 6, 8, 9, 10, 11, 12
+
+    * [1219:1224]: Giá trị xx là gì (2, 3, 4, 5, 6)
+
+    * [1219:1224]: Giá trị xx là gì (8, 9, 10, 11, 12)
 
 # Action
     * 0-53: Chọn điểm
