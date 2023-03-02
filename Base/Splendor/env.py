@@ -554,7 +554,7 @@ def load_module_player(player):
 
 
 @njit()
-def check_run_under_njit(Agent, perData):
+def check_run_under_njit(agent, perData):
     return True
 
 
