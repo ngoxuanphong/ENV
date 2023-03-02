@@ -11,5 +11,5 @@ COUNT_TEST = 1000
 DRIVE_FOLDER = 'G:/My Drive/AutomaticColab/'
 
 
-SHOT_PATH = ''
+SHORT_PATH = ''
 # DRIVE_FOLDER = 'H:/Drive của tôi/AutomaticColab/'
