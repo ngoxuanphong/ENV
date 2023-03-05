@@ -2,12 +2,12 @@ import numpy as np
 import random as rd
 from numba import njit, jit
 import sys, os
-from setup import SHOT_PATH
+from setup import SHORT_PATH
 import importlib.util
 game_name = sys.argv[1]
 
 def setup_game(game_name):
-    spec = importlib.util.spec_from_file_location('env', f"{SHOT_PATH}base/{game_name}/env.py")
+    spec = importlib.util.spec_from_file_location('env', f"{SHORT_PATH}base/{game_name}/env.py")
     module = importlib.util.module_from_spec(spec)
     sys.modules[spec.name] = module 
     spec.loader.exec_module(module)
@@ -28,11 +28,11 @@ from numba.typed import List
 def convert_to_save(perData):
     return perData
 def convert_to_test(perData):
-    return list(perData)
+    return List(perData)
     
 @njit()
 def DataAgent():
-    return [np.zeros((1, getActionSize())), np.random.rand(getActionSize(), getActionSize()), np.zeros((getActionSize(),getActionSize()))]
+    return List([np.zeros((1, getActionSize())), np.random.rand(getActionSize(), getActionSize()), np.zeros((getActionSize(),getActionSize()))])
 
 @njit()
 def Train(state,per):
@@ -41,13 +41,13 @@ def Train(state,per):
 
     output = actions*weight + actions
     c = np.where(output == np.max(output))[0]
-    action = np.random.choice(c)
+    action = c[np.random.randint(0, c.shape[0])]
 
     per[0] += per[1][action]
     win = getReward(state)
 
     if win != -1:
-        per[0] = np.zeros((1, getActionSize()))
+        per[0][:, :] = 0.0
         if win == 1:
             per[2] += per[1]
         else:
@@ -64,9 +64,9 @@ def Test(state,per):
 
     output = actions*weight + actions
     c = np.where(output == np.max(output))[0]
-    action = np.random.choice(c)
+    action = c[np.random.randint(0, c.shape[0])]
     per[0] += np.argsort(np.argsort(per[2][action]))
     win = getReward(state)
     if win != -1:
-        per[0] = np.zeros((1, getActionSize()))
+        per[0][:, :] = 0.0
     return action, per

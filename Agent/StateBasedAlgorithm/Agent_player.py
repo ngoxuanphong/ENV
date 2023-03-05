@@ -4,12 +4,12 @@ import numpy as np
 import random as rd
 from numba import njit, jit
 import sys, os
-from setup import SHOT_PATH
+from setup import SHORT_PATH
 import importlib.util
 game_name = sys.argv[1]
 
 def setup_game(game_name):
-    spec = importlib.util.spec_from_file_location('env', f"{SHOT_PATH}base/{game_name}/env.py")
+    spec = importlib.util.spec_from_file_location('env', f"{SHORT_PATH}base/{game_name}/env.py")
     module = importlib.util.module_from_spec(spec)
     sys.modules[spec.name] = module 
     spec.loader.exec_module(module)
@@ -29,7 +29,7 @@ from numba.typed import List
 def convert_to_save(perData):
     return perData
 def convert_to_test(perData):
-    return list(perData)
+    return List(perData)
 def DataAgent():
     per = [np.zeros((100,getStateSize(),getActionSize())), #[0][value][idS] khi mở đầu game
            np.zeros((100,getStateSize(),getActionSize())), #[1][value][ids] lưu lại cuối cùng

@@ -2,13 +2,13 @@ import numpy as np
 import random as rd
 from numba import njit, jit
 import sys, os
-SHOT_PATH =''
+from setup import SHORT_PATH
 # from setup import SHOT_PATH
 import importlib.util
 game_name = sys.argv[1]
 
 def setup_game(game_name):
-    spec = importlib.util.spec_from_file_location('env', f"{SHOT_PATH}base/{game_name}/env.py")
+    spec = importlib.util.spec_from_file_location('env', f"{SHORT_PATH}base/{game_name}/env.py")
     module = importlib.util.module_from_spec(spec)
     sys.modules[spec.name] = module 
     spec.loader.exec_module(module)
@@ -103,3 +103,9 @@ def Test(state,per):
     preact[0][0][0] = last1act
     per[0] = preact
     return action,per
+
+
+def convert_to_save(perData):
+    return perData
+def convert_to_test(perData):
+    return List(perData)
