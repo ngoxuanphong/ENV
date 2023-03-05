@@ -8,7 +8,7 @@ warnings.simplefilter('ignore', category=NumbaPendingDeprecationWarning)
 warnings.simplefilter('ignore', category=NumbaExperimentalFeatureWarning)
 warnings.simplefilter('ignore', category=NumbaWarning)
 
-COUNT_TEST = 1000
+COUNT_TEST = 10000
 
 
 def CheckAllFunc(_env_, BOOL_CHECK_ENV, msg):
@@ -132,6 +132,22 @@ def CheckRandomState(_env_, BOOL_CHECK_ENV, msg):
             msg.append(f'hàm getReward lỗi khi nhận vào random state')
             BOOL_CHECK_ENV = False
             return BOOL_CHECK_ENV
+    try:
+        _env_.getReward(np.full(_env_.getStateSize(), 0))
+        _env_.getReward(np.full(_env_.getStateSize(), 0.))
+        _env_.getReward(np.full(_env_.getStateSize(), 1))
+    except:
+        msg.append(f'hàm getReward lỗi khi nhận vào random state')
+        BOOL_CHECK_ENV = False
+        return BOOL_CHECK_ENV
+    try:
+        _env_.getValidActions(np.full(_env_.getStateSize(), 0))
+        _env_.getValidActions(np.full(_env_.getStateSize(), 0.))
+        _env_.getValidActions(np.full(_env_.getStateSize(), 1))
+    except:
+        msg.append(f'hàm getValidActions lỗi khi nhận vào random state')
+        BOOL_CHECK_ENV = False
+        return BOOL_CHECK_ENV
     return BOOL_CHECK_ENV
 
 def check_env(_env_):

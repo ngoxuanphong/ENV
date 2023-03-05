@@ -268,7 +268,7 @@ def getAgentState(env):
     p_state[P_TOTAL_DICE] = env[E_TOTAL_DICE]
     p_state[P_PHASE:] = env[E_PHASE:]
 
-    return p_state.astype(np.int32)
+    return p_state.astype(np.float64)
     
 @njit()
 def RollDice(count_dice):
@@ -353,10 +353,10 @@ def getValidActions(p_state):
     list_action = np.zeros(ALL_ACTION_SIZE)
     lst_phase = np.where(p_state[P_PHASE:] == 1)[0]
     if len(lst_phase) == 0:
-        return list_action.astype(np.int32)
+        return list_action.astype(np.float64)
     if p_state[13] == 1:
         list_action[0] = 1
-        return list_action.astype(np.int32)
+        return list_action.astype(np.float64)
     phase = lst_phase[0]
     s_ = P_ID_PLAYER
 
@@ -488,7 +488,7 @@ def getValidActions(p_state):
     if phase == 10: #trả nguyên liệu nếu không đủ thức ăn
         list_action[40:44] = (p_state[s_ + 5:s_ + 9] > 0)
     
-    return list_action.astype(np.int32)
+    return list_action.astype(np.float64)
 
 @njit()
 def stepEnv(action, env, all_build_card, all_civ_card):
@@ -1147,9 +1147,9 @@ def one_game_numba(p0, list_other, per_player, per1, per2, per3, p1, p2, p3):
     for p_idx in range(4):
         env[83] = p_idx
         env[0:4] = 0
-        env[idx] = 1
+        env[p_idx] = 1
         p_state = getAgentState(env)
-        if list_other[idx] == -1:
+        if list_other[p_idx] == -1:
             act, per_player = p0(p_state, per_player)
         elif list_other[p_idx] == 1:
             action, per1 = p1(p_state, per1)
@@ -1208,9 +1208,9 @@ def one_game_normal(p0, list_other, per_player, per1, per2, per3, p1, p2, p3):
     for p_idx in range(4):
         env[83] = p_idx
         env[0:4] = 0
-        env[idx] = 1
+        env[p_idx] = 1
         p_state = getAgentState(env)
-        if list_other[idx] == -1:
+        if list_other[p_idx] == -1:
             act, per_player = p0(p_state, per_player)
         elif list_other[p_idx] == 1:
             action, per1 = p1(p_state, per1)
