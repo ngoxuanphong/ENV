@@ -42,7 +42,7 @@ def Train(state,per):
     actions = getValidActions(state)
     weights = np.zeros(getActionSize())
     if per[2][0][0][0] == 0:
-        temp = np.arange(getActionSize, dtype=np.float64)
+        temp = np.arange(getActionSize(), dtype=np.float64)
         np.random.shuffle(temp)
         weights += temp
         for ids in range(getStateSize()):
