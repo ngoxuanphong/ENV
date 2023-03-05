@@ -12,7 +12,8 @@
 
 # Action
     * [0:5]: Các action lấy nguyên liệu theo loại.
-    * [5:20]: Các action mua thẻ lần lượt tại các vị trí trên bàn chơi và trong tay úp.
-    * [20:35]: Các action úp thẻ lần lượt tại các vị trí hiện trên bàn và chồng thẻ ẩn.
-    * [35:40]: Các action trả nguyên liệu.
-    # [40]: Action bỏ lượt (trường hợp hiếm, khi mà bot không thể thực hiện bất cứ action hợp lệ nào).
+    * [5:95]: Các action mua thẻ theo id thẻ.
+    * [95:185]: Các action úp thẻ theo id thẻ.
+    * [185:190]: Các action trả nguyên liệu.
+    * [190:193]: Các action úp thẻ ẩn
+    # [193]: Action bỏ lượt (trường hợp hiếm, khi mà bot không thể thực hiện bất cứ action hợp lệ nào).
