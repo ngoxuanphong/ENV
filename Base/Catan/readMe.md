@@ -1,7 +1,24 @@
 ##  Thông tin quan trọng:
     - 203: Điểm của bản thân
     - 393, 578, 763: Điểm của 3 người chơi còn lại
-    
+
+## :video_game: Action
+    * 0-53: Chọn điểm
+    * 54: Roll xx
+    * 55,56,57,58: Dùng thẻ dev, lần lượt Knight, RoadBuilding, Yearofplenty, Monopoly
+    * 59,60,61,62,63: Các action lấy nguyên liệu
+    * 95,96,97,98,99: Các action trả nguyên liệu
+    * 64-82: Action chọn ô để di chuyển Robber
+    * 83,84,85: Action chọn cướp tài nguyên của ai
+    * 100,101,102: Action chọn giao dịch với ai
+    * 86: Mua đường, 87: Mua nhà, 88: Mua thành phố, 89: Mua thẻ dev, 90: Trade người, * 91: Trade bank
+    * 92: Kết thúc lượt
+    * 93: Không đồng ý trade
+    * 94: Đồng ý trade
+    * 103: Dừng đưa ra tài nguyên khi trading
+    * 104: Dừng yêu cầu tài nguyên khi trading
+    * 105: Người chơi chính không trade với ai cả
+
 ## :bust_in_silhouette: P_state
     * [0:95] 5 vị trí liên tiếp là trạng thái nguyên liệu trên một ô đất (tổng 19 ô đất), 0 là không có, 1 là có, nguyên liệu được sắp xếp theo Cây Gạch Cừu Lúa Đá
 
@@ -91,19 +108,3 @@
 
     * [1224:1229]: Giá trị xx là gì (8, 9, 10, 11, 12)
 
-## :video_game: Action
-    * 0-53: Chọn điểm
-    * 54: Roll xx
-    * 55,56,57,58: Dùng thẻ dev, lần lượt Knight, RoadBuilding, Yearofplenty, Monopoly
-    * 59,60,61,62,63: Các action lấy nguyên liệu
-    * 95,96,97,98,99: Các action trả nguyên liệu
-    * 64-82: Action chọn ô để di chuyển Robber
-    * 83,84,85: Action chọn cướp tài nguyên của ai
-    * 100,101,102: Action chọn giao dịch với ai
-    * 86: Mua đường, 87: Mua nhà, 88: Mua thành phố, 89: Mua thẻ dev, 90: Trade người, * 91: Trade bank
-    * 92: Kết thúc lượt
-    * 93: Không đồng ý trade
-    * 94: Đồng ý trade
-    * 103: Dừng đưa ra tài nguyên khi trading
-    * 104: Dừng yêu cầu tài nguyên khi trading
-    * 105: Người chơi chính không trade với ai cả
