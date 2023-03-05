@@ -1126,6 +1126,9 @@ def one_game_numba(p0, list_other, per_player, per1, per2, per3, p1, p2, p3):
         
         if list_other[idx] == -1:
             action, per_player = p0(player_state,per_player)
+            list_action = getValidActions(player_state)
+            if list_action[action] != 1:
+                raise Exception('Action không hợp lệ')
         elif list_other[idx] == 1:
             action, per1 = p1(player_state,per1)
         elif list_other[idx] == 2:
@@ -1133,9 +1136,6 @@ def one_game_numba(p0, list_other, per_player, per1, per2, per3, p1, p2, p3):
         elif list_other[idx] == 3:
             action, per3 = p3(player_state,per3) 
 
-        list_action = getValidActions(player_state)
-        if list_action[action] != 1:
-            raise Exception('Action không hợp lệ')
 
         env, all_build_card, all_civ_card = stepEnv(action, env, all_build_card, all_civ_card)
         if checkEnded(env)[0] != -1:
@@ -1187,6 +1187,9 @@ def one_game_normal(p0, list_other, per_player, per1, per2, per3, p1, p2, p3):
         
         if list_other[idx] == -1:
             action, per_player = p0(player_state,per_player)
+            list_action = getValidActions(player_state)
+            if list_action[action] != 1:
+                raise Exception('Action không hợp lệ')
         elif list_other[idx] == 1:
             action, per1 = p1(player_state,per1)
         elif list_other[idx] == 2:
@@ -1194,9 +1197,6 @@ def one_game_normal(p0, list_other, per_player, per1, per2, per3, p1, p2, p3):
         elif list_other[idx] == 3:
             action, per3 = p3(player_state,per3) 
 
-        list_action = getValidActions(player_state)
-        if list_action[action] != 1:
-            raise Exception('Action không hợp lệ')
 
         env, all_build_card, all_civ_card = stepEnv(action, env, all_build_card, all_civ_card)
         if checkEnded(env)[0] != -1:

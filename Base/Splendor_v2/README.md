@@ -1,5 +1,3 @@
-
-
 ## :globe_with_meridians: ENV_state
 *   [0:90] **các thẻ trên bàn**: 5 là đang ở trên bàn, -(p_id) là đang úp, p_id là người chơi đã mua được
 *   [100] **Turn**
