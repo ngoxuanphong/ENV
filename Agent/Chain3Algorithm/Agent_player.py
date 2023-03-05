@@ -38,18 +38,23 @@ def DataAgent():
     return per
 
 @njit()
-def create2():
-    x = np.zeros((1,getActionSize(),getActionSize()))
+def create2(arr):
+    # x = np.zeros((1,getActionSize(),getActionSize()))
+    # for id in range(getActionSize()):
+    #     x[0][id] = np.argsort(np.argsort(np.random.rand(getActionSize())))
+    # return x
     for id in range(getActionSize()):
-        x[0][id] = np.argsort(np.argsort(np.random.rand(getActionSize())))
-    return x
+        np.random.shuffle(arr[0][id])
 @njit()
-def create3():
-    x = np.zeros((getActionSize(),getActionSize(),getActionSize()))
+def create3(arr):
+    # x = np.zeros((getActionSize(),getActionSize(),getActionSize()))
+    # for id1 in range(getActionSize()):
+    #     for id2 in range(getActionSize()):
+    #         x[id1][id2] = np.argsort(np.argsort(np.random.rand(getActionSize())))
+    # return x
     for id1 in range(getActionSize()):
         for id2 in range(getActionSize()):
-            x[id1][id2] = np.argsort(np.argsort(np.random.rand(getActionSize())))
-    return x
+            np.random.shuffle(arr[id1][id2])
 
 @njit()
 def Train(state,per):
@@ -78,8 +83,8 @@ def Train(state,per):
             per[6] += per[5]
         if win == 0:
             per[1] = np.zeros((1,1,getActionSize())) + np.argsort(np.argsort(np.random.rand(getActionSize())))
-            per[3] = create2()
-            per[5] = create3()
+            create2(per[3])
+            create3(per[5])
         per[0] = np.zeros((1,1,2))
     return action, per
 

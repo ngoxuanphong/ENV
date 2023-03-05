@@ -7,7 +7,7 @@ import numpy as np
 
 agent_name = 'KhanhNhat'
 game_name = 'Splendor'
-training_time = 5*60
+training_time = 15*60*60
 level = 0
 mode = "train"
 

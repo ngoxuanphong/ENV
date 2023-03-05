@@ -42,7 +42,8 @@ def Train(state,per):
     actions = getValidActions(state)
     weights = np.zeros(getActionSize())
     if per[2][0][0][0] == 0:
-        temp = np.argsort(np.argsort(np.random.rand(getActionSize()))) * 1.0
+        temp = np.arange(getActionSize, np.float64)
+        np.random.shuffle(temp)
         weights += temp
         for ids in range(getStateSize()):
             if state[ids] < 100:
@@ -60,7 +61,7 @@ def Train(state,per):
             per[1] += per[0]
             per[2][0][0][0] = 1
         else:
-            per[0] = np.zeros((100,getStateSize(),getActionSize()))
+            per[0][:, :, :] = 0.0
             per[2][0][0][0] = 0
     return action, per
 
