@@ -1,6 +1,6 @@
 ## :video_game: Action
     -    0: Dừng lấy công cụ
-    -    [1:11]: Đặt 1 đến 10 người
+    -    [1:11]: Đặt số người (từ 1 đến 10)
     -    11: Đặt người vào lúa
     -    12: Đặt vào ô công cụ
     -    13: Đặt vào ô sinh sản
@@ -9,18 +9,18 @@
     -    16: Đặt vào khu bạc
     -    17: Đặt vào khu vàng
     -    18: Đặt vào khu lương thực
-    -    [19:23]: Đặt vào thẻ civ 0 -> 4
-    -    [23:27]: Đặt vào thẻ build 0 -> 4
-    -    [27]: Chọn trừ nguyên liệu
-    -    [28]: Chọn trừ điểm
-    -    [29:37]: Lấy từ lúa, cụ, sinh, gỗ, gạch, bạc, vàng, lương thực
-    -    [37:40]: Dùng công cụ, 1,2,3
+    -    [19:23]: Đặt vào thẻ civ (0 -> 4)
+    -    [23:27]: Đặt vào thẻ build (0 -> 4)
+    -    [27]: Chọn trừ nguyên liệu (Khi đến hết vòng không đủ thức ăn)
+    -    [28]: Chọn trừ điểm (Khi đến hết vòng không đủ thức ăn)
+    -    [29:37]: Lấy người từ lúa, cụ, sinh, gỗ, gạch, bạc, vàng, lương thực
+    -    [37:40]: Dùng công cụ, 1,2,3 (Thứ tự ở các ô công cụ)
     -    [40:44]: Trả nguyên liêu, gỗ, gạch, bạc, vàng
-    -    [44:47]: Dùng thẻ công cụ 1 lần 3 loại
-    -    [47]: Dừng trả nguyên liệu khi mua thẻ build 1-7
-    -    [48:52]: Lấy người từ thẻ civ
-    -    [52:56]: Lấy người từ thẻ build
-    -    [57:63]: chọn xúc xắc từ 1 đến 6
+    -    [44:47]: Dùng thẻ công cụ 1 lần 3 loại 
+    -    [47]: Dừng trả nguyên liệu khi mua thẻ build 1-7 (Thẻ build trả 1 đến 7 người để đổi ra điểm)
+    -    [48:52]: Lấy người từ thẻ civ (0 -> 4)
+    -    [52:56]: Lấy người từ thẻ build (0 -> 4)
+    -    [57:63]: chọn xúc xắc từ 1 đến 6 (Thẻ civ chọn số xúc xắc để lấy nguyên liệu hoặc công cụ hoặc lúa)
     -    [63]: Chọn dùng thẻ lấy thêm 2 nguyên liệu từ thẻ civ
     -    [64:68]: Lấy nguyên liệu gỗ gạch, bạc, vàng
   
@@ -29,6 +29,7 @@
   ## :bust_in_silhouette: P_state
     -    Thứ tự nguyên liệu: Gỗ, Gạch, Bạc Vàng
     -    thứ tự các ô: Lúa, cụ, sinh, gỗ, gạch, bạc, vàng, thực, 4 thẻ civ, 4 thẻ build
+
     -    [0:4]: Số nguyên liệu còn lại của mỗi ô
     -    [4:8]: số thẻ Build còn lại ở mỗi ô
     -    [8:12]: Số nguyên liệu đã trả trong turn trả nguyên liệu khi mua thẻ civ hoặc build
@@ -50,7 +51,7 @@
     -        [22:30]: 8 thẻ văn minh các loại(Người, sáo, cây, dệt, đồng hồ, lu, xe, đá)
     -        [30]: Có thể dùng thẻ lấy 2 nguyên liệu 1 lần.
     -        [31:39]: Số người có của mỗi người ở mỗi ô (Lúa, cụ, sinh, gỗ, gạch, bạc, vàng, thực)
-    -        [39:43]: số người Tính điểm cuối game (lúa, nhà, công cụ, số người)
+    -        [39:43]: số người Tính điểm cuối game khi mua thẻ civ(lúa, nhà, công cụ, số người)
     -    [318:322]: Người đang chơi (tạm bỏ)
     -    [322:326]: Người đang ở có ở các ô civ, cũng là số nguyên liệu cần phải trả
     -    [326:330]: Người đang có ở các ô build
