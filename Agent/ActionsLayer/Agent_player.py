@@ -28,11 +28,11 @@ from numba.typed import List
 def convert_to_save(perData):
     return perData
 def convert_to_test(perData):
-    return list(perData)
+    return List(perData)
     
 @njit()
 def DataAgent():
-    return [np.zeros((1, getActionSize())), np.random.rand(getActionSize(), getActionSize()), np.zeros((getActionSize(),getActionSize()))]
+    return List([np.zeros((1, getActionSize())), np.random.rand(getActionSize(), getActionSize()), np.zeros((getActionSize(),getActionSize()))])
 
 @njit()
 def Train(state,per):
@@ -41,13 +41,13 @@ def Train(state,per):
 
     output = actions*weight + actions
     c = np.where(output == np.max(output))[0]
-    action = np.random.choice(c)
+    action = c[np.random.randint(0, c.shape[0])]
 
     per[0] += per[1][action]
     win = getReward(state)
 
     if win != -1:
-        per[0] = np.zeros((1, getActionSize()))
+        per[0][:, :] = 0.0
         if win == 1:
             per[2] += per[1]
         else:
@@ -64,9 +64,9 @@ def Test(state,per):
 
     output = actions*weight + actions
     c = np.where(output == np.max(output))[0]
-    action = np.random.choice(c)
+    action = c[np.random.randint(0, c.shape[0])]
     per[0] += np.argsort(np.argsort(per[2][action]))
     win = getReward(state)
     if win != -1:
-        per[0] = np.zeros((1, getActionSize()))
+        per[0][:, :] = 0.0
     return action, per
