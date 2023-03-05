@@ -27,14 +27,14 @@ getReward = env.getReward
 from numba.typed import List
 # chain of action
 def DataAgent():
-    per = [np.zeros((1,1,2)) - 1, # [0] lưu 2 action gần nhất [0][0] = action 2 turn trước, [0][1] = action 1 turn trước
+    per = List([np.zeros((1,1,2)) - 1, # [0] lưu 2 action gần nhất [0][0] = action 2 turn trước, [0][1] = action 1 turn trước
            np.zeros((1,1,getActionSize())) + np.argsort(np.argsort(np.random.rand(getActionSize()))), # [1] nháp 1
            np.zeros((1,1,getActionSize())), # [2] lưu 1
            np.zeros((1,getActionSize(),getActionSize())) + np.argsort(np.argsort(np.random.rand(getActionSize(),getActionSize()),axis = 1),axis = 1), # [3] nháp 2
            np.zeros((1,getActionSize(),getActionSize())), # [4] lưu 2
            np.zeros((getActionSize(),getActionSize(),getActionSize())) + np.argsort(np.argsort(np.random.rand(getActionSize(),getActionSize(),getActionSize()),axis = 2),axis = 2), # [5] nháp 3
            np.zeros((getActionSize(),getActionSize(),getActionSize())) # [6] lưu 3
-    ]
+    ])
     return per
 
 @njit()

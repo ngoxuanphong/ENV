@@ -31,10 +31,10 @@ def convert_to_save(perData):
 def convert_to_test(perData):
     return List(perData)
 def DataAgent():
-    per = [np.zeros((100,getStateSize(),getActionSize())), #[0][value][idS] khi mở đầu game
+    per = List([np.zeros((100,getStateSize(),getActionSize())), #[0][value][idS] khi mở đầu game
            np.zeros((100,getStateSize(),getActionSize())), #[1][value][ids] lưu lại cuối cùng
            np.zeros((1,1,1)) #[2][0][0][0] vừa thắng hay thua
-           ]
+           ])
     return per
 
 @njit()

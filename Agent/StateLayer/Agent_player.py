@@ -29,7 +29,7 @@ def convert_to_save(perData):
 def convert_to_test(perData):
     return List(perData)
 def DataAgent():
-    perx_ = [np.random.choice(getActionSize(),size=getActionSize(),replace=False).reshape(1,-1) * 1.0,
+    perx_ = List([np.random.choice(getActionSize(),size=getActionSize(),replace=False).reshape(1,-1) * 1.0,
         np.random.rand(getStateSize(),getActionSize())*2-1,
         np.random.rand(getActionSize(),getActionSize()),
         np.zeros((1,getActionSize())),
@@ -40,7 +40,7 @@ def DataAgent():
         np.zeros((1,1)),
         np.random.rand(getStateSize(),getActionSize())*2-1,
         np.random.rand(getActionSize(),getActionSize())
-        ]
+        ])
     return perx_
 @njit
 def Train(state,per):

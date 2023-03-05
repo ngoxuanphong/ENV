@@ -32,10 +32,10 @@ getReward = env.getReward
 
 
 def DataAgent():
-    per = [np.zeros((1,1)), #[0][0][0] turn hiện tại
+    per = List([np.zeros((1,1)), #[0][0][0] turn hiện tại
             np.zeros((10000,getActionSize())), #[1][turn] lưu bộ đã dùng trong game
             np.zeros((10000,getActionSize())) #[2][turn] lưu kết quả khi thắng
-           ]
+           ])
     return per
 
 @njit()

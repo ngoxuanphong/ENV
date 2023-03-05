@@ -27,7 +27,7 @@ getReward = env.getReward
 from numba.typed import List
 
 def DataAgent():
-    per = [np.random.choice(np.arange(getActionSize()),size=getActionSize(),replace=False) * 1.0,np.zeros(getActionSize())]
+    per = List([np.random.choice(np.arange(getActionSize()),size=getActionSize(),replace=False) * 1.0,np.zeros(getActionSize())])
     return per
 def convert_to_save(perData):
     return perData
