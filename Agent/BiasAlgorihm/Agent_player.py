@@ -2,13 +2,13 @@ import numpy as np
 import random as rd
 from numba import njit, jit
 import sys, os
-from setup import SHOT_PATH
+from setup import SHORT_PATH
 import importlib.util
 
 game_name = sys.argv[1]
 
 def setup_game(game_name):
-    spec = importlib.util.spec_from_file_location('env', f"{SHOT_PATH}base/{game_name}/env.py")
+    spec = importlib.util.spec_from_file_location('env', f"{SHORT_PATH}base/{game_name}/env.py")
     module = importlib.util.module_from_spec(spec)
     sys.modules[spec.name] = module 
     spec.loader.exec_module(module)
@@ -42,12 +42,12 @@ def Train(state,per):
     if win == 1:
         per[1] += per[0]
     if win == 0:
-        per[0] = np.random.choice(np.arange(getActionSize()),size=getActionSize(),replace=False) * 1.0
+        np.random.shuffle(per[0])
     return action,per
 
 @njit()
 def Test(state,per):
     actions = getValidActions(state)
-    output = per[1]/np.max(per[1]) * actions + actions
+    output = per[1] * actions + actions
     action = np.argmax(output)
     return action, per
