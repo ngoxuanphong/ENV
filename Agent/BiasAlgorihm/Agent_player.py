@@ -32,7 +32,7 @@ def DataAgent():
 def convert_to_save(perData):
     return perData
 def convert_to_test(perData):
-    return list(perData)
+    return List(perData)
 @njit()
 def Train(state,per):
     actions = getValidActions(state)

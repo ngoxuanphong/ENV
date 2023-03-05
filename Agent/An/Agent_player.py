@@ -28,7 +28,7 @@ from numba.typed import List
 def convert_to_save(perData):
     return perData
 def convert_to_test(perData):
-    return list(perData)
+    return List(perData)
 
 
 @njit()
