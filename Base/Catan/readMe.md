@@ -1,4 +1,8 @@
-# State
+##  Thông tin quan trọng:
+    - 203: Điểm của bản thân
+    - 393, 578, 763: Điểm của 3 người chơi còn lại
+    
+## :bust_in_silhouette: P_state
     * [0:95] 5 vị trí liên tiếp là trạng thái nguyên liệu trên một ô đất (tổng 19 ô đất), 0 là không có, 1 là có, nguyên liệu được sắp xếp theo Cây Gạch Cừu Lúa Đá
 
     * [95:114] Vị trí Robber
@@ -87,7 +91,7 @@
 
     * [1224:1229]: Giá trị xx là gì (8, 9, 10, 11, 12)
 
-# Action
+## :video_game: Action
     * 0-53: Chọn điểm
     * 54: Roll xx
     * 55,56,57,58: Dùng thẻ dev, lần lượt Knight, RoadBuilding, Yearofplenty, Monopoly

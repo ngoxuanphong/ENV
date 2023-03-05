@@ -1,3 +1,7 @@
+##  Thông tin quan trọng:
+    -   142: Điểm của bản thân
+    -   186, 230, 274: Điểm của 3 người chơi còn lại
+    
 ## :video_game: Action
     -    0: Dừng lấy công cụ
     -    [1:11]: Đặt số người (từ 1 đến 10)
@@ -66,17 +70,17 @@
     -    [387:411]: giá trị 4 xúc xắc của 4 người khi dùng thẻ civ roll xúc xắc, mỗi xúc xắc có 6 index
     -    [411]: Tổng giá trị xúc xắc
     -    [412:423]: Phase (có 11 phase)
-    -        0: #Chọn ô đặt người
-    -        1: #Đặt số người
-    -        2: #Lấy người từ các ô
-    -        3: #Trả nguyên liệu mua thẻ civ
-    -        4: #Dùng công cụ(end hoặc hết thì qua roll xúc xắc)
-    -        5: #trả nguyên liệu khi mua thẻ build 1 -> 7
-    -        6: #Chọn trừ nguyên liệu hoặc trừ điểm khi không đủ thức ăn
-    -        7: #Chọn giá trị xúc xắc khi dùng thẻ civ xúc xắc
-    -        8: #Lấy nguyên liệu từ ngân hàng khi dùng thẻ civ lấy 2 nguyên liệu bất kỳ
-    -        9: #trả nguyên liệu khi mua thẻ civ có số lượng mặc định
-    -        10: #trả nguyên liệu nếu không đủ thức ăn
+    -        0:   Chọn ô đặt người
+    -        1:   Đặt số người
+    -        2:   Lấy người từ các ô
+    -        3:   Trả nguyên liệu mua thẻ civ
+    -        4:   Dùng công cụ(end hoặc hết thì qua roll xúc xắc)
+    -        5:   trả nguyên liệu khi mua thẻ build 1 -> 7
+    -        6:   Chọn trừ nguyên liệu hoặc trừ điểm khi không đủ thức ăn
+    -        7:   Chọn giá trị xúc xắc khi dùng thẻ civ xúc xắc
+    -        8:   Lấy nguyên liệu từ ngân hàng khi dùng thẻ civ lấy 2 nguyên liệu bất kỳ
+    -        9:   trả nguyên liệu khi mua thẻ civ có số lượng mặc định
+    -        10:   trả nguyên liệu nếu không đủ thức ăn
   
   
 ## Civ card
