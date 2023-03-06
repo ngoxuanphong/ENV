@@ -231,7 +231,7 @@ def initEnv(BUILDING_CARDS, CIV_CARDS):
         p_id_env = 211+TOTAL_INDEX_PLAYER*i
         env[p_id_env + 3] = 12
         env[p_id_env + 2] = 5
-        env[p_id_env] = 1000
+        env[p_id_env] = 400
     env[E_START_CIV:E_END_BUILD] = -1
     env[E_PHASE] = 1
     return env, all_build_card.reshape((4,7)), all_civ_card
