@@ -57,6 +57,7 @@ def Train(state, per):
         state_int = state.astype(np.int64)
         where_ = np.where((state_int <= per[2][0][0]) & (state_int >= 0))[0]
         arr_idx = (state[where_] * per[0].shape[0] / stateSize + where_).astype(np.int64)
+        arr_idx = arr_idx[arr_idx <= 1000*stateSize]
         per[1][arr_idx] += weight
     else:
         max_ = np.max(state)
