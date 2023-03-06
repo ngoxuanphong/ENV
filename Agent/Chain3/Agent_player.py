@@ -28,18 +28,18 @@ from numba.typed import List
 
 def DataAgent():
     if getActionSize()<150:
-        perx_Chain3 = [np.zeros((getActionSize() ** 2, getActionSize())),
+        perx_Chain3 = List([np.zeros((getActionSize() ** 2, getActionSize())),
                 np.argsort(np.argsort(np.random.rand(getActionSize() ** 2, getActionSize()),axis = 1),axis = 1)*1.0+1.0,
                 np.zeros((1,2))-1.,
-                np.zeros((1,1))]
+                np.zeros((1,1))])
     else:
-        perx_Chain3 = [np.zeros((150 ** 2, 150)),
+        perx_Chain3 = List([np.zeros((150 ** 2, 150)),
                 np.argsort(np.argsort(np.random.rand(150 ** 2, 150),axis = 1),axis = 1)*1.0+1.0,
                 np.zeros((1,2))-1.,
                 np.zeros((1,1)),
                 np.zeros((1,getActionSize())),
                 np.zeros((1,150)),
-                np.full((150**2,150),np.arange(1,151)).astype(np.float64)]
+                np.full((150**2,150),np.arange(1,151)).astype(np.float64)])
     return perx_Chain3
 @njit
 def argSortSpecial(w):
