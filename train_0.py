@@ -4,13 +4,19 @@ import time
 from setup import SHORT_PATH
 import importlib.util, sys
 import numpy as np
-
-agent_name = 'ActionsLayer'
-game_name = 'Splendor'
-training_time = 15*60*60
+import warnings 
+warnings.filterwarnings('ignore')
+from numba.core.errors import NumbaDeprecationWarning, NumbaPendingDeprecationWarning,NumbaExperimentalFeatureWarning, NumbaWarning
+warnings.simplefilter('ignore', category=NumbaDeprecationWarning)
+warnings.simplefilter('ignore', category=NumbaPendingDeprecationWarning)
+warnings.simplefilter('ignore', category=NumbaExperimentalFeatureWarning)
+warnings.simplefilter('ignore', category=NumbaWarning)
+agent_name = 'KhanhNhat'
+game_name = 'Catan'
+training_time = 10*60
 level = 0
 mode = "train"
-
+print(game_name, agent_name)
 def add_game_to_syspath(game_name):
     if len(sys.argv) >= 2:
         sys.argv = [sys.argv[0]]
@@ -53,7 +59,7 @@ except:
 
 if mode == "train":
     start = time.time()
-    N = 1000
+    N = 10000
     count = N
     while True:
         win, per_agent = _env_.numba_main_2(_p1_.Train, N, per_agent, level)
@@ -68,6 +74,7 @@ if mode == "train":
 
     win, per_agent = _env_.numba_main_2(_p1_.Test, 1000, per_agent, level)
     print("Thắng", win, "trận.")
+    print(game_name, agent_name)
 else:
     win, per_agent = _env_.numba_main_2(_p1_.Test, 1000, per_agent, level)
     print("Thắng", win, "trận.")
