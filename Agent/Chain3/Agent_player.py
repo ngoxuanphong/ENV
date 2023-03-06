@@ -59,10 +59,10 @@ def generateArr(w):
 
 @njit
 def Train(state,per):
-    if getReward(state)!=-1:
-        if per[3][0][0]%100==0:
-            print(per[3][0][0])
-    if getActionSize()<200:
+    # if getReward(state)!=-1:
+    #     if per[3][0][0]%100==0:
+    #         print(per[3][0][0])
+    if getActionSize()<150:
         if per[2][0][0]==-1 or per[2][0][1]==-1:
             action = np.random.choice(np.where(getValidActions(state)==1)[0])
             if per[2][0][0]==-1:
@@ -129,7 +129,7 @@ def Train(state,per):
     
 @njit
 def Test(state,per):
-    if getActionSize()<200:
+    if getActionSize()<150:
         if per[2][0][0]==-1 or per[2][0][1]==-1:
             action = np.random.choice(np.where(getValidActions(state)==1)[0])
             if per[2][0][0]==-1:
