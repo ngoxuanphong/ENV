@@ -577,6 +577,7 @@ def numba_main_2(p0, num_game, per_player, level, *args):
         init = True
     else:
         if _level_ != level:
+            _level_ = level
             init = True
         else:
             init = False

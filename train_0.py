@@ -10,7 +10,7 @@ game_name = 'Splendor'
 training_time = 12*60*60
 level = 0
 mode = "train"
-
+print(game_name, agent_name)
 def add_game_to_syspath(game_name):
     if len(sys.argv) >= 2:
         sys.argv = [sys.argv[0]]
@@ -53,7 +53,7 @@ except:
 
 if mode == "train":
     start = time.time()
-    N = 1000
+    N = 10000
     count = N
     while True:
         win, per_agent = _env_.numba_main_2(_p1_.Train, N, per_agent, level)
@@ -68,6 +68,7 @@ if mode == "train":
 
     win, per_agent = _env_.numba_main_2(_p1_.Test, 1000, per_agent, level)
     print("Thắng", win, "trận.")
+    print(game_name, agent_name)
 else:
     win, per_agent = _env_.numba_main_2(_p1_.Test, 1000, per_agent, level)
     print("Thắng", win, "trận.")
