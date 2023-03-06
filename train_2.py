@@ -5,9 +5,9 @@ from setup import SHORT_PATH
 import importlib.util, sys
 import numpy as np
 
-agent_name = 'BiasAlgorihm'
+agent_name = 'StateBasedAlgorithm'
 game_name = 'Splendor'
-training_time = 15*60*60
+training_time = 12*60*60
 level = 0
 mode = "train"
 
