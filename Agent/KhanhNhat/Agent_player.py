@@ -56,7 +56,7 @@ def Train(state, per):
     if per[2][0][1] >= 9000:
         state_int = state.astype(np.int64)
         where_ = np.where((state_int <= per[2][0][0]) & (state_int >= 0))[0]
-        arr_idx = (state[where_] * per[0].shape[0] / stateSize + where_).astype(np.int64)
+        arr_idx = (where_ * per[0].shape[0] / stateSize + state[where_]).astype(np.int64)
         arr_idx = arr_idx[arr_idx <= 1000*stateSize]
         per[1][arr_idx] += weight
     else:
@@ -91,7 +91,7 @@ def Test(state, per):
     state_int = state.astype(np.int64)
     stateSize = getStateSize()
     where_ = np.where((state_int <= per[2][0][0]) & (state_int >= 0))[0]
-    arr_idx = (state[where_] * per[0].shape[0] / stateSize + where_).astype(np.int64)
+    arr_idx = (where_ * per[0].shape[0] / stateSize + state[where_]).astype(np.int64)
     weight = np.zeros(getActionSize())
     weight = np.sum(per[1][arr_idx], axis=0)
 

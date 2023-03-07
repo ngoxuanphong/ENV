@@ -5,11 +5,11 @@ from setup import SHORT_PATH
 import importlib.util, sys
 import numpy as np
 
-agent_name = 'MultiDimensionAlgorithm'
-game_name = 'Splendor'
+agent_name = 'KhanhNhat'
+game_name = 'Century'
 training_time = 12*60*60
 level = 0
-mode = "train"
+mode = "test"
 print(game_name, agent_name)
 def add_game_to_syspath(game_name):
     if len(sys.argv) >= 2:
@@ -53,7 +53,7 @@ except:
 
 if mode == "train":
     start = time.time()
-    N = 10000
+    N = 1000
     count = N
     while True:
         win, per_agent = _env_.numba_main_2(_p1_.Train, N, per_agent, level)
