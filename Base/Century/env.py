@@ -1,7 +1,7 @@
 import numpy as np
 import numba as nb
 from numba import njit
-from base.Century.index import*
+from Base.Century.index import*
 
 @njit()
 def getAgentSize():
