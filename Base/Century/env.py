@@ -31,7 +31,7 @@ def initEnv():
     top_6_card = ALL_CARD_IN4[list_card[:NUMBER_OPEN_ACTION_CARD]].flatten()
     top_5_card_point = ALL_CARD_POINT_IN4[list_card_point[:NUMBER_OPEN_POINT_CARD]].flatten()
     order_player = np.arange(NUMBER_PLAYER)
-    env_state = np.concatenate((start_player_0, start_player_1, start_player_2, start_player_3, start_player_4, top_6_card, np.zeros(20), top_5_card_point, list_card, list_card_point, np.array([0, -0.5, 0, 10, 10, 0, 1, -0.5, 0]), order_player))
+    env_state = np.concatenate((start_player_0, start_player_1, start_player_2, start_player_3, start_player_4, top_6_card, np.zeros(20), top_5_card_point, list_card, list_card_point, np.array([0, -0.5, 0, 10, 10, 0, 1, 0, 0]), order_player))
     #5 player_in4, 6card_in4,5 token free, 5 card_point_in4, list_card_shuffle, list_card_point_shuffle, [number_action_upgrade, card_will_buy/card_hand_used, token need drop, silver, gold, last_action, phase, check_end, id_action]     
     return env_state
 
