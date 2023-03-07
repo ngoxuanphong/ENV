@@ -56,79 +56,77 @@
       53	Ko mua thẻ nữa
 
 ## :bust_in_silhouette: P_state
-      '''
-            Quy ước phase: 
-            phase1: chọn xúc sắc để đổ
-            phase2: chọn đổ lại hay k
-            phase3: chọn lấy tiền của ai
-            phase4: chọn người để đổi
-            phase5: chọn lá bài để đổi
-            phase6: chọn lá bài muốn lấy
-            phase7: chọn mua thẻ
-      '''
+      Quy ước phase: 
+      phase1: chọn xúc sắc để đổ
+      phase2: chọn đổ lại hay k
+      phase3: chọn lấy tiền của ai
+      phase4: chọn người để đổi
+      phase5: chọn lá bài để đổi
+      phase6: chọn lá bài muốn lấy
+      phase7: chọn mua thẻ
       *   [0:20]: **Coin và số lượng từng loại thẻ của người chơi**:
-                              thẻ lúa mì
-                              thẻ nông trại
-                              thẻ tiệm bánh
-                              thẻ quán cà phê
-                              thẻ cửa hàng tiện lợi
-                              thẻ rừng
-                              thẻ nhà máy pho mát
-                              thẻ nhà máy nội thất
-                              thẻ mỏ quặng
-                              thẻ quán ăn gia đình
-                              thẻ vườn táo
-                              thẻ chợ trái cây
-                              thẻ sân vận động
-                              thẻ đài truyền hình
-                              thẻ trung tâm thương mại
-                              thẻ 22đ
-                              thẻ 16đ
-                              thẻ 10đ
-                              thẻ 4đ
+            thẻ lúa mì
+            thẻ nông trại
+            thẻ tiệm bánh
+            thẻ quán cà phê
+            thẻ cửa hàng tiện lợi
+            thẻ rừng
+            thẻ nhà máy pho mát
+            thẻ nhà máy nội thất
+            thẻ mỏ quặng
+            thẻ quán ăn gia đình
+            thẻ vườn táo
+            thẻ chợ trái cây
+            thẻ sân vận động
+            thẻ đài truyền hình
+            thẻ trung tâm thương mại
+            thẻ 22đ
+            thẻ 16đ
+            thẻ 10đ
+            thẻ 4đ
       *   [20:80] **Thông tin 3 người chơi còn lại**
       *   [80:92]:   **số lượng các loại thẻ còn trên bàn**:
-                              thẻ lúa mì
-                              thẻ nông trại
-                              thẻ tiệm bánh
-                              thẻ quán cà phê
-                              thẻ cửa hàng tiện lợi
-                              thẻ rừng
-                              thẻ nhà máy pho mát
-                              thẻ nhà máy nội thất
-                              thẻ mỏ quặng
-                              thẻ quán ăn gia đình
-                              thẻ vườn táo
-                              thẻ chợ trái cây
-                  
+            thẻ lúa mì
+            thẻ nông trại
+            thẻ tiệm bánh
+            thẻ quán cà phê
+            thẻ cửa hàng tiện lợi
+            thẻ rừng
+            thẻ nhà máy pho mát
+            thẻ nhà máy nội thất
+            thẻ mỏ quặng
+            thẻ quán ăn gia đình
+            thẻ vườn táo
+            thẻ chợ trái cây
+              
       *   [92:104]:   **số lượng các loại thẻ người chơi mua trong turn**:
-                              thẻ lúa mì
-                              thẻ nông trại
-                              thẻ tiệm bánh
-                              thẻ quán cà phê
-                              thẻ cửa hàng tiện lợi
-                              thẻ rừng
-                              thẻ nhà máy pho mát
-                              thẻ nhà máy nội thất
-                              thẻ mỏ quặng
-                              thẻ quán ăn gia đình
-                              thẻ vườn táo
-                              thẻ chợ trái cây
-                        
+            thẻ lúa mì
+            thẻ nông trại
+            thẻ tiệm bánh
+            thẻ quán cà phê
+            thẻ cửa hàng tiện lợi
+            thẻ rừng
+            thẻ nhà máy pho mát
+            thẻ nhà máy nội thất
+            thẻ mỏ quặng
+            thẻ quán ăn gia đình
+            thẻ vườn táo
+            thẻ chợ trái cây
+                    
       *   [104:116]:   **Thẻ người chơi dùng để đổi**:
-                              thẻ lúa mì
-                              thẻ nông trại
-                              thẻ tiệm bánh
-                              thẻ quán cà phê
-                              thẻ cửa hàng tiện lợi
-                              thẻ rừng
-                              thẻ nhà máy pho mát
-                              thẻ nhà máy nội thất
-                              thẻ mỏ quặng
-                              thẻ quán ăn gia đình
-                              thẻ vườn táo
-                              thẻ chợ trái cây
-                  
+            thẻ lúa mì
+            thẻ nông trại
+            thẻ tiệm bánh
+            thẻ quán cà phê
+            thẻ cửa hàng tiện lợi
+            thẻ rừng
+            thẻ nhà máy pho mát
+            thẻ nhà máy nội thất
+            thẻ mỏ quặng
+            thẻ quán ăn gia đình
+            thẻ vườn táo
+            thẻ chợ trái cây
+              
       *   [116]:  người chơi được đổ xúc sắc tiếp không
       *   [117]:  giá trị xúc sắc gần nhất
       *   [118:122] : người chơi bị chọn
