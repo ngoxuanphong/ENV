@@ -1,3 +1,11 @@
+# Action
+    * [0:5]: Các action lấy nguyên liệu theo loại.
+    * [5:95]: Các action mua thẻ theo id thẻ.
+    * [95:185]: Các action úp thẻ theo id thẻ.
+    * [185:190]: Các action trả nguyên liệu.
+    * [190:193]: Các action úp thẻ ẩn
+    # [193]: Action bỏ lượt (trường hợp hiếm, khi mà bot không thể thực hiện bất cứ action hợp lệ nào).
+    
 # State
     * [0:6]: Nguyên liệu trên bàn chơi, theo thứ tự Red Blue Green Black White.
     * [6+6*i:12+6*i], i = 0,1,2,3,4: Thông tin của 5 thẻ noble ở trên bàn gồm điểm và giá để mua thẻ. Vị trí nào trên bàn mà không có thẻ thì trong state, tại vị trí tương ứng sẽ chỉ toàn số 0.
@@ -9,11 +17,3 @@
     * [264]: Còn thẻ ẩn cấp 1 hay không
     * [265]: Còn thẻ ẩn cấp 2 hay không
     * [266]: Còn thẻ ẩn cấp 3 hay không
-
-# Action
-    * [0:5]: Các action lấy nguyên liệu theo loại.
-    * [5:95]: Các action mua thẻ theo id thẻ.
-    * [95:185]: Các action úp thẻ theo id thẻ.
-    * [185:190]: Các action trả nguyên liệu.
-    * [190:193]: Các action úp thẻ ẩn
-    # [193]: Action bỏ lượt (trường hợp hiếm, khi mà bot không thể thực hiện bất cứ action hợp lệ nào).
