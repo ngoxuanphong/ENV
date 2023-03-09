@@ -439,7 +439,7 @@ def getAgentState(env_):
     # [114:133] Ô đất nào có value = 2
     state[114+np.where(env[20:39] == 2)[0]] = 1
 
-    # [133:187] Cây Gạch Cừu Lúa Đá 3:1 Loại cảng trên 9 cảng
+    # [133:187] Cây, Gạch, Cừu, Lúa, Đá, 3:1: Loại cảng trên 9 cảng
     for i in range(9):
         state[133+6*i+env[39+i]] = 1
 
@@ -566,7 +566,7 @@ def getAgentState(env_):
     a = 1048
     for i in range(3, 13):
         if i != 7:
-            state[a + np.where(env[20:39] == 1)[0]] = 1
+            state[a + np.where(env[20:39] == i)[0]] = 1
             a += 19
 
     # Tổng xx nếu = 2, 3, 4, 5, 6
