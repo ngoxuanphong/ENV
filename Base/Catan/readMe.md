@@ -1,7 +1,17 @@
 ##  Thông tin quan trọng:
-    - Map: https://drive.google.com/file/d/109mdRN2viAplOjdykK4BEjVOU98ZTdUE/view
+    - Ảnh map: xem ở folder "Base/Catan"
     - 203: Điểm của bản thân
     - 393, 578, 763: Điểm của 3 người chơi còn lại
+    - Mô tả thông tin map: Ở file env có 7 array mô tả thông tin map:
+        + TILE_TILE: Array thứ i mô tả ô đất thứ i cạnh những ô đất nào.
+        + POINT_POINT: Mô tả điểm nào cạnh điểm nào.
+        + ROAD_POINT: Mô tả con đường nào được tạo thành từ 2 điểm nào.
+        + POINT_ROAD: Mô tả điểm là một đầu mút của những đường nào.
+        + PORT_POINT: Mô tả cảng nào được cấu thành từ 2 điểm nào.
+        + POINT_TILE: Mô tả điểm nào cạnh ô đất nào.
+        + TILE_POINT: Mô tả ô đất nào được cấu thành từ 6 điểm nào.
+    Tất cả đều ngoại trừ các giá trị -1.
+
 
 ## :video_game: Action
     * 0-53: Chọn điểm
