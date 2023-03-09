@@ -1,9 +1,10 @@
 import numpy as np
-from numba import njit
-from numba.typed import List
+import random as rd
+from numba import njit, jit
+import sys, os
 from setup import SHORT_PATH
-import sys
 import importlib.util
+
 game_name = sys.argv[1]
 
 def setup_game(game_name):
@@ -22,8 +23,6 @@ getAgentSize = env.getAgentSize
 getValidActions = env.getValidActions
 getReward = env.getReward
 
-normal_main = env.normal_main
-numba_main_2 = env.numba_main_2
 
 from numba.typed import List
 
