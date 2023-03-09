@@ -1,13 +1,13 @@
 import numpy as np
 from numba import njit
 from numba.typed import List
-from setup import SHOT_PATH
+from setup import SHORT_PATH
 import sys
 import importlib.util
 game_name = sys.argv[1]
 
 def setup_game(game_name):
-    spec = importlib.util.spec_from_file_location('env', f"{SHOT_PATH}base/{game_name}/env.py")
+    spec = importlib.util.spec_from_file_location('env', f"{SHORT_PATH}base/{game_name}/env.py")
     module = importlib.util.module_from_spec(spec)
     sys.modules[spec.name] = module 
     spec.loader.exec_module(module)
