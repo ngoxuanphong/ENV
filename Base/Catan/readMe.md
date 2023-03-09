@@ -1,4 +1,5 @@
 ##  Thông tin quan trọng:
+    - Map: https://drive.google.com/file/d/109mdRN2viAplOjdykK4BEjVOU98ZTdUE/view
     - 203: Điểm của bản thân
     - 393, 578, 763: Điểm của 3 người chơi còn lại
 
