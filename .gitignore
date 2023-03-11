@@ -5,21 +5,21 @@
 /venv
 **/__pycache__/
 
-# Agent/ActionsLayer/Data/**
-# **Agent/An/Data/**
-# **Agent/BiasAlgorithm/Data/**
-**Agent/Chain3/Data/**
-**Agent/Chain4/Data/**
-# **Agent/KhanhNhat/Data/**
-# **Agent/MultiDimensionAlgorithm/Data/**
-# **Agent/StateBasedAlgorithm/Data/**
-# **Agent/StateLayer/Data/**
-# **Agent/TimeBasedAlgorithm/Data/**
+Agent/Chain3/Data/Catan_1
+Agent/Chain3/Data/Century_1
+Agent/Chain3/Data/Splendor_1
+Agent/Chain3/Data/MachiKoro_1
+Agent/Chain3/Data/Splendor_v2_1
+Agent/Chain3/Data/Splendor_v3_1
+Agent/Chain3/Data/StoneAge_1
+Agent/Chain3/Data/SushiGo_1
+Agent/Chain3/Data/TLMN_1
 
-# !Agent/ActionsLayer/Data/Splendor_v2_1
-# !Agent/KhanhNhat/Data/Splendor_v2_1
-# !Agent/TimeBasedAlgorithm/Data/Splendor_v2_1
-
-# !Agent/KhanhNhat/Data/Splendor_v3_1
-# !Agent/MultiDimensionAlgorithm/Data/Splendor_v3_1
-!Agent/Chain4/Data/TLMN_1
+Agent/Chain4/Data/Catan_1
+Agent/Chain4/Data/Century_1
+Agent/Chain4/Data/Splendor_1
+Agent/Chain4/Data/MachiKoro_1
+Agent/Chain4/Data/Splendor_v2_1
+Agent/Chain4/Data/Splendor_v3_1
+Agent/Chain4/Data/StoneAge_1
+Agent/Chain4/Data/SushiGo_1
