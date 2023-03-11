@@ -9,3 +9,4 @@
 /test
 **/Data
 */train
+!Agent/ActionsLayer/Data/Splendor_v2_0/Train.npy
