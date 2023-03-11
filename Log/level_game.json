@@ -1,0 +1,133 @@
+{
+ "Splendor_v2": {
+  "Can_Split_Level": "False",
+  "level_max": 1,
+  "1": [
+   [
+    1,
+    1,
+    1
+   ],
+   [
+    9140,
+    5224,
+    8316,
+    6157
+   ],
+   [
+    "TimeBasedAlgorithm",
+    "ActionsLayer",
+    "KhanhNhat"
+   ]
+  ]
+ },
+ "Splendor_v3": {
+  "Can_Split_Level": "False",
+  "level_max": 1,
+  "1": [
+   [
+    1,
+    1,
+    1
+   ],
+   [
+    9140,
+    5224,
+    8316,
+    6157
+   ],
+   [
+    "KhanhNhat",
+    "StateBasedAlgorithm",
+    "MultiDimensionAlgorithm"
+   ]
+  ]
+ },
+ "TLMN": {
+  "Can_Split_Level": "False",
+  "level_max": 1,
+  "1": [
+   [
+    1,
+    1,
+    1
+   ],
+   [
+    9140,
+    5224,
+    8316,
+    6157
+   ],
+   [
+    "StateBasedAlgorithm",
+    "Chain4",
+    "KhanhNhat"
+   ]
+  ]
+ },
+ "MachiKoro": {
+  "Can_Split_Level": "False",
+  "level_max": 1,
+  "1": [
+   [
+    1,
+    1,
+    1
+   ],
+   [
+    9140,
+    5224,
+    8316
+   ],
+   [
+    "TimeBasedAlgorithm",
+    "KhanhNhat",
+    "ActionsLayer"
+   ]
+  ]
+ },
+ "Catan": {
+  "Can_Split_Level": "False",
+  "level_max": 1,
+  "1": [
+   [
+    1,
+    1,
+    1
+   ],
+   [
+    9140,
+    5224,
+    8316
+   ],
+   [
+    "An",
+    "BiasAlgorithm",
+    "TimeBasedAlgorithm"
+   ]
+  ]
+ },
+ "SushiGo": {
+  "Can_Split_Level": "False",
+  "level_max": 1,
+  "1": [
+   [
+    1,
+    1,
+    1,
+    1
+   ],
+   [
+    9140,
+    5224,
+    8316
+   ],
+   [
+    "MultiDimensionAlgorithm",
+    "Chain3",
+    "BiasAlgorithm",
+    "StateBasedAlgorithm"
+   ]
+  ]
+ }
+}

@@ -3,7 +3,6 @@ import random as rd
 from numba import njit, jit
 import sys, os
 from setup import SHORT_PATH
-# from setup import SHOT_PATH
 import importlib.util
 game_name = sys.argv[1]
 
