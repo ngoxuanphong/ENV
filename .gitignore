@@ -5,7 +5,7 @@
 /venv
 **/__pycache__/
 
-Agent/ActionsLayer/Data/**
+# Agent/ActionsLayer/Data/**
 **Agent/An/Data/**
 **Agent/BiasAlgorithm/Data/**
 **Agent/Chain3/Data/**
