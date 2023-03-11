@@ -6,20 +6,20 @@
 **/__pycache__/
 
 # Agent/ActionsLayer/Data/**
-**Agent/An/Data/**
-**Agent/BiasAlgorithm/Data/**
+# **Agent/An/Data/**
+# **Agent/BiasAlgorithm/Data/**
 **Agent/Chain3/Data/**
 **Agent/Chain4/Data/**
-**Agent/KhanhNhat/Data/**
-**Agent/MultiDimensionAlgorithm/Data/**
-**Agent/StateBasedAlgorithm/Data/**
-**Agent/StateLayer/Data/**
-**Agent/TimeBasedAlgorithm/Data/**
+# **Agent/KhanhNhat/Data/**
+# **Agent/MultiDimensionAlgorithm/Data/**
+# **Agent/StateBasedAlgorithm/Data/**
+# **Agent/StateLayer/Data/**
+# **Agent/TimeBasedAlgorithm/Data/**
 
-!Agent/ActionsLayer/Data/Splendor_v2_1
-!Agent/KhanhNhat/Data/Splendor_v2_1
-!Agent/TimeBasedAlgorithm/Data/Splendor_v2_1
+# !Agent/ActionsLayer/Data/Splendor_v2_1
+# !Agent/KhanhNhat/Data/Splendor_v2_1
+# !Agent/TimeBasedAlgorithm/Data/Splendor_v2_1
 
-!Agent/KhanhNhat/Data/Splendor_v3_1
-!Agent/MultiDimensionAlgorithm/Data/Splendor_v3_1
-!Agent/StateBasedAlgorithm/Data/Splendor_v3_1
+# !Agent/KhanhNhat/Data/Splendor_v3_1
+# !Agent/MultiDimensionAlgorithm/Data/Splendor_v3_1
+# !Agent/StateBasedAlgorithm/Data/Splendor_v3_1
