@@ -1,7 +1,3 @@
-# ở turn nào thì dùng bộ nào
-# time-lapse
-# không gian n chiều
-# small NN deep
 import numpy as np
 import random as rd
 from numba import njit, jit
@@ -12,17 +8,34 @@ game_name = sys.argv[1]
 from numba.typed import List
 
 def setup_game(game_name):
-    spec = importlib.util.spec_from_file_location('env', f"{SHORT_PATH}base/{game_name}/env.py")
+    spec = importlib.util.spec_from_file_location('env', f"{SHORT_PATH}Base/{game_name}/env.py")
     module = importlib.util.module_from_spec(spec)
-    sys.modules[spec.name] = module 
+    sys.modules[spec.name] = module
     spec.loader.exec_module(module)
     return module
 
 env = setup_game(game_name)
+
 def convert_to_save(perData):
-    return perData
+    if len(perData) == 2:
+        raise Exception("Data này đã được convert rồi.")
+
+    data = List()
+    data.append(np.zeros((1,1), np.int64))
+    temp = perData[2].astype(np.int64)
+    k = temp.shape[0]
+    for i in range(temp.shape[0]):
+        if (temp[i] == 0).all():
+            k = i
+            break
+
+    temp = temp[0:k]
+    data.append(temp)
+    return data
+
 def convert_to_test(perData):
     return List(perData)
+
 getActionSize = env.getActionSize
 getStateSize = env.getStateSize
 getAgentSize = env.getAgentSize
@@ -62,17 +75,18 @@ def Train(state,per):
 @njit()
 def Test(state,per):
     actions = getValidActions(state)
-    turn = int(per[0][0][0])
-    if len(per[2]) > turn:
-        weights = per[2][turn]/np.max(per[2][turn])
+    turn = per[0][0][0]
+    if per[1].shape[0] > turn:
+        weights = per[1][turn]
         output = actions * weights + actions
         action = np.argmax(output)
     else:
-        action = np.random.choice(np.where(actions == 1)[0])
+        actions = np.where(actions==1)[0]
+        action = actions[np.random.randint(0, actions.shape[0])]
+
     win = getReward(state)
-    per[0] += 1
+    per[0][0][0] += 1
     if win != -1:
-        per[0] = np.zeros((1,1))
-    if actions[action] != 1:
-        action = np.random.choice(np.where(actions == 1)[0])
+        per[0][0][0] = 0
+
     return action, per

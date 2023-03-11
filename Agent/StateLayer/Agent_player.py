@@ -24,10 +24,7 @@ getReward = env.getReward
 
 
 from numba.typed import List
-def convert_to_save(perData):
-    return perData
-def convert_to_test(perData):
-    return List(perData)
+
 def DataAgent():
     perx_ = List([np.random.choice(getActionSize(),size=getActionSize(),replace=False).reshape(1,-1) * 1.0,
         np.random.rand(getStateSize(),getActionSize())*2-1,
@@ -151,12 +148,25 @@ perx = [np.random.choice(getActionSize(),size=getActionSize(),replace=False).res
 
 @njit
 def Test(state,per):
-    actions = state.reshape(1,-1).dot(per[9])
+    actions = state.reshape(1,-1).dot(per[1])
     per[0][0]+=actions[0] / np.max(actions)
     list_action = np.where(getValidActions(state)==1)[0]
     action = list_action[np.argmax(per[0][0][list_action])]
-    per[0][0]+=per[10][int(action)]
+    per[0][0]+=per[2][action]
     if getReward(state)!=-1:
-        per[5][0][0]+=1
-        per[0][0] = per[3][0].copy()
+        per[0][0] = per[3][0]
     return action,per
+
+
+def convert_to_save(perData):
+    if len(perData) == 4:
+        raise Exception("Data này đã được convert rồi.")
+    data = List()
+    data.append(perData[0])
+    data.append(perData[9])
+    data.append(perData[10])
+    data.append(perData[3])
+    return data
+
+def convert_to_test(perData):
+    return List(perData)

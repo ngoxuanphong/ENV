@@ -8,7 +8,7 @@ import importlib.util
 game_name = sys.argv[1]
 
 def setup_game(game_name):
-    spec = importlib.util.spec_from_file_location('env', f"{SHORT_PATH}base/{game_name}/env.py")
+    spec = importlib.util.spec_from_file_location('env', f"{SHORT_PATH}Base/{game_name}/env.py")
     module = importlib.util.module_from_spec(spec)
     sys.modules[spec.name] = module 
     spec.loader.exec_module(module)
@@ -30,9 +30,11 @@ def DataAgent():
     per = List([np.random.choice(np.arange(getActionSize()),size=getActionSize(),replace=False) * 1.0,np.zeros(getActionSize())])
     return per
 def convert_to_save(perData):
-    return perData
+    if type(perData) == np.ndarray:
+        raise Exception("Data này đã được convert rồi.")
+    return perData[1]
 def convert_to_test(perData):
-    return List(perData)
+    return perData
 @njit()
 def Train(state,per):
     actions = getValidActions(state)
@@ -48,6 +50,6 @@ def Train(state,per):
 @njit()
 def Test(state,per):
     actions = getValidActions(state)
-    output = per[1] * actions + actions
+    output = per * actions + actions
     action = np.argmax(output)
     return action, per

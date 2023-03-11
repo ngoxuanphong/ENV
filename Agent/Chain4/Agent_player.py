@@ -8,7 +8,7 @@ import importlib.util
 game_name = sys.argv[1]
 
 def setup_game(game_name):
-    spec = importlib.util.spec_from_file_location('env', f"{SHORT_PATH}base/{game_name}/env.py")
+    spec = importlib.util.spec_from_file_location('env', f"{SHORT_PATH}Base/{game_name}/env.py")
     module = importlib.util.module_from_spec(spec)
     sys.modules[spec.name] = module 
     spec.loader.exec_module(module)
@@ -195,7 +195,6 @@ def Train(state, perData):
 @njit()
 def Test(state, perData):
     per_bias = perData[2]
-    count_bias = perData[3]
     action_history = perData[0][1]
     count_turn = perData[0][2]
 
@@ -204,14 +203,14 @@ def Test(state, perData):
 
     if reward == -1:
         if count_turn[0] < CHAIN_LENGTH:
-            action = np.argmax(validActions * per_bias[-1])
+            action = np.argmax(validActions * per_bias[-1] + validActions)
             action_history[count_turn[0]] = action
         else:
             key = encode(action_history)
-            if key not in count_bias:
-                action = np.argmax(validActions * per_bias[-1])
+            if key not in per_bias:
+                action = np.argmax(validActions * per_bias[-1] + validActions)
             else:
-                action = np.argmax(validActions * per_bias[key])
+                action = np.argmax(validActions * per_bias[key] + validActions)
 
             action_history[0:CHAIN_LENGTH-1] = action_history[1:CHAIN_LENGTH]
             action_history[CHAIN_LENGTH-1] = action
@@ -221,19 +220,32 @@ def Test(state, perData):
         count_turn[0] = 0
         action_history[:] = 0
 
-        action = np.argmax(validActions * per_bias[-1])
+        action = np.argmax(validActions * per_bias[-1] + validActions)
 
     return action, perData
 
 
 def convert_to_save(perData):
+    if 1 not in perData.keys():
+        raise Exception("Data này đã được convert rồi.")
     temp = dict()
     for key in perData.keys():
         temp[key] = dict()
         for key1 in perData[key].keys():
             temp[key][key1] = perData[key][key1]
 
-    return temp
+    data = dict()
+    data[0] = temp[0]
+    data[0].pop(0)
+    data[0].pop(3)
+    for key in data[0].keys():
+        data[0][key] = data[0][key].astype(np.int16)
+    
+    data[2] = temp[2]
+    for key in data[2].keys():
+        data[2][key] = np.argsort(np.argsort(data[2][key])).astype(np.int16)
+
+    return data
 
 
 def convert_to_test(perSave):

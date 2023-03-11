@@ -7,7 +7,7 @@ import importlib.util
 game_name = sys.argv[1]
 
 def setup_game(game_name):
-    spec = importlib.util.spec_from_file_location('env', f"{SHORT_PATH}base/{game_name}/env.py")
+    spec = importlib.util.spec_from_file_location('env', f"{SHORT_PATH}Base/{game_name}/env.py")
     module = importlib.util.module_from_spec(spec)
     sys.modules[spec.name] = module
     spec.loader.exec_module(module)
@@ -26,9 +26,12 @@ getReward = env.getReward
 from numba.typed import List
 
 def convert_to_save(perData):
-    return perData
+    if type(perData) == np.ndarray:
+        raise Exception("Data này đã được convert rồi.")
+    return perData[0][0]
+
 def convert_to_test(perData):
-    return List(perData)
+    return perData
 
 
 @njit()
@@ -180,7 +183,7 @@ def Train(state, per):
 @njit()
 def Test(state, per):
     actions = getValidActions(state)
-    kq = actions * per[0][0] + actions
+    kq = actions * per + actions
     action = np.argmax(kq)
     return action, per
 

@@ -7,9 +7,9 @@ import importlib.util
 game_name = sys.argv[1]
 
 def setup_game(game_name):
-    spec = importlib.util.spec_from_file_location('env', f"{SHORT_PATH}base/{game_name}/env.py")
+    spec = importlib.util.spec_from_file_location('env', f"{SHORT_PATH}Base/{game_name}/env.py")
     module = importlib.util.module_from_spec(spec)
-    sys.modules[spec.name] = module 
+    sys.modules[spec.name] = module
     spec.loader.exec_module(module)
     return module
 
@@ -33,32 +33,23 @@ def DataAgent():
 
     temp = np.arange(actionSize, dtype=np.float64)
     perx_.append(np.array([temp]))
-    
-    perx_.append(np.zeros((1,1)))
-
     return perx_
 
 
 @njit
 def Train(state, per):
-    if per[4][0][0] == 1:
-        per[1][:,:] = 0.0
-        per[4][0][0] = 0
-
     weight = per[3][0]
     np.random.shuffle(weight)
     actions = getValidActions(state)
     output = (weight + 1) * actions
     action = np.argmax(output)
 
-    stateSize = getStateSize()
     # Tìm các max value cho array bias
     if per[2][0][1] >= 9000:
         state_int = state.astype(np.int64)
-        state_int[state_int >= 1000] = 1000 - 1
+        state_int[state_int >= 1000] = per[2][0][0] + 1
         where_ = np.where((state_int <= per[2][0][0]) & (state_int >= 0))[0]
-        arr_idx = (where_ * per[0].shape[0] / stateSize + state_int[where_]).astype(np.int64)
-        arr_idx = arr_idx[arr_idx <= 1000*stateSize]
+        arr_idx = (where_ * 1000 + state_int[where_]).astype(np.int64)
         per[1][arr_idx] += weight
     else:
         max_ = np.max(state)
@@ -82,20 +73,13 @@ def Train(state, per):
 
 @njit
 def Test(state, per):
-    if per[4][0][0] == 0:
-        per[1] = per[0]
-        for i in range(per[1].shape[0]):
-            per[1][i] /= (np.max(per[1][i]) + 1e-6)
-        
-        per[4][0][0] = 1
-
     state_int = state.astype(np.int64)
-    state_int[state_int >= 1000] = 1000 - 1
     stateSize = getStateSize()
-    where_ = np.where((state_int <= per[2][0][0]) & (state_int >= 0))[0]
-    arr_idx = (where_ * per[0].shape[0] / stateSize + state_int[where_]).astype(np.int64)
-    weight = np.zeros(getActionSize())
-    weight = np.sum(per[1][arr_idx], axis=0)
+    actionSize = getActionSize()
+    where_ = np.where((state_int < per[stateSize][0]) & (state_int >= 0))[0]
+    weight = np.zeros(actionSize)
+    for i in where_:
+        weight += per[i][state_int[i]]
 
     actions = getValidActions(state)
     output = (weight + 1) * actions
@@ -105,7 +89,35 @@ def Test(state, per):
 
 
 def convert_to_save(per_data):
-    return per_data
+    if len(per_data) == getStateSize() + 1:
+        raise Exception("Data này đã được convert rồi.")
+
+    data = List()
+    arr = np.zeros(getStateSize(), np.int64)
+    for i in range(getStateSize()):
+        for j in range(1000):
+            if (per_data[0][1000*i+j]==0).all():
+                check = True
+                for k in range(j, 1000):
+                    if (per_data[0][1000*i+k]!=0).any():
+                        check = False
+                        break
+                if check:
+                    arr[i] = j
+                    break
+        else:
+            arr[i] = 1000
+
+    for i in range(getStateSize()):
+        data.append(per_data[0][1000*i:1000*i+arr[i]])
+
+    data.append(np.array([arr.astype(float)]))
+    for i in range(0, len(data)-1):
+        for j in range(data[i].shape[0]):
+            if np.max(data[i][j]) != 0.0:
+                data[i][j] /= np.max(data[i][j])
+
+    return data
 
 
 def convert_to_test(per_data):

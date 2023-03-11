@@ -7,7 +7,7 @@ import importlib.util
 game_name = sys.argv[1]
 
 def setup_game(game_name):
-    spec = importlib.util.spec_from_file_location('env', f"{SHORT_PATH}base/{game_name}/env.py")
+    spec = importlib.util.spec_from_file_location('env', f"{SHORT_PATH}Base/{game_name}/env.py")
     module = importlib.util.module_from_spec(spec)
     sys.modules[spec.name] = module 
     spec.loader.exec_module(module)
@@ -26,7 +26,18 @@ getReward = env.getReward
 from numba.typed import List
 
 def convert_to_save(perData):
-    return perData
+    if len(perData) == 2:
+        raise Exception("Data này đã được convert rồi.")
+
+    data = List()
+    data.append(np.zeros((1, getActionSize())))
+    temp = np.zeros((getActionSize(), getActionSize()))
+    for i in range(temp.shape[0]):
+        temp[i] = np.argsort(np.argsort(perData[2][i])) + 1e-6*np.random.rand(getActionSize())
+    
+    data.append(temp)
+    return data
+    
 def convert_to_test(perData):
     return List(perData)
     
@@ -63,10 +74,11 @@ def Test(state,per):
     weight = per[0][0]
 
     output = actions*weight + actions
-    c = np.where(output == np.max(output))[0]
-    action = c[np.random.randint(0, c.shape[0])]
-    per[0] += np.argsort(np.argsort(per[2][action]))
+    action = np.argmax(output)
+
+    weight[:] += per[1][action]
     win = getReward(state)
     if win != -1:
         per[0][:, :] = 0.0
+        
     return action, per

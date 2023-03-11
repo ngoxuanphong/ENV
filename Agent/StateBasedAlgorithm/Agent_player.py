@@ -26,10 +26,7 @@ getReward = env.getReward
 
 
 from numba.typed import List
-def convert_to_save(perData):
-    return perData
-def convert_to_test(perData):
-    return List(perData)
+
 def DataAgent():
     per = List([np.zeros((100,getStateSize(),getActionSize())), #[0][value][idS] khi mở đầu game
            np.zeros((100,getStateSize(),getActionSize())), #[1][value][ids] lưu lại cuối cùng
@@ -65,13 +62,48 @@ def Train(state,per):
             per[2][0][0][0] = 0
     return action, per
 
-@njit()
-def Test(state,per):
+@njit
+def Test(state, per):
+    state_int = state.astype(np.int64)
+    stateSize = getStateSize()
+    actionSize = getActionSize()
+    where_ = np.where((state_int < per[stateSize][0]) & (state_int >= 0))[0]
+    weight = np.zeros(actionSize)
+    for i in where_:
+        weight += per[i][state_int[i]]
+
     actions = getValidActions(state)
-    weights = np.zeros(getActionSize())
-    for ids in range(getStateSize()):
-        if state[ids] < 100:
-            weights += np.argsort(np.argsort(per[1][int(state[ids])][ids]))/getActionSize()
-    output = weights * actions + actions
+    output = (weight + 1) * actions
     action = np.argmax(output)
-    return action,per
+
+    return action, per
+
+def convert_to_save(perData):
+    if len(perData) == getStateSize() + 1:
+        raise Exception("Data này đã được convert rồi.")
+    data = List()
+    arr = np.zeros(getStateSize(), int)
+    for i in range(getStateSize()):
+        for j in range(100):
+            if (perData[1][j, i] == 0).all():
+                check = True
+                for k in range(j, 100):
+                    if (perData[1][k, i] != 0).any():
+                        check = False
+                        break
+                if check:
+                    arr[i] = j
+                    break
+        else:
+            arr[i] = 100
+    
+    for i in range(getStateSize()):
+        data.append(perData[1][:arr[i], i])
+        for j in range(data[i].shape[0]):
+            data[i][j] = np.argsort(np.argsort(data[i][j]))/float(getActionSize())
+    
+    data.append(np.array([arr], float))
+    return data
+
+def convert_to_test(perData):
+    return List(perData)

@@ -1,6 +1,6 @@
 import numpy as np
 from numba import njit, jit
-from base.MachiKoro.index import*
+from Base.MachiKoro.index import*
 
 @njit(fastmath=True, cache=True)
 def getActionSize():

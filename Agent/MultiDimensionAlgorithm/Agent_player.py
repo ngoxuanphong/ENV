@@ -11,7 +11,7 @@ game_name = sys.argv[1]
 def setup_game(game_name):
     spec = importlib.util.spec_from_file_location('env', f"{SHORT_PATH}base/{game_name}/env.py")
     module = importlib.util.module_from_spec(spec)
-    sys.modules[spec.name] = module 
+    sys.modules[spec.name] = module
     spec.loader.exec_module(module)
     return module
 
@@ -35,11 +35,6 @@ def DataAgent():
            ])
     return per
 
-def convert_to_save(perData):
-    return perData
-def convert_to_test(perData):
-    return List(perData)
-    
 @njit()
 def findOut(state,geo):
     return np.sum((geo * state) ** 2,axis = 1)
@@ -65,9 +60,21 @@ def Train(state,per):
 @njit()
 def Test(state,per):
     actions = getValidActions(state)
-    nState = state - 1
-    nState = state - per[4]/per[2][0]
-    output = np.sum((per[1]/per[2][0] * nState) ** 2,axis = 1)
+    # nState = state - 1
+    nState = state - per[0]
+    output = np.sum((per[1] * nState) ** 2,axis = 1)
     output = actions * output + actions
     action = np.argmax(output)
     return action, per
+
+
+def convert_to_save(perData):
+    if len(perData) == 2:
+        raise Exception("Data này đã được convert rồi.")
+    data = List()
+    data.append(perData[4]/perData[2][0])
+    data.append(perData[1]/perData[2][0])
+    return data
+
+def convert_to_test(perData):
+    return List(perData)
