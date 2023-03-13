@@ -129,5 +129,47 @@
     "StateBasedAlgorithm"
    ]
   ]
+ },
+ "Splendor": {
+  "Can_Split_Level": "False",
+  "level_max": 1,
+  "1": [
+   [
+    1,
+    1,
+    1
+   ],
+   [
+    9140,
+    5224,
+    8316
+   ],
+   [
+    "MultiDimensionAlgorithm",
+    "ActionsLayer",
+    "BiasAlgorithm"
+   ]
+  ]
+ },
+ "StoneAge": {
+  "Can_Split_Level": "False",
+  "level_max": 1,
+  "1": [
+   [
+    1,
+    1,
+    1
+   ],
+   [
+    9140,
+    5224,
+    8316
+   ],
+   [
+    "BiasAlgorithm",
+    "MultiDimensionAlgorithm",
+    "ActionsLayer"
+   ]
+  ]
  }
 }
