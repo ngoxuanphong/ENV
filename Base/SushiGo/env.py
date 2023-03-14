@@ -560,7 +560,7 @@ def one_game_normal(p0, list_other, per_player, per1, per2, per3, per4, p1, p2, 
         elif list_other[idx] == 3:
             action, per3 = p3(player_state,per3) 
         elif list_other[idx] == 4:
-            action, per4 = p3(player_state,per4)
+            action, per4 = p4(player_state,per4)
     winner = winner_victory(state_sys)
     p0_idx = np.where(list_other==-1)[0][0]
     if p0_idx in winner: result = 1
