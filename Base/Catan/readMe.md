@@ -15,7 +15,7 @@
 
 ## :video_game: Action
     * 0-53: Chọn điểm
-    * 54: Roll xx
+    * 54: Roll xúc xắc
     * 55,56,57,58: Dùng thẻ dev, lần lượt Knight, RoadBuilding, Yearofplenty, Monopoly
     * 59,60,61,62,63: Các action lấy nguyên liệu
     * 95,96,97,98,99: Các action trả nguyên liệu
@@ -71,7 +71,7 @@
         - [183]: Số thẻ knight đã dùng
         - [184]: Độ dài con đường dài nhất
 
-    * [946]: Tổng số xx
+    * [946]: Tổng số xúc xắc
 
     * [947:963]: Phase, lần lượt là
         - 11: Yêu cầu tài nguyên khi trade với người
@@ -85,7 +85,7 @@
         - 4: Di chuyển Robber
         - 13: Người chơi chính duyệt trade
         - 5: Chọn người để cướp tài nguyên
-        - 2: Đổ xx hoặc dùng thẻ dev
+        - 2: Đổ xúc xắc hoặc dùng thẻ dev
         - 0: Chọn điểm đặt nhà đầu game
         - 8: Chọn các điểm mua nhà
         - 7: Chọn tài nguyên khi dùng thẻ dev
@@ -115,7 +115,7 @@
 
     * [1048+19*v:1048+19(v+1)] Ô đất nào có value = k[v], k = [3, 4, 5, 6, 8, 9, 10, 11, 12], v = [0, 1, 2, 3, 4, 5, 6, 7, 8]
 
-    * [1219:1224]: Giá trị xx là gì (2, 3, 4, 5, 6)
+    * [1219:1224]: Giá trị xúc xắc là gì (2, 3, 4, 5, 6)
 
-    * [1224:1229]: Giá trị xx là gì (8, 9, 10, 11, 12)
+    * [1224:1229]: Giá trị xúc xắc là gì (8, 9, 10, 11, 12)
 
