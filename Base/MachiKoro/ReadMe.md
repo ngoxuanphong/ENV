@@ -1,5 +1,9 @@
+##  Thông tin quan trọng:
+      16-17-18-19: Thông tin 4 thẻ chiến thắng của bản thân
+      [36:40], [56:60], [76:80]: Thông tin 4 thẻ chiến thắng của các người chơi khác
+      Total: player state length = 130
+      
 ## :video_game: ALL_ACTION
-      Action	Mean
       0	Không đổ lại xúc sắc
       1	Đổ 1 xúc sắc
       2	Đổ 2 xúc sắc
@@ -64,7 +68,8 @@
       phase5: chọn lá bài để đổi
       phase6: chọn lá bài muốn lấy
       phase7: chọn mua thẻ
-      *   [0:20]: **Coin và số lượng từng loại thẻ của người chơi**:
+
+      Thứ tự thẻ:
             thẻ lúa mì
             thẻ nông trại
             thẻ tiệm bánh
@@ -84,62 +89,23 @@
             thẻ 16đ
             thẻ 10đ
             thẻ 4đ
-      *   [20:80] **Thông tin 3 người chơi còn lại**
-      *   [80:92]:   **số lượng các loại thẻ còn trên bàn**:
-            thẻ lúa mì
-            thẻ nông trại
-            thẻ tiệm bánh
-            thẻ quán cà phê
-            thẻ cửa hàng tiện lợi
-            thẻ rừng
-            thẻ nhà máy pho mát
-            thẻ nhà máy nội thất
-            thẻ mỏ quặng
-            thẻ quán ăn gia đình
-            thẻ vườn táo
-            thẻ chợ trái cây
-              
-      *   [92:104]:   **số lượng các loại thẻ người chơi mua trong turn**:
-            thẻ lúa mì
-            thẻ nông trại
-            thẻ tiệm bánh
-            thẻ quán cà phê
-            thẻ cửa hàng tiện lợi
-            thẻ rừng
-            thẻ nhà máy pho mát
-            thẻ nhà máy nội thất
-            thẻ mỏ quặng
-            thẻ quán ăn gia đình
-            thẻ vườn táo
-            thẻ chợ trái cây
-                    
-      *   [104:116]:   **Thẻ người chơi dùng để đổi**:
-            thẻ lúa mì
-            thẻ nông trại
-            thẻ tiệm bánh
-            thẻ quán cà phê
-            thẻ cửa hàng tiện lợi
-            thẻ rừng
-            thẻ nhà máy pho mát
-            thẻ nhà máy nội thất
-            thẻ mỏ quặng
-            thẻ quán ăn gia đình
-            thẻ vườn táo
-            thẻ chợ trái cây
-              
+
+      *   [0:20]: Coin và số lượng từng loại thẻ của người chơi
+      *   [20:80] Thông tin 3 người chơi còn lại
+      *   [80:92]:   số lượng các loại thẻ còn trên bàn
+      *   [92:104]:   số lượng các loại thẻ người chơi mua trong turn
+      *   [104:116]:   Thẻ người chơi dùng để đổi
       *   [116]:  người chơi được đổ xúc sắc tiếp không
       *   [117]:  giá trị xúc sắc gần nhất
       *   [118:122] : người chơi bị chọn
       *   [122:129]:  Phase game
       *   [129]:  Check end game
-**Total: player state length = 130**
 
 
 ## :globe_with_meridians: ENV_state
-      *   [0:80] **Thông tin các người chơi (coin, số lượng thẻ mỗi loại)**: 
-      *   [80:92] **Số lượng của 12 thẻ bình thường còn trên bàn**
-      *   [92:104] **Số lượng loại thẻ mà người chơi đã mua trong turn**
-      *   [104:111] **Các thông tin khác** [card_sell, được đi tiếp hay ko, last_dice, pick_person, id_action, phase, check_end_game]
-**Total env_state length: 111**
+      *   [0:80] Thông tin các người chơi (coin, số lượng thẻ mỗi loại): 
+      *   [80:92] Số lượng của 12 thẻ bình thường còn trên bàn
+      *   [92:104] Số lượng loại thẻ mà người chơi đã mua trong turn
+      *   [104:111] Các thông tin khác [card_sell, được đi tiếp hay ko, last_dice, pick_person, id_action, phase, check_end_game]
 
 
