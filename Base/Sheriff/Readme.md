@@ -127,18 +127,18 @@
     ## :globe_with_meridians: ENV_state
     *   [0:400] Thông tin các người chơi: (coin, debt, is_police, typy_bag(4),    coin_bribe, number_smuggle_card, number_bribe_card_in_bag) => 10; 15*6: thẻ hối lộ done, thẻ done, thẻ hối lộ trong túi, thẻ trong túi, thẻ bỏ đi, thẻ trên tay => 90 => tổng mỗi người chơi 100 thông tin/người
     *   [400:586] thẻ bài ở chồng bài úp, có giá trị từ 0 - 15, trong đó 0 đại điện cho ko có thẻ, còn các thẻ còn lại có giá trị như dưới
-    NORMAL_CARD = np.array([1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1,
-                            1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1,
-                            1, 1, 1, 1, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2,
-                            2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 3, 3, 3, 3,
-                            3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3,
-                            3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4,
-                            4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5,
-                            5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6,
-                            6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7,
-                            7, 8, 8, 8, 8, 8])
+            NORMAL_CARD = np.array([1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1,
+                                    1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1,
+                                    1, 1, 1, 1, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2,
+                                    2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 3, 3, 3, 3,
+                                    3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3,
+                                    3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4,
+                                    4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5,
+                                    5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6,
+                                    6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7,
+                                    7, 8, 8, 8, 8, 8])
 
-    ROYAL_CARD = np.array([ 9,  9, 10, 10, 11, 11, 12, 12, 13, 13, 14, 15])
+            ROYAL_CARD = np.array([ 9,  9, 10, 10, 11, 11, 12, 12, 13, 13, 14, 15])
 
     *   [586:711] thẻ bài ở chồng bài lật bên trái, có giá trị từ 0 - 15, trong đó 0 đại điện cho ko có thẻ
     *   [711:836] thẻ bài ở chồng bài lật bên phải, có giá trị từ 0 - 15, trong đó 0 đại điện cho ko có thẻ
@@ -152,7 +152,7 @@
     *   [904] phase game
 
 
-## :video_game :điều chỉnh so với phiên bản gốc:
+## :video_game: điều chỉnh so với phiên bản gốc:
     * người chơi không thể hối lộ để sheriff kiểm tra hàng hóa người chơi khác trong giai đoạn sheriff kiểm tra người chơi khác
     * người chơi không thể hối lộ bằng các ước hẹn trong tương lai, chỉ có thể hối lộ bằng tiền (nếu coin - debt > 0), hối lộ bằng thẻ trong túi đi chợ, hối lộ bằng thẻ đã đi chợ thành công
     * khi người chơi không đủ tiền nộp phạt, thay vì phải nộp các thẻ đã đi chợ thành công cho sheriff để trừ nợ, người chơi sẽ bị trừ sạch tiền và khoản tiền thiếu sẽ trở thành nợ. Sheriff sẽ nhận đủ khoản tiền phạt. 
