@@ -13,6 +13,7 @@ Agent/Chain3/Data/Splendor_v2_1
 Agent/Chain3/Data/Splendor_v3_1
 Agent/Chain3/Data/StoneAge_1
 Agent/Chain3/Data/TLMN_1
+Agent/Chain3/Data/Sheriff_1
 
 Agent/Chain4/Data/Catan_1
 Agent/Chain4/Data/Century_1
@@ -22,5 +23,6 @@ Agent/Chain4/Data/Splendor_v2_1
 Agent/Chain4/Data/Splendor_v3_1
 Agent/Chain4/Data/StoneAge_1
 Agent/Chain4/Data/SushiGo_1
+Agent/Chain4/Data/Sheriff_1
 
 agent.py

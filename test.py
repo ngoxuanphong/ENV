@@ -4,8 +4,8 @@
 # from CheckEnv import check_env
 # print(check_env(env))
 
-
-env = make('MachiKoro')
+from setup import make
+env = make('Sheriff')
 getActionSize = env.getActionSize
 getStateSize = env.getStateSize
 getAgentSize = env.getAgentSize
