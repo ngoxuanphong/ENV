@@ -99,7 +99,7 @@ def RunGame(_env_, BOOL_CHECK_ENV, msg):
         except:
             msg.append('hàm numba_main_2 không train được với agent không numba')
             BOOL_CHECK_ENV = False
-        
+    
     except:
         msg.append(f'hàm numba_main_2 đang bị lỗi')
         BOOL_CHECK_ENV = False

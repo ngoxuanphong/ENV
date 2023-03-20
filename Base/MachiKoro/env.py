@@ -688,8 +688,9 @@ except:
     pass
 
 @njit()
-def check_run_under_njit(Agent):
+def check_run_under_njit(agent, perData):
     return True
+
 
 def load_module_player(player):
     spec = importlib.util.spec_from_file_location('Agent_player', f"{SHORT_PATH}Agent/{player}/Agent_player.py")
