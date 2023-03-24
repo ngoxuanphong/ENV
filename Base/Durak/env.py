@@ -128,8 +128,8 @@ def changeAttackPlayer(env): #change the defender and attacker
 def stepEnv(action,env):
     if action == 52:#skip
         if env[53] == 1: #defense
-            env[0:52][np.where(env[0:52]==5)] = env[58] #Attacker hold all card
-            env[0:52][np.where(env[0:52]==6)] = env[58] #Attacker hold all card
+            env[0:52][np.where(env[0:52]==5)] = env[58] #Defender hold all card
+            env[0:52][np.where(env[0:52]==6)] = env[58] #Defender hold all card
             env = drawCard(env) #draw card
             env[58] = (env[58]+2)%4 if env[58] > 2 else env[58]+2 #change defend player
             changeAttackPlayer(env) #change attack player
@@ -164,20 +164,9 @@ def stepEnv(action,env):
 @njit
 def checkEnded(env):
     if len(np.where(env[0:52]==0)[0])==0:#if no card left on deck
-        list_win = []
-        turn_draw_card = np.zeros(4)
-        turn_draw_card[np.array([0,2,3])] = env[54:57]
-        turn_draw_card[1] = env[58]
-        for p_id in turn_draw_card:
-            if len(np.where(env[0:52]==p_id)[0]) == 0: #if player have no card left
-                list_win.append(p_id)
-            else:
-                pass
-        if len(list_win)>0:
-            
-            return int(list_win[0]-1)
-        else:
-            return -1
+        for i in range(1,5):
+            if len(np.where(env[0:52]==i)[0]) == 0:
+                return i - 1
     return -1
 
 @njit
@@ -185,13 +174,12 @@ def getReward(state):
     if state[162]==0 and state[166]==1:
         if np.sum(state[0:52])==0:
             return 1
-        elif np.min(state[163:166])==0:
+        elif  np.min(state[163:166])==0:
             return 0
         else:
             return -1
     else:
         return -1
-
 @njit()
 def one_game_numba(p0,pIdOrder,per_player,per1,per2,per3,p1,p2,p3):
     env = initEnv()
@@ -199,9 +187,9 @@ def one_game_numba(p0,pIdOrder,per_player,per1,per2,per3,p1,p2,p3):
     turn = 0
     while True:
         turn +=1
-        if env[53]==0:
+        if env[53]==1: #defend
             pIdx = int(env[58] - 1)
-        else:
+        else:# attack
             pIdx = int(env[54:57][int(env[59])] - 1)
         if pIdOrder[pIdx] == -1:
             action, per_player = p0(getAgentState(env), per_player)
@@ -215,11 +203,13 @@ def one_game_numba(p0,pIdOrder,per_player,per1,per2,per3,p1,p2,p3):
         
         winner = checkEnded(env)
         if winner != -1:
+            # print(winner)
             break
     env[80] = 1
-    for idx in range(4):
+    # env[0:52] = 6
+    for pIdx in range(4):
         env[53] = 1
-        env[58] = idx * 1.0 + 1.0
+        env[58] = pIdx * 1.0 + 1.0
         if pIdOrder[pIdx] == -1:
             action, per_player = p0(getAgentState(env), per_player)
         elif pIdOrder[pIdx] == 1:
@@ -236,7 +226,7 @@ def one_game_numba(p0,pIdOrder,per_player,per1,per2,per3,p1,p2,p3):
         win = False
 
     
-            # print('ok')
+            # # print('ok')
     return win, per_player
 
 @njit()
@@ -286,7 +276,7 @@ def one_game_normal(p0,pIdOrder,per_player,per1,per2,per3,p1,p2,p3):
     turn = 0
     while True:
         turn +=1
-        if env[53]==0:
+        if env[53]==1:
             pIdx = int(env[58] - 1)
         else:
             pIdx = int(env[54:57][int(env[59])] - 1)
@@ -304,9 +294,10 @@ def one_game_normal(p0,pIdOrder,per_player,per1,per2,per3,p1,p2,p3):
         if winner != -1:
             break
     env[80] = 1
-    for idx in range(4):
+    # env[0:52] = 6
+    for pIdx in range(4):
         env[53] = 1
-        env[58] = idx * 1.0 + 1.0
+        env[58] = pIdx * 1.0 + 1.0
         if pIdOrder[pIdx] == -1:
             action, per_player = p0(getAgentState(env), per_player)
         elif pIdOrder[pIdx] == 1:
@@ -323,7 +314,7 @@ def one_game_normal(p0,pIdOrder,per_player,per1,per2,per3,p1,p2,p3):
         win = False
 
     
-            # print('ok')
+            # # print('ok')
     return win, per_player
 
 def n_game_normal(p0, num_game, per_player, list_other, per1, per2, per3, p1, p2, p3):
@@ -337,8 +328,8 @@ def n_game_normal(p0, num_game, per_player, list_other, per1, per2, per3, p1, p2
 
 def numba_main_2(p0, num_game, per_player, level, *args):
     num_bot = getAgentSize() - 1
-    list_other = np.array([-1] + [i+1 for i in range(num_bot)])
-    try: check_njit = check_run_under_njit(p0, per_player)
+    list_other = np.array([1, 2, 3, -1])
+    try: check_njit = check_run_under_njit(p0)
     except: check_njit = False
 
     if "_level_" not in globals():

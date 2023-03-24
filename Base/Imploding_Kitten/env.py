@@ -121,7 +121,7 @@ def getAgentState(env,draw_pile,discard_pile):
                 card[int(getCardType(env[91+i]))] = 1
                 state[37+19*i:56+19*i] = card# three card if use see the future
         state[95:100][int(env[89])] = 1 #phase
-        state[100] = env[90] # number of card player have to draw
+        state[100] = np.maximum(env[90],0) # number of card player have to draw
         if env[94]>=0:
             state[101:116][int(env[94])] = 1# player main turn last action
         for i in range(5):
@@ -129,7 +129,7 @@ def getAgentState(env,draw_pile,discard_pile):
         state[121] = env[83:89][int(env[77])] #lose or not
     for i in range(5):
         state[122+i] = np.where(env[0:76]==env[78+i])[0].shape[0]
-    state[127] = draw_pile[18]
+    state[127] = discard_pile[18]
     return state
 @njit
 def getValidActions(state):
@@ -732,8 +732,8 @@ def one_game_numba(p0,pIdOrder,per_player,per1,per2,per3,per4,per5,p1,p2,p3,p4,p
         winner = checkEnded(env)
         if winner != -1 or turn>300:
             break
-    for idx in range(6):
-        env[77] = idx
+    for pIdx in range(6):
+        env[77] = pIdx
         if pIdOrder[pIdx] == -1:
             action, per_player = p0(getAgentState(env,draw_pile,discard_pile), per_player)
         elif pIdOrder[pIdx] == 1:
@@ -780,7 +780,7 @@ def random_Env(p_state, per):
 def numba_main_2(p0, num_game, per_player, level, *args):
     num_bot = getAgentSize() - 1
     list_other = np.array([-1] + [i+1 for i in range(num_bot)])
-    try: check_njit = check_run_under_njit(p0, per_player)
+    try: check_njit = check_run_under_njit(p0)
     except: check_njit = False
 
     if "_level_" not in globals():
@@ -871,8 +871,8 @@ def one_game_normal(p0,pIdOrder,per_player,per1,per2,per3,per4,per5,p1,p2,p3,p4,
         winner = checkEnded(env)
         if winner != -1 or turn>300:
             break
-    for idx in range(6):
-        env[77] = idx
+    for pIdx in range(6):
+        env[77] = pIdx
         if pIdOrder[pIdx] == -1:
             action, per_player = p0(getAgentState(env,draw_pile,discard_pile), per_player)
         elif pIdOrder[pIdx] == 1:
@@ -906,4 +906,3 @@ def n_game_normal(p0, num_game, per_player, list_other, per1, per2, per3, per4, 
 @njit()
 def check_run_under_njit(Agent):
     return True
-

@@ -578,9 +578,9 @@ def one_game_numba(p0,pIdOrder,per_player,per1,per2,per3,per4,p1,p2,p3,p4):
         if winner != -1 or turn>500:
             break
 
-    for idx in range(5):
-        env[57] = idx
-        if pIdOrder[idx] == -1:
+    for pIdx in range(5):
+        env[57] = pIdx
+        if pIdOrder[pIdx] == -1:
             if pIdOrder[pIdx] == -1:
                 action, per_player = p0(getAgentState(env,draw_pile,discard_pile), per_player)
             elif pIdOrder[pIdx] == 1:
@@ -669,9 +669,9 @@ def one_game_normal(p0,pIdOrder,per_player,per1,per2,per3,per4,p1,p2,p3,p4):
         if winner != -1 or turn>500:
             break
 
-    for idx in range(5):
-        env[57] = idx
-        if pIdOrder[idx] == -1:
+    for pIdx in range(5):
+        env[57] = pIdx
+        if pIdOrder[pIdx] == -1:
             if pIdOrder[pIdx] == -1:
                 action, per_player = p0(getAgentState(env,draw_pile,discard_pile), per_player)
             elif pIdOrder[pIdx] == 1:
@@ -700,7 +700,7 @@ def n_game_normal(p0, num_game, per_player, list_other, per1, per2, per3, per4, 
 def numba_main_2(p0, num_game, per_player, level, *args):
     num_bot = getAgentSize() - 1
     list_other = np.array([-1] + [i+1 for i in range(num_bot)])
-    try: check_njit = check_run_under_njit(p0, per_player)
+    try: check_njit = check_run_under_njit(p0)
     except: check_njit = False
 
     if "_level_" not in globals():
