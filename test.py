@@ -1,11 +1,13 @@
-# # Check hệ thống
-
-import envtest as env
+# Check hệ thống
+import Base.Phom.env as env
 from CheckEnv import check_env
 print(check_env(env))
 
 # from setup import make
-# env = make('Sheriff')
+# import numpy as np
+# from numba import njit, jit
+
+# env = make('Catan')
 # getActionSize = env.getActionSize
 # getStateSize = env.getStateSize
 # getAgentSize = env.getAgentSize
@@ -14,10 +16,6 @@ print(check_env(env))
 # getReward = env.getReward
 # numba_main_2 = env.numba_main_2
 
-
-# import numpy as np
-# from numba import njit, jit
-# from setup import make
 # @njit()
 # def bot_lv0(state, perData):
 #     validActions = getValidActions(state)
@@ -26,5 +24,8 @@ print(check_env(env))
 #     return arr_action[idx], perData
 
 # win1, per = numba_main_2(bot_lv0, 1000, np.array([0]), 0)
-# win2, per = numba_main_2(bot_lv0, 1000, np.array([0]), 1)
-# print(win1, win2)
+# import time
+# a = time.process_time()
+# win2, per = numba_main_2(bot_lv0, 1000, np.array([0]), 0)
+# b = time.process_time()
+# print(win2, b-a)
