@@ -24,7 +24,8 @@ getValidActions = env.getValidActions
 getReward = env.getReward
 
 def DataAgent():
-    return [np.zeros((1,1))]
+    return List([np.zeros((1,1))])
+
 @njit()
 def getGemsValue(state):
     gemsValue = np.zeros(5)

@@ -19,7 +19,25 @@
     "ActionsLayer",
     "KhanhNhat"
    ]
-  ]
+  ],
+  "-1": [
+    [
+     1,
+     1,
+     1
+    ],
+    [
+     9140,
+     5224,
+     8316,
+     6157
+    ],
+    [
+     "DQ",
+     "TD",
+     "VA"
+    ]
+   ]
  },
  "Splendor_v3": {
   "Can_Split_Level": "False",

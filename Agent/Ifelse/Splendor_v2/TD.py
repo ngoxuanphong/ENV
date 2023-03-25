@@ -25,28 +25,28 @@ getReward = env.getReward
 
 
 
-@njit
+@njit()
 def DataAgent():
-  per = []
+  per = List()
   per.append(np.zeros(5))
   per.append(np.zeros(5))
   return per
   
-@njit
+@njit()
 def getCardOnBoard(p_state): # 12 thẻ đang có trên bàn
   return p_state[18:150].reshape(12,11).copy()
-@njit
+@njit()
 def getNoble(p_state): # 5 thẻ Noble
   return p_state[150: 175].reshape(5,5).copy()
-@njit
+@njit()
 def getCardOnHold( p_state):
   return p_state[175: 208].reshape(3, 11).copy()
-@njit
+@njit()
 def allCardYouCanGet(p_state): #tất cả các thẻ có thẻ mua: 12 + 3 thẻ đã úp
   arr_card = np.concatenate((getCardOnBoard(p_state), getCardOnHold(p_state)), axis = 0)
   return arr_card
   
-@njit
+@njit()
 def checkGetCard(state):
   actCard = getValidActions(state)[1:16]
   actCard = np.where( actCard )[0]
@@ -71,7 +71,7 @@ def checkGetCard(state):
         break
   return action
 
-@njit
+@njit()
 def nhamThe(state):
   arr_card = allCardYouCanGet(state)
   ngLieuCanGet = np.zeros(5)
@@ -96,7 +96,7 @@ def nhamThe(state):
     return ngLieuCanGet
   return np.zeros(5)
 
-@njit
+@njit()
 def checkGetStock(state): #lay đủ 3 nguyên liệu
   stockBoard = state[:5] + state[208: 213]
   stockBanDau = state[6: 11] - state[208: 213]
@@ -106,14 +106,14 @@ def checkGetStock(state): #lay đủ 3 nguyên liệu
   return False
 
 ###cần thiết thì hold thẻ đang chuẩn bị ăn
-@njit
+@njit()
 def checkHold(state):
   actHold = getValidActions(state)[16: 31]
   if sum(actHold) and state[11] < 3 and sum( state[6: 12] ) < 10:
     return True
   return False
 
-@njit
+@njit()
 def holdCard(state):
   card = getCardOnBoard(state)
   actHold = getValidActions(state)[16: 28]
@@ -141,7 +141,7 @@ def holdCard(state):
     else:
       return stt[np.random.randint(size)] + 16
 
-@njit
+@njit()
 def Test(state, per):
   validActions = getValidActions(state)
   actions = np.where(validActions)[0]

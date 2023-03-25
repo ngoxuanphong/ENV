@@ -24,14 +24,11 @@ getValidActions = env.getValidActions
 getReward = env.getReward
 
 
-@njit
 def DataAgent():
-  per = []
-  per.append(np.zeros(5))
-  per.append(np.zeros(5))
+  per = np.array([0])
   return per
 
-njit()
+@njit()
 def Test(state, per):
     validActions = getValidActions(state)
     validActions = np.where(validActions == 1)[0]
