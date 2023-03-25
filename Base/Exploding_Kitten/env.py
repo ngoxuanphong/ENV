@@ -608,10 +608,17 @@ def n_game_numba(p0, num_game, per_player, list_other, per1, per2, per3, per4, p
     return win, per_player
 
 import importlib.util, json, sys
-from setup import SHORT_PATH
+try:
+    from setup import SHORT_PATH
+except:
+    pass
 
 def load_module_player(player):
-    return  importlib.util.spec_from_file_location('Agent_player', f"{SHORT_PATH}Agent/{player}/Agent_player.py").loader.load_module()
+    spec = importlib.util.spec_from_file_location('Agent_player', f"{SHORT_PATH}Agent/{player}/Agent_player.py")
+    module = importlib.util.module_from_spec(spec)
+    sys.modules[spec.name] = module
+    spec.loader.exec_module(module)
+    return module
 
 @njit()
 def random_Env(p_state, per):
