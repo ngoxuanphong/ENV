@@ -333,5 +333,26 @@
     "Chain4"
    ]
   ]
+ },
+ "Phom": {
+  "Can_Split_Level": "False",
+  "level_max": 1,
+  "1": [
+   [
+    1,
+    1,
+    1
+   ],
+   [
+    9140,
+    5224,
+    8316
+   ],
+   [
+     "An",
+     "MultiDimensionAlgorithm",
+     "TimeBasedAlgorithm"
+   ]
+  ]
  }
 }

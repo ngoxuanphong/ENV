@@ -1,5 +1,5 @@
 # Check hệ thống
-# import Base.MachiKoro.env as env
+# import Base.CatanNoExchange.env as env
 # from CheckEnv import check_env
 # print(check_env(env))
 
@@ -8,7 +8,7 @@ import numpy as np
 from numba import njit, jit
 import time
 
-env = make('CatanNoExchange')
+env = make('MachiKoro')
 getActionSize = env.getActionSize
 getStateSize = env.getStateSize
 getAgentSize = env.getAgentSize
@@ -27,7 +27,7 @@ def bot_lv0(state, perData):
 win1, per = numba_main_2(bot_lv0, 1000, np.array([0]), 0)
 print(win1)
 a = time.process_time()
-win2, per = numba_main_2(bot_lv0, 1000, np.array([0]), 0)
+win2, per = numba_main_2(bot_lv0, 1000, np.array([0]), 1)
 b = time.process_time()
 print(win2, b-a)
 
