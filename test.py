@@ -1,5 +1,5 @@
 # Check hệ thống
-# import Base.Phom.env as env
+# import Base.CatanNoExchange.env as env
 # from CheckEnv import check_env
 # print(check_env(env))
 
@@ -8,7 +8,7 @@ import numpy as np
 from numba import njit, jit
 import time
 
-env = make('Splendor_v2')
+env = make('Splendor')
 getActionSize = env.getActionSize
 getStateSize = env.getStateSize
 getAgentSize = env.getAgentSize
