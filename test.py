@@ -1,5 +1,5 @@
 # Check hệ thống
-import Base.CatanNoExchange.env as env
+import Base.Phom.env as env
 from CheckEnv import check_env
 print(check_env(env))
 
