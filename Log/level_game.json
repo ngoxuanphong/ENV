@@ -288,5 +288,28 @@
     "StateBasedAlgorithm"
    ]
   ]
+ },
+ "Imploding_Kitten": {
+  "Can_Split_Level": "False",
+  "level_max": 1,
+  "1": [
+   [
+    1,
+    1,
+    1
+   ],
+   [
+    9140,
+    5224,
+    8316
+   ],
+   [
+    "KhanhNhat",
+    "Chain4",
+    "MultiDimensionAlgorithm",
+    "StateBasedAlgorithm",
+    "BiasAlgorithm"
+   ]
+  ]
  }
 }
