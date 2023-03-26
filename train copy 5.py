@@ -6,8 +6,8 @@ import importlib.util, sys
 import numpy as np
 
 agent_name = 'MultiDimensionAlgorithm'
-game_name = 'Phom'
-training_time = 8*60*60
+game_name = 'Exploding_Kitten'
+training_time = 12*60*60
 level = 0
 mode = "train"
 print(game_name, agent_name)
@@ -26,12 +26,16 @@ def CreateFolder(player, game_name, level): #Tên folder của người chơi
         os.mkdir(path_save_player)
     return path_save_player
 
-def load_module_player(player):
-    spec = importlib.util.spec_from_file_location('Agent_player', f"{SHORT_PATH}Agent/{player}/Agent_player.py")
+def load_module_player(player, game_name = None):
+    if game_name == None:
+        spec = importlib.util.spec_from_file_location('Agent_player', f"{SHORT_PATH}Agent/{player}/Agent_player.py")
+    else:
+        spec = importlib.util.spec_from_file_location('Agent_player', f"{SHORT_PATH}Agent/ifelse/{game_name}/{player}.py")
     module = importlib.util.module_from_spec(spec)
     sys.modules[spec.name] = module
     spec.loader.exec_module(module)
     return module
+
 
 def setup_game(game_name):
     spec = importlib.util.spec_from_file_location('env', f"Base/{game_name}/env.py")

@@ -1,4 +1,3 @@
-# from base.CatanNoExchange.relation import *
 import numpy as np
 from numba import njit, jit
 from numba.typed import List
@@ -564,7 +563,7 @@ P_START_TRADE_BANK = 1286
 P_END_TRADE_BANK = 1291
 P_END_GAME_N = 1291
 
-# @njit()
+@njit()
 def new_to_old(p_state_new):
     p_state_old = np.zeros(220)
 
@@ -673,7 +672,7 @@ def new_to_old(p_state_new):
     return p_state_old.astype(np.int64)
 
 
-# @njit()
+@njit()
 def getValidActions(p_state_new: np.ndarray):
     p_state = new_to_old(p_state_new)
     list_action = np.zeros(AMOUNT_ACTION)

@@ -29,8 +29,7 @@
     [
      9140,
      5224,
-     8316,
-     6157
+     8316
     ],
     [
      "DQ",
@@ -146,7 +145,25 @@
     "BiasAlgorithm",
     "StateBasedAlgorithm"
    ]
-  ]
+  ],
+  "-1": [
+    [
+     1,
+     1,
+     1
+    ],
+    [
+     9140,
+     5224,
+     8316
+    ],
+    [
+     "DQ",
+     "TD",
+     "VA",
+     "VA"
+    ]
+   ]
  },
  "Splendor": {
   "Can_Split_Level": "False",
@@ -167,7 +184,24 @@
     "ActionsLayer",
     "BiasAlgorithm"
    ]
-  ]
+  ],
+  "-1": [
+    [
+     1,
+     1,
+     1
+    ],
+    [
+     9140,
+     5224,
+     8316
+    ],
+    [
+     "DQ",
+     "TD",
+     "VA"
+    ]
+   ]
  },
  "StoneAge": {
   "Can_Split_Level": "False",

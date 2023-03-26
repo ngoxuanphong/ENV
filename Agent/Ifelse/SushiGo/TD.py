@@ -1,11 +1,37 @@
-@njit
-def initPer():
-  per = []
+import numpy as np
+import random as rd
+from numba import njit, jit
+from numba.typed import List
+import sys, os
+from setup import SHORT_PATH
+import importlib.util
+game_name = sys.argv[1]
+
+def setup_game(game_name):
+    spec = importlib.util.spec_from_file_location('env', f"{SHORT_PATH}Base/{game_name}/env.py")
+    module = importlib.util.module_from_spec(spec)
+    sys.modules[spec.name] = module
+    spec.loader.exec_module(module)
+    return module
+
+env = setup_game(game_name)
+
+getActionSize = env.getActionSize
+getStateSize = env.getStateSize
+getAgentSize = env.getAgentSize
+
+getValidActions = env.getValidActions
+getReward = env.getReward
+
+
+@njit()
+def DataAgent():
+  per = List()
   per.append( np.zeros(1))
   per.append( np.zeros(3))
   return per
 
-@njit
+@njit()
 def checkSa(state, validActions, per):
   mySushi = state[16: 28]
   turn = state[1] - (state[0] - 1) * 7
@@ -26,7 +52,7 @@ def checkSa(state, validActions, per):
 
   return False
 
-@njit
+@njit()
 def checkSquPud(state, validActions):
   if 7 in validActions:
     return 7
@@ -37,7 +63,7 @@ def checkSquPud(state, validActions):
       return 9
   return 0
 
-@njit
+@njit()
 def checkNigiri(state, validActions):
   wa = state[16 + 10]
   if wa :
@@ -47,7 +73,7 @@ def checkNigiri(state, validActions):
         return i
   return 0
 
-@njit
+@njit()
 def checkMaki(state, validActions):
   mySushi = state[16: 28]
   if mySushi[3] + mySushi[4]*2 + mySushi[5]*2 < 8:
@@ -57,7 +83,7 @@ def checkMaki(state, validActions):
       return 4
   return 0
 
-@njit
+@njit()
 def checkSal(state, validActions):
   arr = np.array([6])
   for i in arr:
@@ -65,7 +91,7 @@ def checkSal(state, validActions):
       return i
   return 0
 
-@njit
+@njit()
 def checkTempura(state, validActions, per):
   mySushi = state[16: 28]
   turn = state[1] - (state[0] - 1) * 7
@@ -77,7 +103,7 @@ def checkTempura(state, validActions, per):
     return True
   return False
 
-@njit
+@njit()
 def checkDumpling(state, validActions, per):
   mySushi = state[16: 28]
   turn = state[1] - (state[0] - 1) * 7
@@ -89,7 +115,7 @@ def checkDumpling(state, validActions, per):
     return True
   return False
 
-@njit
+@njit()
 def checkMaki1(state, validActions):
   mySushi = state[16: 28]
   myMaki = mySushi[3] + mySushi[4] * 2 + mySushi[5] * 3
@@ -109,15 +135,15 @@ def checkMaki1(state, validActions):
 
   return 0
 
-@njit
-def agentSushiGo(state, per):
+@njit()
+def Test(state, per):
   # if per[0][0] != state[0]:
   #   per[0][0] = state[0]
   #   print('-----Vong', state[0], '------------------')
   # print(state[1])
 
   if getReward(state) != -1:
-    per = initPer()
+    per = DataAgent()
     # print('điểm')
     # for i in range(5):
     #   print(state[14 + i*14: 16 + i*14])

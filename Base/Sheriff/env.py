@@ -767,12 +767,16 @@ try:
 except:
     pass
 
-def load_module_player(player):
-    spec = importlib.util.spec_from_file_location('Agent_player', f"{SHORT_PATH}Agent/{player}/Agent_player.py")
+def load_module_player(player, game_name = None):
+    if game_name == None:
+        spec = importlib.util.spec_from_file_location('Agent_player', f"{SHORT_PATH}Agent/{player}/Agent_player.py")
+    else:
+        spec = importlib.util.spec_from_file_location('Agent_player', f"{SHORT_PATH}Agent/ifelse/{game_name}/{player}.py")
     module = importlib.util.module_from_spec(spec)
     sys.modules[spec.name] = module
     spec.loader.exec_module(module)
     return module
+
 
 
 @njit()
@@ -816,11 +820,16 @@ def numba_main_2(p0, num_game, per_player, level, *args):
                 raise Exception('Hiện tại không có level này')
 
             lst_agent_level = dict_level[env_name][str(level)][2]
-            lst_module_level = [load_module_player(lst_agent_level[i]) for i in range(num_bot)]
+
             for i in range(num_bot):
-                data_agent_level = np.load(f'{SHORT_PATH}Agent/{lst_agent_level[i]}/Data/{env_name}_{level}/Train.npy',allow_pickle=True)
-                _list_per_level_.append(lst_module_level[i].convert_to_test(data_agent_level))
-                _list_bot_level_.append(lst_module_level[i].Test)
+                if level == -1:
+                    module_agent = load_module_player(lst_agent_level[i], game_name = env_name)
+                    _list_per_level_.append(module_agent.DataAgent())
+                else:
+                    data_agent_level = np.load(f'{SHORT_PATH}Agent/{lst_agent_level[i]}/Data/{env_name}_{level}/Train.npy',allow_pickle=True)
+                    module_agent = load_module_player(lst_agent_level[i])
+                    _list_per_level_.append(module_agent.convert_to_test(data_agent_level))
+                _list_bot_level_.append(module_agent.Test)
 
     if check_njit:
         return n_games_numba(p0, num_game, per_player, list_other,
