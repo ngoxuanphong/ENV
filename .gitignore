@@ -25,6 +25,7 @@ Agent/Chain4/Data/StoneAge_1
 Agent/Chain4/Data/SushiGo_1
 Agent/Chain4/Data/Sheriff_1
 Agent/Chain4/Data/Durak_1
+Agent/Chain4/Exploding_Kitten_0
 
 agent.py
 envtest.py
