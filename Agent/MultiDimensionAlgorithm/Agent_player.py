@@ -42,7 +42,7 @@ def findOut(state,geo):
 @njit()
 def Train(state,per):
     actions = getValidActions(state)
-    nState = state - 1
+    # nState = state - 1
     nState = state - per[3]
     output = np.sum((per[0] * nState) ** 2,axis = 1)
     output = actions * output + actions
