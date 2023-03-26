@@ -2,11 +2,11 @@ import numpy as np
 from numba import njit, jit
 from Base.MachiKoro.index import*
 
-@njit(fastmath=True, cache=True)
+@njit()
 def getActionSize():
     return 54
 
-@njit(fastmath=True, cache=True)
+@njit()
 def getAgentSize():
     return 4
 
@@ -42,7 +42,6 @@ def getAgentState(env_state):
     player_state[P_LAST_DICE] = env_state[ENV_LAST_DICE]
     #người chơi bị chọn
     if env_state[ENV_PICKED_PLAYER] != 0:
-        # print(list(env_state))
         player_state[P_PICKED_PLAYER + int(env_state[ENV_PICKED_PLAYER] )] = 1
     #phase game
     player_state[P_PHASE + int(env_state[ENV_PHASE] - 1)] = 1
@@ -69,7 +68,6 @@ def getValidActions(player_state_origin):
         phase6: chọn lá bài muốn lấy
         phase7: chọn mua thẻ
     '''
-    # print('PHASE', phase_env)
     if phase_env == 1:
         if player_state_own[-1] != 0:
         #chọn số xúc sắc để đổ: 1 ứng với 1 xúc sắc, 2 ứng với 2 xúc sắc
@@ -316,13 +314,9 @@ def stepEnv(env_state, action):
 
             elif dice == 11 or dice == 12:
                 env_state[ATTRIBUTE_PLAYER * id_action] += env_state[ATTRIBUTE_PLAYER * id_action + 12] * (env_state[ATTRIBUTE_PLAYER * id_action + 1] + env_state[ATTRIBUTE_PLAYER * id_action + 11]) * 3
-            #sau khi cập nhật xu, cho roll tiếp nếu đạt yêu cầu, giảm biến đánh dấu xuống
-            if env_state[ENV_PLAYER_CONTINUE] == 1:
-                env_state[ENV_PHASE] = 1
-                env_state[ENV_PLAYER_CONTINUE] = 0
-            else:
-                if env_state[ENV_PHASE] == 1:
-                    env_state[ENV_PHASE] = 7
+      
+            if env_state[ENV_PHASE] == 1:
+                env_state[ENV_PHASE] = 7
                            
     elif phase_env == 2:
         dice = 0
@@ -449,15 +443,10 @@ def stepEnv(env_state, action):
             env_state[20 * id_action] = player_in4[0]   #cập nhật tiền của người chơi
 
         elif dice == 11 or dice == 12:
-            env_state[ATTRIBUTE_PLAYER * id_action] += env_state[ATTRIBUTE_PLAYER * id_action + 12] * (env_state[ATTRIBUTE_PLAYER * id_action + 1] + env_state[ATTRIBUTE_PLAYER * id_action + 11]) * 3
-            env_state[ENV_PHASE] = 4  
-        #sau khi cập nhật xu, cho roll tiếp nếu đạt yêu cầu, giảm biến đánh dấu xuống
-        if env_state[ENV_PLAYER_CONTINUE] == 1:
-            env_state[ENV_PHASE] = 1
-            env_state[ENV_PLAYER_CONTINUE] = 0
-        else:
-            if env_state[ENV_PHASE] == 2:
-                env_state[ENV_PHASE] = 7
+            env_state[ATTRIBUTE_PLAYER * id_action] += env_state[ATTRIBUTE_PLAYER * id_action + 12] * (env_state[ATTRIBUTE_PLAYER * id_action + 1] + env_state[ATTRIBUTE_PLAYER * id_action + 11]) * 3        
+        
+        if env_state[ENV_PHASE] == 2:
+            env_state[ENV_PHASE] = 7
 
     elif phase_env == 3:
         #xử lí thẻ đài truyền hình
@@ -469,19 +458,11 @@ def stepEnv(env_state, action):
             env_state[ATTRIBUTE_PLAYER * id_action : ATTRIBUTE_PLAYER * (id_action + 1)] = player_in4
             env_state[ENV_PHASE] = 4       #trạng thái chọn người để đổi thẻ
         else:
-            if env_state[ENV_PLAYER_CONTINUE] == 1:
-                env_state[ENV_PHASE] = 1
-                env_state[ENV_PLAYER_CONTINUE] = 0
-            else:
-                env_state[ENV_PHASE] = 7
+            env_state[ENV_PHASE] = 7
 
     elif phase_env == 4:
         if action == 9:
-            if env_state[ENV_PLAYER_CONTINUE] == 1:
-                env_state[ENV_PHASE] = 1
-                env_state[ENV_PLAYER_CONTINUE] = 0
-            else:
-                env_state[ENV_PHASE] = 7
+            env_state[ENV_PHASE] = 7
         else:
             id_picked = int(action - 5) % 4
             env_state[ENV_PICKED_PLAYER] = id_picked
@@ -506,17 +487,17 @@ def stepEnv(env_state, action):
         env_state[ATTRIBUTE_PLAYER * id_action : ATTRIBUTE_PLAYER * (id_action + 1)] = player_in4
         env_state[ENV_CARD_SELL] = -0.5
         env_state[ENV_PICKED_PLAYER] = 0
-        if env_state[ENV_PLAYER_CONTINUE] == 1:
-            env_state[ENV_PHASE] = 1
-            env_state[ENV_PLAYER_CONTINUE] = 0
-        else:
-            env_state[ENV_PHASE] = 7
+
+        env_state[ENV_PHASE] = 7
 
     elif phase_env == 7:
         if action == 53:
             env_state[ENV_PHASE] = 1
             env_state[ENV_CARD_BUY_IN_TURN : ENV_CARD_SELL] = np.zeros(12)
-            env_state[ENV_ID_ACTION] = (env_state[ENV_ID_ACTION] + 1) % 4
+            if env_state[ENV_PLAYER_CONTINUE] == 0:
+                env_state[ENV_ID_ACTION] = (env_state[ENV_ID_ACTION] + 1) % 4
+            else:
+                env_state[ENV_PLAYER_CONTINUE] = 0
         else:
             card_buy = action - 33
             player_in4[card_buy] += 1
@@ -529,7 +510,10 @@ def stepEnv(env_state, action):
             if player_in4[0] == 0:
                 env_state[ENV_PHASE] = 1
                 env_state[ENV_CARD_BUY_IN_TURN : ENV_CARD_SELL] = np.zeros(12)
-                env_state[ENV_ID_ACTION] = (env_state[ENV_ID_ACTION] + 1) % 4
+                if env_state[ENV_PLAYER_CONTINUE] == 0:
+                    env_state[ENV_ID_ACTION] = (env_state[ENV_ID_ACTION] + 1) % 4
+                else:
+                    env_state[ENV_PLAYER_CONTINUE] = 0
     
     return env_state 
 
@@ -692,12 +676,16 @@ def check_run_under_njit(agent, perData):
     return True
 
 
-def load_module_player(player):
-    spec = importlib.util.spec_from_file_location('Agent_player', f"{SHORT_PATH}Agent/{player}/Agent_player.py")
+def load_module_player(player, game_name = None):
+    if game_name == None:
+        spec = importlib.util.spec_from_file_location('Agent_player', f"{SHORT_PATH}Agent/{player}/Agent_player.py")
+    else:
+        spec = importlib.util.spec_from_file_location('Agent_player', f"{SHORT_PATH}Agent/ifelse/{game_name}/{player}.py")
     module = importlib.util.module_from_spec(spec)
-    sys.modules[spec.name] = module 
+    sys.modules[spec.name] = module
     spec.loader.exec_module(module)
     return module
+
     
 def numba_main_2(p0, num_game, per_player, level, *args):
     num_bot = getAgentSize() - 1
@@ -736,11 +724,16 @@ def numba_main_2(p0, num_game, per_player, level, *args):
                 raise Exception('Hiện tại không có level này')
 
             lst_agent_level = dict_level[env_name][str(level)][2]
-            lst_module_level = [load_module_player(lst_agent_level[i]) for i in range(num_bot)]
+
             for i in range(num_bot):
-                data_agent_level = np.load(f'{SHORT_PATH}Agent/{lst_agent_level[i]}/Data/{env_name}_{level}/Train.npy',allow_pickle=True)
-                _list_per_level_.append(lst_module_level[i].convert_to_test(data_agent_level))
-                _list_bot_level_.append(lst_module_level[i].Test)
+                if level == -1:
+                    module_agent = load_module_player(lst_agent_level[i], game_name = env_name)
+                    _list_per_level_.append(module_agent.DataAgent())
+                else:
+                    data_agent_level = np.load(f'{SHORT_PATH}Agent/{lst_agent_level[i]}/Data/{env_name}_{level}/Train.npy',allow_pickle=True)
+                    module_agent = load_module_player(lst_agent_level[i])
+                    _list_per_level_.append(module_agent.convert_to_test(data_agent_level))
+                _list_bot_level_.append(module_agent.Test)
 
     if check_njit:
         return n_games_numba(p0, num_game, per_player, list_other,

@@ -84,8 +84,8 @@
   
   
 ## Civ card
-    -   0: Loại thẻ có dùng xúc xắc hay không
-    -   1: Thẻ roll xúc xắc
+    -   0: Loại thẻ có dùng xúc xắc hay không(thẻ Roll xúc xắc lấy giá trị rồi chia cho nguyên liệu trong thẻ)
+    -   1: Thẻ roll xúc xắc(Thẻ roll 4 xúc xắc, mõi người chọn một loại tài nguyên tương ứng với số xúc xắc)
     -   2: Thẻ lấy thức ăn
     -   3: thẻ lấy điểm
     -   4: Thẻ lấy 1 gỗ
@@ -94,7 +94,7 @@
     -   7: Thẻ dùng công cụ(4 thẻ: 1, 2, 3, 4)
     -   8: Thẻ có thêm 1 lúa
     -   9: Thẻ có thêm 2 nguyên liệu bất kỳ
-    -   10: Thẻ nâng cấp nền văn minh
+    -   10: Thẻ nâng cấp nền văn minh(Thẻ này lấy thêm một thẻ civ khác, nhưng chỉ dùng phần tính điểm cuối game)
   
     -   11: Thẻ nền xanh: hình người
     -   12: Thẻ nền xanh: sáo

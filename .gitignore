@@ -24,6 +24,23 @@ Agent/Chain4/Data/Splendor_v3_1
 Agent/Chain4/Data/StoneAge_1
 Agent/Chain4/Data/SushiGo_1
 Agent/Chain4/Data/Sheriff_1
+Agent/Chain4/Data/Durak_1
+Agent/Chain4/Data/Exploding_Kitten_1
+Agent/Chain4/Data/Exploding_Kitten_0
+# Agent/Chain4/Data/Imploding_Kitten_1
+Agent/Chain4/Data/Phom_1
+Agent/Chain4/Data/Phom_0
+Agent/Chain4/Data/CatanNoExchange_1
 
 agent.py
 envtest.py
+
+# train copy 1.py
+# train copy 2.py
+# train copy 3.py
+# train copy 4.py
+# train copy 5.py
+# train copy 6.py
+# train copy 7.py
+# train copy.py
+# train.py

@@ -594,14 +594,17 @@ def getAgentState(e_state):
       p_state[423+52+52:423+52+52+52][np.where(e_state[55:55+52]== 0)[0]] = 1
       p_state[423+52+52+52:423+52+52+52+52][np.where(e_state[55:55+52]== 1)[0]] = 1
     m = checkEnded(e_state)
-    # Check xem có ai ù không
-    if len(np.where(e_state[0:52]==5)[0])+len(np.where(e_state[0:52]==6)[0])+len(np.where(e_state[0:52]==7)[0])+len(np.where(e_state[0:52]==8)[0]) < 16 :
-      p_state[631] = 1*(int(m) != -1)
-
-    # Check xem có tất cả đều móm phải không
-    if m == pIdx and   len(np.where(e_state[0:52]==5)[0])+len(np.where(e_state[0:52]==6)[0])+len(np.where(e_state[0:52]==7)[0])+len(np.where(e_state[0:52]==8)[0]) == 16:
+    # Đã kết thúc game chưa 
+    if m == -1:
+      p_state[631] = 1 
+    else :
+      p_state[631] = 0 
+    # Check xem có thắng hay không
+    if m == pIdx+1 :
       p_state[632] = 1
-
+    else:
+      p_state[632] = 0 
+ 
     return p_state
 
 @njit()
@@ -633,40 +636,14 @@ def checkEnded(env):
         return np.min(minScorePlayers)
 @njit()
 def getReward(state):
-    scorephom = np.array([len(np.where(state[104+52+52:104+52+52+52]==1)[0]), len(np.where(state[104+52+52+52:104+52+52+52+52]==1)[0]),len(np.where(state[104+52+52+52+52:104+52+52+52+52+52]==1)[0]), len(np.where(state[104+52+52+52+52+52:104+52+52+52+52+52+52]==1)[0])])
-    selfId = np.where(state[416:420] == 1)[0][0]
-
-    if sum(state[104:104+52])+ sum(state[104+52:104+52+52]) < 16:
-      if state[632] == 1 and state[631] == 1:
-        return 1 
-      elif state[631] == 1 and state[632] != 1:
-        return 0
-      else:
+    if state[631] == 1 :
         return -1
-    elif sum(state[104:104+52])+ sum(state[104+52:104+52+52]) == 16:
-        if np.sum(scorephom) == 0:
-          if selfId == 0 and state[632] == 1 :
-            return 1
-          else:
-            return 0 
-        elif np.sum(scorephom) != 0:
-            scoreArr = np.array([np.sum(np.where(state[423:423+52]==1)[0]), np.sum(np.where(state[423+52:423+52+52]==1)[0]), np.sum(np.where(state[423+52+52:423+52+52+52]==1)[0]),np.sum(np.where(state[423+52+52+52:423+52+52+52+52]==1)[0])])
-            # scoreArr[np.where(scorephom==0)[0]] += 999
-            minScore = np.min(scoreArr)
-            if scoreArr[0] > minScore : # Điểm của bản thân không thấp nhất
-                return 0
-            elif scoreArr[0] == minScore : # Điểm của bản thân bằng số điểm thấp nhất
-              minScorePlayers = np.where(scoreArr==minScore)[0]
-              if len(minScorePlayers) == 1  : # Bản thân là người duy nhất đạt điểm thap nhất
-                  if minScorePlayers[0] == 0 and state[632] == 1:
-                    return 1
-                  else:
-                    return 0
-              elif len(minScorePlayers) != 1:
-                  if state[632] == 1 : # Chứng tỏ bản thân đi sau cùng trong lst
-                      return 1
-                  else: 
-                      return 0
+    else:
+       if state[632] == 1:
+          return 1
+       else:
+          return 0
+
       
 from numba.typed import List
 
@@ -757,7 +734,6 @@ def one_game_numba(p0,  list_other, per_player, per1, per2, per3, p1, p2, p3):
     else: 
         winner = False
     return winner, per_player
-
 @njit()
 def random_Env(p_state, per):
     arr_action = getValidActions(p_state)
@@ -787,8 +763,17 @@ try:
     from setup import SHORT_PATH
 except:
     pass
-def load_module_player(player):
-    return importlib.util.spec_from_file_location('Agent_player',f"{SHOT_PATH}Agent/{player}/Agent_player.py").loader.load_module()
+def load_module_player(player, game_name = None):
+    if game_name == None:
+        spec = importlib.util.spec_from_file_location('Agent_player', f"{SHORT_PATH}Agent/{player}/Agent_player.py")
+    else:
+        spec = importlib.util.spec_from_file_location('Agent_player', f"{SHORT_PATH}Agent/ifelse/{game_name}/{player}.py")
+    module = importlib.util.module_from_spec(spec)
+    sys.modules[spec.name] = module
+    spec.loader.exec_module(module)
+    return module
+
+
 @njit()
 def check_run_under_njit(agent, perData):
     return True
@@ -836,11 +821,16 @@ def numba_main_2(p0, num_game, per_player, level, *args):
                 raise Exception('Hiện tại không có level này')
 
             lst_agent_level = dict_level[env_name][str(level)][2]
-            lst_module_level = [load_module_player(lst_agent_level[i]) for i in range(num_bot)]
+
             for i in range(num_bot):
-                data_agent_level = np.load(f'{SHORT_PATH}Agent/{lst_agent_level[i]}/Data/{env_name}_{level}/Train.npy',allow_pickle=True)
-                _list_per_level_.append(lst_module_level[i].convert_to_test(data_agent_level))
-                _list_bot_level_.append(lst_module_level[i].Test)
+                if level == -1:
+                    module_agent = load_module_player(lst_agent_level[i], game_name = env_name)
+                    _list_per_level_.append(module_agent.DataAgent())
+                else:
+                    data_agent_level = np.load(f'{SHORT_PATH}Agent/{lst_agent_level[i]}/Data/{env_name}_{level}/Train.npy',allow_pickle=True)
+                    module_agent = load_module_player(lst_agent_level[i])
+                    _list_per_level_.append(module_agent.convert_to_test(data_agent_level))
+                _list_bot_level_.append(module_agent.Test)
 
     if check_njit:
         return n_games_numba(p0, num_game, per_player, list_other,
@@ -851,12 +841,3 @@ def numba_main_2(p0, num_game, per_player, level, *args):
                                 _list_per_level_[0], _list_per_level_[1], _list_per_level_[2],
                                 _list_bot_level_[0], _list_bot_level_[1], _list_bot_level_[2])
     
-@njit()
-def numbaRandomBot(state, perData):
-    validActions = getValidActions(state)
-    validActions = np.where(validActions==1)[0]
-    idx = np.random.randint(0, len(validActions))
-    if getReward(state) == 1:
-        perData[2][0][1]+=1
-    return validActions[idx], perData
-
