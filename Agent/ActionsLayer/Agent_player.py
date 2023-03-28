@@ -64,8 +64,6 @@ def Train(state,per):
         else:
             per[1] = np.random.rand(getActionSize(), getActionSize())
         
-    if actions[action] != 1:
-        print(action, output, weight, actions)
     return action, per
 
 @njit()
@@ -80,5 +78,4 @@ def Test(state,per):
     win = getReward(state)
     if win != -1:
         per[0][:, :] = 0.0
-        
     return action, per
