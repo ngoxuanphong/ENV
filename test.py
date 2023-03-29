@@ -8,7 +8,7 @@ import numpy as np
 from numba import njit, jit
 import time
 
-env = make('Sheriff')
+env = make('Splendor_v3')
 getActionSize = env.getActionSize
 getStateSize = env.getStateSize
 getAgentSize = env.getAgentSize

@@ -26,12 +26,13 @@ getReward = env.getReward
 def DataAgent():
     return np.array([])
 
+
 @njit()
 def getCardValue(state,card):
     card = np.array(card)
     if len(np.where(card > 0)[0]) == 0:
       return -999
-    type_card = np.array(card[1:6])
+    type_card = card[1:6]
     type_card = np.where(type_card == 1)[0][0]
     player_stock_const = state[6+6:6+6+5]
     # print('player_stock_const',player_stock_const)
@@ -56,5 +57,5 @@ def Test(state,per):
     for i in range(0,15):
       temp_card = temp_cards[i*11:i*11+11]
       cards.append(temp_card)
-    value_arr = [getCardValue(state,card) for card in cards]
+    value_arr = np.array([getCardValue(state,card) for card in cards])
     return np.argmax(value_arr),per
