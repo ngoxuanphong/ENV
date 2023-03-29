@@ -1,18 +1,44 @@
-@njit
-def initPer():
+
+import numpy as np
+import random as rd
+from numba import njit, jit
+from numba.typed import List
+import sys, os
+from setup import SHORT_PATH
+import importlib.util
+game_name = sys.argv[1]
+
+def setup_game(game_name):
+    spec = importlib.util.spec_from_file_location('env', f"{SHORT_PATH}Base/{game_name}/env.py")
+    module = importlib.util.module_from_spec(spec)
+    sys.modules[spec.name] = module
+    spec.loader.exec_module(module)
+    return module
+
+env = setup_game(game_name)
+
+getActionSize = env.getActionSize
+getStateSize = env.getStateSize
+getAgentSize = env.getAgentSize
+
+getValidActions = env.getValidActions
+getReward = env.getReward
+
+@njit()
+def DataAgent():
   per = []
   per.append(np.zeros(1))
   per.append(np.zeros(11))
   return per
 
-@njit
+@njit()
 def allCard(state):
   card12 = state[18: 150].reshape(12, 11).copy()
   cardHold = state[175:208].reshape(3, 11).copy()
   arrCard = np.concatenate((card12, cardHold))
   return arrCard
 
-@njit
+@njit()
 def theCap2(state, validActions):
   const = state[12: 17]
   ngLieu = state[6: 11] + const
@@ -44,7 +70,7 @@ def theCap2(state, validActions):
   elif actionGtri: return actionGtri
   else: return validActions[-1] #phòng trường hợp xấu nhất
 
-@njit
+@njit()
 def theCap3( state, validActions):
   const = state[12: 17]
   ngLieu = state[6: 11] + const
@@ -74,7 +100,7 @@ def theCap3( state, validActions):
 
   return action
 
-@njit
+@njit()
 def lay3ngL(card, ngLieu, auto, ngLban):
   ngLban_ = np.zeros(5)
   ngLban_[ ngLban > 0 ] = np.ones( len( ngLban[ngLban>0] ))
@@ -90,7 +116,7 @@ def lay3ngL(card, ngLieu, auto, ngLban):
   
   return True
 
-@njit
+@njit()
 def lay2ngL( card, ngLieu, auto, ngLban):
   arr = card[6: 11] - ngLieu
   ngLcan = sum( arr[arr> 0]) - auto
@@ -104,7 +130,7 @@ def lay2ngL( card, ngLieu, auto, ngLban):
     return False
   return True
 
-@njit
+@njit()
 def checkCard(state, validActions):
   const = state[12: 17]
   ngLieu = state[6: 11] + const
@@ -130,7 +156,7 @@ def checkCard(state, validActions):
             
   return 0
 
-@njit
+@njit()
 def theHold( state, validActions):
   ngLieu = state[6: 11] + state[12: 17]
   ngLban = state[:5]
@@ -150,7 +176,7 @@ def theHold( state, validActions):
       action = i
   return action
 
-@njit
+@njit()
 def getCard(state, validActions):
   const = state[12: 17]
   ngLieu = state[6: 11] + const
@@ -178,10 +204,10 @@ def getCard(state, validActions):
   
   return action
 
-@njit
-def agentSplendor_v3(state, per):
+@njit()
+def Test(state, per):
   if getReward(state) != -1:
-    per = initPer()
+    per = DataAgent()
 
   validActions = getValidActions(state)
   validActions = np.where(validActions)[0]

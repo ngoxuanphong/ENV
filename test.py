@@ -8,7 +8,7 @@ import numpy as np
 from numba import njit, jit
 import time
 
-env = make('CatanNoExchange')
+env = make('Sheriff')
 getActionSize = env.getActionSize
 getStateSize = env.getStateSize
 getAgentSize = env.getAgentSize
@@ -31,7 +31,7 @@ win2, per = numba_main_2(bot_lv0, 1000, np.array([0]), 1)
 b = time.process_time()
 print(win2, b-a)
 
-# a = time.process_time()
-# win3, per = numba_main_2(bot_lv0, 1000, np.array([0]), -1)
-# b = time.process_time()
-# print(win3, b-a)
+a = time.process_time()
+win3, per = numba_main_2(bot_lv0, 1000, np.array([0]), -1)
+b = time.process_time()
+print(win3, b-a)

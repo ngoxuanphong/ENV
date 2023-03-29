@@ -1,5 +1,5 @@
 @njit
-def initPer():
+def DataAgent():
   per = []
   per.append(np.zeros(5))
   return per

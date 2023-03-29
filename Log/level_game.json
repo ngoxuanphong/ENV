@@ -58,6 +58,24 @@
     "StateBasedAlgorithm",
     "MultiDimensionAlgorithm"
    ]
+  ],
+  "-1": [
+   [
+    1,
+    1,
+    1
+   ],
+   [
+    9140,
+    5224,
+    8316,
+    6157
+   ],
+   [
+    "PT",
+    "TD",
+    "VA"
+   ]
   ]
  },
  "TLMN": {
@@ -265,6 +283,23 @@
     "An",
     "StateBasedAlgorithm",
     "BiasAlgorithm"
+   ]
+  ],
+  "-1": [
+   [
+    1,
+    1,
+    1
+   ],
+   [
+    9140,
+    5224,
+    8316
+   ],
+   [
+    "PT",
+    "TD",
+    "VA"
    ]
   ]
  },
