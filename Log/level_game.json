@@ -98,6 +98,24 @@
     "Chain4",
     "KhanhNhat"
    ]
+  ],
+  "-1": [
+   [
+    1,
+    1,
+    1
+   ],
+   [
+    9140,
+    5224,
+    8316,
+    6157
+   ],
+   [
+    "DQ",
+    "PT",
+    "VA"
+   ]
   ]
  },
  "MachiKoro": {
@@ -139,6 +157,23 @@
     "An",
     "BiasAlgorithm",
     "TimeBasedAlgorithm"
+   ]
+  ],
+  "-1": [
+   [
+    1,
+    1,
+    1
+   ],
+   [
+    9140,
+    5224,
+    8316
+   ],
+   [
+    "DQ",
+    "TD",
+    "VA"
    ]
   ]
  },
@@ -239,6 +274,23 @@
     "BiasAlgorithm",
     "MultiDimensionAlgorithm",
     "ActionsLayer"
+   ]
+  ],
+  "-1": [
+   [
+    1,
+    1,
+    1
+   ],
+   [
+    9140,
+    5224,
+    8316
+   ],
+   [
+    "DQ",
+    "PT",
+    "TD"
    ]
   ]
  },
