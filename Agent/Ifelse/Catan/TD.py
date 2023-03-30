@@ -328,18 +328,18 @@ def checkBuyDev(state, validActions):
 @njit
 def Test(state, per):
   if getReward(state) != -1:
-    per[0] = 0
+    per[0][0] = 0
   else:
-    per[0] += 1
+    per[0][0] += 1
   validActions = getValidActions(state)
   validActions = np.where( validActions )[0]
 
   phase = state[947: 963]
-  if per[0] == 1: # đặt nhà đầu tiên---------------
+  if per[0][0] == 1: # đặt nhà đầu tiên---------------
     action = firstSettlements(state, validActions)
     # print('xaynha1', action)
     return action, per
-  if per[0] == 3: # đặt nhà thứ hai-----------------
+  if per[0][0] == 3: # đặt nhà thứ hai-----------------
     action = secondSettlements(state, validActions)
     # print('xaynha2', action)
     return action, per

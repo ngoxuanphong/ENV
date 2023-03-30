@@ -8,7 +8,7 @@ import numpy as np
 from numba import njit, jit
 import time
 
-env = make('StoneAge')
+env = make('TLMN')
 getActionSize = env.getActionSize
 getStateSize = env.getStateSize
 getAgentSize = env.getAgentSize
