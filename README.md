@@ -1,7 +1,9 @@
 ## Installation
 
-In terminal: 
-    - git clone https://github.com/ngoxuanphong/ENV.git
+**In terminal**
+    ```
+    git clone https://github.com/ngoxuanphong/ENV.git
+    ```
 
 ## API
 
@@ -13,14 +15,14 @@ import numpy as np
 @njit()
 def Agent(state, perData):
     validActions = env.getValidActions(state)
-    arr_action = np.where(validActions==1)[0]
-    idx = np.random.randint(0, arr_action.shape[0])
+    actions = np.where(validActions==1)[0]
+    action = np.random.choice(actions)
     return arr_action[idx], perData
 
 perData = np.array([0])
 level = 0
 count_game_train = 1000
-count_win, perData = numba_main_2(Agent, count_game_train, perData, level)
+count_win, perData = env.numba_main_2(Agent, count_game_train, perData, level)
 print(count_win)
 ```
 
@@ -42,3 +44,5 @@ print(count_win)
 * [SushiGo](https://github.com/ngoxuanphong/ENV/tree/main/Base/SushiGo/)
 * [TicketToRide](https://github.com/ngoxuanphong/ENV/tree/main/Base/TicketToRide/)
 * [TLMN](https://github.com/ngoxuanphong/ENV/tree/main/Base/TLMN/)
+
+#
