@@ -1,12 +1,10 @@
 ## Installation
-
 **In terminal**
     ```
     git clone https://github.com/ngoxuanphong/ENV.git
     ```
 
 ## API
-
 ```
 from setup import make
 from numba import njit, jit
@@ -26,6 +24,23 @@ count_win, perData = env.numba_main_2(Agent, count_game_train, perData, level)
 print(count_win)
 ```
 
+## function
+    * Agent(state, perData):
+        input: state, data
+        output: action(int), data
+    * getValidActions(state): 
+        input: state(np.float64)
+        output: np.array valid action in turn of Environment
+    * getReward(state):
+        input: state(np.float64)
+        output: -1, 0, 1
+    * getActionSize():
+        input: None
+        output: int, count of array action size of Env
+    * getStateSize():
+        input: None
+        output: int, count of array state size of Env
+
 ## Environment
 * [Catan](https://github.com/ngoxuanphong/ENV/tree/main/Base/Catan/)
 * [CatanNoExchange](https://github.com/ngoxuanphong/ENV/tree/main/Base/CatanNoExchange/)
@@ -44,5 +59,3 @@ print(count_win)
 * [SushiGo](https://github.com/ngoxuanphong/ENV/tree/main/Base/SushiGo/)
 * [TicketToRide](https://github.com/ngoxuanphong/ENV/tree/main/Base/TicketToRide/)
 * [TLMN](https://github.com/ngoxuanphong/ENV/tree/main/Base/TLMN/)
-
-#
