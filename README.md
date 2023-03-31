@@ -61,7 +61,7 @@ print(count_win)
 * [TLMN](https://github.com/ngoxuanphong/ENV/tree/main/Base/TLMN/)
 
 ## Make Environment
-* [Manual](https://docs.google.com/document/d/1I2Fquk4aEHwC-v_ROxmONNlOXUtiNQWWS6eiYBQUEeM/edit)
+* [User Manual](https://docs.google.com/document/d/1I2Fquk4aEHwC-v_ROxmONNlOXUtiNQWWS6eiYBQUEeM/edit)
     
 ## Check Environment
 ```
