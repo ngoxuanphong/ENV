@@ -24,7 +24,7 @@ count_win, perData = env.numba_main_2(Agent, count_game_train, perData, level)
 print(count_win)
 ```
 
-## function
+## FUNCTION
     * Agent(state, perData):
         input: state, data
         output: action(int), data
@@ -59,3 +59,6 @@ print(count_win)
 * [SushiGo](https://github.com/ngoxuanphong/ENV/tree/main/Base/SushiGo/)
 * [TicketToRide](https://github.com/ngoxuanphong/ENV/tree/main/Base/TicketToRide/)
 * [TLMN](https://github.com/ngoxuanphong/ENV/tree/main/Base/TLMN/)
+
+## Make Environment
+    * [Manual]()
