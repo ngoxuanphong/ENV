@@ -61,4 +61,18 @@ print(count_win)
 * [TLMN](https://github.com/ngoxuanphong/ENV/tree/main/Base/TLMN/)
 
 ## Make Environment
-    * [Manual]()
+    * [Manual](https://docs.google.com/document/d/1I2Fquk4aEHwC-v_ROxmONNlOXUtiNQWWS6eiYBQUEeM/edit)
+    
+## Check Environment
+    ```
+    from CheckEnv import check_env
+    import your_env as env #path to your env
+    print(check_env(env))
+    ```
+
+## Check Agent
+    ```
+    from CheckPlayer import check_player
+    import your_agent as agent #path to your env
+    print(check_player(env))
+    ```
