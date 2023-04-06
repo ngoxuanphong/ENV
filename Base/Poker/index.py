@@ -248,7 +248,6 @@ def holdem(board, hands):
     for i in range(len(scores)):
         all_best_hand_player[i] = np.array(scores[i][2])
     scores = sorted(scores, reverse= True)
-
     top = np.zeros((9,9))
     topth = 0
     top[topth][scores[0][3][0]] = 1
@@ -262,22 +261,20 @@ def holdem(board, hands):
         else:
             topth += 1
             top[topth][scores[i+1][3][0]] = 1
-    # print('best', best, ALL_CARD_STR[np.array(hand)], hand, 'ID', id)
-    # print('+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++')
     ranks = np.full(9,-1)
     for i in range(len(top)):
         ranks[np.where(top[i] == 1)[0]] = i
+    all_best_hand_player_str = []
+    for item in all_best_hand_player:
+        all_best_hand_player_str.append(ALL_CARD_STR[item.astype(np.int64)])
     return ranks, all_best_hand_player
 
 
 
 @njit()
 def showdown(env_state):
-    # print('before showdown', env_state[ENV_ALL_PLAYER_CHIP : ENV_ALL_PLAYER_CHIP_GIVE])
     chip_give = env_state[ENV_ALL_PLAYER_CHIP_IN_POT : ENV_ALL_PLAYER_STATUS]
-    # print('give', chip_give)
     status = env_state[ENV_ALL_PLAYER_STATUS : ENV_ALL_FIRST_CARD]
-    # print('status', status)
     player_chip_receive = np.zeros(9)
     all_pot_val = np.sum(chip_give)
     if np.count_nonzero(status) == 1:
@@ -290,7 +287,7 @@ def showdown(env_state):
 
         #tính rank bài của các người chơi
         ranks, all_player_hand = holdem(board, hands)
-        # print('ranks', ranks, 'status', status)
+     
         #split_pot:
         max_chip_can_get = np.zeros(9)
         while all_pot_val > 0:
@@ -305,7 +302,6 @@ def showdown(env_state):
             rank_in_side_pot[player_get_pot] = ranks[player_get_pot]
 
             best_rank = np.min(rank_in_side_pot)
-            # print('rank', best_rank, player_get_pot, side_pot)
             player_win_pot = np.where(rank_in_side_pot == best_rank)[0]
             delta_chip = side_pot_val/len(player_win_pot)
             player_chip_receive[player_win_pot] += delta_chip
@@ -313,41 +309,38 @@ def showdown(env_state):
             all_pot_val -= side_pot_val
             temp = chip_give - side_pot
             chip_give = (temp)*(temp > 0)
-            # print(all_pot_val,side_pot,player_chip, delta_chip)
         #update chip sau ván chơi của các người 
         for i in range(len(player_chip_receive)):
             player_chip_receive[i] = int(player_chip_receive[i])
         # player_chip_receive = player_chip_receive // 1
         env_state[ENV_ALL_PLAYER_CHIP : ENV_ALL_PLAYER_CHIP_GIVE] += player_chip_receive
-
         #show card on hand, update vào env_state xem ai phải show bài, lá nào k cần show thì gán thành -1
         rank_temp = np.full(9, 10)
         chip_receive_max = np.zeros(9)
         #lấy rank hand người mở đầu tiên và lượng chip tối đa họ có thể ăn
-        rank_temp[int(env_state[ENV_TEMP_BUTTON])] = ranks[int(env_state[ENV_TEMP_BUTTON])] 
-        chip_receive_max[int(env_state[ENV_TEMP_BUTTON])] = max_chip_can_get[int(env_state[ENV_TEMP_BUTTON])]
+        id_temp_button = int(env_state[ENV_TEMP_BUTTON])
+        rank_temp[id_temp_button] = ranks[id_temp_button] 
+        chip_receive_max[id_temp_button] = max_chip_can_get[id_temp_button]
+        if env_state[ENV_ALL_FIRST_CARD + id_temp_button] in all_player_hand[id_temp_button]:
+            env_state[ENV_ALL_FIRST_CARD_SHOWDOWN + id_temp_button] = env_state[ENV_ALL_FIRST_CARD + id_temp_button]
+        if env_state[ENV_ALL_SECOND_CARD + id_temp_button] in all_player_hand[id_temp_button]:
+            env_state[ENV_ALL_SECOND_CARD_SHOWDOWN + id_temp_button] = env_state[ENV_ALL_SECOND_CARD + id_temp_button]
+
         for i in range(1, 9):
-            id = int(env_state[ENV_TEMP_BUTTON] + i ) % 9
+            id = int(env_state[ENV_TEMP_BUTTON] + i ) % NUMBER_PLAYER
             #nếu người chơi đã bỏ, thì bài của người chơi là bài trên bàn
             if status[id] == 0:
-                # env_state[ENV_ALL_FIRST_CARD_SHOWDOWN + id] = -1
-                # env_state[ENV_ALL_FIRST_CARD_SHOWDOWN + id] = -1
                 continue
             #nếu người chơi bài cao hơn hoặc bằng (share pot) hoặc có thể ăn side pot thì phải show card
-            if np.min(rank_temp) >= ranks[id] or np.max(chip_receive_max[np.where(rank_temp < ranks[id])[0]]) < max_chip_can_get[id]:
-                if env_state[ENV_ALL_FIRST_CARD + id] in all_player_hand[id]:
-                    env_state[ENV_ALL_FIRST_CARD_SHOWDOWN + id] = env_state[ENV_ALL_FIRST_CARD + id]
-                if env_state[ENV_ALL_SECOND_CARD + id] in all_player_hand[id]:
-                    env_state[ENV_ALL_SECOND_CARD_SHOWDOWN + id] = env_state[ENV_ALL_SECOND_CARD + id]
-                rank_temp[id] = ranks[id]
-                chip_receive_max[id] = max_chip_can_get[id]
-            # else:
-            #     # env_state[ENV_ALL_FIRST_CARD_SHOWDOWN + id] = -1
-                # env_state[ENV_ALL_FIRST_CARD_SHOWDOWN + id] = -1
-    # print('receive', player_chip_receive.astype(np.int64))
-    # print('resu;t', env_state[ENV_ALL_PLAYER_CHIP : ENV_ALL_PLAYER_CHIP_GIVE].astype(np.int64), np.sum(env_state[ENV_ALL_PLAYER_CHIP : ENV_ALL_PLAYER_CHIP_GIVE]))
-    # if np.sum(env_state[ENV_ALL_PLAYER_CHIP : ENV_ALL_PLAYER_CHIP_GIVE]) > 1800:
-    #     raise Exception('toang tổng')
+            else:
+                if np.min(rank_temp) >= ranks[id] or np.max(chip_receive_max[np.where(rank_temp < ranks[id])[0]]) < max_chip_can_get[id]:
+                    if env_state[ENV_ALL_FIRST_CARD + id] in all_player_hand[id]:
+                        env_state[ENV_ALL_FIRST_CARD_SHOWDOWN + id] = env_state[ENV_ALL_FIRST_CARD + id]
+                    if env_state[ENV_ALL_SECOND_CARD + id] in all_player_hand[id]:
+                        env_state[ENV_ALL_SECOND_CARD_SHOWDOWN + id] = env_state[ENV_ALL_SECOND_CARD + id]
+                    rank_temp[id] = ranks[id]
+                    chip_receive_max[id] = max_chip_can_get[id]
+
     return env_state
 
 

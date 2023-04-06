@@ -140,17 +140,25 @@ def getAgentState(env_state):
 def getReward(player_state):
     if player_state[P_CHEKC_END] == 1:
         list_score = player_state[P_SCORE : P_NEG_SCORE] - player_state[P_NEG_SCORE : P_TRAIN_CAR_CARD]
+        check_highest_score = np.zeros(NUMBER_PLAYER)
         if np.argmax(list_score) == 0:
-            if len(np.where(list_score == np.max(list_score))[0]) == 1:
+            list_highest_score = np.where(list_score == np.max(list_score))[0]
+            if len(list_highest_score) == 1:
                 return 1
             else:
-                check_most_route = player_state[P_CHECK_MOST_ROUTE : P_CHECK_LONGEST_ROAD]
+                check_highest_score[list_highest_score] = 1
+                check_most_route = player_state[P_CHECK_MOST_ROUTE : P_CHECK_LONGEST_ROAD]*check_highest_score
                 if np.argmax(check_most_route) == 0:
                     if np.sum(check_most_route) == 1:
                         return 1
                     else:
                         check_longest_road = player_state[P_CHECK_LONGEST_ROAD : P_CHECK_LONGEST_ROAD + NUMBER_PLAYER]
-                        check_longest_road = check_longest_road * check_most_route
+                        
+                        if np.sum(check_most_route) == 0:
+                            check_longest_road = check_longest_road * check_highest_score
+                        else:
+                            check_longest_road = check_longest_road * check_most_route
+
                         if check_longest_road[0] == 1:
                             return 1
                         else:
@@ -166,7 +174,7 @@ def getReward(player_state):
         return -1
 
 #########################################################
-
+     
 @njit()
 def check_winner(env_state):
     #B1: tìm người chơi con đường dài nhất
@@ -188,11 +196,16 @@ def check_winner(env_state):
                 env_state[ENV_IN4_PLAYER + ATTRIBUTE_PLAYER * player + ATT_NEG_SCORE] += LIST_ALL_SCORE_ROUTE[route_card]
 
         list_longest_path[player] = calculator_longest_road(p_road)
+    #xác định đường dài nhất
     max_road = np.max(list_longest_path)
     player_longest_path = np.where(list_longest_path == max_road)[0]
+    #gán đánh dấu người chơi có con đường dài nhất
+    env_state[ENV_CHECK_LONGEST_ROAD : ENV_CHECK_LONGEST_ROAD + NUMBER_PLAYER][player_longest_path] = 1
     #cộng 10đ cho những người có đường dài nhất
     for player in player_longest_path:
         env_state[ENV_IN4_PLAYER + ATTRIBUTE_PLAYER * player + ATT_SCORE] += 10
+    #cập nhật số đường người chơi hoàn thành
+    env_state[ENV_CHECK_MOST_ROUTE : ENV_CHECK_LONGEST_ROAD] = number_route_comp
     #xét người chiến thắng
     all_player_score = env_state[ENV_IN4_PLAYER : ENV_TRAIN_CAR_OPEN - 1 : ATTRIBUTE_PLAYER]
     all_player_neg_score = env_state[ENV_IN4_PLAYER + ATT_NEG_SCORE : ENV_TRAIN_CAR_OPEN - 1 : ATTRIBUTE_PLAYER]
@@ -206,9 +219,9 @@ def check_winner(env_state):
         number_route_winner_comp[winner_1] = number_route_comp[winner_1]
         route_max = np.max(number_route_winner_comp)
         winner_2 = np.where(number_route_winner_comp == route_max)[0]
-        env_state[ENV_CHECK_MOST_ROUTE : ENV_CHECK_LONGEST_ROAD][winner_2] = 1
+        # env_state[ENV_CHECK_MOST_ROUTE : ENV_CHECK_LONGEST_ROAD][winner_2] = 1
         if len(winner_2) == 1:
-            player_win = winner_2[0]
+            # player_win = winner_2[0]
             return winner_2, env_state
         else:
             winner_3 = np.array([-1])
@@ -219,10 +232,9 @@ def check_winner(env_state):
                 return winner_2, env_state
             else:
                 winner_3 = winner_3[1:]
-                env_state[ENV_CHECK_LONGEST_ROAD : ENV_CHECK_LONGEST_ROAD + NUMBER_PLAYER][winner_3] = 1
+                # env_state[ENV_CHECK_LONGEST_ROAD : ENV_CHECK_LONGEST_ROAD + NUMBER_PLAYER][winner_3] = 1
                 return winner_3, env_state
-            
-
+       
 #########################################################
 
 @njit()
