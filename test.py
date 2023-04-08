@@ -8,7 +8,7 @@ import numpy as np
 from numba import njit, jit
 import time
 
-env = make('Poker')
+env = make('TicketToRide')
 getActionSize = env.getActionSize
 getStateSize = env.getStateSize
 getAgentSize = env.getAgentSize
