@@ -6,8 +6,8 @@ import importlib.util, sys
 import numpy as np
 
 agent_name = 'Chain4'
-game_name = 'CatanNoExchange'
-training_time = 15*60*60
+game_name = 'Poker'
+training_time = 8*60*60
 level = 0
 mode = "train"
 print(game_name, agent_name)
