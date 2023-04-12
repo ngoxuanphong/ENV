@@ -487,7 +487,37 @@ def stepEnv(action,env):
         r = tim_diem_toi_uu_co_phom(k,k,np.where(temp==pIdx +9)[0])
         env[55+52:55+52+52][r]= pIdx   
         env[55:55+52][r] = -1
-            
+
+       for i in range(len(np.where(env[55+52:55+52+52] == pIdx)[0])):
+        if np.where(env[55+52:55+52+52] == pIdx)[0][i] in np.where(env[55:55+52]== pIdx)[0] :
+          env[55:55+52][np.where(env[55+52:55+52+52] == pIdx)[0][i]] = -1
+          #print("3")
+
+       for i in range(len(np.where(env[55+52:55+52+52] == (env[52] +1)% 4 )[0])):
+        if np.where(env[55+52:55+52+52] == (env[52] +1)% 4 )[0][i] in np.where(env[55:55+52]== (env[52] +1)% 4 )[0] :
+          env[55:55+52][np.where(env[55+52:55+52+52] == (env[52] +1)% 4 )[0][i]] = -1
+          #print("3")
+
+       for i in range(len(np.where(env[55+52:55+52+52] == (env[52] +2)% 4)[0])):
+        if np.where(env[55+52:55+52+52] == (env[52] +2)% 4 )[0][i] in np.where(env[55:55+52]== (env[52] +2)% 4 )[0] :
+          env[55:55+52][np.where(env[55+52:55+52+52] == (env[52] +2)% 4 )[0][i]] = -1
+          #print("3")
+
+       for i in range(len(np.where(env[55+52:55+52+52] == (env[52] +3)% 4)[0])):
+        if np.where(env[55+52:55+52+52] == (env[52] +3)% 4 )[0][i] in np.where(env[55:55+52]== (env[52] +3)% 4 )[0] :
+          env[55:55+52][np.where(env[55+52:55+52+52] == (env[52] +3)% 4 )[0][i]] = -1
+          #print("4")
+    # for i in range(len(np.where(e_state[0:52] == (e_state[52] +1)% 4 +5)[0])):
+    #   if np.where(e_state[0:52] == (e_state[52] +1)% 4 +5)[0][i] in np.where(e_state[55:55+52]== (e_state[52] +1)% 4 +5)[0] :
+    #     p_state[423+52:423+52+52][np.where(e_state[0:52] == (e_state[52] +1)% 4 +5)[0][i]] = 0 
+
+    # for i in range(len(np.where(e_state[0:52] == (e_state[52] +2)% 4 +5)[0])):
+    #   if np.where(e_state[0:52] == (e_state[52] +2)% 4 +5)[0][i] in np.where(e_state[55:55+52]== (e_state[52] +2)% 4 +5)[0] :
+    #     p_state[423+52+52:423+52+52+52][np.where(e_state[0:52] == (e_state[52] +2)% 4 +5)[0][i]] = 0 
+
+    # for i in range(len(np.where(e_state[0:52] == (e_state[52] +3)% 4 +5)[0])):
+    #   if np.where(e_state[0:52] == (e_state[52] +3)% 4 +5)[0][i] in np.where(e_state[55:55+52]== (e_state[52] +3)% 4 +5)[0] :
+    #     p_state[423+52+52+52:423+52+52+52+52][np.where(e_state[0:52] == (e_state[52] +3)% 4 +5)[0][i]] = 0 
        
        env[54] = action-2
     env[55:55+52][action-2] = -1
@@ -577,22 +607,26 @@ def getAgentState(e_state):
     p_state[420:423][e_state[53]] = 1
     # các lá bài của người chơi khác khi hạ phỏm 
     p_state[423:423+52][np.where(e_state[55:55+52]== pIdx)[0]] = 1
-    if pIdx == 0  :
-      p_state[423+52:423+52+52][np.where(e_state[55:55+52]== 1)[0]] = 1
-      p_state[423+52+52:423+52+52+52][np.where(e_state[55:55+52]== 2)[0]] = 1
-      p_state[423+52+52+52:423+52+52+52+52][np.where(e_state[55:55+52]== 3)[0]] = 1
-    elif pIdx == 3:
-      p_state[423+52:423+52+52][np.where(e_state[55:55+52]== 0)[0]] = 1
-      p_state[423+52+52:423+52+52+52][np.where(e_state[55:55+52]== 1)[0]] = 1
-      p_state[423+52+52+52:423+52+52+52+52][np.where(e_state[55:55+52]== 2)[0]] = 1
-    elif pIdx == 1 :
-      p_state[423+52:423+52+52][np.where(e_state[55:55+52]== 2)[0]] = 1
-      p_state[423+52+52:423+52+52+52][np.where(e_state[55:55+52]== 3)[0]] = 1
-      p_state[423+52+52+52:423+52+52+52+52][np.where(e_state[55:55+52]== 0)[0]] = 1
-    elif pIdx == 2 :
-      p_state[423+52:423+52+52][np.where(e_state[55:55+52]== 3)[0]] = 1
-      p_state[423+52+52:423+52+52+52][np.where(e_state[55:55+52]== 0)[0]] = 1
-      p_state[423+52+52+52:423+52+52+52+52][np.where(e_state[55:55+52]== 1)[0]] = 1
+    p_state[423+52:423+52+52][np.where(e_state[55:55+52]== (e_state[52] +1)% 4)[0]] = 1
+    p_state[423+52+52:423+52+52+52][np.where(e_state[55:55+52]== (e_state[52] +2)% 4 )[0]] = 1
+    p_state[423+52+52+52:423+52+52+52+52][np.where(e_state[55:55+52]== (e_state[52] +3)% 4)[0]] = 1
+    
+    for i in range(len(np.where(e_state[0:52] == pIdx+5)[0])):
+      if np.where(e_state[0:52] == pIdx+5)[0][i] in np.where(e_state[55:55+52]== pIdx)[0] :
+        p_state[423:423+52][np.where(e_state[0:52] == pIdx+5)[0][i]] = 0 
+
+    for i in range(len(np.where(e_state[0:52] == (e_state[52] +1)% 4 +5)[0])):
+      if np.where(e_state[0:52] == (e_state[52] +1)% 4 +5)[0][i] in np.where(e_state[55:55+52]== (e_state[52] +1)% 4 +5)[0] :
+        p_state[423+52:423+52+52][np.where(e_state[0:52] == (e_state[52] +1)% 4 +5)[0][i]] = 0 
+
+    for i in range(len(np.where(e_state[0:52] == (e_state[52] +2)% 4 +5)[0])):
+      if np.where(e_state[0:52] == (e_state[52] +2)% 4 +5)[0][i] in np.where(e_state[55:55+52]== (e_state[52] +2)% 4 +5)[0] :
+        p_state[423+52+52:423+52+52+52][np.where(e_state[0:52] == (e_state[52] +2)% 4 +5)[0][i]] = 0 
+
+    for i in range(len(np.where(e_state[0:52] == (e_state[52] +3)% 4 +5)[0])):
+      if np.where(e_state[0:52] == (e_state[52] +3)% 4 +5)[0][i] in np.where(e_state[55:55+52]== (e_state[52] +3)% 4 +5)[0] :
+        p_state[423+52+52+52:423+52+52+52+52][np.where(e_state[0:52] == (e_state[52] +3)% 4 +5)[0][i]] = 0 
+
     m = checkEnded(e_state)
     # Đã kết thúc game chưa 
     if m == -1:
@@ -600,7 +634,7 @@ def getAgentState(e_state):
     else :
       p_state[631] = 0 
     # Check xem có thắng hay không
-    if m == pIdx+1 :
+    if m == pIdx:
       p_state[632] = 1
     else:
       p_state[632] = 0 
@@ -615,11 +649,12 @@ def checkEnded(env):
     scorephom = np.array([len(np.where(la_phom==9)[0]), len(np.where(la_phom==10)[0]),len(np.where(la_phom==11)[0]), len(np.where(la_phom==12)[0])])
     if len(np.where(env[0:52]==5)[0])+len(np.where(env[0:52]==6)[0])+len(np.where(env[0:52]==7)[0])+len(np.where(env[0:52]==8)[0]) < 16 :
       if len(np.where(la_phom ==9)[0]) == 3 or len(np.where(la_phom ==10)[0]) == 3 or len(np.where(la_phom ==11)[0]) == 3 or len(np.where(la_phom ==12)[0]) == 3:
-          maxScorePlayers = np.where(scorephom==3)[0]
-          return maxScorePlayers[0]   
+        maxScorePlayers = np.where(scorephom==3)[0]
+        return maxScorePlayers[0]
       else:
-          return -1  
+        return -1  
     elif len(np.where(env[0:52]==5)[0])+len(np.where(env[0:52]==6)[0])+len(np.where(env[0:52]==7)[0])+len(np.where(env[0:52]==8)[0]) == 16:
+
       if len(np.where(env[55+52:55+52+52]==0)[0]) == 0  :
         scoreArr[0]+= 999
       if len(np.where(env[55+52:55+52+52]==1)[0]) == 0  :
@@ -628,12 +663,15 @@ def checkEnded(env):
         scoreArr[2]+= 999
       if len(np.where(env[55+52:55+52+52]==3)[0]) == 0  :
         scoreArr[3]+= 999      
+
       minScore = np.min(scoreArr)
       minScorePlayers = np.where(scoreArr==minScore)[0]
+       
       if minScore > 999:
         return 0
       else:
         return np.min(minScorePlayers)
+      
 @njit()
 def getReward(state):
     if state[631] == 1 :
@@ -649,7 +687,7 @@ from numba.typed import List
 
 def one_game_normal(p0,  list_other, per_player, per1, per2, per3, p1, p2, p3):
     env= initEnv()
-    if check_u_khan(np.where(env[0:52]==0)[0]) == True  or check_u_khan(np.where(env[0:52]==1)[0]) == True or check_u_khan(np.where(env[0:52]==2)[0]) == True or check_u_khan(np.where(env[0:52]==3)[0]) == True :
+    while check_u_khan(np.where(env[0:52]==0)[0]) == True  or check_u_khan(np.where(env[0:52]==1)[0]) == True or check_u_khan(np.where(env[0:52]==2)[0]) == True or check_u_khan(np.where(env[0:52]==3)[0]) == True :
         env = initEnv()
     tempData = []
     for _ in range(4):
@@ -682,7 +720,7 @@ def one_game_normal(p0,  list_other, per_player, per1, per2, per3, p1, p2, p3):
         elif list_other[pIdx] == 3:
             action,  per3 = p3(getAgentState(env),  per3)
     winner = False
-    if np.where(list_other == -1)[0] == (checkEnded(env) - 1): 
+    if np.where(list_other == -1)[0] == (checkEnded(env)+1 - 1): 
         winner = True
     else: 
         winner = False
@@ -691,8 +729,9 @@ def one_game_normal(p0,  list_other, per_player, per1, per2, per3, p1, p2, p3):
 @njit()
 def one_game_numba(p0,  list_other, per_player, per1, per2, per3, p1, p2, p3):
     env= initEnv()
-    if check_u_khan(np.where(env[0:52]==0)[0]) == True  or check_u_khan(np.where(env[0:52]==1)[0]) == True or check_u_khan(np.where(env[0:52]==2)[0]) == True or check_u_khan(np.where(env[0:52]==3)[0]) == True :
+    while check_u_khan(np.where(env[0:52]==0)[0]) == True  or check_u_khan(np.where(env[0:52]==1)[0]) == True or check_u_khan(np.where(env[0:52]==2)[0]) == True or check_u_khan(np.where(env[0:52]==3)[0]) == True :
         env = initEnv()
+
     tempData = []
     for _ in range(4):
         dataOnePlayer = List()
@@ -716,6 +755,7 @@ def one_game_numba(p0,  list_other, per_player, per1, per2, per3, p1, p2, p3):
         stepEnv(action, env)
         if checkEnded(env) != -1:
             break
+
     for pIdx in range(4):
         env[52] = pIdx
         if list_other[pIdx] == -1:
@@ -728,18 +768,15 @@ def one_game_numba(p0,  list_other, per_player, per1, per2, per3, p1, p2, p3):
             action,  per3 = p3(getAgentState(env),  per3)
         else:
           raise Exception('Sai list_other.')
+
     winner = False
-    if np.where(list_other == -1)[0] == (checkEnded(env) - 1): 
+    if np.where(list_other == -1)[0] == (checkEnded(env)+1 - 1): 
         winner = True
     else: 
         winner = False
+    # print(checkEnded(env))
+    # print(list_other)
     return winner, per_player
-@njit()
-def random_Env(p_state, per):
-    arr_action = getValidActions(p_state)
-    arr_action = np.where(arr_action == 1)[0]
-    act_idx = np.random.randint(0, len(arr_action))
-    return arr_action[act_idx], per
 
 def n_games_normal(p0, num_game, per_player, list_other, per1, per2, per3, p1, p2,p3):
     win = 0

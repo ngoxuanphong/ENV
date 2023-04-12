@@ -472,7 +472,7 @@
     8316
    ],
    [
-     "An",
+     "BiasAlgorithm",
      "MultiDimensionAlgorithm",
      "TimeBasedAlgorithm"
    ]
@@ -496,6 +496,55 @@
      "TimeBasedAlgorithm",
      "BiasAlgorithm",
      "MultiDimensionAlgorithm"
+   ]
+  ]
+ },
+ "Poker": {
+  "Can_Split_Level": "False",
+  "level_max": 1,
+  "1": [
+   [
+    1,
+    1,
+    1
+   ],
+   [
+    9140,
+    5224,
+    8316
+   ],
+   [
+     "Y_random",
+     "Y_random",
+     "Y_random",
+     "Y_random",
+     "Y_random",
+     "Y_random",
+     "Y_random",
+     "Y_random",
+     "Y_random"
+   ]
+  ]
+ },
+ "TicketToRide": {
+  "Can_Split_Level": "False",
+  "level_max": 1,
+  "1": [
+   [
+    1,
+    1,
+    1
+   ],
+   [
+    9140,
+    5224,
+    8316
+   ],
+   [
+     "MultiDimensionAlgorithm",
+     "BiasAlgorithm",
+     "TimeBasedAlgorithm",
+     "StateBasedAlgorithm"
    ]
   ]
  }

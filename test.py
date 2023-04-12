@@ -1,5 +1,5 @@
 # Check hệ thống
-import Base.Poker.env as env
+import Base.WelcomeToTheDungeon_v2.env as env
 from CheckEnv import check_env
 print(check_env(env))
 
@@ -8,7 +8,7 @@ print(check_env(env))
 # from numba import njit, jit
 # import time
 
-# env = make('TLMN')
+# env = make('Phom')
 # getActionSize = env.getActionSize
 # getStateSize = env.getStateSize
 # getAgentSize = env.getAgentSize
@@ -26,10 +26,10 @@ print(check_env(env))
 
 # win1, per = numba_main_2(Test, 1000, np.array([0]), 0)
 # print(win1)
-# # a = time.process_time()
-# # win2, per = numba_main_2(Test, 1000, np.array([0]), 1)
-# # b = time.process_time()
-# # print(win2, b-a)
+# a = time.process_time()
+# win2, per = numba_main_2(Test, 1000, np.array([0]), 1)
+# b = time.process_time()
+# print(win2, b-a)
 
 # a = time.process_time()
 # win3, per = numba_main_2(Test, 1000, np.array([0]), -1)
