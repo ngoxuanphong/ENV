@@ -24,7 +24,7 @@ def Test(state, perData):
     idx = np.random.randint(0, arr_action.shape[0])
     return arr_action[idx], perData
 
-win1, per = numba_main_2(Test, 100000, np.array([0]), 0)
+win1, per = numba_main_2(Test, 1000, np.array([0]), 0)
 print(win1)
 a = time.process_time()
 win2, per = numba_main_2(Test, 1000, np.array([0]), 1)
