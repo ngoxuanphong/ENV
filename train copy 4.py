@@ -6,7 +6,7 @@ import importlib.util, sys
 import numpy as np
 
 agent_name = 'KhanhNhat'
-game_name = 'Phom'
+game_name = 'GoFish'
 training_time = 12*60*60
 level = 0
 mode = "train"
