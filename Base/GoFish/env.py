@@ -9,14 +9,14 @@ def getAgentSize():
   return 4
 @njit
 def getStateSize():
-  return 68
+  return 107
 
 @njit
 def initEnv():
   all = np.arange(52) % 13
   np.random.shuffle(all)
 
-  env = np.zeros(118)
+  env = np.zeros(170) ### --- update
   env[: 52] = all
 
   for i in range(20):
@@ -35,7 +35,7 @@ def initEnv():
 
 @njit
 def getAgentState(env):
-  state = np.zeros(68)
+  state = np.zeros(107)
 
   idx = int(env[113] % 4) # player chính
   state[:15] = env[53 + idx*15: 68 + idx*15] 
@@ -46,14 +46,16 @@ def getAgentState(env):
     arr[arr_ == 4] += 1
     arr[13: 15] = env[66 + pidx*15: 68 + pidx*15]
 
-  if env[52]: 
-    state[60] = 1
+    state[67 + k*13: 80 + k*13] = env[117 + pidx*13: 130 + pidx*13] ### --- update
+
+  state[60] = env[52] ### số lá còn lại
     
   state[61 + int(env[114])] = 1 #phase
   if env[115]:
     state[64 + int(env[115]) -1 ] = 1 #người bị yêu cầu
   
-  state[67] = env[117]
+
+  state[-1] = env[-1]
   return state
 
 @njit
@@ -117,11 +119,12 @@ def stepEnv(action, env):
   elif action < 4:
     env[114] = 1
     env[115] = action
-
   elif action < 17:
     laBai = int(action - 4)
     player_1 = int( player_0 + env[115]) % 4
     arr_1 = env[53 + 15 * player_1: 68 + 15 * player_1]
+
+    env[117 + int(player_0)*13 + laBai] = 1 ###--- update
 
     if arr_1[laBai] > 0: ### không cần nhỏ hơn 4 vì nếu người này đủ thì chắc chắn người kia không yêu cầu được
       arr_0[laBai] += arr_1[laBai] #đưa thẻ
@@ -181,8 +184,10 @@ def stepEnv(action, env):
 
       if new_arr[13] != 0 : #người chơi này còn bài 
         env[114:117] = np.array([0,0,-1])
+
+      env[117 + new_pl* 13: 130 + new_pl* 13] =  np.zeros(13) ###--- update
   else:
-    env[117] = 1 
+    env[-1] = 1 
 
 @njit
 def checkEnded(env):
@@ -226,22 +231,25 @@ def getReward(state):
   return 0
 
 # def visualizeEnv(env):
-#   print('ENV')
-#   print('Những lá còn lại:',env[52], env[52- int(env[52]): 52])
+#   print('ENV-------')
+#   print('Những lá còn lại:',env[52], env[52- int(env[52]): 52] + 1)
 #   for i in range(4):
-#     print('--> p:',i, np.where((env[53 + 15*i: 66+ 15*i] > 0) & (env[53 + 15*i: 66+ 15*i] < 4) )[0], env[66+ 15*i: 68+ 15*i])
+#     print('--> p:',i, np.where((env[53 + 15*i: 66+ 15*i] > 0) & (env[53 + 15*i: 66+ 15*i] < 4) )[0] + 1, env[66+ 15*i: 68+ 15*i])
 #     print('arr', env[53 + 15*i: 66+ 15*i] )
-#   print(env[113: 118])
-#   print(' PLAYER:', env[113] %4)
+
+#   print(env[113: 117])
+#   print(env[117: 169].reshape(4,13))
+#   print('--- PLAYER:', env[113] %4)
 
 # def visualizeState(state):
-#   print('arr: ', state[: 13], np.where((state[:13] > 0) & (state[:13]< 4) )[0], state[13: 15])
+#   print('arr: ', state[: 13] , np.where((state[:13] > 0) & (state[:13]< 4) )[0] + 1, state[13: 15])
 #   for i in range(3):
-#     print('-p:', np.where( state[15 + i*15: 28 + i*15] )[0], state[28 + i*15: 30 + i*15])
+#     print('-p:', np.where( state[15 + i*15: 28 + i*15] )[0] + 1, state[28 + i*15: 30 + i*15])
 #   print('so la con lai:', state[60])
 #   print('phase:', state[61: 64])
 #   print('ngBiYeuCau:', state[64: 67])
-#   print('endgame:', state[67])
+#   print(state[67: 106].reshape(3,13))
+#   print('endgame:', state[106])
 
 
 @njit
@@ -249,7 +257,8 @@ def bot_lv0(state, per):
   validActions = getValidActions(state)
   actions = np.where(validActions == 1)[0]
   action = np.random.choice(actions)
-  # print('ACTION:', action, actions)
+  # act = action
+  # print('ACTION:', act , actions)
   return action, per
 
 def one_game_normal(p0, list_other, per_player, per1, per2, per3, p1, p2, p3):
@@ -257,12 +266,14 @@ def one_game_normal(p0, list_other, per_player, per1, per2, per3, p1, p2, p3):
   # check = 0
   while env[113] < 400:
     idx = int(env[113]) % 4
+    player_state = getAgentState(env)
+
     # if env[113] == check:
     #   check += 1
-    #   print('---------------------------------')
+    #   print('-------------------------------------')
     # visualizeEnv(env)
-    player_state = getAgentState(env)
     # visualizeState(player_state)
+
     if list_other[idx] == -1:
       action, per_player = p0(player_state,per_player)
       list_action = getValidActions(player_state)
@@ -303,6 +314,7 @@ def one_game_normal(p0, list_other, per_player, per1, per2, per3, p1, p2, p3):
   else:
     result = 0
   # print(list_other)
+  # print(env[53: 113].reshape(4,15))
   return result, per_player
 
 def n_games_normal(p0, num_game, per_player, list_other, per1, per2, per3, p1, p2, p3):

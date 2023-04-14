@@ -453,7 +453,7 @@
     "TimeBasedAlgorithm",
     "An",
     "StateBasedAlgorithm",
-    "Chain4"
+    "MultiDimensionAlgorithm"
    ]
   ]
  },
@@ -545,6 +545,88 @@
      "BiasAlgorithm",
      "TimeBasedAlgorithm",
      "StateBasedAlgorithm"
+   ]
+  ]
+ },
+ "GoFish": {
+  "Can_Split_Level": "False",
+  "level_max": 1,
+  "1": [
+   [
+    1,
+    1,
+    1
+   ],
+   [
+    9140,
+    5224,
+    8316
+   ],
+   [
+    "Y_random",
+    "Y_random",
+    "Y_random"
+   ]
+  ]
+ },
+ "WelcomeToTheDungeon_v1": {
+  "Can_Split_Level": "False",
+  "level_max": 1,
+  "1": [
+   [
+    1,
+    1,
+    1
+   ],
+   [
+    9140,
+    5224,
+    8316
+   ],
+   [
+     "ActionsLayer",
+     "An",
+     "MultiDimensionAlgorithm"
+   ]
+  ]
+ },
+ "WelcomeToTheDungeon_v2": {
+  "Can_Split_Level": "False",
+  "level_max": 1,
+  "1": [
+   [
+    1,
+    1,
+    1
+   ],
+   [
+    9140,
+    5224,
+    8316
+   ],
+   [ "An",
+    "ActionsLayer",
+    "MultiDimensionAlgorithm"
+   ]
+  ]
+ },
+ "Fantan": {
+  "Can_Split_Level": "False",
+  "level_max": 1,
+  "1": [
+   [
+    1,
+    1,
+    1
+   ],
+   [
+    9140,
+    5224,
+    8316
+   ],
+   [ "ActionsLayer",
+    "BiasAlgorithm",
+    "KhanhNhat"
    ]
   ]
  }
