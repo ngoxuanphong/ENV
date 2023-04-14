@@ -453,7 +453,7 @@
     "TimeBasedAlgorithm",
     "An",
     "StateBasedAlgorithm",
-    "Chain4"
+    "MultiDimensionAlgorithm"
    ]
   ]
  },
