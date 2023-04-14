@@ -6,8 +6,8 @@ import importlib.util, sys
 import numpy as np
 
 agent_name = 'ActionsLayer'
-game_name = 'WelcomeToTheDungeon_v1'
-training_time = 9*60*60
+game_name = 'Fantan'
+training_time = 8*60*60
 level = 0
 mode = "train"
 print(game_name, agent_name)
