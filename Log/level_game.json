@@ -604,9 +604,29 @@
     5224,
     8316
    ],
-   [ "KhanhNhat",
-    "BiasAlgorithm",
+   [ "An",
+    "ActionsLayer",
     "MultiDimensionAlgorithm"
+   ]
+  ]
+ },
+ "Fantan": {
+  "Can_Split_Level": "False",
+  "level_max": 1,
+  "1": [
+   [
+    1,
+    1,
+    1
+   ],
+   [
+    9140,
+    5224,
+    8316
+   ],
+   [ "ActionsLayer",
+    "BiasAlgorithm",
+    "KhanhNhat"
    ]
   ]
  }
