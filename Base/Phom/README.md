@@ -17,13 +17,13 @@
     -   [0:51] Lá bài của bản thân
     -   [52:104] lá bài của người tiếp theo đánh cho mình
     -   [104:104+52] Lá bài rác của người tiếp theo
-    -   [104+52:104+52+52]:   lá bài rác của 2 người khác và bản thân
-    -   [104+52+52:104+52+52+52]:   lá phỏm của bản thân
-    -   [104+52x3:104+526]:   lá phỏm của 3 người khác
-    -   [416:420]:   lví trí của bản thân
-    -   [423:423+52+52+52+52]:   lá bài trên tay  người chơi  khi hạ phỏm
+    -   [104+52:104+52*2]:   lá bài rác của 2 người khác và bản thân
+    -   [104+52*2:104+52*3]:   lá phỏm của bản thân
+    -   [104+52*3:104+52*6]:   lá phỏm của 3 người khác
+    -   [416:420]:   vị trí của bản thân
+    -   [423:423+52*4]:   lá bài trên tay  người chơi  khi hạ phỏm
     -   [631] Check xem có ù 3 phỏm rồi kết thúc game 
-    -   [632] Check cả làng có móm khong
+    -   [632] Check cả làng có móm không
     * Note : tất cả các index đều chỉ có giá trị 1/0
 
 

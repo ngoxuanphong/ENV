@@ -1,7 +1,6 @@
 # Check hệ thống
-import Base.Fantan.env as env
+# import Base.WelcomeToTheDungeon_v2.env as env
 from CheckEnv import check_env
-print(check_env(env))
 
 from setup import make
 import numpy as np
@@ -9,6 +8,7 @@ from numba import njit, jit
 import time
 
 env = make('Fantan')
+print(check_env(env))
 getActionSize = env.getActionSize
 getStateSize = env.getStateSize
 getAgentSize = env.getAgentSize
