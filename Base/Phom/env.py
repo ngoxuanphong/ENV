@@ -606,10 +606,11 @@ def getAgentState(e_state):
     #Phase 
     p_state[420:423][e_state[53]] = 1
     # các lá bài của người chơi khác khi hạ phỏm 
-    p_state[423:423+52][np.where(e_state[55:55+52]== pIdx)[0]] = 1
-    p_state[423+52:423+52+52][np.where(e_state[55:55+52]== (e_state[52] +1)% 4)[0]] = 1
-    p_state[423+52+52:423+52+52+52][np.where(e_state[55:55+52]== (e_state[52] +2)% 4 )[0]] = 1
-    p_state[423+52+52+52:423+52+52+52+52][np.where(e_state[55:55+52]== (e_state[52] +3)% 4)[0]] = 1
+    if len(np.where(e_state[0:52]==5)[0])+len(np.where(e_state[0:52]==6)[0])+len(np.where(e_state[0:52]==7)[0])+len(np.where(e_state[0:52]==8)[0]) == 16:
+      p_state[423:423+52][np.where(e_state[55:55+52]== pIdx)[0]] = 1
+      p_state[423+52:423+52+52][np.where(e_state[55:55+52]== (e_state[52] +1)% 4)[0]] = 1
+      p_state[423+52+52:423+52+52+52][np.where(e_state[55:55+52]== (e_state[52] +2)% 4 )[0]] = 1
+      p_state[423+52+52+52:423+52+52+52+52][np.where(e_state[55:55+52]== (e_state[52] +3)% 4)[0]] = 1
     
     for i in range(len(np.where(e_state[0:52] == pIdx+5)[0])):
       if np.where(e_state[0:52] == pIdx+5)[0][i] in np.where(e_state[55:55+52]== pIdx)[0] :
@@ -630,9 +631,9 @@ def getAgentState(e_state):
     m = checkEnded(e_state)
     # Đã kết thúc game chưa 
     if m == -1:
-      p_state[631] = 1 
+      p_state[631] = 0
     else :
-      p_state[631] = 0 
+      p_state[631] = 1
     # Check xem có thắng hay không
     if m == pIdx:
       p_state[632] = 1
@@ -674,7 +675,7 @@ def checkEnded(env):
       
 @njit()
 def getReward(state):
-    if state[631] == 1 :
+    if state[631] == 0 :
         return -1
     else:
        if state[632] == 1:
@@ -684,7 +685,7 @@ def getReward(state):
 
       
 from numba.typed import List
-
+# @njit 
 def one_game_normal(p0,  list_other, per_player, per1, per2, per3, p1, p2, p3):
     env= initEnv()
     while check_u_khan(np.where(env[0:52]==0)[0]) == True  or check_u_khan(np.where(env[0:52]==1)[0]) == True or check_u_khan(np.where(env[0:52]==2)[0]) == True or check_u_khan(np.where(env[0:52]==3)[0]) == True :
@@ -700,6 +701,9 @@ def one_game_normal(p0,  list_other, per_player, per1, per2, per3, p1, p2, p3):
 
         if list_other[pIdx] == -1:
             action,  per_player = p0(getAgentState(env), per_player)
+            validActions = getValidActions(getAgentState(env))
+            if validActions[action] != 1:
+              raise Exception('Action không hợp lệ.')
         elif list_other[pIdx] == 1:
             action,  per1 = p1(getAgentState(env),  per1)
         elif list_other[pIdx] == 2:
@@ -746,6 +750,7 @@ def one_game_numba(p0,  list_other, per_player, per1, per2, per3, p1, p2, p3):
             validActions = getValidActions(getAgentState(env))
             if validActions[action] != 1:
               raise Exception('Action không hợp lệ.')
+            
         elif list_other[pIdx] == 1:
             action,  per1 = p1(getAgentState(env),  per1)
         elif list_other[pIdx] == 2:
@@ -777,6 +782,12 @@ def one_game_numba(p0,  list_other, per_player, per1, per2, per3, p1, p2, p3):
     # print(checkEnded(env))
     # print(list_other)
     return winner, per_player
+@njit()
+def random_Env(p_state, per):
+    arr_action = getValidActions(p_state)
+    arr_action = np.where(arr_action == 1)[0]
+    act_idx = np.random.randint(0, len(arr_action))
+    return arr_action[act_idx], per
 
 def n_games_normal(p0, num_game, per_player, list_other, per1, per2, per3, p1, p2,p3):
     win = 0
@@ -793,18 +804,18 @@ def n_games_numba(p0, num_game, per_player, list_other, per1, per2, per3, p1, p2
         np.random.shuffle(list_other)
         winner,per_player = one_game_numba(p0, list_other, per_player, per1,per2, per3, p1, p2, p3)
         win += winner
+        
     return win, per_player
+
 
 import importlib.util, json, sys
 try:
     from setup import SHORT_PATH
 except:
     pass
-def load_module_player(player, game_name = None):
-    if game_name == None:
-        spec = importlib.util.spec_from_file_location('Agent_player', f"{SHORT_PATH}Agent/{player}/Agent_player.py")
-    else:
-        spec = importlib.util.spec_from_file_location('Agent_player', f"{SHORT_PATH}Agent/ifelse/{game_name}/{player}.py")
+
+def load_module_player(player):
+    spec = importlib.util.spec_from_file_location('Agent_player', f"{SHORT_PATH}Agent/{player}/Agent_player.py")
     module = importlib.util.module_from_spec(spec)
     sys.modules[spec.name] = module
     spec.loader.exec_module(module)
@@ -814,6 +825,7 @@ def load_module_player(player, game_name = None):
 @njit()
 def check_run_under_njit(agent, perData):
     return True
+
 @njit()
 def bot_lv0(state, perData):
     validActions = getValidActions(state)
@@ -858,16 +870,11 @@ def numba_main_2(p0, num_game, per_player, level, *args):
                 raise Exception('Hiện tại không có level này')
 
             lst_agent_level = dict_level[env_name][str(level)][2]
-
+            lst_module_level = [load_module_player(lst_agent_level[i]) for i in range(num_bot)]
             for i in range(num_bot):
-                if level == -1:
-                    module_agent = load_module_player(lst_agent_level[i], game_name = env_name)
-                    _list_per_level_.append(module_agent.DataAgent())
-                else:
-                    data_agent_level = np.load(f'{SHORT_PATH}Agent/{lst_agent_level[i]}/Data/{env_name}_{level}/Train.npy',allow_pickle=True)
-                    module_agent = load_module_player(lst_agent_level[i])
-                    _list_per_level_.append(module_agent.convert_to_test(data_agent_level))
-                _list_bot_level_.append(module_agent.Test)
+                data_agent_level = np.load(f'{SHORT_PATH}Agent/{lst_agent_level[i]}/Data/{env_name}_{level}/Train.npy',allow_pickle=True)
+                _list_per_level_.append(lst_module_level[i].convert_to_test(data_agent_level))
+                _list_bot_level_.append(lst_module_level[i].Test)
 
     if check_njit:
         return n_games_numba(p0, num_game, per_player, list_other,
