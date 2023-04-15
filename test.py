@@ -7,8 +7,8 @@ import numpy as np
 from numba import njit, jit
 import time
 
-env = make('WelcomeToTheDungeon_v1')
-print(check_env(env))
+env = make('StoneAge')
+# print(check_env(env))
 getActionSize = env.getActionSize
 getStateSize = env.getStateSize
 getAgentSize = env.getAgentSize
@@ -24,10 +24,10 @@ def Test(state, perData):
     idx = np.random.randint(0, arr_action.shape[0])
     return arr_action[idx], perData
 
-win1, per = numba_main_2(Test, 10000, np.array([0]), 0)
+win1, per = numba_main_2(Test, 100000, np.array([0]), 0)
 print(win1)
 a = time.process_time()
-win2, per = numba_main_2(Test, 10000, np.array([0]), 1)
+win2, per = numba_main_2(Test, 100000, np.array([0]), 1)
 b = time.process_time()
 print(win2, b-a)
 

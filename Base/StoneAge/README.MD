@@ -144,6 +144,7 @@
        -    [9:12]: Thẻ công cụ đang có
        -    [12:15]: 3 thẻ dùng công cụ 1 lần
        -    [15:18]: State của 3 thẻ dùng công cụ
+       -    [18:21]: State của 3 thẻ dùng công cụ 1 lần
        -    [21]: Đã trả thức ăn
        -    [22:30]: 8 thẻ văn minh các loại(Người, sáo, cây, dệt, đồng hồ, lu, xe, đá)
        -    [30]: Có thể dùng thẻ lấy 2 nguyên liệu 1 lần
