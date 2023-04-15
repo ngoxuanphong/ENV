@@ -6,7 +6,7 @@ import importlib.util, sys
 import numpy as np
 
 agent_name = 'MultiDimensionAlgorithm'
-game_name = 'WelcomeToTheDungeon_v2'
+game_name = 'Phom'
 training_time = 12*60*60
 level = 0
 mode = "train"
