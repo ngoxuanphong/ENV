@@ -7,7 +7,7 @@ import numpy as np
 from numba import njit, jit
 import time
 
-env = make('Exploding_Kitten')
+env = make('Phom')
 # print(check_env(env))
 getActionSize = env.getActionSize
 getStateSize = env.getStateSize
@@ -24,8 +24,8 @@ def Test(state, perData):
     idx = np.random.randint(0, arr_action.shape[0])
     return arr_action[idx], perData
 
-# win1, per = numba_main_2(Test, 1000, np.array([0]), 0)
-# print(win1)
+win1, per = numba_main_2(Test, 1000, np.array([0]), 0)
+print(win1)
 a = time.process_time()
 win2, per = numba_main_2(Test, 10000, np.array([0]), 1)
 b = time.process_time()
