@@ -282,7 +282,7 @@ def RollDiceUseTool(env, e_idp):
     id_warehouse = int(env[E_PULL_RECENT])
     # env[e_idp + 9:e_idp + 12] = np.abs(env[e_idp + 9:e_idp + 12]) #Trả lại công cụ như bình thường
     env[e_idp + 31 + id_warehouse] = 0
-    env[e_idp + 15 + np.where(env[e_idp + 9:e_idp + 12] > 0)[0]] = 1
+    # env[e_idp + 15 + np.where(env[e_idp + 9:e_idp + 12] > 0)[0]] = 1
     if id_warehouse != 7:
         count_source_take = (env[E_TOTAL_DICE] + env[E_ALL_TOOL])//id_warehouse
         env[e_idp+5+id_warehouse - 3] += count_source_take
@@ -1001,6 +1001,7 @@ def stepEnv(action, env, all_build_card, all_civ_card):
         # print(env[e_idp + 31:e_idp + 39], np.where(env[E_START_CIV:E_END_BUILD] == idp)[0], idp, env[E_START_CIV:E_END_BUILD])
         if so_nguoi_da_dat == 0 and phase != 1 and phase != 0:
             main_player = int(env[4])%4
+            env[e_idp + 15 + np.where(env[e_idp + 9:e_idp + 12] > 0)[0]] = 1
             env[0:4] = 0 #Đổi người chơi
             if env[e_idp + 21] == 1:
                 idp = id_move

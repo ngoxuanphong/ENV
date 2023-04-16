@@ -81,6 +81,10 @@ def getAgentState(env):
 
     # Anh hùng và trang bị
     state[53:69] = env_[83:99]
+    if state[54]<0:
+        state[54] = 0
+    if state[62]<0:
+        state[62] = 0
 
     # Đang trong Bidding phase hay Dungeon phase
     state[69] = env_[100]
@@ -227,7 +231,8 @@ def stepEnv(action, env):
                         attack = 0
                 if env[86] == 1: # Có Healing Potion
                     if attack >= env[84]:
-                        attack = env[84] - 4
+                        attack = 0
+                        env[84] = 4
                         env[86] = 0
                 env[84] = env[84] - attack
             else: #Tính điểm Mage
@@ -252,8 +257,7 @@ def stepEnv(action, env):
                     if attack == 7:
                         attack = 0
                 env[92] -= attack
-
-        if env[82] == 0:
+        elif env[82] == 0:
             if env[83] == 1:
                 if env[84]>0:
                     env[pIdx*2 + 4] += 1
@@ -263,15 +267,6 @@ def stepEnv(action, env):
                 if env[92]>0:
                     env[pIdx*2 + 4] += 1
                 else:
-                    env[pIdx*2 + 5] += 1
-            if checkEnded(env) == -1:
-                resetRound(env)
-        else:
-            if env[83] == 1:
-                if env[84]<=0:
-                    env[pIdx*2 + 5] += 1
-            else:
-                if env[92]<=0:
                     env[pIdx*2 + 5] += 1
             if checkEnded(env) == -1:
                 resetRound(env)
@@ -322,7 +317,7 @@ def one_game_normal(p0, list_other, per_player, per1, per2, per3, p1, p2, p3):
     env = initEnv()
     resetRound(env)
     winner = -1
-    while env[99] < 500:
+    while env[99] < 10000:
         idx = env[99]%4
         player_state = getAgentState(env)
         if list_other[idx] == -1:
@@ -373,7 +368,7 @@ def one_game_numba(p0, list_other, per_player, per1, per2, per3, p1, p2, p3):
     env = initEnv()
     resetRound(env)
     winner = -1
-    while env[99] < 500:
+    while env[99] < 10000:
         idx = env[99]%4
         player_state = getAgentState(env)
         if list_other[idx] == -1:
@@ -387,8 +382,6 @@ def one_game_numba(p0, list_other, per_player, per1, per2, per3, p1, p2, p3):
             action, per2 = p2(player_state,per2)
         elif list_other[idx] == 3:
             action, per3 = p3(player_state,per3)
-
-        # print("Người chơi chọn hành động:", action)
 
         stepEnv(action, env)
         winner = checkEnded(env)
