@@ -586,7 +586,8 @@ def stepEnv(action, env, all_build_card, all_civ_card):
         elif id_warehouse == 1: #Thêm công cụ vào ô có số lượng công cụ bé nhất
             id_min = np.argmin(env[e_idp+9:e_idp+12]) 
             env[e_idp + 9 + id_min] += 1
-            env[e_idp + 15 + np.where(env[e_idp + 9:e_idp + 12] > 0)[0]] = 1
+            if env[e_idp + 15 + id_min] == 0 and env[e_idp + 9 + id_min] == 1:
+                env[e_idp + 15 + id_min] = 1
         elif id_warehouse == 2: #Thêm số người
             env[e_idp+2] += 1
         
