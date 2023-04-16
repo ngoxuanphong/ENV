@@ -426,6 +426,7 @@ def getValidActions(p_state):
 
     if phase == 5: #trả nguyên liệu khi mua thẻ build 1 -> 7
         list_action[40:44] = (p_state[s_ + 5:s_ + 9] > 0)
+        list_action[47] = 1
 
     if phase == 6: #Chọn trừ nguyên liệu hoặc trừ điểm khi không đủ thức ăn
         list_action[27] = 1
@@ -816,11 +817,12 @@ def stepEnv(action, env, all_build_card, all_civ_card):
 
             
     elif phase == 5: #trả nguyên liệu khi mua thẻ build trả nguyên liệu bất kỳ từ 1 -> 7
-
-        res_giv = int(action - 40)
-        env[77 + res_giv] += 1 #Các nguyên liệu đã trả trong turn trả nguyên liệu
-        env[e_idp + 5 + res_giv]  -= 1 #Trừ nguyên liệu của bản thân
-        env[69 + res_giv] += 1 # Cộng nguyên liệu cho ngân hàng
+        
+        if action != 47:
+            res_giv = int(action - 40)
+            env[77 + res_giv] += 1 #Các nguyên liệu đã trả trong turn trả nguyên liệu
+            env[e_idp + 5 + res_giv]  -= 1 #Trừ nguyên liệu của bản thân
+            env[69 + res_giv] += 1 # Cộng nguyên liệu cho ngân hàng
 
         check_end_pull_people = False
         if np.sum(env[77:81]) == 7 or action == 47 or np.sum(env[e_idp+5:e_idp+9]) == 0:
