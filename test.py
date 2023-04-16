@@ -7,8 +7,8 @@ import numpy as np
 from numba import njit, jit
 import time
 
-env = make('Phom')
-# print(check_env(env))
+env = make('GoFish')
+print(check_env(env))
 getActionSize = env.getActionSize
 getStateSize = env.getStateSize
 getAgentSize = env.getAgentSize
@@ -24,7 +24,11 @@ def Test(state, perData):
     idx = np.random.randint(0, arr_action.shape[0])
     return arr_action[idx], perData
 
+<<<<<<< HEAD
+win1, per = numba_main_2(Test, 1000, np.array([0]), 0)
+=======
 win1, per = numba_main_2(Test, 100000, np.array([0]), 0)
+>>>>>>> 63ede2b8edd73cc2913bcd1fe69232c5d439f851
 print(win1)
 a = time.process_time()
 win2, per = numba_main_2(Test, 100000, np.array([0]), 1)
