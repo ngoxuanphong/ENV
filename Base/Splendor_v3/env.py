@@ -505,6 +505,7 @@ def one_game_numba(p0, list_other, per_player, per1, per2, per3, p1, p2, p3):
 
         list_action = getValidActions(player_state)
         if list_action[action] != 1:
+            print('Splendor v3 bug ở: ', list_other[idx])
             raise Exception('Action không hợp lệ')
 
         env, lv1, lv2, lv3 = stepEnv(action, env, lv1, lv2, lv3, list_action)
@@ -561,6 +562,7 @@ def one_game_normal(p0, list_other, per_player, per1, per2, per3, p1, p2, p3):
 
         list_action = getValidActions(player_state)
         if list_action[action] != 1:
+            print('Splendor v3 bug ở: ', list_other[idx])
             raise Exception('Action không hợp lệ')
 
         env, lv1, lv2, lv3 = stepEnv(action, env, lv1, lv2, lv3, list_action)

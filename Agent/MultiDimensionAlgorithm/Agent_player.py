@@ -64,7 +64,9 @@ def Test(state,per):
     nState = state - per[0]
     output = np.sum((per[1] * nState) ** 2,axis = 1)
     output = actions * output + actions
-    action = np.argmax(output)
+    # action = np.argmax(output)
+    list_action = np.where(actions == 1)[0]
+    action = list_action[np.argmax(output[list_action])]
     return action, per
 
 

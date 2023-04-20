@@ -74,8 +74,9 @@ def Test(state, per):
 
     actions = getValidActions(state)
     output = (weight + 1) * actions
-    action = np.argmax(output)
-
+    # action = np.argmax(output)
+    list_action = np.where(actions == 1)[0]
+    action = list_action[np.argmax(output[list_action])]
     return action, per
 
 def convert_to_save(perData):
