@@ -14,23 +14,26 @@ getAgentSize = __env.getAgentSize
 getStateSize = __env.getStateSize
 getReward = __env.getReward
 numba_main_2 = __env.numba_main_2
-bot_lv0 = __env.bot_lv0
-__ACTIONS__ = __env._ACTIONS_
 
 
 def render(Agent, per_data, level, *args, max_temp_frame=100):
     list_agent, list_data = __env.load_agent(level, *args)
 
-    global __render
-    __render = __Render(Agent, per_data, list_agent, list_data, max_temp_frame)
+    if "__render" not in globals():
+        global __render
+        __render = __Render(Agent, per_data, list_agent, list_data, max_temp_frame)
+    else:
+        __render.__init__(Agent, per_data, list_agent, list_data, max_temp_frame)
+
     return __render.render()
+
 
 def get_data_from_visualized_match():
     if "__render" not in globals():
         print("Nothing to get, visualize the match before running this function")
         return None
-    else:
-        return {
-            "history_state": __render.history_state,
-            "history_action": __render.history_action,
-        }
+
+    return {
+        "history_state": __render.history_state,
+        "history_action": __render.history_action,
+    }
