@@ -7,7 +7,7 @@ import numpy as np
 from numba import njit, jit
 import time
 
-env = make('Exploding_Kitten')
+env = make('Durak')
 print(check_env(env))
 getActionSize = env.getActionSize
 getStateSize = env.getStateSize
