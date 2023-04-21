@@ -31,12 +31,13 @@ def initEnv():
     env[62:67] = 1 # 0 if lose else 1
     env[67] = 0 #phase [0:main turn, 1:nope turn,2:steal card turn,3:choose/take card turn]
     env[68] = 1 # number of card player env[57] have to draw
-    env[69:72] = [0,0,0] #three card in see the future
+    env[69:72] = [-1,-1,-1] #three card in see the future
     env[72] = -1 # player env[57] last action
     env[73] = env[57]+1
     env[74] = -1 #player chosen in phase 2
 
     return env,draw_pile,discard_pile
+
 
 @njit
 def getNumCard(env,idx):
@@ -77,7 +78,22 @@ def getCardRange(type_card):
 def getAgentState(env,draw_pile,discard_pile):
     state = np.zeros(getStateSize())
     #get card
-    if env[67]==1:
+    phase = env[67]
+    main_id = env[57]
+    nope_id = env[73]
+    last_action = env[72]
+    if phase==0:
+        pIdx = int(main_id)
+    elif phase==1:
+        pIdx = int(nope_id)
+    elif phase==2:
+        pIdx = int(main_id)
+    elif phase==3:
+        if last_action==3:
+            pIdx = int(env[74])
+        else:
+            pIdx = int(main_id)
+    if env[67]==1: #nope turn
         state[0:12] = getAllNumCard(env,env[73])
         state[12:25] = discard_pile #discard pile
         state[25] = np.where(draw_pile!=-1)[0].shape[0] #number of card in draw pile
@@ -90,7 +106,7 @@ def getAgentState(env,draw_pile,discard_pile):
             state[82+i] = env[62:67][int(nope_turn[i])]
         state[86] = env[62:67][int(env[73])] #lose or not
 
-    elif env[67]==3 and env[72]==3: #
+    elif env[67]==3 and env[72]==3: #choose / take card turn, action favor
         state[0:12] = getAllNumCard(env,env[74])
         state[12:25] = discard_pile #discard pile
         state[25] = np.where(draw_pile!=-1)[0].shape[0] #number of card in draw pile
@@ -108,11 +124,12 @@ def getAgentState(env,draw_pile,discard_pile):
         state[25] = np.where(draw_pile!=-1)[0].shape[0] #number of card in draw pile
         state[26] = np.where(env[62:67]==1)[0].shape[0]
         state[27] = env[56]%2 #1 if action been Nope else 0
-        for i in range(3):
-            if env[69+i]!=-1:
-                card = np.zeros(13)
-                card[int(getCardType(env[69+i]))] = 1
-                state[28+13*i:41+13*i] = card# three card if use see the future
+        if pIdx == int(main_id):
+            for i in range(3):
+                if env[69+i]!=-1:
+                    card = np.zeros(13)
+                    card[int(getCardType(env[69+i]))] = 1
+                    state[28+13*i:41+13*i] = card# three card if use see the future
         state[67:71][int(env[67])] = 1 #phase
         state[71] = env[68] # number of card player have to draw
         if env[72]>=0:
@@ -201,7 +218,8 @@ def changeTurn(env,num_card_draw=1):
     else:
         env[68] = num_card_draw
     env[67] = 0 # change phase to 0
-    env[69:72] = 0
+    env[69:72] = -1
+    env[72] = -1 #reset last action
     return env
 
 @njit
@@ -269,6 +287,7 @@ def executeMainAction(env,draw_pile,discard_pile,action):
         #print(f'Player {env[57]} shuffle!')
         np.random.shuffle(draw_pile)
         env[67] = 0
+        env[69:72] = -1 #reset future card
     elif action==5: #See the future
         #print(f'Player {env[57]} see the future!')
         if np.where(draw_pile!=-1)[0].shape[0]>=3:
@@ -285,7 +304,6 @@ def executeMainAction(env,draw_pile,discard_pile,action):
     elif action==9:
         #print(f'Player {env[57]} use five different cards!')
         env[67] = 3
-    
     return env,draw_pile,discard_pile
 
 @njit
@@ -474,6 +492,7 @@ def stepEnv(env,draw_pile,discard_pile,action):
                 env[0:56][card] = env[57]
                 #used card go to Discard Pile
                 env[67] = 0
+                env[72] = -1
             else:
                 env[67] = 3
 
@@ -496,7 +515,7 @@ def stepEnv(env,draw_pile,discard_pile,action):
             type_card = action - 39
             if np.where(env[getCardRange(type_card)[0]:getCardRange(type_card)[1]]==6)[0].shape[0]>0:
                 env[getCardRange(type_card)[0]:getCardRange(type_card)[1]][np.where(env[getCardRange(type_card)[0]:getCardRange(type_card)[1]]==6)[0][0]] = env[57]
-        last_action = -1
+        env[72] = -1
         env[67] = 0
     return env,draw_pile,discard_pile
 @njit
@@ -608,21 +627,10 @@ def n_game_numba(p0, num_game, per_player, list_other, per1, per2, per3, per4, p
     return win, per_player
 
 import importlib.util, json, sys
-try:
-    from setup import SHORT_PATH
-except:
-    pass
+from setup import SHORT_PATH
 
-def load_module_player(player, game_name = None):
-    if game_name == None:
-        spec = importlib.util.spec_from_file_location('Agent_player', f"{SHORT_PATH}Agent/{player}/Agent_player.py")
-    else:
-        spec = importlib.util.spec_from_file_location('Agent_player', f"{SHORT_PATH}Agent/ifelse/{game_name}/{player}.py")
-    module = importlib.util.module_from_spec(spec)
-    sys.modules[spec.name] = module
-    spec.loader.exec_module(module)
-    return module
-
+def load_module_player(player):
+    return  importlib.util.spec_from_file_location('Agent_player', f"{SHORT_PATH}Agent/{player}/Agent_player.py").loader.load_module()
 
 @njit()
 def random_Env(p_state, per):
@@ -745,16 +753,11 @@ def numba_main_2(p0, num_game, per_player, level, *args):
                 raise Exception('Hiện tại không có level này')
 
             lst_agent_level = dict_level[env_name][str(level)][2]
-
+            lst_module_level = [load_module_player(lst_agent_level[i]) for i in range(num_bot)]
             for i in range(num_bot):
-                if level == -1:
-                    module_agent = load_module_player(lst_agent_level[i], game_name = env_name)
-                    _list_per_level_.append(module_agent.DataAgent())
-                else:
-                    data_agent_level = np.load(f'{SHORT_PATH}Agent/{lst_agent_level[i]}/Data/{env_name}_{level}/Train.npy',allow_pickle=True)
-                    module_agent = load_module_player(lst_agent_level[i])
-                    _list_per_level_.append(module_agent.convert_to_test(data_agent_level))
-                _list_bot_level_.append(module_agent.Test)
+                data_agent_level = np.load(f'{SHORT_PATH}Agent/{lst_agent_level[i]}/Data/{env_name}_{level}/Train.npy',allow_pickle=True)
+                _list_per_level_.append(lst_module_level[i].convert_to_test(data_agent_level))
+                _list_bot_level_.append(lst_module_level[i].Test)
 
     if check_njit:
         return n_game_numba(p0, num_game, per_player, list_other,
