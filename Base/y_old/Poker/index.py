@@ -8,10 +8,6 @@ ALL_CARD_STR = np.array(['2H', '2D', '2C', '2S', '3H', '3D', '3C', '3S', '4H', '
        'TD', 'TC', 'TS', 'JH', 'JD', 'JC', 'JS', 'QH', 'QD', 'QC', 'QS',
        'KH', 'KD', 'KC', 'KS', 'AH', 'AD', 'AC', 'AS'])
 
-ACTIONS_MEAN = np.array(['call', 'check', 'fold', 'bet/raise', 'all in', 'stop_bet'])
-
-
-
 NUMBER_PLAYER = 9
 NUMBER_CARD = 52
 NUMBER_BURN = 3
