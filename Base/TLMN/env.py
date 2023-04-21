@@ -14,7 +14,7 @@ getAgentSize = __env.getAgentSize
 getStateSize = __env.getStateSize
 getReward = __env.getReward
 numba_main_2 = __env.numba_main_2
-
+__ACTIONS__ = __env._ACTIONS_
 
 def render(Agent, per_data, level, *args, max_temp_frame=100):
     list_agent, list_data = __env.load_agent(level, *args)

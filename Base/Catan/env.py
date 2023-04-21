@@ -14,6 +14,13 @@ getAgentSize = __env.getAgentSize
 getStateSize = __env.getStateSize
 getReward = __env.getReward
 numba_main_2 = __env.numba_main_2
+POINT_TILE = __env.POINT_TILE
+POINT_POINT = __env.POINT_POINT
+POINT_ROAD = __env.POINT_ROAD
+TILE_TILE = __env.TILE_TILE
+ROAD_POINT = __env.ROAD_POINT
+
+
 
 
 def render(Agent, per_data, level, *args, max_temp_frame=100):
