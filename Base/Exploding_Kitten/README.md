@@ -53,7 +53,7 @@
     state[54:67]:third card (See the future)
     state[67:71]:  {main turn,nope turn,steal turn, choose/take card turn}
     state[71]: number of card player have to draw
-    state[72:82]: main player last action.
+    state[72:82]: main player previous action in main Phase.
     state[82:86]: other player lose or not(1 if not lose else 0)
     state[86]: Exploding (0 if explode else 1)
     state[87:91]: number of card other player have (0 if lose or dont have card)
