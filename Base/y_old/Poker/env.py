@@ -756,8 +756,11 @@ try:
 except:
     pass
 
-def load_module_player(player):
-    spec = importlib.util.spec_from_file_location('Agent_player', f"{SHORT_PATH}Agent/{player}/Agent_player.py")
+def load_module_player(player, game_name = None):
+    if game_name == None:
+        spec = importlib.util.spec_from_file_location('Agent_player', f"{SHORT_PATH}Agent/{player}/Agent_player.py")
+    else:
+        spec = importlib.util.spec_from_file_location('Agent_player', f"{SHORT_PATH}Agent/ifelse/{game_name}/{player}.py")
     module = importlib.util.module_from_spec(spec)
     sys.modules[spec.name] = module
     spec.loader.exec_module(module)

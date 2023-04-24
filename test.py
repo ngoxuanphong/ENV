@@ -7,7 +7,7 @@ import numpy as np
 from numba import njit, jit
 import time
 
-env = make('Exploding_Kitten')
+env = make('TicketToRide')
 # print(check_env(env))
 getActionSize = env.getActionSize
 getStateSize = env.getStateSize
@@ -17,7 +17,7 @@ getValidActions = env.getValidActions
 getReward = env.getReward
 numba_main_2 = env.numba_main_2
 
-# @njit()
+@njit()
 def Test(state, perData):
     validActions = getValidActions(state)
     arr_action = np.where(validActions==1)[0]
