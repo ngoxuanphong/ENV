@@ -17,7 +17,7 @@ getValidActions = env.getValidActions
 getReward = env.getReward
 numba_main_2 = env.numba_main_2
 
-@njit()
+# @njit()
 def Test(state, perData):
     validActions = getValidActions(state)
     arr_action = np.where(validActions==1)[0]
