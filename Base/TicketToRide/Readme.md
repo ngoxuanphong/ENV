@@ -1,28 +1,12 @@
-## :globe_with_meridians: ENV_state
-*   [0:101] **các đường trên bàn**: range(0,5) là của người chơi, chưa bị sở hữu là -1
-*   [101:147] **mảng tạm đại diện thẻ route trên bàn chơi, vị trí nào không có thì là -1, số vị trí khác -1 là số thẻ route còn trên bàn**
-*   [147:257] **Mảng tạm đại diện cho các thẻ train_car trên bàn chơi, vị trí không có là -1**, Các giá trị là range(0,9) và -1
-*   [257:547] **THuộc tính của 5 người chơi** (ATTRIBUTE_PLAYER = 58       #(score, neg_score, number_train, 9 vị trí cho số lượng thẻ traincar mỗi loại, 46 vị trí cho thẻ route đang có (0 là ko có, 1 là đang giữ, -1 là đã drop))
-*   [547:552] **Các thẻ train_car lật trên bàn** cấp 1, 2, 3
-
-*   [552:598] **Các thẻ route người chơi được bỏ trong lượt** thẻ nào có thì vị trí tương ứng là 1, không thì là 0
-*   [598:607] **Số lượng từng loại thẻ train_car ở chồng bài bỏ**
-*   [607:616]   **Số lượng từng loại thẻ người chơi bỏ ra xây hầm**
-*   [616:625]  **Số lượng từng loại thẻ bàn chơi lật ra để thách người chơi xây hầm**
-*   [625]   **phase của bàn chơi**
-*   [626]   **index người chơi hành động**
-*   [627]   **kiểm tra game sắp kết thúc chưa** nếu có người còn dưới 3 tàu thì có giá trị 1
-*   [628]   **index người cuối cùng được hành động**
-*   [629]   **số thẻ train_car người chơi đã lấy trong lượt**
-*   [630:639]   **các loại train_car người chơi có thể dùng xây road**
-*   [639]       **Con đường người chơi xây trong lượt**
-*   [640]   **Số thẻ route người chơi đã bỏ trong lượt**
-*   [641]   **turn của bàn chơi** dùng để xét ở đầu game khi những người chơi bỏ thẻ route
-*   [642:647]   **số thẻ route người chơi hoàn thành**
-*   [647:652]   **Người chơi có phải là người có con đường dài nhất không, nếu có thì là 1**
-
-
-**Total env_state length: 652**
+## :video_game: ALL_ACTION
+* range(0,101): action xây đường
+* range(101, 147): action drop thẻ route
+* range(147, 157): action nhặt thẻ train_car
+* range(157, 166): action chọn loại train_car xây road
+* range(166, 168): action chọn xây tunnel hay không
+* range(168, 170): action nhặt thẻ route và dừng drop thẻ route
+* range(170, 171): action skip
+**Total 171 action**
 
 ## :bust_in_silhouette: P_state
 *   [0:5] là **điểm của các người chơi**
@@ -50,12 +34,28 @@
 
 **Total: player state length = 678**
 
-## :video_game: ALL_ACTION
-* range(0,101): action xây đường
-* range(101, 147): action drop thẻ route
-* range(147, 157): action nhặt thẻ train_car
-* range(157, 167): action chọn loại train_car xây road
-* range(167, 169): action chọn xây tunnel hay không
-* range(169, 171): action nhặt thẻ route và dừng drop thẻ route
-* range(171, 172): action skip
-**Total 172 action**
+## :globe_with_meridians: ENV_state
+*   [0:101] **các đường trên bàn**: range(0,5) là của người chơi, chưa bị sở hữu là -1
+*   [101:147] **mảng tạm đại diện thẻ route trên bàn chơi, vị trí nào không có thì là -1, số vị trí khác -1 là số thẻ route còn trên bàn**
+*   [147:257] **Mảng tạm đại diện cho các thẻ train_car trên bàn chơi, vị trí không có là -1**, Các giá trị là range(0,9) và -1
+*   [257:547] **THuộc tính của 5 người chơi** (ATTRIBUTE_PLAYER = 58       #(score, neg_score, number_train, 9 vị trí cho số lượng thẻ traincar mỗi loại, 46 vị trí cho thẻ route đang có (0 là ko có, 1 là đang giữ, -1 là đã drop))
+*   [547:552] **Các thẻ train_car lật trên bàn** cấp 1, 2, 3
+
+*   [552:598] **Các thẻ route người chơi được bỏ trong lượt** thẻ nào có thì vị trí tương ứng là 1, không thì là 0
+*   [598:607] **Số lượng từng loại thẻ train_car ở chồng bài bỏ**
+*   [607:616]   **Số lượng từng loại thẻ người chơi bỏ ra xây hầm**
+*   [616:625]  **Số lượng từng loại thẻ bàn chơi lật ra để thách người chơi xây hầm**
+*   [625]   **phase của bàn chơi**
+*   [626]   **index người chơi hành động**
+*   [627]   **kiểm tra game sắp kết thúc chưa** nếu có người còn dưới 3 tàu thì có giá trị 1
+*   [628]   **index người cuối cùng được hành động**
+*   [629]   **số thẻ train_car người chơi đã lấy trong lượt**
+*   [630:639]   **các loại train_car người chơi có thể dùng xây road**
+*   [639]       **Con đường người chơi xây trong lượt**
+*   [640]   **Số thẻ route người chơi đã bỏ trong lượt**
+*   [641]   **turn của bàn chơi** dùng để xét ở đầu game khi những người chơi bỏ thẻ route
+*   [642:647]   **số thẻ route người chơi hoàn thành**
+*   [647:652]   **Người chơi có phải là người có con đường dài nhất không, nếu có thì là 1**
+
+**Total env_state length: 652**
+
