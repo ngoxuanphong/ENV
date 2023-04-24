@@ -1,16 +1,3 @@
-## :dart: Báo cáo Ticket To Ride 
-1.   `Tốc độ chạy`
-      - **1000 Game**: 
-      - **1000 Game full numba**: 
-      - **10000 Game**: 
-
-2. `Chuẩn form`: **Đã test**
-3. `Đúng luật`: **Đã check**
-4. `Không bị loop vô hạn`: **Đã test** với 1000000 ván
-5. `Tốc độ chạy các hàm con mà người chơi dùng`: 
-6. `Số ván check_vic > victory_thật`: chạy 1000000 ván thì check_victory = check_winner = 
-7. `Giá trị state, action: 172 action, 
-9. `Tối thiểu số lần truyền vào player`: 
 ## :globe_with_meridians: ENV_state
 *   [0:101] **các đường trên bàn**: range(0,5) là của người chơi, chưa bị sở hữu là -1
 *   [101:147] **mảng tạm đại diện thẻ route trên bàn chơi, vị trí nào không có thì là -1, số vị trí khác -1 là số thẻ route còn trên bàn**
@@ -31,7 +18,7 @@
 *   [639]       **Con đường người chơi xây trong lượt**
 *   [640]   **Số thẻ route người chơi đã bỏ trong lượt**
 *   [641]   **turn của bàn chơi** dùng để xét ở đầu game khi những người chơi bỏ thẻ route
-*   [642:647]   **Người chơi có phải là người hoàn thành nhiều thẻ route nhất không, nếu có thì là 1**
+*   [642:647]   **số thẻ route người chơi hoàn thành**
 *   [647:652]   **Người chơi có phải là người có con đường dài nhất không, nếu có thì là 1**
 
 
@@ -58,8 +45,8 @@
 *   [665]:  **số thẻ train_car đã lấy**
 *   [666]:  **có láy được thẻ train_car úp không**
 *   [667]:  **số tàu người chơi còn**
-*   [668:673]: **người chơi hoàn thành nhiều thẻ route nhất**
-*   [673:678]: **người chơi có con đường dài nhất**
+*   [668:673]: **số thẻ route mà người chơi hoàn thành**
+*   [673:678]: **người chơi có con đường dài nhất hay không **
 
 **Total: player state length = 678**
 

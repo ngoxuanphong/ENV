@@ -198,7 +198,7 @@ class Render:
                 self.history_valid_actions.append(valid_actions)
             else:
                 valid_actions = self.history_valid_actions[p.new]
-            
+
             self.take.options = ["Take an action"] + list(valid_actions)
             self.explain.options = ["Explain an action"] + list(valid_actions)
             self.show_text("")
@@ -215,10 +215,10 @@ class Render:
                 self.explain.disabled = False
             else:
                 self.show_text(self.system_mode)
-            
+
             if p.new != 0:
                 self.previous.disabled = False
-        
+
         self.slider.disabled = False
 
     def show_image(self, idx):
