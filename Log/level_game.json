@@ -495,6 +495,15 @@
      "BiasAlgorithm",
      "MultiDimensionAlgorithm"
    ]
+  ],
+  "-1": [
+   [],
+   [],
+   [
+    "agentCatanNoChange",
+    "agentCatanNoExchange2",
+    "player_catan_no_exchange"
+   ]
   ]
  },
  "Poker": {
@@ -565,6 +574,15 @@
     "Y_random",
     "Y_random"
    ]
+  ],
+  "-1": [
+   [],
+   [],
+   [
+    "agentGoFish",
+    "agentGoFish2",
+    "AgentGoFish3"
+   ]
   ]
  },
  "WelcomeToTheDungeon_v1": {
@@ -606,6 +624,15 @@
     "ActionsLayer",
     "MultiDimensionAlgorithm"
    ]
+  ],
+  "-1": [
+   [],
+   [],
+   [
+    "AgentWCTDv2",
+    "agentWTTD_v2",
+    "player_welcome_to_the_dungeon_v2"
+   ]
   ]
  },
  "Fantan": {
@@ -625,6 +652,15 @@
    [ "ActionsLayer",
     "BiasAlgorithm",
     "KhanhNhat"
+   ]
+  ],
+  "-1": [
+   [],
+   [],
+   [
+    "agentFanTan",
+    "AgentFantan2",
+    "player_fantan"
    ]
   ]
  }
