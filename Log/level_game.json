@@ -604,6 +604,15 @@
      "An",
      "MultiDimensionAlgorithm"
    ]
+  ],
+  "-1": [
+   [],
+   [],
+   [
+    "agentWelcomeToDungeon",
+    "agentWTTD_v1",
+    "agentWTTD_v1"
+   ]
   ]
  },
  "WelcomeToTheDungeon_v2": {
