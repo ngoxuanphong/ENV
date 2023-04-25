@@ -446,6 +446,8 @@ def getAgentState(env: np.ndarray) -> np.ndarray:
 
     s_ = 58 + 42*p_idx
     p_state[P_PLAYER:P_PLAYER+11] = env[s_:s_+11] #Tài nguyên, thẻ dev, điểm
+    if env[280] == 0:
+        p_state[P_PLAYER+10] += p_state[P_PLAYER+9]
 
     road_have = env[s_+11:s_+26]
     road_have = road_have[road_have>=0].astype(np.int64)

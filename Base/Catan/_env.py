@@ -460,6 +460,8 @@ def getAgentState(env_):
 
     '''Số điểm: [+10]'''
     state[203] = env[s_+10]
+    if env[255] == 0:
+        state[203] += env[s_+9]
 
     '''Đường: [+11:+83]'''
     roads = env[s_+11:s_+26]
