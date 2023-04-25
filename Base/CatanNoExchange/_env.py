@@ -499,7 +499,7 @@ def getAgentState(env: np.ndarray) -> np.ndarray:
         p_state[P_START_LONGEST_ROAD + idx] = 1 #Con đường dài nhất
     p_state[P_START_DICE + int(env[228]) - 2] = 1 #Tổng xúc xắc
     p_state[P_RES_REMAIN_START_GAME] = env[245+p_idx]     # Nguyên liệu còn lại có thể lấy ở đầu game
-    if int(env[229]) != -1:                                 #Điểm đặt thứ nhất(Có -1)
+    if int(env[231]) != -1:                                 #Điểm đặt thứ nhất(Có -1)
         p_state[P_START_FIRST_POINT + int(env[231])] = 1
 
     p_state[P_SPLIT_RES] = env[232]                         #Số tài nguyên phải bỏ do bị chia
@@ -513,7 +513,8 @@ def getAgentState(env: np.ndarray) -> np.ndarray:
     p_state[P_START_RES_WAREHOUSE_PLAYER:P_END_RES_WAREHOUSE_PLAYER] = env[254+5*p_idx:259+5*p_idx]     #Các ngyên liệu có trong kho của người chơi
     phase = int(env[229])
     p_state[P_START_PHASE + phase] = 1
-    p_state[P_START_TRADE_BANK + np.argmax(env[249:254])] = 1 #Tài nguyên đưa ra trong trade offer để trade với bank
+    if np.max(env[249:254]) > 0:
+        p_state[P_START_TRADE_BANK + np.argmax(env[249:254])] = 1 #Tài nguyên đưa ra trong trade offer để trade với bank
     p_state[P_END_GAME_N] = env[280]
     return p_state
 
