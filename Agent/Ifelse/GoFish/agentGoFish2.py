@@ -50,7 +50,7 @@ def getActionChain(state):
             return i + 1, player_order[j] + 4
    return 0,0
 @njit()
-def agent(state,per):
+def Test(state,per):
    actions = getValidActions(state)
    actions = np.where(actions == 1)[0]
    phase = state[61: 64]

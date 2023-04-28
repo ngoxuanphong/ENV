@@ -23,7 +23,7 @@ getValidActions = env.getValidActions
 getReward = env.getReward
 
 
-from Base.CatanNoExchange.env import POINT_TILE
+from Base.CatanNoExchange._env import POINT_TILE
 
 def DataAgent():
     return np.array([0])
