@@ -264,7 +264,7 @@ def get_main_player_state(env_components: Env_components, list_agent, list_data,
     while _env.system_check_end(env_components.env):
         p_idx = int(env_components.env[_env.ENV_ID_ACTION])
         state = _env.getAgentState(env_components.env)
-
+        
         if env_components.list_other[p_idx] == -1:
             win = -1
             return win, state, env_components
@@ -273,8 +273,15 @@ def get_main_player_state(env_components: Env_components, list_agent, list_data,
         data = list_data[env_components.list_other[p_idx]-1]
         action, data = agent(state, data)
 
-        env_components.env = _env.stepEnv(env_components.env, action)
+        env_state = env_components.env.copy()
+        arr_action = _env.getValidActions(state)
+        print(f"{action}, {np.sum(arr_action)}, {env_state[_env.ENV_ID_ACTION]}, {env_state[_env.ENV_PHASE]}, {env_state[_env.ENV_TRAIN_CAR_OPEN : _env.ENV_TRAIN_CAR_OPEN + 5]}")
+        if np.min(env_state[_env.ENV_TRAIN_CAR_OPEN : _env.ENV_TRAIN_CAR_OPEN + 5]) == -1:
+            print(env_state[_env.ENV_TRAIN_CAR_DROP : _env.ENV_TRAIN_CAR_DROP + 9], env_state[_env.ENV_TRAIN_CAR_CARD : _env.ENV_TRAIN_CAR_CARD + _env.NUMBER_TRAIN_CAR_CARD])
 
+        env_components.env = _env.stepEnv(env_components.env, action)
+        if action == 170:
+            raise Exception('toang')
     # env_components.env[_env.ENV_CHECK_END] = 1
     env_components.winner, env_components.env = _env.check_winner(env_components.env)
     for p_idx in range(5):
