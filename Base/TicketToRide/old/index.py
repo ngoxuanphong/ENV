@@ -510,12 +510,10 @@ def shuffle_drop_card(env_state):
     card_open = env_state[ENV_TRAIN_CAR_OPEN : ENV_ROUTE_CARD_GET]
     #nếu các thẻ mở đang ko đủ bài
     if np.min(card_open) == -1:
-        # print('qua test shuffle')
         card_open = np.sort(card_open)
         number_train_card_need = len(card_open[card_open == -1])
         card_open = np.concatenate((temp_card_board[:number_train_card_need], card_open[number_train_card_need:]))
         env_state[ENV_TRAIN_CAR_CARD : ENV_IN4_PLAYER - number_train_card_need] = temp_card_board[number_train_card_need:]
-        env_state[ENV_TRAIN_CAR_OPEN : ENV_ROUTE_CARD_GET] = card_open
     else:
         env_state[ENV_TRAIN_CAR_CARD : ENV_IN4_PLAYER] = temp_card_board
     env_state[ENV_TRAIN_CAR_DROP : ENV_CARD_BULD_TUNNEL] = 0
