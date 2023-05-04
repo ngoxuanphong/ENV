@@ -532,11 +532,7 @@ def stepEnv(env_state, action):
             if env_state[ENV_TRAIN_CAR_CARD + 3] == -1:
                 env_state = shuffle_drop_card(env_state)
             car_test_tunnel = env_state[ENV_TRAIN_CAR_CARD : ENV_TRAIN_CAR_CARD + NUMBER_CARD_TEST_TUNNEL].astype(np.int64)
-<<<<<<< HEAD
-            print('check', car_test_tunnel)
-=======
             # print('check', car_test_tunnel)
->>>>>>> 521f7608f63477ea940b1330da332aa04f3cb234
             for car in car_test_tunnel:
                 if car != -1:
                     env_state[ENV_CARD_TEST_TUNNEL + car] += 1
