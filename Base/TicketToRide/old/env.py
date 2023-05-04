@@ -1,11 +1,11 @@
-from Base.Durak import _envx as __env
+from Base.TicketToRide import _env as __env
 from render_template import Render as __Render, import_files as __import_files
 from numba.core.errors import NumbaPendingDeprecationWarning as __NumbaPendingDeprecationWarning
 import warnings as __warnings
 __warnings.simplefilter("ignore", __NumbaPendingDeprecationWarning)
 
 
-__import_files("Durak")
+__import_files("TicketToRide")
 
 
 getValidActions = __env.getValidActions
@@ -16,15 +16,11 @@ getReward = __env.getReward
 numba_main_2 = __env.numba_main_2
 
 
-def render(Agent, per_data, level, *args, max_temp_frame=100):
+def render(Agent, per_data, level, *args, max_temp_frame=1000):
     list_agent, list_data = __env.load_agent(level, *args)
 
-    if "__render" not in globals():
-        global __render
-        __render = __Render(Agent, per_data, list_agent, list_data, max_temp_frame)
-    else:
-        __render.__init__(Agent, per_data, list_agent, list_data, max_temp_frame)
-
+    global __render
+    __render = __Render(Agent, per_data, list_agent, list_data, max_temp_frame)
     return __render.render()
 
 def get_data_from_visualized_match():
