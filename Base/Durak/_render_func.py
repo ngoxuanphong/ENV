@@ -1,7 +1,7 @@
 from PIL import Image, ImageEnhance, ImageDraw, ImageFont
 import numpy as np
 from setup import SHORT_PATH
-from Base.Durak import _envx
+from Base.Durak import _env
 IMG_PATH = SHORT_PATH + "Base/TLMN/playing_card_images/"
 tl = 3
 BG_SIZE = (1680, 720)
@@ -141,7 +141,7 @@ def get_state_image(state=None):
 
 
 def get_description(action):
-    if action < 0 or action >= _envx.getActionSize():
+    if action < 0 or action >= _env.getActionSize():
         return ""
     if action == 52:
         return 'pass'
@@ -157,8 +157,8 @@ class Env_components:
 
 
 def get_env_components():
-    env = _envx.initEnv()
-    winner = _envx.checkEnded(env)
+    env = _env.initEnv()
+    winner = _env.checkEnded(env)
     list_other = np.array([-1, 1, 2, 3])
     np.random.shuffle(list_other)
 
@@ -179,10 +179,10 @@ def get_card(id):
         
 def get_main_player_state(env_components: Env_components, list_agent, list_data, action=None):
     if not action is None:
-            _envx.stepEnv(action, env_components.env)
+            _env.stepEnv(action, env_components.env)
         
 
-    env_components.winner = _envx.checkEnded(env_components.env)
+    env_components.winner = _env.checkEnded(env_components.env)
     turn = 0
     if env_components.winner == -1:
         while True:
@@ -203,18 +203,18 @@ def get_main_player_state(env_components: Env_components, list_agent, list_data,
             if env_components.list_other[p_idx] == -1:
                 break
 
-            state = _envx.getAgentState(env_components.env)
+            state = _env.getAgentState(env_components.env)
             agent = list_agent[env_components.list_other[p_idx]-1]
             data = list_data[env_components.list_other[p_idx]-1]
             action, data = agent(state, data)
-            _envx.stepEnv(action, env_components.env)
+            _env.stepEnv(action, env_components.env)
 
-            env_components.winner = _envx.checkEnded(env_components.env)
+            env_components.winner = _env.checkEnded(env_components.env)
             if env_components.winner != -1:
                 break
 
     if env_components.winner == -1:
-        state = _envx.getAgentState(env_components.env)
+        state = _env.getAgentState(env_components.env)
         win = -1
     else:
         my_idx = np.where(env_components.list_other == -1)[0][0]
@@ -222,7 +222,7 @@ def get_main_player_state(env_components: Env_components, list_agent, list_data,
         env[80] = 1
         env[53] = 1
         env[58] = my_idx * 1.0 + 1.0
-        state = _envx.getAgentState(env)
+        state = _env.getAgentState(env)
         if my_idx == env_components.winner:
             win = 1
         else:
@@ -233,7 +233,7 @@ def get_main_player_state(env_components: Env_components, list_agent, list_data,
             if p_idx != my_idx:
                 env[53] = 1
                 env[58] = p_idx * 1.0 + 1.0
-                _state = _envx.getAgentState(env)
+                _state = _env.getAgentState(env)
                 agent = list_agent[env_components.list_other[p_idx]-1]
                 data = list_data[env_components.list_other[p_idx]-1]
                 action, data = agent(_state, data)
