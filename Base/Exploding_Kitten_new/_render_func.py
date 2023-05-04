@@ -192,6 +192,8 @@ def get_main_player_state(env_components: Env_components, list_agent, list_data,
                 pIdx = int(env_components.env[74])
             else:
                 pIdx = int(main_id)
+        elif phase==4:
+            pIdx = int(main_id)
 
         if env_components.list_other[pIdx] == -1:
             break
