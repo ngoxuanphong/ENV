@@ -1,11 +1,11 @@
-from Base.Exploding_Kitten import _env as __env
+from Base.Exploding_Kitten_new import _env as __env
 from render_template import Render as __Render, import_files as __import_files
 from numba.core.errors import NumbaPendingDeprecationWarning as __NumbaPendingDeprecationWarning
 import warnings as __warnings
 __warnings.simplefilter("ignore", __NumbaPendingDeprecationWarning)
 
 
-__import_files("Exploding_Kitten")
+__import_files("Exploding_Kitten_new")
 
 
 getValidActions = __env.getValidActions
