@@ -359,11 +359,6 @@ def stepEnv(env_state, action):
             #xáo thẻ drop nếu chồng bài úp hết bài
             if env_state[ENV_TRAIN_CAR_CARD] == -1 and np.sum(env_state[ENV_TRAIN_CAR_DROP : ENV_CARD_BULD_TUNNEL]) > 0:
                 env_state = shuffle_drop_card(env_state)
-            #Lật thêm thẻ ra khi thẻ mở đang không đủ 5 thẻ
-            if np.min(env_state[ENV_TRAIN_CAR_OPEN : ENV_TRAIN_CAR_OPEN + NUMBER_TRAIN_CAR_CARD_OPEN]) == -1 and env_state[ENV_TRAIN_CAR_CARD] != -1:
-                env_state = shuffle_drop_card(env_state)
-                env_state = process_train_car_board(env_state)
-
         #nếu nhặt thẻ thường
         elif action < 156:
             type_car_get = action - 147
@@ -377,10 +372,6 @@ def stepEnv(env_state, action):
             #xáo thẻ drop nếu chồng bài úp hết bài
             if env_state[ENV_TRAIN_CAR_CARD] == -1 and np.sum(env_state[ENV_TRAIN_CAR_DROP : ENV_CARD_BULD_TUNNEL]):
                 env_state = shuffle_drop_card(env_state)
-            #Lật thêm thẻ ra khi thẻ mở đang không đủ 5 thẻ
-            if np.min(env_state[ENV_TRAIN_CAR_OPEN : ENV_TRAIN_CAR_OPEN + NUMBER_TRAIN_CAR_CARD_OPEN]) == -1 and env_state[ENV_TRAIN_CAR_CARD] != -1:
-                env_state = shuffle_drop_card(env_state)
-                env_state = process_train_car_board(env_state)
             env_state[ENV_NUMBER_TRAIN_CAR_GET] += 1
             #nếu đã nhặt đủ 2 thẻ
             if env_state[ENV_NUMBER_TRAIN_CAR_GET] == 2:
@@ -468,10 +459,6 @@ def stepEnv(env_state, action):
                     env_state[ENV_CHECK_END] += 0.5              #edit by Hieu 05012023
             if env_state[ENV_TRAIN_CAR_CARD] == -1 and np.sum(env_state[ENV_TRAIN_CAR_DROP : ENV_CARD_BULD_TUNNEL]) > 0:
                 env_state = shuffle_drop_card(env_state)
-            #Lật thêm thẻ ra khi thẻ mở đang không đủ 5 thẻ
-            if np.min(env_state[ENV_TRAIN_CAR_OPEN : ENV_TRAIN_CAR_OPEN + NUMBER_TRAIN_CAR_CARD_OPEN]) == -1 and env_state[ENV_TRAIN_CAR_CARD] != -1:
-                env_state = shuffle_drop_card(env_state)
-                env_state = process_train_car_board(env_state)
         #nếu xây ferry
         elif type_road == 2:
             temp_train_car = player_train_car.copy()
@@ -507,10 +494,6 @@ def stepEnv(env_state, action):
                     env_state[ENV_CHECK_END] += 0.5              #edit by Hieu 05012023
             if env_state[ENV_TRAIN_CAR_CARD] == -1 and np.sum(env_state[ENV_TRAIN_CAR_DROP : ENV_CARD_BULD_TUNNEL]) > 0:
                 env_state = shuffle_drop_card(env_state)
-            #Lật thêm thẻ ra khi thẻ mở đang không đủ 5 thẻ
-            if np.min(env_state[ENV_TRAIN_CAR_OPEN : ENV_TRAIN_CAR_OPEN + NUMBER_TRAIN_CAR_CARD_OPEN]) == -1 and env_state[ENV_TRAIN_CAR_CARD] != -1:
-                env_state = shuffle_drop_card(env_state)
-                env_state = process_train_car_board(env_state)
         #nếu xây tunnel
         else:
             if player_train_car[type_train_car_use] >= LIST_ALL_LENGTH_ROAD[road]:
@@ -532,10 +515,8 @@ def stepEnv(env_state, action):
             if env_state[ENV_TRAIN_CAR_CARD + 3] == -1:
                 env_state = shuffle_drop_card(env_state)
             car_test_tunnel = env_state[ENV_TRAIN_CAR_CARD : ENV_TRAIN_CAR_CARD + NUMBER_CARD_TEST_TUNNEL].astype(np.int64)
-            # print('check', car_test_tunnel)
             for car in car_test_tunnel:
-                if car != -1:
-                    env_state[ENV_CARD_TEST_TUNNEL + car] += 1
+                env_state[ENV_CARD_TEST_TUNNEL + car] += 1
             #điều chỉnh chồng bài úp
             env_state[ENV_TRAIN_CAR_CARD : ENV_IN4_PLAYER] = np.concatenate((env_state[ENV_TRAIN_CAR_CARD : ENV_IN4_PLAYER][NUMBER_CARD_TEST_TUNNEL:], np.array([-1]*NUMBER_CARD_TEST_TUNNEL)))
             env_state[ENV_TYPE_TRAIN_CAR_BUILD_ROAD : ENV_TYPE_TRAIN_CAR_BUILD_ROAD + NUMBER_TYPE_TRAIN_CAR_CARD] = 0
@@ -631,14 +612,11 @@ def stepEnv(env_state, action):
         env_state[ENV_CARD_BULD_TUNNEL : ENV_PHASE] = 0
         env_state[ENV_ID_ACTION] = (id_action + 1) % NUMBER_PLAYER
         if env_state[ENV_CHECK_END] >= 1:
-            if env_state[ENV_ID_ACTION] == env_state[ENV_ID_PLAYER_END]:
-                env_state[ENV_CHECK_END] += 0.5              #edit by Hieu 05012023
+                if env_state[ENV_ID_ACTION] == env_state[ENV_ID_PLAYER_END]:
+                    env_state[ENV_CHECK_END] += 0.5              #edit by Hieu 05012023
         if env_state[ENV_TRAIN_CAR_CARD] == -1 and np.sum(env_state[ENV_TRAIN_CAR_DROP : ENV_CARD_BULD_TUNNEL]) > 0:
-            env_state = shuffle_drop_card(env_state)
-        #Lật thêm thẻ ra khi thẻ mở đang không đủ 5 thẻ
-        if np.min(env_state[ENV_TRAIN_CAR_OPEN : ENV_TRAIN_CAR_OPEN + NUMBER_TRAIN_CAR_CARD_OPEN]) == -1 and env_state[ENV_TRAIN_CAR_CARD] != -1:
-            env_state = shuffle_drop_card(env_state)
-            env_state = process_train_car_board(env_state)
+                env_state = shuffle_drop_card(env_state)
+
     return env_state
 
 # #########################################################
