@@ -84,7 +84,7 @@ def get_state_image(state=None):
 
     # Last action
     a = np.where(state[72:82] == 1)[0]
-    if len(a) ==1 :
+    if len(a) == 1:
         last_action = a[0]
         if last_action < 6:
             bg.paste(sprites.cards[last_action], (520, 130))
