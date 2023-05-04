@@ -31,7 +31,6 @@ Agent/Chain4/Data/TicketToRide_1
 
 Agent/Chain4/Data/CatanNoExchange_1
 
-agent.py
 envtest.py
 
 train copy 1.py

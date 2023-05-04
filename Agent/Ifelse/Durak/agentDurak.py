@@ -24,7 +24,7 @@ getReward = env.getReward
 
 
 @njit
-def initPer():
+def DataAgent():
   per = []
   per.append(np.zeros(1))
   return per
@@ -55,7 +55,7 @@ def defense(state, validActions): ### thủ bằng lá lớn nhất có thể m�
   return -1
 
 @njit
-def agentDurak(state, per):
+def Test(state, per):
   validActions = getValidActions(state)
   validActions = np.where( validActions)[0]
 
