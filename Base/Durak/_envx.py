@@ -156,7 +156,7 @@ def stepEnv(action,env):
             env[action] = 5 #this card have to defend
             env[53] = 1 #change mode: defend
             env[57] = 0 #change num player attack skip turn to 0
-            env[59]  = (env[59]+1)%3 #change attack player
+            env[59]  = 0 #change attack player
             
     # return env
 
