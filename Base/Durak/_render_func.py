@@ -166,16 +166,6 @@ def get_env_components():
     return env_components
 
 
-value = np.array(['2','3','4','5','6','7','8','9','10','J','Q','K','A'])
-type_card = np.array(['♤','♧','♢','♡'])
-# @njit
-def get_card(id):
-        if id <52:
-            v = id%13
-            t = id//13
-            return f'{value[v]}{type_card[t]}'
-        else:
-            return 'skip'
         
 def get_main_player_state(env_components: Env_components, list_agent, list_data, action=None):
     if not action is None:
@@ -186,15 +176,6 @@ def get_main_player_state(env_components: Env_components, list_agent, list_data,
     turn = 0
     if env_components.winner == -1:
         while True:
-
-            # env = env_components.env
-            # for i in range(1,5):
-            #     print(f'P{i}:',end=" ")
-            #     for card in np.where(env[0:52]==i)[0]:
-            #         print(get_card(card),end=" ")
-            #     print("")
-            # print(f'Turn {turn}; Trump card: {get_card(int(env[52]))}; Defend id: {env[58]}; Attack id :{env[54:57][int(env[59])]};',end=" ")
-            # turn += 1
 
             if env_components.env[53] == 1:
                 p_idx = int(env_components.env[58] - 1)
