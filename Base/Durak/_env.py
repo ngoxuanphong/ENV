@@ -47,15 +47,13 @@ def getAgentState(env):
         state[156:158] = [1,0]
     state[158:162][int(env[52])//13] = 1 #trump suit
     state[162] = len(np.where(env[0:52]==0)[0]) #num card on deck
-    k = 0
-    for i in range(1,5):
-        if i==player_id:
-            pass
-        else:
-            state[163+k] = np.where(env[0:52]==i)[0].shape[0]  #num card other player have on hand
-            k+=1
+
+    for i in range(3):
+        state[163+i] = np.where(env[0:52]==(player_id+i)%4+1)[0].shape[0]
+        
     state[166] = env[80]
     return state
+
 
 @njit()
 def getActionSize():
