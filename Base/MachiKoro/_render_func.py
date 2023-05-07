@@ -127,10 +127,10 @@ def get_main_player_state(env_components: Env_components, list_agent, list_data,
     return win, state, env_components
 
 def get_state_image(state=None):
+    background = sprites.background.copy()
     if state is None:
         return background
 
-    background = sprites.background.copy()
     draw = ImageDraw.Draw(background)
     myFont = params.myFont
 
