@@ -1,9 +1,8 @@
 #  không gian n chiều
 #  small NN deep
 import numpy as np
-import random as rd
-from numba import njit, jit
-import sys, os
+from numba import njit
+import sys
 from setup import SHORT_PATH
 import importlib.util
 

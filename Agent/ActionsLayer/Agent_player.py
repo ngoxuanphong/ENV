@@ -1,9 +1,9 @@
 import numpy as np
-import random as rd
-from numba import njit, jit
-import sys, os
+from numba import njit
+import sys
 from setup import SHORT_PATH
 import importlib.util
+from numba.typed import List
 
 game_name = sys.argv[1]
 
@@ -28,7 +28,6 @@ getValidActions = env.getValidActions
 getReward = env.getReward
 
 
-from numba.typed import List
 
 
 def convert_to_save(perData):
