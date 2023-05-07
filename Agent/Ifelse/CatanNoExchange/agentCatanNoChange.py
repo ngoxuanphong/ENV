@@ -30,7 +30,7 @@ def DataAgent():
   return per
 
 @njit
-def dinhKe( x): ### các đỉnh kề với đỉnh x
+def dinhKe( x): ###  các đỉnh kề với đỉnh x
   x = int(x)
   dinhKe = POINT_POINT[x]
   dinhKe = dinhKe[dinhKe != -1]
@@ -55,7 +55,7 @@ def point_port( p):
 @njit
 def featureTile(state, tile):
   x = int(tile)
-  feature = np.zeros(7) # số, cây, gạch, cừu, lúa, đá, sa mạc
+  feature = np.zeros(7) #  số, cây, gạch, cừu, lúa, đá, sa mạc
   ngLcacTile = state[:114].reshape(19, 6)
   feature[1: 7] = ngLcacTile[x]
 
@@ -78,8 +78,8 @@ def datNha1(state, validActions):
         if fea[-1]: checkSaMac = 1 #samac
         if fea[4] or fea[5]: #lúa or đá ------------------có thể thêm gạch
           total += fea
-        # else:
-        #   total[0] += fea[0]
+        #  else:
+        #    total[0] += fea[0]
       
       if checkSaMac== 0 and max < total[0]:
         action = act
@@ -97,7 +97,7 @@ def datNha2(state, validActions):
   myInfor = state[421: 629]
   nha1 = myInfor[83: 137]
   nha1 = np.where( nha1 )[0][0]
-  arr = np.zeros(5) ### xác suất các ngL
+  arr = np.zeros(5) ###  xác suất các ngL
   for tile in point_tile( nha1 ):
     feature = featureTile(state, tile)
     ngL = feature[1: 6]
@@ -112,7 +112,7 @@ def datNha2(state, validActions):
   for i in portToiUu:
     if i in validActions:
       idx = point_port(i)
-      inforPort = allPort[idx] ### thông tin cảng đang xét
+      inforPort = allPort[idx] ###  thông tin cảng đang xét
       if inforPort[ngLtot]:
         action = i
         return action
@@ -143,15 +143,15 @@ def diChuyenRobber(state, validActions):
   house = myInfor[83: 137] + myInfor[137: 191]
   house = np.where( house)[0]
 
-  # những ô kề với nhà của mình
+  #  những ô kề với nhà của mình
   tileKeNha = np.zeros(19) 
   for h in house:
     arrTile = point_tile( h)
     size = arrTile.size
     tileKeNha[arrTile] = np.ones( size)
-  # những ô kề ng chơi khác:------------------------
+  #  những ô kề ng chơi khác:------------------------
 
-  # ngL thiếu
+  #  ngL thiếu
   allNgL = myInfor[: 5]
   ngLthieu = np.min(allNgL)
   if allNgL[3] < 2 and allNgL[4] >= 3:
@@ -161,7 +161,7 @@ def diChuyenRobber(state, validActions):
   if np.where( allNgL[:4] == 0)[0].size == 1:
     ngLthieu = np.where( allNgL[:4] == 0)[0][0]
 
-  # turn dichuyen Robber
+  #  turn dichuyen Robber
   action = 0
   for i in range(64, 83): 
     if i in validActions and tileKeNha[i - 64] == 0:
@@ -175,17 +175,17 @@ def diChuyenRobber(state, validActions):
 @njit
 def checkBuildRoad(state, validActions):
   if 83 in validActions:
-    # Khu của bản thân-----------------
+    #  Khu của bản thân-----------------
     myInfor = state[421:629]
-    nhaToi = myInfor[83:137] + myInfor[137:191]  # nhà
-    # Đường
+    nhaToi = myInfor[83:137] + myInfor[137:191]  #  nhà
+    #  Đường
     myRoad = myInfor[11: 83]
     khuCuaToi = np.zeros(54)
     for i in np.where( myRoad)[0]:
       khuCuaToi[ ROAD_POINT[i] ] = np.array([1, 1])
 
-    # khu của player khác-----------------
-    nhaPlayer = np.zeros(54) # nhà
+    #  khu của player khác-----------------
+    nhaPlayer = np.zeros(54) #  nhà
     for i in range(3):
       player_ = state[629 + 185*(i-1) + 75: 629 + 185*(i-1) + 129] + state[629 + 185*(i-1) + 129: 629 + 185*(i-1) + 183]
       nhaPlayer += player_
@@ -200,7 +200,7 @@ def checkBuildRoad(state, validActions):
     for i in np.where( nhaPlayer )[0]:
       lanCanNhaPlayer[ dinhKe(i) ] = np.ones(len( dinhKe(i)) )
     
-    arr = (khuCuaToi - lanCanNhaToi) * ( 1 - lanCanNhaPlayer) # những chỗ có thể xây nhà
+    arr = (khuCuaToi - lanCanNhaToi) * ( 1 - lanCanNhaPlayer) #  những chỗ có thể xây nhà
     if arr[arr > 0].size == 0:
       return True
   
@@ -209,9 +209,9 @@ def checkBuildRoad(state, validActions):
 @njit
 def dungKnightTruoc(state, validActions):
   if 54 in validActions and 55 in validActions:
-    # Khu của bản thân-----------------
+    #  Khu của bản thân-----------------
     myInfor = state[421:629]
-    nhaToi = myInfor[83:137] + myInfor[137:191]  # nhà
+    nhaToi = myInfor[83:137] + myInfor[137:191]  #  nhà
     vungToi = np.zeros(19) #-------------
     for i in np.where( nhaToi )[0]:
       vungToi[point_tile(i)] = np.ones( len(point_tile(i)))
@@ -247,7 +247,7 @@ def checkBuyDev(state, validActions):
     if myInfor[5] < 2 :
       return True
     nha = myInfor[83:137] 
-    if sum(nha) == 0: ### nếu không còn xây được thành phố
+    if sum(nha) == 0: ###  nếu không còn xây được thành phố
       return True
   return False
 
@@ -270,14 +270,14 @@ def Test(state, per):
   validActions = np.where( validActions )[0]
   phase = state[1273: 1286]
 
-  if per[0][0] == 1: # đặt nhà đầu tiên
+  if per[0][0] == 1: #  đặt nhà đầu tiên
     action = datNha1(state, validActions)
-    # print(action)
+    #  print(action)
     return action, per
   
-  if per[0][0] == 3: # đặt nhà thứ hai
+  if per[0][0] == 3: #  đặt nhà thứ hai
     action = datNha2(state, validActions)
-    # print(action)
+    #  print(action)
     return action, per
 
   if 85 in validActions:
@@ -309,7 +309,7 @@ def Test(state, per):
   if 94 in validActions:
     myInfor = state[421:629]
     kho = state[1268:1273]
-    # ngL thiếu
+    #  ngL thiếu
     allNgL = myInfor[: 5]
     ngLthieu = -1
     if allNgL[-2] >= 2 and allNgL[-1] < 3:
@@ -333,7 +333,7 @@ def Test(state, per):
   
   if phase[11] or phase[7]:
     myInfor = state[421:629]
-    # ngL thiếu
+    #  ngL thiếu
     allNgL = myInfor[: 5]
     ngLthieu = 1
     if allNgL[-2] >= 2 and allNgL[-1] < 3:

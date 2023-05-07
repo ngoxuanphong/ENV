@@ -249,7 +249,7 @@ def getAgentState(env):
     s_ = E_ID_PLAYER + TOTAL_INDEX_PLAYER*p_idx
     p_state[P_ID_PLAYER:P_ID_PLAYER+TOTAL_INDEX_PLAYER] = env[s_:s_+TOTAL_INDEX_PLAYER] #Thông tin của người đang chơi
     p_state[P_START_CIV + np.where(infor_card_env == p_idx)[0]] = 1 #Thông tin thẻ của người đang chơi đã đặt, hoặc đã lấy
-    # print('Trong người chơi', np.where(infor_card_env == p_idx)[0], p_state[P_START_CIV:P_END_BUILD])
+    #  print('Trong người chơi', np.where(infor_card_env == p_idx)[0], p_state[P_START_CIV:P_END_BUILD])
 
     for i in range(1, 4):
         p_other_idx = (p_idx + i)%4
@@ -280,9 +280,9 @@ def RollDice(count_dice):
 @njit()
 def RollDiceUseTool(env, e_idp):
     id_warehouse = int(env[E_PULL_RECENT])
-    # env[e_idp + 9:e_idp + 12] = np.abs(env[e_idp + 9:e_idp + 12]) #Trả lại công cụ như bình thường
+    #  env[e_idp + 9:e_idp + 12] = np.abs(env[e_idp + 9:e_idp + 12]) #Trả lại công cụ như bình thường
     env[e_idp + 31 + id_warehouse] = 0
-    # env[e_idp + 15 + np.where(env[e_idp + 9:e_idp + 12] > 0)[0]] = 1
+    #  env[e_idp + 15 + np.where(env[e_idp + 9:e_idp + 12] > 0)[0]] = 1
     if id_warehouse != 7:
         count_source_take = (env[E_TOTAL_DICE] + env[E_ALL_TOOL])//id_warehouse
         env[e_idp+5+id_warehouse - 3] += count_source_take
@@ -366,11 +366,11 @@ def getValidActions(p_state):
     card_state = np.zeros(TOTAL_CARD_STATE)
     for i in range(4):
         card_state += p_state[P_START_CIV + TOTAL_CARD_STATE*i:P_START_CIV + TOTAL_CARD_STATE*(i+1)]
-        # print(p_state[P_START_CIV + TOTAL_CARD_STATE*i:P_START_CIV + TOTAL_CARD_STATE*(i+1)])
+        #  print(p_state[P_START_CIV + TOTAL_CARD_STATE*i:P_START_CIV + TOTAL_CARD_STATE*(i+1)])
         
     if phase == 0: #Chọn ô đặt người
         so_nguoi_co_the_dat = p_state[s_ + 2] - np.sum(p_state[s_ + 31:s_ + 39]) - len(np.where(p_state[P_START_CIV:P_END_BUILD] == 1)[0])
-        # print(card_state, p_state[s_ + 31:s_ + 39])
+        #  print(card_state, p_state[s_ + 31:s_ + 39])
         civ_can_get = np.where(card_state[:4] == 0)[0]
         build_can_get = np.where(card_state[4:] == 0)[0]
 
@@ -433,11 +433,11 @@ def getValidActions(p_state):
         list_action[28] = 1
         
     if phase == 7: #Chọn giá trị xúc xắc khi dùng thẻ civ xúc xắc
-        # dice_after = p_state[P_START_DICE_FOR_CIV:P_END_DICE_FOR_CIV].astype(np.int64)
+        #  dice_after = p_state[P_START_DICE_FOR_CIV:P_END_DICE_FOR_CIV].astype(np.int64)
         for i in range(4):
             dice_after = np.where(p_state[P_START_DICE_FOR_CIV + i*6: P_START_DICE_FOR_CIV + (i+1)*6] == 1)[0]
             if len(dice_after) > 0:
-                # print(p_state[P_START_DICE_FOR_CIV + i*6: P_START_DICE_FOR_CIV + (i+1)*6], int(dice_after[0]))
+                #  print(p_state[P_START_DICE_FOR_CIV + i*6: P_START_DICE_FOR_CIV + (i+1)*6], int(dice_after[0]))
                 list_action[56 + int(dice_after[0]) + 1] = 1
     
     if phase == 8: #Lấy nguyên liệu từ ngân hàng khi dùng thẻ civ lấy 2 nguyên liệu bất kỳ
@@ -500,7 +500,7 @@ def stepEnv(action, env, all_build_card, all_civ_card):
 
     check_end_pull_people = True
     if phase == 0: #Đặt người
-        # print('action ở step', action)
+        #  print('action ở step', action)
         id_warehouse = action - 11
         if action in np.arange(14, 19):
             ##print('Vào action cần phải đặt số người')
@@ -515,7 +515,7 @@ def stepEnv(action, env, all_build_card, all_civ_card):
             if action in [11, 12]:
                 env[e_idp + 31 + id_warehouse] += 1
             if action in np.arange(19, 27):
-                # print('Đặt người lỗi')
+                #  print('Đặt người lỗi')
                 env[E_START_CIV + action - 19] = idp
 
             env[0:4] = 0 #Đổi người chơi
@@ -524,7 +524,7 @@ def stepEnv(action, env, all_build_card, all_civ_card):
                 o_idp = (idp+i)%4
                 e_o_idp = int(211 + TOTAL_INDEX_PLAYER*o_idp)
                 so_nguoi_da_dat = np.sum(env[e_o_idp + 31:e_o_idp + 39]) + len(np.where(env[E_START_CIV:E_END_BUILD] == o_idp)[0])
-                # print('Người chơi', o_idp, 'đã đặt', 'Số người đã đặt', so_nguoi_da_dat, env[e_o_idp + 31:e_o_idp + 39], env[E_START_CIV:E_END_BUILD])
+                #  print('Người chơi', o_idp, 'đã đặt', 'Số người đã đặt', so_nguoi_da_dat, env[e_o_idp + 31:e_o_idp + 39], env[E_START_CIV:E_END_BUILD])
                 if so_nguoi_da_dat < env[e_o_idp + 2]:
                     env[o_idp] = 1
                     ##print('Đổi sang người chơi', np.where(env[0:4] == 1)[0])
@@ -695,7 +695,7 @@ def stepEnv(action, env, all_build_card, all_civ_card):
         res_giv = int(action - 40)
         env[77 + res_giv] += 1 #Các nguyên liệu đã trả trong turn trả nguyên liệu
         env[e_idp + 5 + res_giv]  -= 1 #Trừ nguyên liệu của bản thân
-        env[69 + res_giv] += 1 # Cộng nguyên liệu cho ngân hàng
+        env[69 + res_giv] += 1 #  Cộng nguyên liệu cho ngân hàng
         ##print('Các nguyên liệu đã trả', env[77:81], 'cần trả', count_res_give, env[e_idp + 5:e_idp + 9])
         check_end_pull_people = False
         ##print('trong phase 3', check_end_pull_people)
@@ -715,7 +715,7 @@ def stepEnv(action, env, all_build_card, all_civ_card):
             env[e_idp + 39:e_idp + 43] += (env[card_civ_id + 19])*env[card_civ_id + 20: card_civ_id + 24] #Thêm thẻ số người tính điểm cuối game
             
             env[e_idp + 1] += env[card_civ_id + 8] #Thêm lúa
-            env[e_idp + 3] += env[card_civ_id + 2] #Thẻ có thêm thức ăn(1,2 ,3 ,4, 5, 6, 7)
+            env[e_idp + 3] += env[card_civ_id + 2] #Thẻ có thêm thức ăn(1,2, 3, 4, 5, 6, 7)
 
             if env[card_civ_id] == 0:
                 if env[card_civ_id + 5] > 0:
@@ -798,7 +798,7 @@ def stepEnv(action, env, all_build_card, all_civ_card):
             if action in [37, 38, 39]:
                 id_action = action - 37
                 env[E_ALL_TOOL] += env[e_idp + 9 + id_action]
-                # env[e_idp + 9 + id_action] = - env[e_idp + 9 + id_action]
+                #  env[e_idp + 9 + id_action] = - env[e_idp + 9 + id_action]
                 env[e_idp + 15 + id_action] = 0
                 ###Nếu còn có thể lấy công cụ thì lấy công cụ
                 if np.sum(env[e_idp+12:e_idp+15]) > 0 or (env[e_idp+15:e_idp+18] > 0).any():
@@ -822,7 +822,7 @@ def stepEnv(action, env, all_build_card, all_civ_card):
             res_giv = int(action - 40)
             env[77 + res_giv] += 1 #Các nguyên liệu đã trả trong turn trả nguyên liệu
             env[e_idp + 5 + res_giv]  -= 1 #Trừ nguyên liệu của bản thân
-            env[69 + res_giv] += 1 # Cộng nguyên liệu cho ngân hàng
+            env[69 + res_giv] += 1 #  Cộng nguyên liệu cho ngân hàng
 
         check_end_pull_people = False
         if np.sum(env[77:81]) == 7 or action == 47 or np.sum(env[e_idp+5:e_idp+9]) == 0:
@@ -852,7 +852,7 @@ def stepEnv(action, env, all_build_card, all_civ_card):
             #Đổi lại người chơi cuối cùng
 
             main_player = int(env[4])%4
-            # env[0:4] = 0 #Đổi người chơi
+            #  env[0:4] = 0 #Đổi người chơi
             id_move = int((main_player+3)%4)
            ##print('đổi người chươi ở phase 6', 'main_player', main_player, 'chuyển sang', int((main_player+3)%4))
 
@@ -863,7 +863,7 @@ def stepEnv(action, env, all_build_card, all_civ_card):
     elif phase == 7: #Chọn giá trị xúc xắc khi dùng thẻ civ xúc xắc
         ##print('giá trị xúc xắc', env[E_START_DICE_FOR_CIV:E_END_DICE_FOR_CIV], 'Người chơi tiếp theo', idp)
         dice = action - 56
-        # print('dice', dice, env[E_START_DICE_FOR_CIV:E_END_DICE_FOR_CIV])
+        #  print('dice', dice, env[E_START_DICE_FOR_CIV:E_END_DICE_FOR_CIV])
         if dice == 6: env[e_idp+1] += 1 #Thêm lúa
         if dice == 1: 
             env[e_idp+5] += 1 #Thêm gỗ
@@ -913,7 +913,7 @@ def stepEnv(action, env, all_build_card, all_civ_card):
         res_giv = int(action - 40)
         env[77 + res_giv] += 1 #Các nguyên liệu đã trả trong turn trả nguyên liệu
         env[e_idp + 5 + res_giv]  -= 1 #Trừ nguyên liệu của bản thân
-        env[69 + res_giv] += 1 # Cộng nguyên liệu cho ngân hàng
+        env[69 + res_giv] += 1 #  Cộng nguyên liệu cho ngân hàng
 
         id_build_card = int(env[E_PULL_RECENT] - 12)
         all_infor_build_card = env[179:211].reshape((4, 8))
@@ -975,7 +975,7 @@ def stepEnv(action, env, all_build_card, all_civ_card):
         res_giv = int(action - 40)
         env[77 + res_giv] += 1 #Các nguyên liệu đã trả trong turn trả nguyên liệu
         env[e_idp + 5 + res_giv]  -= 1 #Trừ nguyên liệu của bản thân
-        env[69 + res_giv] += 1 # Cộng nguyên liệu cho ngân hàng
+        env[69 + res_giv] += 1 #  Cộng nguyên liệu cho ngân hàng
        ##print('Số lượng nguyên liệu cần phải trả', env[81])
         if np.sum(env[77:81]) == env[81]:
             check_end_pull_people = True
@@ -988,20 +988,20 @@ def stepEnv(action, env, all_build_card, all_civ_card):
             #Đổi lại người chơi cuối cùng
 
             main_player = int(env[4])%4
-            # env[0:4] = 0 #Đổi người chơi
-            # env[int((main_player+3)%4)] = 1
+            #  env[0:4] = 0 #Đổi người chơi
+            #  env[int((main_player+3)%4)] = 1
             id_move = int((main_player+3)%4)
             env[81] = 0
            ##print('đổi người chươi ở phase 10', 'main_player', main_player, 'chuyển sang', int((main_player+3)%4))
 
 
-    # Nếu hết người thì chuyển sang người chơi khác, không thì vẫn giữ người chơi dó
-    # Nếu tất cả mọi người hết người thì cộng thêm turn, turn này cũng chính là người chơi chính
+    #  Nếu hết người thì chuyển sang người chơi khác, không thì vẫn giữ người chơi dó
+    #  Nếu tất cả mọi người hết người thì cộng thêm turn, turn này cũng chính là người chơi chính
     so_nguoi_da_dat = np.sum(env[e_idp + 31:e_idp + 39]) + len(np.where(env[E_START_CIV:E_END_BUILD] == idp)[0])
 
    ##print('Số người đã đặt', so_nguoi_da_dat)
     if check_end_pull_people == True:
-        # print(env[e_idp + 31:e_idp + 39], np.where(env[E_START_CIV:E_END_BUILD] == idp)[0], idp, env[E_START_CIV:E_END_BUILD])
+        #  print(env[e_idp + 31:e_idp + 39], np.where(env[E_START_CIV:E_END_BUILD] == idp)[0], idp, env[E_START_CIV:E_END_BUILD])
         if so_nguoi_da_dat == 0 and phase != 1 and phase != 0:
             main_player = int(env[4])%4
             env[e_idp + 15 + np.where(env[e_idp + 9:e_idp + 12] > 0)[0]] = 1
@@ -1077,7 +1077,7 @@ def stepEnv(action, env, all_build_card, all_civ_card):
                    ##print('all civ card', all_civ_card)
                     id_da_lay = np.where(env[E_START_BUILD:E_END_BUILD] == -2)[0]
                     if len(id_da_lay) > 0:
-                        # print('Lấy thẻ build', id_da_lay, all_build_card)
+                        #  print('Lấy thẻ build', id_da_lay, all_build_card)
                         for id_deck_card in range(4):
                             if id_deck_card in id_da_lay:
                                 id_card_open = np.where(all_build_card[id_deck_card] == 1)[0]
@@ -1093,7 +1093,7 @@ def stepEnv(action, env, all_build_card, all_civ_card):
                                     id_build_card_open = build_card[np.where(all_build_card == 1)[0]].astype(np.int64)
                                     env[179:211] = BUILDING_CARDS[id_build_card_open].flatten()
                                     all_build_card = all_build_card.reshape((4,7))
-                        # print(all_build_card)
+                        #  print(all_build_card)
                         id_build_desk, id_card_in_desk = np.where(all_build_card == 1)
                         env[73 + id_build_desk] = 7 - id_card_in_desk
 

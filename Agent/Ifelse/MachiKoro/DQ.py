@@ -54,21 +54,21 @@ def Test(state, per):
         returnAction = 37
 
     
-    # elif 46 in ValidAction and state[18] == 1 and state[13] < 1 and state[0] <= 8:
-    #     returnAction = 46
-    # elif 47 in ValidAction and state[18] == 1 and state[14] < 1 and state[0] <= 8:
-    #     returnAction = 47
+    #  elif 46 in ValidAction and state[18] == 1 and state[13] < 1 and state[0] <= 8:
+    #      returnAction = 46
+    #  elif 47 in ValidAction and state[18] == 1 and state[14] < 1 and state[0] <= 8:
+    #      returnAction = 47
 
-    # elif 40 in ValidAction and state[2] >= 2 and state[7] <= 1:
-    #     returnAction = 40 
+    #  elif 40 in ValidAction and state[2] >= 2 and state[7] <= 1:
+    #      returnAction = 40 
 
     elif 51 in ValidAction:
         returnAction = 51
     
-    # elif 44 in ValidAction and state[11] <= 0 and state[39] + state[59] + state[79] >= 2:
-    #     returnAction = 44
-    # elif 42 in ValidAction and state[9] <= 0 and state[39] + state[59] + state[79] >= 2:
-    #     returnAction = 42
+    #  elif 44 in ValidAction and state[11] <= 0 and state[39] + state[59] + state[79] >= 2:
+    #      returnAction = 44
+    #  elif 42 in ValidAction and state[9] <= 0 and state[39] + state[59] + state[79] >= 2:
+    #      returnAction = 42
 
     elif 53 in ValidAction:
         returnAction = 53
@@ -85,8 +85,8 @@ def Test(state, per):
             returnAction = 52
 
 
-    # if 0 in ValidAction and (state[117] == 2 or state[117] == 3):
-    #         returnAction = 0
+    #  if 0 in ValidAction and (state[117] == 2 or state[117] == 3):
+    #          returnAction = 0
     
     if 0 in ValidAction :
         if (state[117] == 2 or state[117] == 4):
@@ -94,22 +94,22 @@ def Test(state, per):
         if (state[117] == 3 and state[3]*(1 + state[18]) - state[24]*(1+ state[38]) - state[44]*(1+ state[58]) -state[64]*(1+ state[78]) > 0):
             returnAction = 0
     
-    # if returnAction != 51:
-    #     if np.sum(state[1:19]) >= 10 and state[18] == 0 and 53 in ValidAction:
-    #           returnAction = 53
+    #  if returnAction != 51:
+    #      if np.sum(state[1:19]) >= 10 and state[18] == 0 and 53 in ValidAction:
+    #            returnAction = 53
     
 
 
     if returnAction == -1:
       returnAction = ValidAction[np.random.randint(len(ValidAction))]
-    #   print('random')
-    # print(ValidAction, returnAction)
-    # print(state[0:80].reshape(4,20))
-    # print(state[80:92])
-    # print(state[92:104])
-    # print(state[104:116])
-    # print(state[116:118])
-    # print(state[118:130])
-    # print('-----------')
+    #    print('random')
+    #  print(ValidAction, returnAction)
+    #  print(state[0:80].reshape(4,20))
+    #  print(state[80:92])
+    #  print(state[92:104])
+    #  print(state[104:116])
+    #  print(state[116:118])
+    #  print(state[118:130])
+    #  print('-----------')
 
     return returnAction, per

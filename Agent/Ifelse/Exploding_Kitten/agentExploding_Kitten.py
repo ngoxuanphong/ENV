@@ -142,57 +142,57 @@ def Test(state, per):
   validActions = getValidActions(state)
   actions = np.where(validActions)[0]
 
-  # print(state[:12],state[24: 27])
-  # print(actions)
+  #  print(state[:12],state[24: 27])
+  #  print(actions)
   if uuTien(state, actions) != -1:
     action = uuTien(state, actions)
-    # print('ACTIONuuTien: ', action)
+    #  print('ACTIONuuTien: ', action)
     return action, per
 
   if giveCard(state, actions) != -1:
     action = giveCard(state, actions)
-    # print('ACTIONgive: ', action) 
+    #  print('ACTIONgive: ', action) 
     return action, per
     
   if 3 in actions and state[25] < 23:
     act = 3
-    # print('ACTION3: ', act)
+    #  print('ACTION3: ', act)
     return 3, per
 
   if 0 in actions:
     if (np.sum(state[72: 82]) > 0 and state[71] > 0):
       act = 0
-      # print('ACTION0: ', act)
+      #  print('ACTION0: ', act)
       return 0, per
     elif 10 in actions:
       act = 10
-      # print('ACTION10: ', act)
+      #  print('ACTION10: ', act)
       return 10, per
 
   if state[11] or state[25] > 15:
     if 6 in actions:
       act = 6
-      # print('ACTION6: ', act)
+      #  print('ACTION6: ', act)
       return 6, per
 
   if 5 in actions and state[11] == 0 and state[25] < 15:
     act = 5
-    # print('ACTION5: ', act)
+    #  print('ACTION5: ', act)
     return 5, per
   
   if seeTheFuture(state, actions) != -1:
     action = seeTheFuture(state, actions)
-    # print('ACTIONsee: ', action)
+    #  print('ACTIONsee: ', action)
     return action, per
 
-  # if 1 in actions and state[1] > 1:
-  #   # act = 1
-  #   # print('ACTION1: ', act)
-  #   return 1, per
+  #  if 1 in actions and state[1] > 1:
+  #    #  act = 1
+  #    #  print('ACTION1: ', act)
+  #    return 1, per
   
   if state[1] + state[2] >= 1 and state[26] < 3:
     act = actions[0]
   else:
     act = actions[-1]
-  # print('ACTIONrandon: ', act)
+  #  print('ACTIONrandon: ', act)
   return act, per

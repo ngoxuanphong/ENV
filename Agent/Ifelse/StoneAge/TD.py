@@ -156,9 +156,9 @@ def Test(state, per):
   #Đặt dân --------------------------------------
   phase = state[412: 423]
   myInfor = infor(state)[0]
-  if 11 in validActions and myInfor[1] < 10: # lúa
+  if 11 in validActions and myInfor[1] < 10: #  lúa
     return 11, per
-  if 13 in validActions and myInfor[2] < 8 and (myInfor[2]- myInfor[1]) > 5: # người
+  if 13 in validActions and myInfor[2] < 8 and (myInfor[2]- myInfor[1]) > 5: #  người
     return 13, per
   if myInfor[33] == 0 : #đặt công cụ
     if 12 in validActions:

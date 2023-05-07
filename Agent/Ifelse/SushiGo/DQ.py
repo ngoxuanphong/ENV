@@ -41,8 +41,8 @@ def Test(state, per):
             returnAction = 7
         elif 6 in ValidAction:
             returnAction = 6
-    # if returnAction == -1:
-    if 1 in ValidAction and state[17]<3:# and state[16] == 0:
+    #  if returnAction == -1:
+    if 1 in ValidAction and state[17]<3:#  and state[16] == 0:
         if np.sum(state[16:28]) <= 2:
             returnAction = 1
         elif np.sum(state[16:28]) <= 4 and state[17] == 1:
@@ -83,10 +83,10 @@ def Test(state, per):
     
     if returnAction == -1:
         returnAction = ValidAction[np.random.randint(len(ValidAction))]
-    #     print('random')
-    # print(state[0:14])
-    # print(state[14:84].reshape(5,14))
-    # print(ValidAction, returnAction)
+    #      print('random')
+    #  print(state[0:14])
+    #  print(state[14:84].reshape(5,14))
+    #  print(ValidAction, returnAction)
 
     if 12 in ValidAction:
         returnAction = 12

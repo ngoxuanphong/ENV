@@ -66,10 +66,10 @@ def get_state_image(state=None):
 
     bg = sprites.background.copy()
 
-    # Draw
+    #  Draw
     draw = ImageDraw.ImageDraw(bg)
 
-    # Noble
+    #  Noble
     for i in range(5):
         nob = state[6+6*i:12+6*i]
         if (nob != 0).any():
@@ -82,7 +82,7 @@ def get_state_image(state=None):
                      (1150+160*i, 120),
                      sprites.nob_cards[nob_id])
 
-    # Normal card
+    #  Normal card
     nm_cards_ = []
     for i in range(12):
         card = state[36+11*i:47+11*i]
@@ -267,7 +267,7 @@ def get_main_player_state(env_components: Env_components, list_agent, list_data,
         else:
             win = 0
 
-        # Chạy turn cuối cho 3 bot hệ thống
+        #  Chạy turn cuối cho 3 bot hệ thống
         for p_idx in range(4):
             if p_idx != my_idx:
                 env_[83] = p_idx

@@ -38,11 +38,11 @@ def getAgentState(env):
         player_id = env[54:57][int(env[59])] #attack player id
     elif env[53]==1:
         player_id = env[58] #defend player id
-    state[0:52][np.where(env[0:52]==player_id)] = 1 # card player hold
+    state[0:52][np.where(env[0:52]==player_id)] = 1 #  card player hold
     state[52:104][np.where(env[0:52]==6)] = 1 #all card defender defend this round
     state[104:156][np.where(env[0:52]==5)] = 1#card have to defend this round
     if env[53]==1:
-        state[156:158] = [0,1] # attack, defend
+        state[156:158] = [0,1] #  attack, defend
     elif env[53]==0:
         state[156:158] = [1,0]
     state[158:162][int(env[52])//13] = 1 #trump suit
@@ -64,7 +64,7 @@ def getDefenseCard(state):
     idx = np.argmax(state[158:162]) #trump suit: 0:spade,1:club,2:diamond,3:heart
     card_def_id = np.argmax(state[104:156])
     if card_def_id//13!=idx:#card have to defend not a trump card
-        card[13*idx:13*(idx+1)][np.where(state[13*idx:13*(idx+1)]==1)] = 1 # trump card on hand
+        card[13*idx:13*(idx+1)][np.where(state[13*idx:13*(idx+1)]==1)] = 1 #  trump card on hand
         card[card_def_id+1:13*(card_def_id//13+1)][np.where(state[card_def_id+1:13*(card_def_id//13+1)]==1)] = 1 #same type card, higher value on hand.
     else:#card have to defend is a trump card
         card[card_def_id+1:13*(idx+1)][np.where(state[card_def_id+1:13*(idx+1)]==1)] = 1 #higher value trump card only.
@@ -156,7 +156,7 @@ def stepEnv(action,env):
             env[57] = 0 #change num player attack skip turn to 0
             env[59]  = 0 #change attack player
             
-    # return env
+    #  return env
 
 
 @njit()
@@ -187,7 +187,7 @@ def one_game_numba(p0,pIdOrder,per_player,per1,per2,per3,p1,p2,p3):
         turn +=1
         if env[53]==1: #defend
             pIdx = int(env[58] - 1)
-        else:# attack
+        else:#  attack
             pIdx = int(env[54:57][int(env[59])] - 1)
         if pIdOrder[pIdx] == -1:
             action, per_player = p0(getAgentState(env), per_player)
@@ -201,10 +201,10 @@ def one_game_numba(p0,pIdOrder,per_player,per1,per2,per3,p1,p2,p3):
         
         winner = checkEnded(env)
         if winner != -1:
-            # print(winner)
+            #  print(winner)
             break
     env[80] = 1
-    # env[0:52] = 6
+    #  env[0:52] = 6
     for pIdx in range(4):
         env[53] = 1
         env[58] = pIdx * 1.0 + 1.0
@@ -224,7 +224,7 @@ def one_game_numba(p0,pIdOrder,per_player,per1,per2,per3,p1,p2,p3):
         win = False
 
     
-            # # print('ok')
+            #  #  print('ok')
     return win, per_player
 
 
@@ -235,7 +235,7 @@ def n_game_numba(p0, num_game, per_player, list_other, per1, per2, per3, p1, p2,
     for _n in range(num_game):
         np.random.shuffle(list_other)
         winner,per_player  = one_game_numba(p0, list_other, per_player, per1, per2, per3, p1, p2, p3)
-        # print(winner)
+        #  print(winner)
         win += winner
     return win, per_player
 
@@ -280,7 +280,7 @@ def one_game_normal(p0,pIdOrder,per_player,per1,per2,per3,p1,p2,p3):
         if winner != -1:
             break
     env[80] = 1
-    # env[0:52] = 6
+    #  env[0:52] = 6
     for pIdx in range(4):
         env[53] = 1
         env[58] = pIdx * 1.0 + 1.0
@@ -300,7 +300,7 @@ def one_game_normal(p0,pIdOrder,per_player,per1,per2,per3,p1,p2,p3):
         win = False
 
     
-            # # print('ok')
+            #  #  print('ok')
     return win, per_player
 
 def n_game_normal(p0, num_game, per_player, list_other, per1, per2, per3, p1, p2, p3):
@@ -308,7 +308,7 @@ def n_game_normal(p0, num_game, per_player, list_other, per1, per2, per3, p1, p2
     for _n in range(num_game):
         np.random.shuffle(list_other)
         winner,per_player  = one_game_normal(p0, list_other, per_player, per1, per2, per3, p1, p2, p3)
-        # print(winner)
+        #  print(winner)
         win += winner
     return win, per_player
 

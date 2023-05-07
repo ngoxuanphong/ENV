@@ -36,7 +36,7 @@ def Test(state, per):
             return 0, per
     if 11 in validActions:
         return 11, per
-    if state[61] == 1:# Mage is choosen
+    if state[61] == 1:#  Mage is choosen
         for i in (2, 3, 4, 5, 6, 7):
             if i in validActions:
                 return i, per

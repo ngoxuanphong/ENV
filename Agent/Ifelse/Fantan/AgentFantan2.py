@@ -35,16 +35,16 @@ def Test(state, per):
 
     returnAction = -1
 
-    # print("My Cards: ",myCards)
-    # print("Valid Cards: ",validCards)
-    # print("Chip: ", state[104], state[109:112])
-    # print("Other Cards: ", state[105:108])
-    # print(ValidAction)
-    # print("-----------")
+    #  print("My Cards: ",myCards)
+    #  print("Valid Cards: ",validCards)
+    #  print("Chip: ", state[104], state[109:112])
+    #  print("Other Cards: ", state[105:108])
+    #  print(ValidAction)
+    #  print("-----------")
 
-    # for i in range(0,52):
-    #     if i in ValidAction and (i%13 != 6) and (i %13 == 0 or i%13 == 12):
-    #         return i, per
+    #  for i in range(0,52):
+    #      if i in ValidAction and (i%13 != 6) and (i %13 == 0 or i%13 == 12):
+    #          return i, per
 
     if len(myCards) < min(state[105:108]) -1:
         if min(state[109:112]) >= 10 and 52 in ValidAction:

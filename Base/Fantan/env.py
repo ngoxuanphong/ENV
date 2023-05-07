@@ -4,13 +4,13 @@ from numba import njit,jit
 from numba.typed import List
 perData = np.array([0])
 CARD = 52
-cards = np.arange(1,53) # Build cards
+cards = np.arange(1,53) #  Build cards
 sevens = np.array([6,19,32,45])
-idxChip = np.array([21 ,35 ,49,63])
+idxChip = np.array([21, 35, 49,63])
 ACTION_SIZE= 53
 AGENT_SIZE = 4
 STATE_SIZE = 112
-# Work function
+#  Work function
 @njit()
 def initEnv():
     cards = np.arange(0,52, dtype=np.int64) 
@@ -22,7 +22,7 @@ def initEnv():
     env[22:35] = cards[13:26] 
     env[36:49] = cards[26:39] 
     env[50:63] = cards[39:52] 
-    idx = np.array([21 ,35 ,49,63])
+    idx = np.array([21, 35, 49,63])
     env[idx] = 50  
     env[64] = 0
     env[65] = 0 
@@ -61,7 +61,7 @@ def getAgentState(env):
         cards_len[count] = len_
         count += 1   
     state[105:108] = cards_len
-    state[108] = env[66] # Game da ket thuc hay chua
+    state[108] = env[66] #  Game da ket thuc hay chua
     chipArr = np.zeros(3)
     count = 0
     for i in range(4):
@@ -84,7 +84,7 @@ def getValidActions(state):
       if i in p_cards and i in card_on_board:
         arr_action[i] = 1
     return arr_action
-# ------------------------------------------------------------------------
+#  ------------------------------------------------------------------------
 @njit()
 def stepEnv(action,env):
     player_Id = env[64]
@@ -98,7 +98,7 @@ def stepEnv(action,env):
     if action != 52:
 
         player_Card[np.where(player_Card == action)[0]] = -1
-        if action == 6 or action == 19 or action == 32 or action == 45:# action bang 7
+        if action == 6 or action == 19 or action == 32 or action == 45:#  action bang 7
             if action == 6:
                 current_card_on_board[0:2] = [5,7]
             if action == 19:
@@ -107,7 +107,7 @@ def stepEnv(action,env):
                 current_card_on_board[4:6] = [31,33]
             if action == 45:
                 current_card_on_board[6:8] = [44,46]
-        else: # Check các action hợp lệ
+        else: #  Check các action hợp lệ
             if 0 <= action < 6:
                 current_card_on_board[0] -=1
             if 6 < action < 12:
@@ -157,7 +157,7 @@ def getReward(state):
 def one_game_numba(p0,list_other, per_player, per1, per2, per3, p1, p2, p3,):
     allGame = True
     saveStoreChip = np.array([50,50,50,50])
-    idxPlayerChip = np.array([21 ,35 ,49,63])
+    idxPlayerChip = np.array([21, 35, 49,63])
     while allGame:
         env = initEnv()
         env[idxPlayerChip] = saveStoreChip
@@ -183,14 +183,14 @@ def one_game_numba(p0,list_other, per_player, per1, per2, per3, p1, p2, p3,):
                         env[8+i*14+13] += env[65]
                         saveStoreChip = env[idxPlayerChip]
                         env[65] = 0
-                    elif stepEnvReturn == -2: # Khi nguoi choi het chip
+                    elif stepEnvReturn == -2: #  Khi nguoi choi het chip
                         env[66] = 1
-                        # Cong chip cho nguoi choi con it bai nhat
+                        #  Cong chip cho nguoi choi con it bai nhat
                         player_chip = env[idxPlayerChip]
                         player_id_not_0_chip = np.where(player_chip > 0)[0]
                         arr_player_cards = np.zeros(13*3)
                         for i in range(len(player_id_not_0_chip)):
-                            player_cards = env[8+ player_id_not_0_chip[i] * 13:8+player_id_not_0_chip[i]*13+13] # bai cua nhung nguoi khong bi 0 chip
+                            player_cards = env[8+ player_id_not_0_chip[i] * 13:8+player_id_not_0_chip[i]*13+13] #  bai cua nhung nguoi khong bi 0 chip
                             arr_player_cards[i*13:i*13+13] = player_cards.astype(np.float64)
                         arr_player_cards = np.reshape(arr_player_cards,(3,13))
                         player_card_len = np.array([len(np.where(player_cards > -1)) for player_cards in arr_player_cards])
@@ -218,11 +218,11 @@ def one_game_numba(p0,list_other, per_player, per1, per2, per3, p1, p2, p3,):
                         return winner,per_player
             if count < 0:
                 return False,per_player
-# # ------------------------------------------------------------------------
+#  #  ------------------------------------------------------------------------
 def one_game_normal(p0, list_other, per_player, per1, per2, per3, p1, p2, p3):
     allGame = True
     saveStoreChip = np.array([50,50,50,50])
-    idxPlayerChip = np.array([21 ,35 ,49,63])
+    idxPlayerChip = np.array([21, 35, 49,63])
     while allGame:
         env = initEnv()
         env[idxPlayerChip] = saveStoreChip
@@ -250,13 +250,13 @@ def one_game_normal(p0, list_other, per_player, per1, per2, per3, p1, p2, p3):
                         env[65] = 0
                     elif stepEnvReturn == -2: 
                         env[66] = 1
-                             # Cong chip cho nguoi choi con it bai nhat
+                             #  Cong chip cho nguoi choi con it bai nhat
                     
                         player_chip = env[idxPlayerChip]
                         player_id_not_0_chip = np.where(player_chip > 0)[0]
                         arr_player_cards = np.zeros(13*3)
                         for i in range(len(player_id_not_0_chip)):
-                            player_cards = env[8+ player_id_not_0_chip[i] * 13:8+player_id_not_0_chip[i]*13+13] # bai cua nhung nguoi khong bi 0 chip
+                            player_cards = env[8+ player_id_not_0_chip[i] * 13:8+player_id_not_0_chip[i]*13+13] #  bai cua nhung nguoi khong bi 0 chip
                             arr_player_cards[i*13:i*13+13] = player_cards.astype(np.float64)
                         arr_player_cards = np.reshape(arr_player_cards,(13,3))
                         player_card_len = np.array([len(np.where(player_cards > -1)) for player_cards in arr_player_cards])
@@ -298,7 +298,7 @@ def n_games_numba(p0, num_game, per_player, list_other, per1, per2, per3, p1, p2
         winner, per_player = one_game_numba(p0, list_other, per_player, per1, per2, per3, p1, p2, p3)
         win += winner
     return win, per_player
-# -----------------------------------------------------------------------------------
+#  -----------------------------------------------------------------------------------
 import importlib.util, json, sys
 try:
     from setup import SHORT_PATH

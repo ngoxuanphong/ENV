@@ -6,13 +6,13 @@ PASS_LEVEL = 2500
 COUNT_TRAIN = 10000
 COUNT_TEST = 1000
 
-# path = "C:\AutomaticTrain\State.xlsx"
-# SHOT_PATH = 'A:/AutoTrain/GAME/'
+#  path = "C:\AutomaticTrain\State.xlsx"
+#  SHOT_PATH = 'A:/AutoTrain/GAME/'
 DRIVE_FOLDER = 'G:/My Drive/AutomaticColab/'
 
 
 SHORT_PATH = ''
-# DRIVE_FOLDER = 'H:/Drive của tôi/AutomaticColab/'
+#  DRIVE_FOLDER = 'H:/Drive của tôi/AutomaticColab/'
 
 import sys, os
 from setup import SHORT_PATH

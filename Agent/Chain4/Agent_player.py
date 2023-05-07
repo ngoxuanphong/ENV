@@ -2,7 +2,7 @@ import numpy as np
 import random as rd
 from numba import njit, jit
 import sys, os
-# SHOT_PATH=''
+#  SHOT_PATH=''
 from setup import SHORT_PATH
 import importlib.util
 game_name = sys.argv[1]
@@ -36,22 +36,22 @@ def DataAgent():
     temp_[0] = np.full(0, 0, dtype=np.int64)
     temp_.clear()
 
-    perData[0] = temp_.copy() # Các biến dùng trong thuật toán
-    perData[1] = temp_.copy() # Temp bias của các chuỗi
-    perData[2] = temp_.copy() # Per bias của các chuỗi
-    perData[3] = temp_.copy() # Đếm số lần xuất hiện của các chuỗi
+    perData[0] = temp_.copy() #  Các biến dùng trong thuật toán
+    perData[1] = temp_.copy() #  Temp bias của các chuỗi
+    perData[2] = temp_.copy() #  Per bias của các chuỗi
+    perData[3] = temp_.copy() #  Đếm số lần xuất hiện của các chuỗi
 
-    # Các biến dùng trong thuật toán
-    perData[0][0] = np.full(1, 0, dtype=np.int64) # Đếm số trận
-    perData[0][1] = np.full(CHAIN_LENGTH, 0, dtype=np.int64) # Lưu lịch sử
-    perData[0][2] = np.full(1, 0, dtype=np.int64) # Đếm số turn trong trận
-    perData[0][3] = np.full(10000, -1, dtype=np.int64) # Lưu các chuỗi xuất hiện
+    #  Các biến dùng trong thuật toán
+    perData[0][0] = np.full(1, 0, dtype=np.int64) #  Đếm số trận
+    perData[0][1] = np.full(CHAIN_LENGTH, 0, dtype=np.int64) #  Lưu lịch sử
+    perData[0][2] = np.full(1, 0, dtype=np.int64) #  Đếm số turn trong trận
+    perData[0][3] = np.full(10000, -1, dtype=np.int64) #  Lưu các chuỗi xuất hiện
 
-    # Bias tự do (Temp)
+    #  Bias tự do (Temp)
     perData[1][-1] = np.arange(getActionSize(), dtype=np.int64) + 1
     np.random.shuffle(perData[1][-1])
 
-    # Bias tự do (Per)
+    #  Bias tự do (Per)
     perData[2][-1] = np.full(getActionSize(), 0, dtype=np.int64) + 1
 
     #
@@ -83,7 +83,7 @@ def Train(state, perData):
 
     if count_match[0] < 10000:
         if count_match[0] == -1:
-            # print("ahihi")
+            #  print("ahihi")
             arr_key = np.full(len(count_bias), 0, dtype=np.int64)
             arr_value = np.full(len(count_bias), 0, dtype=np.int64)
             i = 0
@@ -94,7 +94,7 @@ def Train(state, perData):
 
             for i in range(arr_key.shape[0]):
                 if arr_value[i] <= 1:
-                    # print(arr_key[i], arr_value[i], "drop")
+                    #  print(arr_key[i], arr_value[i], "drop")
                     count_bias.pop(arr_key[i])
                     temp_bias.pop(arr_key[i])
                     per_bias.pop(arr_key[i])

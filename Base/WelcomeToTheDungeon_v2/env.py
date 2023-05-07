@@ -14,33 +14,33 @@ def initEnv():
 
 @njit()
 def resetRound(env):
-    # Người chơi đã bị thua 2 lần thì bỏ lượt
+    #  Người chơi đã bị thua 2 lần thì bỏ lượt
     env[0:4] = 0
     for i in range(4):
         if env[2*i+5] == 2:
             env[i] = 1
 
-    # Không lá quái vật nào được lật
+    #  Không lá quái vật nào được lật
     for i in range(16, 65, 4):
-        env[i+1] = -1 # Không ai chọn
-        env[i+2] = 0 # Không trong hang
-        env[i+3] = 0 # Chưa bị bỏ
+        env[i+1] = -1 #  Không ai chọn
+        env[i+2] = 0 #  Không trong hang
+        env[i+3] = 0 #  Chưa bị bỏ
 
-    # Xào lại bài quái vật
+    #  Xào lại bài quái vật
     monsters = np.arange(13)
     np.random.shuffle(monsters)
     env[68:81] = monsters
 
-    # Số quái chưa mở là 13
+    #  Số quái chưa mở là 13
     env[81] = 13
 
-    # Số quái trong hang là 0
+    #  Số quái trong hang là 0
     env[82] = 0
 
-    # Thông tin anh hùng
+    #  Thông tin anh hùng
     env[83:99] = 0
 
-    env[100] = 0 # Bắt đầu từ Bidding
+    env[100] = 0 #  Bắt đầu từ Bidding
 
     env[101:114] = 0
     return env
@@ -54,7 +54,7 @@ def getAgentState(env):
     env_ = env.copy()
     state = np.zeros(__STATE_SIZE__)
 
-    # Index của người chơi nhận state
+    #  Index của người chơi nhận state
     pIdx = env_[99] % 4
     passArr = env_[0:4]
     score = env_[4:12]
@@ -63,33 +63,33 @@ def getAgentState(env):
         state[i] = passArr[pIdxEnv]
         state[4 + i*2: 6 + i*2] = score[pIdxEnv*2: pIdxEnv*2+2]
 
-    # Số thẻ quái vật chưa mở
+    #  Số thẻ quái vật chưa mở
     state[12] = env_[81]
 
-    # Số thẻ quái vật trong hang
+    #  Số thẻ quái vật trong hang
     state[13] = env_[82]
 
-    # Các thẻ quái vật người chơi đã mở
+    #  Các thẻ quái vật người chơi đã mở
     state[14:53] = 0
     j = 14
     for i in range(16, 65, 4):
-        if env_[i+1] == pIdx: # Nếu đây là thẻ do người này rút
+        if env_[i+1] == pIdx: #  Nếu đây là thẻ do người này rút
             state[j] = env_[i]
             state[j+1] = env_[i+2]
             state[j+2] = env_[i+3]
         j = j + 3
 
-    # Anh hùng và trang bị
+    #  Anh hùng và trang bị
     state[53:69] = env_[83:99]
     if state[54]<0:
         state[54] = 0
     if state[62]<0:
         state[62] = 0
 
-    # Đang trong Bidding phase hay Dungeon phase
+    #  Đang trong Bidding phase hay Dungeon phase
     state[69] = env_[100]
 
-    # Lá quái vật vừa mở
+    #  Lá quái vật vừa mở
     state[70:83] = env_[101:114]
 
     return state
@@ -124,26 +124,26 @@ def getValidActions(state):
 
     state_ = state.copy()
     validActions = np.zeros(__ACTION_SIZE__)
-    # Nếu người chơi đã bỏ lượt
+    #  Nếu người chơi đã bỏ lượt
     if state_[53] != 0 or state_[61] != 0:
         if state_[0] == 1:
             validActions[0] = 1
         elif checkEndBidding(state):
             validActions[10] = 1
-            if state_[53] == 1: # Anh hùng đang là Barbarian
+            if state_[53] == 1: #  Anh hùng đang là Barbarian
                 if state_[59] == 1:
                     validActions[8] = 1
-            else: # Anh hùng đang là Mage
+            else: #  Anh hùng đang là Mage
                 if state_[66] == 1 and state_[12] > 0:
                     validActions[9] = 1
         else:
-            if state_[12] == 0: # Nếu hết bài:
+            if state_[12] == 0: #  Nếu hết bài:
                 validActions[0] = 1
-            # Nếu chưa hết bài
-            elif np.all(state_[70:83] == 0): # Nếu chưa xem
+            #  Nếu chưa hết bài
+            elif np.all(state_[70:83] == 0): #  Nếu chưa xem
                 validActions[0] = 1
                 validActions[11] = 1
-            else: # Đã xem bài
+            else: #  Đã xem bài
                 if state_[53] == 1:
                     for i in range(6):
                         if state_[55+i] == 1:
@@ -162,39 +162,39 @@ def getValidActions(state):
 @njit()
 def stepEnv(action, env):
     pIdx = env[99]%4
-    if action == 0: # Bỏ lượt
-        env[pIdx] = 1 # Gán người chơi bỏ qua
+    if action == 0: #  Bỏ lượt
+        env[pIdx] = 1 #  Gán người chơi bỏ qua
         while env[env[99]%4] == 1:
-            env[99] += 1 # Chuyển đến người chưa bỏ lượt
-    elif action == 11: # Chọn xem thẻ quái vật
+            env[99] += 1 #  Chuyển đến người chưa bỏ lượt
+    elif action == 11: #  Chọn xem thẻ quái vật
         topCardIdx = env[81] + 67
         env[env[topCardIdx]+101] = 1
-        env[17 + 4*env[topCardIdx]] = pIdx # Người rút thẻ
-    elif action == 1: # Rút thẻ quái vật và bỏ vào hang
+        env[17 + 4*env[topCardIdx]] = pIdx #  Người rút thẻ
+    elif action == 1: #  Rút thẻ quái vật và bỏ vào hang
         topCardIdx = env[81] + 67
-        env[81] -= 1 # Giảm số quái vật trên bàn đi 1
-        env[82] += 1 # Tăng số quái vật trong hang lên 1
-        env[18 + 4*env[topCardIdx]] = env[82] # Thêm vào hang
+        env[81] -= 1 #  Giảm số quái vật trên bàn đi 1
+        env[82] += 1 #  Tăng số quái vật trong hang lên 1
+        env[18 + 4*env[topCardIdx]] = env[82] #  Thêm vào hang
         env[topCardIdx] = -1
-        env[101:114] = 0 # Đánh dấu đã hành động sau khi xem
-        env[99] += 1 # Chuyển người tiếp theo
+        env[101:114] = 0 #  Đánh dấu đã hành động sau khi xem
+        env[99] += 1 #  Chuyển người tiếp theo
         while env[env[99]%4] == 1:
-            env[99] += 1 # Chuyển đến người chưa bỏ lượt
-    elif 2<=action<=7: # Rút thẻ và chọn trang bị bỏ đi
+            env[99] += 1 #  Chuyển đến người chưa bỏ lượt
+    elif 2<=action<=7: #  Rút thẻ và chọn trang bị bỏ đi
         topCardIdx = env[81] + 67
-        env[81] -= 1 # Giảm số quái vật trên bàn đi 1
-        env[19 + 4*env[topCardIdx]] = 1 # Đánh dấu đã bỏ thẻ
+        env[81] -= 1 #  Giảm số quái vật trên bàn đi 1
+        env[19 + 4*env[topCardIdx]] = 1 #  Đánh dấu đã bỏ thẻ
         if env[83] == 1:
-            env[action + 83] = 0 # Đánh dấu đã bỏ trang bị của Barbarian
+            env[action + 83] = 0 #  Đánh dấu đã bỏ trang bị của Barbarian
         else:
-            env[action + 91] = 0 # Đánh dấu đã bỏ trang bị của Mage
+            env[action + 91] = 0 #  Đánh dấu đã bỏ trang bị của Mage
         env[topCardIdx] = -1
-        env[101:114] = 0 # Đánh dấu đã hành động sau khi xem
-        env[99] += 1 # Chuyển người tiếp theo
+        env[101:114] = 0 #  Đánh dấu đã hành động sau khi xem
+        env[99] += 1 #  Chuyển người tiếp theo
         while env[env[99]%4] == 1:
-            env[99] += 1 # Chuyển đến người chưa bỏ lượt
+            env[99] += 1 #  Chuyển đến người chưa bỏ lượt
     elif 8<=action<=10:
-        # Đánh quái trong hang
+        #  Đánh quái trong hang
         env[12:16] = 0
         env[pIdx + 12] = 1
         env[100] = 1
@@ -205,55 +205,55 @@ def stepEnv(action, env):
                 if env[i+2] == env[82]:
                     monster = env[i:i+4]
                     position = i
-            env[82] -= 1 # Giảm số quái trong hang đi 1
-            env[position + 2] = 0 # Bỏ bài này khỏi hang và
-            env[position + 3] = 1 # Vứt bài này
+            env[82] -= 1 #  Giảm số quái trong hang đi 1
+            env[position + 2] = 0 #  Bỏ bài này khỏi hang và
+            env[position + 3] = 1 #  Vứt bài này
             attack = monster[0]
             if action == 8: #Sử dụng Vorpal Axe anh hùng Barbarian
-                env[89] = 0 # Bỏ đi trang bị Vorpal Axe
+                env[89] = 0 #  Bỏ đi trang bị Vorpal Axe
                 attack = 0
             if action == 9: #Sử dụng Polymorph của anh hùng Mage
-                env[81] -= 1 # Giảm số quái vật trên bàn đi 1
+                env[81] -= 1 #  Giảm số quái vật trên bàn đi 1
                 topCardIdx = env[81] + 67
-                env[96] = 0 # Bỏ đi trang bị Polymorph
-                env[17 + 4*env[topCardIdx]] = pIdx # Người rút thẻ
+                env[96] = 0 #  Bỏ đi trang bị Polymorph
+                env[17 + 4*env[topCardIdx]] = pIdx #  Người rút thẻ
                 env[topCardIdx] = -1
                 attack = env[16 + 4*env[topCardIdx]]
-            if env[83] == 1: # Tính điểm Barbarian
+            if env[83] == 1: #  Tính điểm Barbarian
                 env[84] += 3*env[85] + 4*env[90]
                 env[85] = 0
                 env[90] = 0
-                if env[87] == 1: # Có Torch
+                if env[87] == 1: #  Có Torch
                     if attack <= 3:
                         attack = 0
-                if env[88] == 1: # Có War Hammer
+                if env[88] == 1: #  Có War Hammer
                     if attack == 5:
                         attack = 0
-                if env[86] == 1: # Có Healing Potion
+                if env[86] == 1: #  Có Healing Potion
                     if attack >= env[84]:
                         attack = 0
                         env[84] = 4
                         env[86] = 0
                 env[84] = env[84] - attack
             else: #Tính điểm Mage
-                if env[93] == 1: # Có Omnipotence
+                if env[93] == 1: #  Có Omnipotence
                     monsters = env[16:68].copy().reshape(13,4)
                     monsters = monsters[monsters[:,2] > 0]
                     unique_monster = np.unique(monsters[:,0])
                     if len(unique_monster) == len(monsters[:,0]):
-                        # Bỏ tất cả quái vật
-                        env[82] = 0 # Xóa tất cả số quái trong hang
+                        #  Bỏ tất cả quái vật
+                        env[82] = 0 #  Xóa tất cả số quái trong hang
                         for i in range(16, 65, 4):
-                            env[i+2] = 0 # Bỏ bài này khỏi hang và
-                            env[i+3] = 1 # Vứt bài này
+                            env[i+2] = 0 #  Bỏ bài này khỏi hang và
+                            env[i+3] = 1 #  Vứt bài này
                     env[93] = 0
                 env[92] += 6*env[97] + 3*env[98]
                 env[97] = 0
                 env[98] = 0
-                if env[94] == 1: # Có Holy Grail
+                if env[94] == 1: #  Có Holy Grail
                     if attack %2 == 0:
                         attack = 0
-                if env[95] == 1: # Có Demonic Pact
+                if env[95] == 1: #  Có Demonic Pact
                     if attack == 7:
                         attack = 0
                 env[92] -= attack
@@ -270,10 +270,10 @@ def stepEnv(action, env):
                     env[pIdx*2 + 5] += 1
             if checkEnded(env) == -1:
                 resetRound(env)
-    elif action == 12: # Chọn Barbarian
+    elif action == 12: #  Chọn Barbarian
         env[83:91] = 1
         env[84] = 4
-    elif action == 13: # Chọn Mage
+    elif action == 13: #  Chọn Mage
         env[91:99] = 1
         env[92] = 2
 

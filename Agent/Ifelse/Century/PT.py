@@ -62,7 +62,7 @@ def getArrValueActionsCard(state,infor_action_cards_on_board):
         id+=1
 
     arr_return = np.array(ls_return)
-    # print('arr_return',arr_return)
+    #  print('arr_return',arr_return)
     return arr_return
 @njit()
 def chooseGetFreeTokenActionCardOnBoard(state,infor_action_cards_on_board):
@@ -127,7 +127,7 @@ def Test(state,per):
     if len(buy_actions_card):
       arr_cham_diem_action_card = getArrValueActionsCard(state,infor_action_cards_on_board)
       id = np.argmax(arr_cham_diem_action_card) -1
-      return buy_actions_card[id] ,per
+      return buy_actions_card[id], per
 
     idGetFreeTokenAction = chooseGetFreeTokenActionCardOnBoard(state,infor_action_cards_on_board)
     if idGetFreeTokenAction != -1:
@@ -135,7 +135,7 @@ def Test(state,per):
 
     action_buy_point_card = actions[(actions>=7) & (actions < 12)]
     if len(action_buy_point_card)>0:
-      # id_buy_point_card = choosePointCard(state,action_buy_point_card,infor_point_cards_on_board)
+      #  id_buy_point_card = choosePointCard(state,action_buy_point_card,infor_point_cards_on_board)
       return action_buy_point_card[0],per
 
     removeToken = actions[(actions >= 57) & (actions < 61)]
@@ -154,8 +154,8 @@ def Test(state,per):
             valueOfActionCards[i] = valueOf(actionCards, performActionCardsActions[i], resources, infor_point_cards_on_board[:, 0:4])
         action = performActionCardsActions[np.argmax(valueOfActionCards)]
         return action, per
-    # if sum(state[51:96]) < 1:
-    #   return np.random.choice(actions),per
+    #  if sum(state[51:96]) < 1:
+    #    return np.random.choice(actions),per
    
     upgradeToken = actions[(actions >= 62) & (actions < 65)]
     if len(upgradeToken) > 0:

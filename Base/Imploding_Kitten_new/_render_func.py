@@ -51,33 +51,33 @@ def get_state_image(state=None):
 
     bg = sprites.background.copy()
 
-    # Draw
+    #  Draw
     draw = ImageDraw.ImageDraw(bg)
 
-    # Hold in hand
+    #  Hold in hand
     temp = state[0:17].astype(int)
     for i in range(17):
         text = str(temp[i])
         draw_outlined_text(draw, text, params.font32, (68+110*i, 827), (255, 255, 255), 1)
 
-    # Discard pile
+    #  Discard pile
     temp = state[17:35].astype(int)
     for i in range(18):
         text = str(temp[i])
         bbox = draw.textbbox((0, 0), text, params.font32)
         draw_outlined_text(draw, text, params.font32, (162+110*i-bbox[2], 720), (255, 255, 255), 1)
 
-    # Draw pile
+    #  Draw pile
     text = str(int(state[35]))
     bbox = draw.textbbox((0, 0), text, params.font32)
     draw_outlined_text(draw, text, params.font32, (1050-bbox[2]//2, 380), (255, 255, 255), 1)
 
-    # Have to draw
+    #  Have to draw
     text = str(int(state[100]))
     bbox = draw.textbbox((0, 0), text, params.font32)
     draw_outlined_text(draw, text, params.font32, (1050-bbox[2]//2, 420), (0, 0, 0), 1)
 
-    # Others
+    #  Others
     for i in range(5):
         if state[116+i] == 0:
             text = "Exploded"
@@ -91,7 +91,7 @@ def get_state_image(state=None):
         bbox = draw.textbbox((0, 0), text, font)
         draw_outlined_text(draw, text, font, (110+470*i-bbox[2]//2, 160+b_h), (255, 255, 255), 1)
 
-    # Last action
+    #  Last action
     a = np.where(state[101:116] == 1)[0]
     if len(a) == 1:
         last_action = a[0]
@@ -120,13 +120,13 @@ def get_state_image(state=None):
             bbox = draw.textbbox((0, 0), text, params.font32)
             draw_outlined_text(draw, text, params.font32, (360-bbox[2]//2, 300), (0, 0, 0), 1)
 
-    # Exploded
+    #  Exploded
     if state[121] == 0:
         text = "Exploded"
         bbox = draw.textbbox((0, 0), text, params.font32)
         draw_outlined_text(draw, text, params.font32, (1050-bbox[2]//2, 630), (0, 0, 0), 1)
 
-    # See the future
+    #  See the future
     temp = []
     for i in range(3):
         try:
@@ -151,13 +151,13 @@ def get_state_image(state=None):
 
         bg.paste(card, (s_+140*i, 250))
 
-    # Nope
+    #  Nope
     if state[37] == 1:
         text = "Nope"
         bbox = draw.textbbox((0, 0), text, params.font32)
         draw_outlined_text(draw, text, params.font32, (360-bbox[2]//2, 420), (0, 0, 0), 1)
 
-    # Cards have been discarded
+    #  Cards have been discarded
     temp = []
     for i in range(16):
         for k in range(int(state[128+i])):
@@ -174,7 +174,7 @@ def get_state_image(state=None):
 
         bg.paste(card, (s_+110*i, 470))
 
-    # Imploded
+    #  Imploded
     if state[127] == 1:
         bg.paste(sprites.im_cards[-1], (680, 250))
 

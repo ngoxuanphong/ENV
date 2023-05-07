@@ -33,10 +33,10 @@ def DataAgent():
   return per
   
 @njit()
-def getCardOnBoard(p_state): # 12 thẻ đang có trên bàn
+def getCardOnBoard(p_state): #  12 thẻ đang có trên bàn
   return p_state[18:150].reshape(12,11).copy()
 @njit()
-def getNoble(p_state): # 5 thẻ Noble
+def getNoble(p_state): #  5 thẻ Noble
   return p_state[150: 175].reshape(5,5).copy()
 @njit()
 def getCardOnHold( p_state):
@@ -87,7 +87,7 @@ def nhamThe(state):
     arr = cost - ngLieuCanGet - ngLieu
     number = sum( arr[arr > 0] ) - state[11] #so nguyen lieu cần lấy
     arrGet = cost - ngLieu
-    ngLieuCanGet[arrGet <= 0] = np.zeros( arrGet[arrGet <= 0].size ) # các nguyen lieu can lay <= 3
+    ngLieuCanGet[arrGet <= 0] = np.zeros( arrGet[arrGet <= 0].size ) #  các nguyen lieu can lay <= 3
     if number <= 0 and ngLieuCanGet[ngLieuCanGet == 1].size <= 3:
       check = True
       break
@@ -134,7 +134,7 @@ def holdCard(state):
         action = k + 16
         
   if action >= 16 and action <= 27:
-    return action ### hold thẻ cấp 3 ẩn
+    return action ###  hold thẻ cấp 3 ẩn
   else:
     if getValidActions(state)[29]:
       return 29
@@ -145,13 +145,13 @@ def holdCard(state):
 def Test(state, per):
   validActions = getValidActions(state)
   actions = np.where(validActions)[0]
-  # print(state)
-  # print(actions)
+  #  print(state)
+  #  print(actions)
 
   #Lấy thẻ-------------------------------------------
   if checkGetCard(state):
     action = checkGetCard(state)
-    # print('Lay the: ', action)
+    #  print('Lay the: ', action)
     return action, per
 
   #Nhặt nguyên liệu----------------------------------
@@ -168,22 +168,22 @@ def Test(state, per):
       per[0][action] = 0
       action += 31
     else:
-      stockUuTien = np.array([4, 3, 0 , 1, 2])
+      stockUuTien = np.array([4, 3, 0,  1, 2])
       for i in stockUuTien:
         if actionGetStock[i] and stockOnHand[i] == 0:
           action = i + 31
           break
-    # print('Lay nguyen lieu: ', action)
+    #  print('Lay nguyen lieu: ', action)
     return action, per
 
   #Hold thẻ
   if checkHold(state):
     actHold = holdCard(state)
-    # print('Hold: ' ,  actHold)
+    #  print('Hold: ',   actHold)
     return actHold, per
 
-  # print(0)
-  # return 0, per
+  #  print(0)
+  #  return 0, per
   idx = np.random.randint(len(actions))
-  # print( '-----', actions[idx])
+  #  print( '-----', actions[idx])
   return actions[idx], per

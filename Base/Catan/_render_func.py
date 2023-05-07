@@ -158,16 +158,16 @@ def get_state_image(state=None):
 
     bg = sprites.background.copy()
 
-    # Draw
+    #  Draw
     draw = ImageDraw.ImageDraw(bg)
 
-    # Vẽ Robber
+    #  Vẽ Robber
     rob_pos = np.where(state[95:114] == 1)[0][0]
     bg.paste(sprites.robber,
              (params.tile_center_pos[rob_pos][0]-55, params.tile_center_pos[rob_pos][1]-27),
              sprites.robber)
 
-    # Tài nguyên ngân hàng, thẻ phát triển
+    #  Tài nguyên ngân hàng, thẻ phát triển
     bank_res = state[187:193]
     for i in range(6):
         if bank_res[i] == 0:
@@ -177,30 +177,30 @@ def get_state_image(state=None):
 
         draw_outlined_text(draw, text, params.font24, (455+50*i, 182), (0, 0, 0), 1)
 
-    # Nguyên liệu của bản thân
+    #  Nguyên liệu của bản thân
     my_res = state[193:198]
     for i in range(5):
         text = str(int(my_res[i]))
         draw_outlined_text(draw, text, params.font24, (455+50*i, 732), (0, 0, 0), 1)
 
-    # Thẻ phát triển của bản thân
+    #  Thẻ phát triển của bản thân
     my_dev = state[198:203]
     for i in range(5):
         text = str(int(my_dev[i]))
         draw_outlined_text(draw, text, params.font24, (455+50*i, 807), (0, 0, 0), 1)
 
-    # Điểm của bản thân
+    #  Điểm của bản thân
     my_score = str(int(state[203]))
     bbox = draw.textbbox((0, 0), my_score, params.font28)
     draw_outlined_text(draw, my_score, params.font28, (350-bbox[2]/2, 832-bbox[3]), (255, 255, 255), 1)
 
-    # Điểm của 3 người chơi khác
+    #  Điểm của 3 người chơi khác
     for i in range(3):
         score = str(int(state[393+185*i]))
         bbox = draw.textbbox((0, 0), score, params.font28)
         draw_outlined_text(draw, score, params.font28, (350-bbox[2]/2, 382+150*i-bbox[3]), (255, 255, 255), 1)
 
-    # Số thẻ knight đã dùng và con đường dài nhất của bản thân
+    #  Số thẻ knight đã dùng và con đường dài nhất của bản thân
     num_knight = str(int(state[384]))
     bbox = draw.textbbox((0, 0), num_knight, params.font24)
     draw_outlined_text(draw, num_knight, params.font24, (310-bbox[2]/2, 777), (0, 0, 0), 1)
@@ -208,7 +208,7 @@ def get_state_image(state=None):
     bbox = draw.textbbox((0, 0), longest_road, params.font24)
     draw_outlined_text(draw, longest_road, params.font24, (380-bbox[2]/2, 777), (0, 0, 0), 1)
 
-    # Số thẻ knight đã dùng và con đường dài nhất của 3 người chơi khác
+    #  Số thẻ knight đã dùng và con đường dài nhất của 3 người chơi khác
     for i in range(3):
         num_knight = str(int(state[574+185*i]))
         bbox = draw.textbbox((0, 0), num_knight, params.font24)
@@ -217,41 +217,41 @@ def get_state_image(state=None):
         bbox = draw.textbbox((0, 0), longest_road, params.font24)
         draw_outlined_text(draw, longest_road, params.font24, (380-bbox[2]/2, 327+150*i), (0, 0, 0), 1)
 
-    # Tổng số thẻ tài nguyên và tổng số thẻ phát triển của 3 người chơi khác
+    #  Tổng số thẻ tài nguyên và tổng số thẻ phát triển của 3 người chơi khác
     for i in range(3):
         num_res = str(int(state[391+185*i]))
         draw_outlined_text(draw, num_res, params.font24, (455, 282+150*i), (0, 0, 0), 1)
         num_dev = str(int(state[392+185*i]))
         draw_outlined_text(draw, num_dev, params.font24, (455, 357+150*i), (0, 0, 0), 1)
 
-    # Đường của bản thân
+    #  Đường của bản thân
     my_roads = np.where(state[204:276] == 1)[0]
     draw_roads(bg, my_roads, 0)
 
-    # Đường của 3 người chơi khác
+    #  Đường của 3 người chơi khác
     for i in range(3):
         roads = np.where(state[394+185*i:466+185*i] == 1)[0]
         draw_roads(bg, roads, i+1)
 
-    # Nhà và thành phố của bản thân
+    #  Nhà và thành phố của bản thân
     setts = np.where(state[276:330] == 1)[0]
     draw_setts(bg, setts, 0, city=False)
     cities = np.where(state[330:384] == 1)[0]
     draw_setts(bg, cities, 0, city=True)
 
-    # Nhà và thành phố của 3 người chơi khác
+    #  Nhà và thành phố của 3 người chơi khác
     for i in range(3):
         setts = np.where(state[466+185*i:520+185*i])[0]
         draw_setts(bg, setts, i+1, city=False)
         cities = np.where(state[520+185*i:574+185*i])[0]
         draw_setts(bg, cities, i+1, city=True)
 
-    # Phase
+    #  Phase
     phase = np.where(state[947:963] == 1)[0][0]
     text = f"Phase {phase}: " + phase_annotations[phase]
     draw_outlined_text(draw, text, params.font28, (280, 65), (255, 255, 255), 1)
 
-    # Điểm đặt thứ nhất
+    #  Điểm đặt thứ nhất
     try:
         pos = np.where(state[963:1017] == 1)[0][0]
         bg.paste(sprites.highlight_circle,
@@ -259,7 +259,7 @@ def get_state_image(state=None):
                  sprites.highlight_circle)
     except: pass
 
-    # Người chơi chính
+    #  Người chơi chính
     p_ids = np.where(state[1044:1047] == 1)[0]
     if len(p_ids) == 0:
         p_idx = 0
@@ -271,21 +271,21 @@ def get_state_image(state=None):
         bbox = draw.textbbox((0, 0), text, params.font28)
         draw_outlined_text(draw, text, params.font28, (350-bbox[2]/2, 100+150*p_idx), (0, 0, 0), 1)
 
-    # Trade offer
+    #  Trade offer
     for i in range(5):
         text = str(int(state[1028+i]))
         draw_outlined_text(draw, text, params.font24, (455+300+50*i, 732), (0, 0, 0), 1)
         text = str(int(state[1033+i]))
         draw_outlined_text(draw, text, params.font24, (455+300+50*i, 807), (0, 0, 0), 1)
 
-    # Phản hồi của người chơi phụ
+    #  Phản hồi của người chơi phụ
     for i in range(3):
         if state[1039+2*i] == 1:
             bg.paste(sprites.icon_check,
                      (597, 293+150*i),
                      sprites.icon_check)
 
-    # Tổng xx
+    #  Tổng xx
     if state[946] == 1:
         xx = 7
     elif (state[1219:1224] == 1).any():
@@ -431,7 +431,7 @@ def get_main_player_state(env_components: Env_components, list_agent, list_data,
         else:
             win = 0
 
-        # Chạy turn cuối cho 3 bot hệ thống
+        #  Chạy turn cuối cho 3 bot hệ thống
         for p_idx in range(4):
             if p_idx != my_idx:
                 env[254] = p_idx

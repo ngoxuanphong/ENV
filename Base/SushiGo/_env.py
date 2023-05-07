@@ -37,7 +37,7 @@ def initEnv(n):
     cards = list_card[:3*n*(12-n)]
     state_sys = np.concatenate((state_sys,cards))
     for i in range(n):
-        state_sys =  np.concatenate((state_sys ,np.array([0,0]) ,np.array([-1 for i in range(12-n)])))
+        state_sys =  np.concatenate((state_sys, np.array([0,0]), np.array([-1 for i in range(12-n)])))
     return state_sys
 
 @njit()
@@ -59,7 +59,7 @@ def getAgentState(state_sys,index_player):
             for i in state_sys[index_start_card_board:index_end_card_board]:
                 if i != -1:
                     state_player[step+i] +=1
-            # print("cover:",index_player,state_sys,state_sys[index_start_card_board:index_end_card_board],state_player[step:step+12])
+            #  print("cover:",index_player,state_sys,state_sys[index_start_card_board:index_end_card_board],state_player[step:step+12])
             step += 12
             state_player[step:step+2] = state_sys[index_start_player_s:index_start_player_s+2]
             step += 2
@@ -81,15 +81,15 @@ def calculator_for_one(card):
     score_dumpling = [0,1,3,6,10,15]
     score = card[0]
     card = card[2:]
-    # print("card",card,end = " ")
+    #  print("card",card,end = " ")
     tempura = np.count_nonzero(card == 0)
    
     score += tempura//2 * 5
-    # print("tempura: ",score,end = " ")
+    #  print("tempura: ",score,end = " ")
 
     sashimi = np.count_nonzero(card == 1)
     score += sashimi//3 * 10
-    # print("sashimi: ",score,end = " ")
+    #  print("sashimi: ",score,end = " ")
 
     dumpling = np.count_nonzero(card ==2)
     if dumpling>5:
@@ -97,7 +97,7 @@ def calculator_for_one(card):
         dumpling = 5
     score += score_dumpling[dumpling]
 
-    # print("dumpling: ",score,end = " ")
+    #  print("dumpling: ",score,end = " ")
 
     salmon_nigiri = np.count_nonzero(card ==6)
     squid_nigiri = np.count_nonzero(card ==7)
@@ -136,7 +136,7 @@ def calculator_pudding(state_sys,amount_player):
 
     max_p, min_p = max(arr_pudding),min(arr_pudding)
     list_ = get_index(arr_pudding,max_p,min_p)
-    # print(list_)
+    #  print(list_)
     for top in range(len(list_)):
         for index_player_relative in list_[top]:
             score = (6 - top*12) // len(list_[top])
@@ -166,13 +166,13 @@ def calculator_score(state_sys,amount_player):
                 second = c_maki
 
         list_ = get_index(arr_maki,first,second)
-        # print(list_)
+        #  print(list_)
         for top in range(len(list_)):
             for index_player_relative in list_[top]:
                 score = (6 - top*3) // len(list_[top])
                 index_start_player_s = (index_player_relative) * 7 + 3*amount_player*7 + (index_player_relative+1) *2 +1
                 state_sys[index_start_player_s] = state_sys[index_start_player_s] + score
-                # print(score)
+                #  print(score)
             if len(list_[top]) > 1:
                 break
     return state_sys
@@ -205,7 +205,7 @@ def winner_victory(state_sys):
     list_score = state_sys[3+3*amount_player*7::14-amount_player]
     max_score = max(list_score)
     winner = np.where(list_score == max_score)[0]
-    # print("Diem:",list_score)
+    #  print("Diem:",list_score)
     if len(winner) == 1:
         return winner
     else:
@@ -230,7 +230,7 @@ def stepEnv(state_sys,list_action,amount_player,turn,round):
         for i in l_a:
             if i == 13:
                 break
-            # print("----------------------",i,state_sys[index_player_s:index_player_e],state_sys[index_board_s:index_board_e],state_sys.shape)
+            #  print("----------------------",i,state_sys[index_player_s:index_player_e],state_sys[index_board_s:index_board_e],state_sys.shape)
             if i == 12:
                 state_sys = move_card_step(state_sys,11,index_player_s,index_player_e,index_board_s,index_board_e)
                 continue
@@ -257,7 +257,7 @@ def test_action(player_state,action):
         player_state = move_card(player_state,11,index_between+2,2)
         player_state[-2] = 1
         return player_state
-    # player_state[-2] = 0
+    #  player_state[-2] = 0
     if player_state[-1] > 0:
         player_state = move_card(player_state,action,2,index_between+2)
         player_state[-1] -= 1
@@ -305,7 +305,7 @@ def getValidActions(player_state_origin:np.int64):
     player_state = player_state.astype(np.int64)
     amount = 5
     card = player_state[2:14]
-    # print("card:", card)
+    #  print("card:", card)
     if player_state[-2] == 1:
         card[11] -= 1
     list_action = np.where(card> 0)[0]
@@ -355,7 +355,7 @@ def one_game_numba(p0, list_other, per_player, per1, per2, per3, per4, p1, p2, p
                 list_action[idx][count] = action
                 count += 1
                 player_state = test_action(player_state,action)
-            # player_state = getAgentState(state_sys,idx)
+            #  player_state = getAgentState(state_sys,idx)
         state_sys = stepEnv(state_sys,list_action,amount_player,turn,round)
         if turn % 7 == 0:
             state_sys = calculator_score(state_sys,amount_player)

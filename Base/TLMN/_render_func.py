@@ -206,7 +206,7 @@ def get_main_player_state(env_components: Env_components, list_agent, list_data,
         else:
             win = 0
 
-        # Chạy turn cuối cho 3 bot hệ thống
+        #  Chạy turn cuối cho 3 bot hệ thống
         for p_idx in range(4):
             if p_idx != my_idx:
                 env[52] = p_idx

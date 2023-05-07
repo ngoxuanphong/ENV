@@ -1,9 +1,9 @@
 
-## Luật chơi game này:
+##  Luật chơi game này:
     -File: Base/CatanNoExchange/HeXSaiGon-Quarantine.pdf
     -Map: Base/CatanNoExchange/catan-Page-4.drawio.png
 
-## :video_game: Action
+##  :video_game: Action
     * 0-53: Chọn điểm
     * 54: Roll xúc xắc
     * 55,56,57,58: Dùng thẻ dev, lần lượt Knight, RoadBuilding, Yearofplenty, Monopoly
@@ -20,7 +20,7 @@
 
 
 
-## :bust_in_silhouette: P_state
+##  :bust_in_silhouette: P_state
 
         19 ô đất, 54 điểm đặt, 72 đường đường, 9 cảng
         Thứ tự tài nguyên: Cây, Gạch, Cừu, Lúa, Đá, Sa mạc
@@ -84,7 +84,7 @@
     -   [1291]: EndGame
 
 
-## :globe_with_meridians: ENV_state
+##  :globe_with_meridians: ENV_state
 
         -   [0:19] Tài nguyên trên các ô đất
         -   [19] Vị trí Robber
@@ -128,7 +128,7 @@
         -   [184:226] Thông tin người chơi 3
         -   [280] End Game
 
-# Thông tin khác
+#  Thông tin khác
         Số thẻ dev và tài nguyên mỗi loại
         KNIGHT: 14
         BUILD ROAD* 2

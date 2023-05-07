@@ -15,7 +15,7 @@ NUMBER_TRAIN = 45
 NUMBER_PHASE = 4        #edit 13h 4/1/2023
 NUMBER_SPECIAL_ROUTE = 6
 NUMBER_TYPE_TRAIN_CAR_CARD = 9
-# NUMBER_ROUTE_ENV = NUMBER_ROUTE - NUMBER_SPECIAL_ROUTE - NUMBER_ROUTE_GET*NUMBER_PLAYER
+#  NUMBER_ROUTE_ENV = NUMBER_ROUTE - NUMBER_SPECIAL_ROUTE - NUMBER_ROUTE_GET*NUMBER_PLAYER
 NUMBER_TRAIN_CAR_CARD = 110     #tổng số thẻ train_car
 ATTRIBUTE_PLAYER = 58       #(score, neg_score, number_train, 9 vị trí cho số lượng thẻ traincar mỗi loại, 46 vị trí cho thẻ route đang có (0 là ko có, 1 là đang giữ, -1 là đã drop))
 
@@ -213,7 +213,7 @@ LIST_ALL_ROAD_POINT = np.array([[21, 10], [21, 23], [10, 23], [23,  3], [23, 28]
                                 [20, 44], [20, 42], [20,  9], [44, 36], [44, 42], [44, 31], [44, 30], [31, 30], [40, 30], [37, 11],
                                 [37, 27], [37,  2], [11, 39], [11,  8], [ 8, 39], [ 8,  9], [ 8, 20], [31, 12], [40, 19], [40, 19],
                                 [19, 16], [19, 16], [12,  4], [12, 42], [42,  4], [42,  4], [42, 43], [43,  9], [43,  9], [ 9, 45],
-                                [ 9, 34], [34, 39], [39,  2], [34, 45], [34,  2], [ 2,  6], [27,  6],[32,  6], [32, 41], [32, 24],
+                                [ 9, 34], [34, 39], [39,  2], [34, 45], [34,  2], [ 2,  6], [27,  6], [32,  6], [32, 41], [32, 24],
                                 [32, 27], [ 4, 17], [ 4, 17], [ 4, 43], [16,  0], [16, 17], [16,  4], [ 0, 17], [17,  7], [17, 29],
                                 [17, 29], [17, 26], [26, 46], [26, 41], [26, 43], [45, 43], [45, 41], [46, 41], [46, 24], [46, 29],
                                 [29, 24]])
@@ -280,18 +280,18 @@ LIST_ALL_ROUTE_TEXT = np.array(['Athina-Angora', 'Budapest-Sofia', 'Frankfurt-Ko
                         'Palermo-Moskva', 'Kobenhavn-Erzurum', 'Edinburgh-Athina',
                         'Cadiz-Stockholm'])
 
-LIST_ALL_ROUTE_POINT = np.array([[ 2,  1],[ 9, 39],[17, 19],[33, 15],
-                                [39, 37],[20, 30],[46,  6],[46,  9],
-                                [42, 36],[45,  6],[29, 45],[ 5, 24],
-                                [22,  4],[14, 29],[ 0, 28],[32, 37],
-                                [27, 11],[34, 35],[23, 13],[ 3,  7],
-                                [29, 43],[ 3, 26],[ 5, 41],[36, 33],                                
-                                [24, 16],[20, 38],[23, 46],[ 4,  8],
-                                [ 7, 12],[ 4, 32],[ 1, 18],[31,  8],
-                                [16, 20],[41, 11],[22, 43],[ 2, 44],
-                                [40, 43],[ 4, 25],[ 0, 44],[17, 36],
-                                [21, 12],[ 5, 30],[27, 25],[19, 15],
-                                [14,  2],[10, 40]])
+LIST_ALL_ROUTE_POINT = np.array([[ 2,  1], [ 9, 39], [17, 19], [33, 15],
+                                [39, 37], [20, 30], [46,  6], [46,  9],
+                                [42, 36], [45,  6], [29, 45], [ 5, 24],
+                                [22,  4], [14, 29], [ 0, 28], [32, 37],
+                                [27, 11], [34, 35], [23, 13], [ 3,  7],
+                                [29, 43], [ 3, 26], [ 5, 41], [36, 33],                                
+                                [24, 16], [20, 38], [23, 46], [ 4,  8],
+                                [ 7, 12], [ 4, 32], [ 1, 18], [31,  8],
+                                [16, 20], [41, 11], [22, 43], [ 2, 44],
+                                [40, 43], [ 4, 25], [ 0, 44], [17, 36],
+                                [21, 12], [ 5, 30], [27, 25], [19, 15],
+                                [14,  2], [10, 40]])
 
 
 LIST_ALL_SCORE_ROUTE = np.array([ 5,  5,  5,  5,  5,  6,  6,  6,  6,  6,  7,  7,  7,  7,  7,  8,  8,
@@ -483,7 +483,7 @@ def check_done_route_card(p_road, point_source, point_dest):
             test_road = np.unique(POINT_ROAD_RELATIVE[check_point].flatten())
             test_road = test_road[test_road > -1]
             for road in test_road:
-                # print(road)
+                #  print(road)
                 if road_checked[road] == 0 and road in p_road:
                     if point_dest in LIST_ALL_ROAD_POINT[road]:
                         return 1
@@ -523,14 +523,14 @@ def shuffle_drop_card(env_state):
 
 @nb.njit()
 def process_train_car_board(env_state):
-    # number_train_card_board = len(np.where(env_state[ENV_TRAIN_CAR_OPEN : ENV_ROUTE_CARD_GET] != -1)) + np.sum(env_state[ENV_TRAIN_CAR_DROP : ENV_CARD_BULD_TUNNEL])
+    #  number_train_card_board = len(np.where(env_state[ENV_TRAIN_CAR_OPEN : ENV_ROUTE_CARD_GET] != -1)) + np.sum(env_state[ENV_TRAIN_CAR_DROP : ENV_CARD_BULD_TUNNEL])
     check = True
     while check:
         car_open = env_state[ENV_TRAIN_CAR_OPEN : ENV_ROUTE_CARD_GET]
         if len(np.where(car_open == 0)[0]) < 3:
             return env_state
         else:
-            # print('Có 3 thẻ locomotive trên bàn', car_open, env_state[ENV_TRAIN_CAR_DROP : ENV_CARD_BULD_TUNNEL], LIST_COLOR)
+            #  print('Có 3 thẻ locomotive trên bàn', car_open, env_state[ENV_TRAIN_CAR_DROP : ENV_CARD_BULD_TUNNEL], LIST_COLOR)
             #nếu thẻ lật có quá 3 thẻ locomotive
             #drop hết thẻ trên bàn
             for car in car_open:
@@ -539,7 +539,7 @@ def process_train_car_board(env_state):
             #kiểm tra chồng bài úp
             card_board = env_state[ENV_TRAIN_CAR_CARD : ENV_IN4_PLAYER].astype(np.int64)
             card_board = card_board[card_board > -1]
-            # nếu đủ lật tiếp
+            #  nếu đủ lật tiếp
             if len(card_board) >= NUMBER_TRAIN_CAR_CARD_OPEN:
                 env_state[ENV_TRAIN_CAR_OPEN : ENV_ROUTE_CARD_GET] = env_state[ENV_TRAIN_CAR_CARD : ENV_TRAIN_CAR_CARD + NUMBER_TRAIN_CAR_CARD_OPEN]
                 env_state[ENV_TRAIN_CAR_CARD : ENV_IN4_PLAYER] = np.concatenate((env_state[ENV_TRAIN_CAR_CARD : ENV_IN4_PLAYER][NUMBER_TRAIN_CAR_CARD_OPEN:], np.array([-1]*NUMBER_TRAIN_CAR_CARD_OPEN)))

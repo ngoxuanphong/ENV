@@ -45,7 +45,7 @@ def checkEndTurn(state, per):
     if preNum - state[60] >= 2:
       return True
     if state[60] == 0:
-      if state[13]- pre1 <= 0 and state[14] - pre2 == 0: ### số lá giảm và điểm không đổi
+      if state[13]- pre1 <= 0 and state[14] - pre2 == 0: ###  số lá giảm và điểm không đổi
         return True
 
   return False

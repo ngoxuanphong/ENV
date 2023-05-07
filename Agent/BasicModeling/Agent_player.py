@@ -32,12 +32,12 @@ MAX_DEPTH = 7
 def DataAgent():
     perData = List()
 
-    perData.append(np.array([[0.]], dtype=np.float64)) # 0: Đếm số trận đấu đã train
-    perData.append(np.full((2, getActionSize()), 1e-9, dtype=np.float64)) # Bias và temp Bias
+    perData.append(np.array([[0.]], dtype=np.float64)) #  0: Đếm số trận đấu đã train
+    perData.append(np.full((2, getActionSize()), 1e-9, dtype=np.float64)) #  Bias và temp Bias
     perData[1][1] = np.arange(1, getActionSize()+1, dtype=np.float64)
     np.random.shuffle(perData[1][1])
 
-    perData.append(np.full((2, getStateSize()), 0.0, dtype=np.float64)) # Minimum state và maximum state
+    perData.append(np.full((2, getStateSize()), 0.0, dtype=np.float64)) #  Minimum state và maximum state
     perData[2][0] = 1e9
     perData[2][1] = -1e9
 
@@ -84,14 +84,14 @@ def Train(state, perData):
             if perData[0][0][0] == 20000:
                 size_ = int(np.round(np.max(perData[2][1] - perData[2][0])))
                 if len(perData) < 11:
-                    perData.append(np.full((getStateSize(), size_), 0.0, dtype=np.float64)) # 3 win_state
-                    perData.append(np.full((getStateSize(), size_), 1e-9, dtype=np.float64)) # 4 last_state
-                    perData.append(np.full((getActionSize(), getStateSize()), 0.0, dtype=np.float64)) # 5 Delta_state
-                    perData.append(np.full((getActionSize(), getStateSize()), 0.0, dtype=np.float64)) # 6 Pre_state
-                    perData.append(np.full((getActionSize(), 1), 0.0, dtype=np.float64)) # 7 Số lần xuất hiện
-                    perData.append(np.array([[-1.0]], dtype=np.float64)) # 8 Pre_action
-                    perData.append(np.full((getStateSize(), size_), 0.01, dtype=np.float64)) # 9 = 3 / 4
-                    perData.append(np.full((getActionSize(), getStateSize()), 0.0, dtype=np.float64)) # 10 = 5 / 7
+                    perData.append(np.full((getStateSize(), size_), 0.0, dtype=np.float64)) #  3 win_state
+                    perData.append(np.full((getStateSize(), size_), 1e-9, dtype=np.float64)) #  4 last_state
+                    perData.append(np.full((getActionSize(), getStateSize()), 0.0, dtype=np.float64)) #  5 Delta_state
+                    perData.append(np.full((getActionSize(), getStateSize()), 0.0, dtype=np.float64)) #  6 Pre_state
+                    perData.append(np.full((getActionSize(), 1), 0.0, dtype=np.float64)) #  7 Số lần xuất hiện
+                    perData.append(np.array([[-1.0]], dtype=np.float64)) #  8 Pre_action
+                    perData.append(np.full((getStateSize(), size_), 0.01, dtype=np.float64)) #  9 = 3 / 4
+                    perData.append(np.full((getActionSize(), getStateSize()), 0.0, dtype=np.float64)) #  10 = 5 / 7
 
         return actions[a_idx], perData
 

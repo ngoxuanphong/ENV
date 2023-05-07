@@ -1,8 +1,8 @@
-##  Thông tin quan trọng:
+##   Thông tin quan trọng:
         14: Điểm của bản thân
         28, 42, 56, 70: Điểm của những người chơi khác
 
-## :video_game: Action
+##  :video_game: Action
         0 | Tempura      
         1 | Sashimi      
         2 | Dumpling     
@@ -18,7 +18,7 @@
         12| Use Chopsticks
         13| End Turn
 
-## :bust_in_silhouette: P_state
+##  :bust_in_silhouette: P_state
         Thứ tự thẻ:         
                 0 | Tempura      
                 1 | Sashimi      
@@ -45,7 +45,7 @@
         [-1]: Stack sử dụng bình thường
 
 
-# Env_State
+#  Env_State
         [0:3]: Vòng chơi, Lượt chơi, Số người chơi(mặc định 5)
         [3:108]: Thẻ trong chồng bài
         [index_2:index_2+9]: (index_2 = 108 + 108+i*9)

@@ -90,7 +90,7 @@ def draw_cards_image(background,
                      list_id_normal = np.full((4, 3), 0),
                      list_hide_card = np.full(3, 0)
                      ):
-    # Draw cards image on background image
+    #  Draw cards image on background image
     y = int(BG_SIZE[1]*0.77)
     for d_y in range(4):
         x = int(BG_SIZE[0]*0.01)
@@ -116,7 +116,7 @@ def draw_tokens_image(im,
                       list_token_taken = np.full(5, 1),
                       ):
     
-    # Draw tokens on board
+    #  Draw tokens on board
     x = int(BG_SIZE[0]*0.22)
     y = int(BOARD_SIZE[1]*0.04)
     for i in range(6):
@@ -124,7 +124,7 @@ def draw_tokens_image(im,
         ImageDraw.Draw(im).text((x + TOKEN_SIZE[0], y + int(TOKEN_SIZE[1]/3)), f'{list_token_board[i]}', fill= 'white', font = sprites.font)
         x += TOKEN_SIZE[0] + _d2_
 
-    # Draw tokens const
+    #  Draw tokens const
     y = int(BOARD_SIZE[1]*0.07)
     y_ = int(BOARD_SIZE[1]*0.2)
     x = int(BG_SIZE[0]*1.02)
@@ -134,7 +134,7 @@ def draw_tokens_image(im,
         ImageDraw.Draw(im).text((x + TOKEN_SIZE[0], y + int(TOKEN_SIZE[1]/3)), f'{list_token_const[i]}', fill= 'white', font = sprites.font)
         x += TOKEN_SIZE[0] + _d2_
 
-    # Draw tokens on hand
+    #  Draw tokens on hand
     x = int(BG_SIZE[0]*1.02)
     ImageDraw.Draw(im).text((x, int(BOARD_SIZE[1]*0.23)), f'Nguyên liệu của bản thân:', fill= 'white', font = sprites.font2)
     for i in range(6):
@@ -142,14 +142,14 @@ def draw_tokens_image(im,
         ImageDraw.Draw(im).text((x + TOKEN_SIZE[0], y + y_ + int(TOKEN_SIZE[1]/3)), f'{list_token[i]}', fill= 'white', font = sprites.font)
         x += TOKEN_SIZE[0] + _d2_
 
-    # Draw tokens taken
-    # x = int(BG_SIZE[0]*1.02)
-    # y = int(BG_SIZE[1]*0.8)
-    # ImageDraw.Draw(im).text((x, y*0.95), f'Nguyên liệu đã lấy trong lượt:', fill= 'white', font = sprites.font2)
-    # for i in range(5):
-    #     im.paste(sprites.list_img_token[i], (x, y  ))
-    #     ImageDraw.Draw(im).text((x + TOKEN_SIZE[0], y + int(TOKEN_SIZE[1]/3)), f'{list_token_taken[i]}', fill= 'white', font = sprites.font)
-    #     x += TOKEN_SIZE[0] + _d2_
+    #  Draw tokens taken
+    #  x = int(BG_SIZE[0]*1.02)
+    #  y = int(BG_SIZE[1]*0.8)
+    #  ImageDraw.Draw(im).text((x, y*0.95), f'Nguyên liệu đã lấy trong lượt:', fill= 'white', font = sprites.font2)
+    #  for i in range(5):
+    #      im.paste(sprites.list_img_token[i], (x, y  ))
+    #      ImageDraw.Draw(im).text((x + TOKEN_SIZE[0], y + int(TOKEN_SIZE[1]/3)), f'{list_token_taken[i]}', fill= 'white', font = sprites.font)
+    #      x += TOKEN_SIZE[0] + _d2_
 
 def draw_down_card(im, state):
     down_card = state[175:208].reshape(3, 11)
@@ -248,7 +248,7 @@ def get_main_player_state(env_components: Env_components, list_agent, list_data,
         env_components.env, env_components.lv1, env_components.lv2, env_components.lv3 = _env.stepEnv(action, env_components.env, env_components.lv1, env_components.lv2, env_components.lv3, env_components.list_action)
 
 
-    if env_components.winner == 0: # no ended
+    if env_components.winner == 0: #  no ended
         while env_components.env[100] <= 400 and env_components.cc < 10000:
             idx = env_components.env[100]%4
             state = _env.getAgentState(env_components.env, env_components.lv1, env_components.lv2, env_components.lv3)
@@ -279,7 +279,7 @@ def get_main_player_state(env_components: Env_components, list_agent, list_data,
         else:
             win = 0
 
-        # Chạy turn cuối cho 3 bot hệ thống
+        #  Chạy turn cuối cho 3 bot hệ thống
         for p_idx in range(4):
             if p_idx != my_idx:
                 env[100] = p_idx

@@ -1,4 +1,4 @@
-## :video_game: Action
+##  :video_game: Action
     Action index: 10 action
     Phase 1: Main turn
         Action 0-9:
@@ -28,7 +28,7 @@
         Action 9:
             Action 39 to 50: choose card from Discard Pile
 
-## :bust_in_silhouette: P_state
+##  :bust_in_silhouette: P_state
 
     state[0:12]:number of card player hold:
         [0]: Nope
@@ -59,7 +59,7 @@
     state[87:91]: number of card other player have (0 if lose or dont have card)
 
 
-## :globe_with_meridians: ENV_state
+##  :globe_with_meridians: ENV_state
 
     env[0:56]:
         0,1,2,3,4: id of player   

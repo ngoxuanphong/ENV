@@ -44,7 +44,7 @@ def Train(state, per):
     output = (weight + 1) * actions
     action = np.argmax(output)
 
-    # Tìm các max value cho array bias
+    #  Tìm các max value cho array bias
     if per[2][0][1] >= 9000:
         state_int = state.astype(np.int64)
         state_int[state_int >= 1000] = per[2][0][0] + 1
@@ -56,7 +56,7 @@ def Train(state, per):
         if max_ > np.int64(per[2][0][0]):
             per[2][0][0] = max_ + 1
 
-    # Bắt đầu lưu array bias
+    #  Bắt đầu lưu array bias
     reward = getReward(state)
     if per[2][0][1] >= 9000:
         if reward == 1:
@@ -84,7 +84,7 @@ def Test(state, per):
     actions = getValidActions(state)
     output = (weight + 1) * actions
 
-    # action = np.argmax(output)
+    #  action = np.argmax(output)
 
     list_action = np.where(actions == 1)[0]
     action = list_action[np.argmax(output[list_action])]

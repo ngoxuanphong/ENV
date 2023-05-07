@@ -1,5 +1,5 @@
-# Check hệ thống
-# import Base.WelcomeToTheDungeon_v2.env as env
+#  Check hệ thống
+#  import Base.WelcomeToTheDungeon_v2.env as env
 from CheckEnv import check_env
 
 from setup import make

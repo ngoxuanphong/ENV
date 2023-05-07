@@ -138,7 +138,7 @@ def Test(state, per):
 
 
     if returnAction == - 1 and np.sum(state[51:96]) <= 1:
-        # print('?')
+        #  print('?')
         returnAction = ValidAction[np.random.randint(len(ValidAction))]
 
 
@@ -150,11 +150,11 @@ def Test(state, per):
             returnAction = 0
         else: returnAction = ValidAction[np.random.randint(len(ValidAction))]
 
-    # print(state[0:6])
-    # print(state[96:120].reshape(4,6))
+    #  print(state[0:6])
+    #  print(state[96:120].reshape(4,6))
 
-    # print(state[194:219].reshape(5,5))
-    # print(state[120:174].reshape(6,9))
-    # print(ValidAction, returnAction)
+    #  print(state[194:219].reshape(5,5))
+    #  print(state[120:174].reshape(6,9))
+    #  print(ValidAction, returnAction)
 
     return returnAction, per

@@ -3,7 +3,7 @@ from numba import njit, jit
 
 from numba.typed import List
 import importlib.util, json, sys
-# from setup import SHOT_PATH
+#  from setup import SHOT_PATH
 
 
 __STATE_SIZE__ = 40
@@ -14,30 +14,30 @@ __AGENT_SIZE__ = 4
 @njit
 def initEnv():
 
-    env = np.full(63, 0) # Khởi tạo env
+    env = np.full(63, 0) #  Khởi tạo env
     
-    # env[0:8] = 0
-    #     env[0:2]: Thắng,Thua của người chơi 1
-    #     env[2:4]: Thắng,Thua của người chơi 2
-    #     env[4:6]: Thắng,Thua của người chơi 3
-    #     env[6:8]: Thắng,Thua của người chơi 4
+    #  env[0:8] = 0
+    #      env[0:2]: Thắng,Thua của người chơi 1
+    #      env[2:4]: Thắng,Thua của người chơi 2
+    #      env[4:6]: Thắng,Thua của người chơi 3
+    #      env[6:8]: Thắng,Thua của người chơi 4
 
 
-    # env[8:21]: 13 monsters
-    # env[21]: Sô monsters
+    #  env[8:21]: 13 monsters
+    #  env[21]: Sô monsters
 
 
-    # env[22]: Hero: 0: Warrior   1: Rogue
-    # env[23:29]: Hero equipments
+    #  env[22]: Hero: 0: Warrior   1: Rogue
+    #  env[23:29]: Hero equipments
 
-    # env[29:42] = 0: quái vật trong hang
-    # env[42]: Số lượng quái vật trong hang
+    #  env[29:42] = 0: quái vật trong hang
+    #  env[42]: Số lượng quái vật trong hang
 
-    # env[43:56] = 0: Người xem quái vật: -1: chưa lật; 0,1,2,3: người chơi
+    #  env[43:56] = 0: Người xem quái vật: -1: chưa lật; 0,1,2,3: người chơi
 
-    # env[56:60] = 0: Trạng thái trong round của 4 người chơi: 0: chơi, 1: bỏ lượt
-    # env[61] = 0: Turn
-    # env[62] = 0: Phase
+    #  env[56:60] = 0: Trạng thái trong round của 4 người chơi: 0: chơi, 1: bỏ lượt
+    #  env[61] = 0: Turn
+    #  env[62] = 0: Phase
     return env
 
 @njit
@@ -77,7 +77,7 @@ def getStateSize():
 @njit
 def getAgentState(env):
     state = np.zeros(__STATE_SIZE__)
-    pIdx = env[61] % 4 # Index của người chơi nhận state
+    pIdx = env[61] % 4 #  Index của người chơi nhận state
     score = env[0:8]
     passArr = env[56:60]
     for i in range(4):
@@ -85,8 +85,8 @@ def getAgentState(env):
         state[i*2:i*2+2] = score[pIdxEnv*2:pIdxEnv*2+2]
         state[8+i] = passArr[pIdxEnv]
     
-    state[12] = env[21] # Số thẻ monsters đã lật
-    state[13] = env[42] # Số monsters trong hang
+    state[12] = env[21] #  Số thẻ monsters đã lật
+    state[13] = env[42] #  Số monsters trong hang
     if env[22] ==0:
         state[14] = 1
         state[15:21] = env[23:29]
@@ -122,12 +122,12 @@ def getValidActions(state):
 
     
 
-    if phase == 0: # Lựa chọn bỏ lượt hay lật thẻ
+    if phase == 0: #  Lựa chọn bỏ lượt hay lật thẻ
         validActions[0] = 1  #Có thẻ bỏ lượt
         if state[8] == 0 and state[12] < 13: #Nếu chưa bỏ lượt và số lượng quái vật đã mở < 13
             validActions[1] = 1  #Có thể lật thẻ
 
-    elif phase == 1: # Đã xem monster
+    elif phase == 1: #  Đã xem monster
         validActions[2] = 1 #Có thể bỏ vào hang
         
         equipment1 = state[15:21]
@@ -174,7 +174,7 @@ def stepEnv(action, env):
             env[62] =1     #Sang phase lên 1
 
     
-    elif phase == 1: # Đã xem monster
+    elif phase == 1: #  Đã xem monster
         numMons = env[21]
         monster = env[7+numMons]
         if action == 2:
@@ -247,7 +247,7 @@ def checkEndRound(env):
         #Kết thúc round, đi vào hang
         return 1
         
-    else: # Chưa kết thúc game
+    else: #  Chưa kết thúc game
         return -1
 
 @njit
@@ -558,10 +558,10 @@ def numba_main_2(p0, num_game, per_player, level, *args):
 
 
 
-# def stupid(state, perData):
-#     validActions = getValidActions(state)
-#     arr_action = np.where(validActions==1)[0]
-#     idx = np.random.randint(0, arr_action.shape[0])
-#     return arr_action[idx], perData
+#  def stupid(state, perData):
+#      validActions = getValidActions(state)
+#      arr_action = np.where(validActions==1)[0]
+#      idx = np.random.randint(0, arr_action.shape[0])
+#      return arr_action[idx], perData
 
-# numba_main_2(stupid,1,np.zeros(1),0)
+#  numba_main_2(stupid,1,np.zeros(1),0)

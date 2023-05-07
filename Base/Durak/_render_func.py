@@ -83,14 +83,14 @@ def get_state_image(state=None):
     background = sprites.background.copy()
     state = state.astype(np.int64)
 
-    # Draw my card
+    #  Draw my card
     my_cards = np.where(state[0:52] == 1)[0]
     n = my_cards.shape[0]
     w = CARD_SIZE[0] + _d_ * (n-1)
     x =  int(params.list_coords_0[0][0] - 0.5*w)
     draw_cards(background, my_cards, x, params.list_coords_0[0][1], back=False, faded=False, main_card=True)
 
-    # Draw other cards
+    #  Draw other cards
     for k in range(1, 4):
         n = state[162+k]
         w = CARD_SIZE[0] + _d_ * (n-1)
@@ -103,7 +103,7 @@ def get_state_image(state=None):
 
         draw_cards(background, np.full(int(n), 0), s, params.list_coords_0[k][1], True)
 
-    # card defend successful
+    #  card defend successful
     cur_cards = np.where(state[52:104] == 1)[0]
     n = cur_cards.shape[0]
     w = CARD_SIZE[0] + _d_ * (n-1)
@@ -111,7 +111,7 @@ def get_state_image(state=None):
     y = params.center_card_y + int(CARD_SIZE[1]/1.9)
     draw_cards(background, cur_cards, s, y)
 
-    # card have to defend this round
+    #  card have to defend this round
     cur_cards = np.where(state[104:156] == 1)[0]
     n = cur_cards.shape[0]
     w = CARD_SIZE[0] + _d_ * (n-1)
@@ -136,7 +136,7 @@ def get_state_image(state=None):
     x = int(BG_SIZE[0] * 0.75)
     y = int(BG_SIZE[1]* 0.1)
     background.paste(sprites.card_back, (x, y))
-    ImageDraw.Draw(background).text((x , y + int(CARD_SIZE[1]*0.2)), f'{state[162]}', fill='black', font=sprites.font_max)
+    ImageDraw.Draw(background).text((x,  y + int(CARD_SIZE[1]*0.2)), f'{state[162]}', fill='black', font=sprites.font_max)
     return background
 
 
@@ -145,7 +145,7 @@ def get_description(action):
         return ""
     if action == 52:
         return 'pass'
-    # print(sprites.card_name)
+    #  print(sprites.card_name)
     return sprites.card_name[action]
 
 
@@ -209,7 +209,7 @@ def get_main_player_state(env_components: Env_components, list_agent, list_data,
         else:
             win = 0
 
-        # Chạy turn cuối cho 3 bot hệ thống
+        #  Chạy turn cuối cho 3 bot hệ thống
         for p_idx in range(4):
             if p_idx != my_idx:
                 env[53] = 1

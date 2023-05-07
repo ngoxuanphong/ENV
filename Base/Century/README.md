@@ -1,11 +1,11 @@
-##  Thông tin quan trọng:
+##   Thông tin quan trọng:
       0: Điểm của người đang action
       96, 102, 108, 114: Điểm của những người chơi còn lại
       Total env_state length: 447
       Total 65 action
       Total player_state length: 277
 
-## :video_game: ALL_ACTION
+##  :video_game: ALL_ACTION
       -  range(0,1):action nghỉ ngơi
       -  range(1,7): action mua action card
       -  range(7, 12): action mua thẻ điểm
@@ -15,7 +15,7 @@
       -  range(62,65): action chọn tài nguyên để nâng cấp (vàng, đỏ, xanh)
 
 
-## :bust_in_silhouette: P_state
+##  :bust_in_silhouette: P_state
       -    [0]     : điểm của người chơi đang action
       -    [1]     : số thẻ điểm người chơi đã mua
       -    [2:6]:  : số lượng 4 loại nguyên liệu của người chơi (vang, đỏ, xanh, nâu)
@@ -36,7 +36,7 @@
 
 
 
-## :globe_with_meridians: env_state
+##  :globe_with_meridians: env_state
       -    [0:255] Thông tin người chơi: gồm 5 người chơi với thông tin từng người là (điểm, số thẻ đã mua, 4 vị trí thể hiện số lượng 4 loại token, 45 vị trí cho 45 loại thẻ hành động)
       -    [255:309] Thông tin 6 thẻ action lật trên bàn, mỗi thẻ gồm 9 thuộc tính (#(số lượng tài nguyên bỏ ra(4 vị trí), số lượng tài nguyên nhận(4 vị trí), số lần nâng cấp (1 vị trí)))
       -    [309:329] Thông tin token free có sẵn ở các thẻ lật trên bàn, chỉ xét 5 thẻ đầu

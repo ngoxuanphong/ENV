@@ -124,7 +124,7 @@ ALL_PENALTY = np.array([2, 2, 2, 2, 4, 4, 4, 4, 3, 4, 4, 4, 4, 5, 5])
 
 ALL_ORDER = np.arange(NUMBER_PLAYER)
 
-ALL_REWARD = np.array([2, 3 ,3 ,4 ,6 ,7 ,8 ,9 ,4 ,6 ,6 ,8 ,6 ,9 ,9])
+ALL_REWARD = np.array([2, 3, 3, 4, 6, 7, 8, 9, 4, 6, 6, 8, 6, 9, 9])
 
 ALL_NUMBER_COUNT = np.array([1, 1, 1, 1, 1, 1, 1, 1, 2, 2, 2, 2, 3, 3, 3])
 

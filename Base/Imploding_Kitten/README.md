@@ -1,4 +1,4 @@
-## :video_game: Action
+##  :video_game: Action
     Action index: 10 action
     Phase 1: Main turn
         Action 0-9:
@@ -36,7 +36,7 @@
             Action 71 to 76: All 6 combination to Alter.  (6 action)
 
 
-## :bust_in_silhouette: P_state
+##  :bust_in_silhouette: P_state
 
     state[0:17]:number of card player hold:
         [0]: Nope
@@ -72,7 +72,7 @@
     state[127]:check if Imploding Kitten explode or not(1 if explode else 0)
 
 
-## :globe_with_meridians: ENV_state
+##  :globe_with_meridians: ENV_state
 
     env[0:76]: 19 type of card
         0,1,2,3,4,5: id of player   

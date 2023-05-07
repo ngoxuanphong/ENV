@@ -137,16 +137,16 @@ def checkMaki1(state, validActions):
 
 @njit()
 def Test(state, per):
-  # if per[0][0] != state[0]:
-  #   per[0][0] = state[0]
-  #   print('-----Vong', state[0], '------------------')
-  # print(state[1])
+  #  if per[0][0] != state[0]:
+  #    per[0][0] = state[0]
+  #    print('-----Vong', state[0], '------------------')
+  #  print(state[1])
 
   if getReward(state) != -1:
     per = DataAgent()
-    # print('điểm')
-    # for i in range(5):
-    #   print(state[14 + i*14: 16 + i*14])
+    #  print('điểm')
+    #  for i in range(5):
+    #    print(state[14 + i*14: 16 + i*14])
 
   if per[0][0] != state[0]:
     per[0][0] = state[0]
@@ -164,48 +164,48 @@ def Test(state, per):
     if 2 in validActions:
       per[1][2] += 1
 
-  if checkNigiri(state, validActions): # kích hoạt Wasabi
+  if checkNigiri(state, validActions): #  kích hoạt Wasabi
     action = checkNigiri(state, validActions)
-    # print( 'nigiri', action, validActions)
+    #  print( 'nigiri', action, validActions)
     return action, per
 
-  if state[17] == 2 and 1 in validActions: ## nếu có sashimi thì nhắt thêm nữa
+  if state[17] == 2 and 1 in validActions: ##  nếu có sashimi thì nhắt thêm nữa
     action = 1
-    # print( 'sashimi',action, validActions)
+    #  print( 'sashimi',action, validActions)
     return action, per
 
-  if state[18] >= 3 and 2 in validActions: ## nhặt dumpling
+  if state[18] >= 3 and 2 in validActions: ##  nhặt dumpling
     action = 2
     return action, per
 
-  if checkSquPud(state, validActions): # lấy 3 điểm và nhiều pudding
+  if checkSquPud(state, validActions): #  lấy 3 điểm và nhiều pudding
     action = checkSquPud(state, validActions)
-    # print( 'squpud', action, validActions)
+    #  print( 'squpud', action, validActions)
     return action, per
 
-  if (state[16] == 1 or state[16] == 3 ) and 0 in validActions: ## nếu có tempura thì nhắt thêm nữa
+  if (state[16] == 1 or state[16] == 3 ) and 0 in validActions: ##  nếu có tempura thì nhắt thêm nữa
     action = 0
-    # print( 'tempura',action, validActions)
+    #  print( 'tempura',action, validActions)
     return action, per
 
   if checkSa(state, validActions, per): #lấy Sashimi
     action = checkSa(state, validActions, per)
-    # print( 'sashimi', action, validActions)
+    #  print( 'sashimi', action, validActions)
     return action, per
 
-  if 10 in validActions and turn < 7: # lấy wasabi
+  if 10 in validActions and turn < 7: #  lấy wasabi
     action = 10
-    # print( 'wasabi',action, validActions)
-    return 10 , per
+    #  print( 'wasabi',action, validActions)
+    return 10,  per
 
-  if checkMaki(state, validActions): # maki
+  if checkMaki(state, validActions): #  maki
     action = checkMaki(state, validActions)
-    # print( 'maki',action, validActions)
+    #  print( 'maki',action, validActions)
     return action, per
   
   if checkDumpling(state, validActions, per) : #dumpling
     action = 2
-    # print( 'dumpling', action, validActions)
+    #  print( 'dumpling', action, validActions)
     return action, per
 
   if checkMaki1(state, validActions):
@@ -214,12 +214,12 @@ def Test(state, per):
 
   if checkSal(state, validActions):
     action = checkSal(state, validActions)
-    # print( 'salegg',action, validActions)
+    #  print( 'salegg',action, validActions)
     return action, per
 
-  if checkTempura(state, validActions, per) : ### nhặt tempura
+  if checkTempura(state, validActions, per) : ###  nhặt tempura
     action = 0
-    # print( 'te',action, validActions)
+    #  print( 'te',action, validActions)
     return 0, per
 
 
@@ -230,22 +230,22 @@ def Test(state, per):
   if validActions.size > 1: #xóa sashimi
     idx = np.where( validActions == 1)[0]
     if idx.size:
-      # print('xóa')
+      #  print('xóa')
       validActions = np.delete( validActions, idx[0])
     
   if validActions.size > 1: #xóa tempura
     idx = np.where( validActions == 0)[0]
     if idx.size:
-      # print('xóa')
+      #  print('xóa')
       validActions = np.delete( validActions, idx[0])
 
 
   if validActions.size > 1: #xóa đũa
     idx = np.where( validActions == 11)[0]
     if idx.size:
-      # print('xóa')
+      #  print('xóa')
       validActions = np.delete( validActions, idx[0])
 
   action = np.random.choice( validActions)
-  # print( 'random',action, validActions)
+  #  print( 'random',action, validActions)
   return action, per

@@ -50,7 +50,7 @@ def theCap2(state, validActions):
     if i in validActions:
       card = allCard(state)[i]
       ngLthe = card[6: 11]
-      # màu thẻ
+      #  màu thẻ
       color = card[1:6] 
       color = np.where( color )[0][0] 
       arrColor =  np.array([0, 3, 4])
@@ -77,8 +77,8 @@ def theCap3( state, validActions):
   auto = state[11]
 
   action = 0
-  ngLcanMin = 7 # số nguyên liệu cần của thẻ lớn hơn 10 ngL
-  ngLcanMinM = 4 # số nguyên liệu cần của màu nhiều nhất
+  ngLcanMin = 7 #  số nguyên liệu cần của thẻ lớn hơn 10 ngL
+  ngLcanMinM = 4 #  số nguyên liệu cần của màu nhiều nhất
   for i in range(8, 12):
     if i in validActions:
       card = allCard(state)[i]
@@ -195,7 +195,7 @@ def getCard(state, validActions):
         if point < card[0]:
           point = card[0]
           action = idx
-        elif point == card[0]: # bằng điểm thì xét màu
+        elif point == card[0]: #  bằng điểm thì xét màu
           color = card[1:6]
           color = np.where( color )[0][0]
           arrColor = np.array([0, 3, 4])
@@ -220,29 +220,29 @@ def Test(state, per):
 
   if checkCard(state, validActions): #lấy nguyên liệu để turn sau ăn
     action = checkCard(state, validActions)
-    # print( '--checkCard:', action, arrCard[action])
+    #  print( '--checkCard:', action, arrCard[action])
     return action, per
 
-  # action = int(per[0][0])
-  # arr1 = per[1]
-  # arr2 = arrCard[action]
-  # if np.array_equal( arr1, arr2): # nhắm thẻ đang nhắm
-  #   # print( '--1:', action, arrCard[action])
-  #   return action, per
+  #  action = int(per[0][0])
+  #  arr1 = per[1]
+  #  arr2 = arrCard[action]
+  #  if np.array_equal( arr1, arr2): #  nhắm thẻ đang nhắm
+  #    #  print( '--1:', action, arrCard[action])
+  #    return action, per
 
   if theHold( state, validActions): #lấy nguyên liệu để ăn thẻ hold
     action = theHold( state, validActions)
-    # per[0][0] = action 
-    # per[1] = arrCard[action]
-    # print( '--2:', action, arrCard[action])
+    #  per[0][0] = action 
+    #  per[1] = arrCard[action]
+    #  print( '--2:', action, arrCard[action])
     return action, per
   
-  if theCap3(state, validActions): # lấy nguyên liệu ăn thẻ cấp 3
+  if theCap3(state, validActions): #  lấy nguyên liệu ăn thẻ cấp 3
     action = theCap3(state, validActions)
-    # print( 't3: ', action, allCard(state)[action])
+    #  print( 't3: ', action, allCard(state)[action])
   else:
-    action = theCap2(state, validActions) # lấy nguyên liệu ăn thẻ cấp 3
-    # print( 't2: ', action, allCard(state)[action])
+    action = theCap2(state, validActions) #  lấy nguyên liệu ăn thẻ cấp 3
+    #  print( 't2: ', action, allCard(state)[action])
 
   per[0][0] = action 
   per[1] = arrCard[action]

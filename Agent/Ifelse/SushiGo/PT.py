@@ -34,7 +34,7 @@ def Test(state,per):
     index_1 = 14*(0 + 1)
     cards_on_hand = state[index_1+2:index_1+14]
     turn = state[1:2] % 7
-    # reset per
+    #  reset per
     if turn == 1:
         per = np.array([5,13,8,0,3,10,4,11,1,15,6,2,12,9])
     #--------------#--------------#--------------#--------------#--------------

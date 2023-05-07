@@ -50,9 +50,9 @@ def get_env_components():
     list_other = np.array([-1, 1, 2, 3, 4])
     np.random.shuffle(list_other)
     while list_other[-1] == -1:
-        # print(list_other, 'change')
+        #  print(list_other, 'change')
         np.random.shuffle(list_other)
-    # print(list_other)
+    #  print(list_other)
     turn = env[1]
     round = env[0]-1
     env_components = Env_components(env, winner, list_other, turn, round)
@@ -77,8 +77,8 @@ def get_main_player_state(env_components: Env_components, list_agent, list_data,
         env_components.round = round
         if env_components.idx == 4:
             env_components.idx = -1
-        # if turn % 7 == 0:
-        #     env_components.list_action = np.full((amount_player, 3), 13)
+        #  if turn % 7 == 0:
+        #      env_components.list_action = np.full((amount_player, 3), 13)
 
         check_use_chopsticks = False
         if env_components.list_other[env_components.idx] == -1:
@@ -115,7 +115,7 @@ def get_main_player_state(env_components: Env_components, list_agent, list_data,
                 env_components.count = count
                 player_state = _env.test_action(player_state,action)
 
-            # env_components.idx += 1
+            #  env_components.idx += 1
             if check_break == False:
                 break
             env_components.count = 0
@@ -129,11 +129,11 @@ def get_main_player_state(env_components: Env_components, list_agent, list_data,
                 env_components.env[0] += 1
                 env_components.env = _env.reset_card_player(env_components.env)
         if turn == 7*3:
-            # print('Tính pudding')
+            #  print('Tính pudding')
             env_components.env = _env.calculator_pudding(env_components.env,amount_player)
         if turn <= 7*3:
             env_components.env[1] += 1
-            # print(env_components.env[1], turn)
+            #  print(env_components.env[1], turn)
 
     if check_break == True:
         check_end_game = True
@@ -146,14 +146,14 @@ def get_main_player_state(env_components: Env_components, list_agent, list_data,
         env = env_components.env.copy()
 
         player_state = _env.getAgentState(env_components.env,env_components.idx)
-        # print(player_state[:2], player_state[14:28])
-        # print(env_components.list_other, env_components.idx)
+        #  print(player_state[:2], player_state[14:28])
+        #  print(env_components.list_other, env_components.idx)
         if my_idx in env_components.winner:
             win = 1
         else:
             win = 0
 
-        # Chạy turn cuối cho 3 bot hệ thống
+        #  Chạy turn cuối cho 3 bot hệ thống
         for idx in range(amount_player):
             if idx != my_idx:
                 _state = _env.getAgentState(env, idx)

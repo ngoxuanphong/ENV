@@ -174,7 +174,7 @@ def combinations_using_numba(pool, r):
     a = []
     if not empty:
         result = [pool[i] for i in indices]
-        # yield result
+        #  yield result
         a.append(result)
     while not empty:
         i = r - 1
@@ -187,7 +187,7 @@ def combinations_using_numba(pool, r):
             for j in range(i+1, r):
                 indices[j] = indices[j-1] + 1
             result = [pool[i] for i in indices]
-            # yield result
+            #  yield result
             a.append(result)
     return a
 
@@ -202,7 +202,7 @@ def evaluate_num_numba(hand, id_player):
                         +id người chơi
     '''
     hand = hand.astype(np.int64)
-    # ranks = [2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14]
+    #  ranks = [2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14]
     rank_card = hand // 4
     suit_card = hand % 4
     all_index_card = [0,1,2,3,4,5,6]
@@ -223,11 +223,11 @@ def evaluate_num_numba(hand, id_player):
         arr_rank_score = np.array(sorted(arr_rank_score, reverse=True))
         rankss = list(arr_rank_score[:,1])
         score = arr_rank_score[:,0]
-        if len(score[score > 0]) == 5: # if there are 5 different ranks it could be a straight or a flush (or both)
+        if len(score[score > 0]) == 5: #  if there are 5 different ranks it could be a straight or a flush (or both)
             if rankss[0:2] == [12, 3]: 
-                rankss = [3, 2, 1, 0, -1] # adjust if 5 high straight
-            all_type_hand = [[np.array([1,0,0,0,0]),np.array([3,1,2,0,0])],[np.array([3,1,3,0,0]),np.array([5,0,0,0,0])]]
-            score = all_type_hand[int(len(np.unique(suit_sm_hand)) == 1)][int(rankss[0] - rankss[4] == 4)] # high card, straight, flush, straight flush
+                rankss = [3, 2, 1, 0, -1] #  adjust if 5 high straight
+            all_type_hand = [[np.array([1,0,0,0,0]),np.array([3,1,2,0,0])], [np.array([3,1,3,0,0]),np.array([5,0,0,0,0])]]
+            score = all_type_hand[int(len(np.unique(suit_sm_hand)) == 1)][int(rankss[0] - rankss[4] == 4)] #  high card, straight, flush, straight flush
         score = list(score)
         sm_hand = list(hand[sm_hand])
         all_score.append([score, rankss, sm_hand, [id_player,-1,-1,-1,-1]])
@@ -316,7 +316,7 @@ def showdown(env_state):
         #update chip sau ván chơi của các người 
         for i in range(len(player_chip_receive)):
             player_chip_receive[i] = int(player_chip_receive[i])
-        # player_chip_receive = player_chip_receive // 1
+        #  player_chip_receive = player_chip_receive // 1
         env_state[ENV_ALL_PLAYER_CHIP : ENV_ALL_PLAYER_CHIP_GIVE] += player_chip_receive
         #show card on hand, update vào env_state xem ai phải show bài, lá nào k cần show thì gán thành -1
         rank_temp = np.full(9, 10)

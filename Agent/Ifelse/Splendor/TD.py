@@ -46,7 +46,7 @@ def nhamThe(state):
     arr = cost - ngLieuCanGet - ngLieu
     number = sum( arr[arr > 0] ) - state[6] #so nguyen lieu cần lấy
     arrGet = cost - ngLieu
-    ngLieuCanGet[arrGet <= 0] = np.zeros( arrGet[arrGet <= 0].size ) # các nguyen lieu can lay <= 3
+    ngLieuCanGet[arrGet <= 0] = np.zeros( arrGet[arrGet <= 0].size ) #  các nguyen lieu can lay <= 3
     if number <= 0 and ngLieuCanGet[ngLieuCanGet == 1].size <= 3:
       check = True
       break
@@ -67,14 +67,14 @@ def checkGetStock(state): #lay đủ 3 nguyên liệu
 @njit()
 def Test(state, per):
   validActions = getValidActions(state)
-  # Lấy thẻ-----------------------------------
+  #  Lấy thẻ-----------------------------------
   arr = validActions[5: 95] 
   if sum(arr):
     actions = np.where( arr )[0]
     action = actions[-1] + 5
     return action, per
 
-  # Nhặt nguyên liệu----------------------------------
+  #  Nhặt nguyên liệu----------------------------------
   stockOnHand = state[258: 263]
   if sum( stockOnHand ) == 0:
     per[0] = nhamThe(state)
@@ -87,7 +87,7 @@ def Test(state, per):
       action = np.argmax(actGet )
       per[0][action] = 0
     else:
-      stockUuTien = np.array([4, 3, 0 , 1, 2])
+      stockUuTien = np.array([4, 3, 0,  1, 2])
       for i in stockUuTien:
         if actionGetStock[i] and stockOnHand[i] == 0:
           action = i

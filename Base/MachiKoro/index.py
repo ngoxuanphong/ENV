@@ -23,7 +23,7 @@ ENV_CARD_BUY_IN_TURN = INDEX
 INDEX += NUMBER_TYPE_NORMAL_CARD
 
 #các thông tin khác
-# ENV_OTHER_IN4 = INDEX
+#  ENV_OTHER_IN4 = INDEX
 
 #thẻ người chơi đổi đi
 ENV_CARD_SELL = INDEX

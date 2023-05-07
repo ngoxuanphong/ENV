@@ -30,7 +30,7 @@ def DataAgent():
   return per
 
 @njit
-def noTrump(state, validActions ): ### đánh lá có số nhỏ nhất có thể mà không phải trump
+def noTrump(state, validActions ): ###  đánh lá có số nhỏ nhất có thể mà không phải trump
   trump = state[158: 162]
   trump = np.where( trump)[0][0]
   action = -1
@@ -45,7 +45,7 @@ def noTrump(state, validActions ): ### đánh lá có số nhỏ nhất có th�
   return action
 
 @njit
-def defense(state, validActions): ### thủ bằng lá lớn nhất có thể mà không phải trump
+def defense(state, validActions): ###  thủ bằng lá lớn nhất có thể mà không phải trump
   trump = state[158: 162]
   trump = np.where( trump )[0][0]
   if state[157] and state[162] > 0:

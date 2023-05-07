@@ -29,15 +29,15 @@ def initEnv():
 @njit()
 def reset_round(old_env_state):
     env_state = np.zeros(ENV_LENGTH)
-    # print(np.sum(old_env_state[ENV_ALL_PLAYER_CHIP : ENV_ALL_PLAYER_CHIP_GIVE]), 'tổng chip')
+    #  print(np.sum(old_env_state[ENV_ALL_PLAYER_CHIP : ENV_ALL_PLAYER_CHIP_GIVE]), 'tổng chip')
 
 
     if np.sum(old_env_state[ENV_ALL_PLAYER_CHIP : ENV_ALL_PLAYER_CHIP + NUMBER_PLAYER] > 0) == 1:
         env_state[ENV_ALL_PLAYER_CHIP : ENV_ALL_PLAYER_CHIP_GIVE] = old_env_state[ENV_ALL_PLAYER_CHIP : ENV_ALL_PLAYER_CHIP_GIVE]
         env_state[ENV_ALL_PLAYER_STATUS : ENV_ALL_FIRST_CARD] = (env_state[ENV_ALL_PLAYER_CHIP : ENV_ALL_PLAYER_CHIP_GIVE] > 0) * 1
         env_state[ENV_NUMBER_GAME_PLAYED] = old_env_state[ENV_NUMBER_GAME_PLAYED]
-        # print('ENDDDDDDDD GAME')
-        # print(np.sum(old_env_state[ENV_ALL_PLAYER_CHIP : ENV_ALL_PLAYER_CHIP_GIVE]), 'tổng chip')
+        #  print('ENDDDDDDDD GAME')
+        #  print(np.sum(old_env_state[ENV_ALL_PLAYER_CHIP : ENV_ALL_PLAYER_CHIP_GIVE]), 'tổng chip')
         return env_state
     
     #tính toán chip còn lại của người chơi, từ đó tính ra trạng thái của người chơi ở game mới
@@ -84,7 +84,7 @@ def reset_round(old_env_state):
         env_state[ENV_ID_ACTION] = (env_state[ENV_ID_ACTION] + 1) % NUMBER_PLAYER
 
     env_state[ENV_NUMBER_GAME_PLAYED] = old_env_state[ENV_NUMBER_GAME_PLAYED] + 1
-    # print('ván chơi thứ ', env_state[ENV_NUMBER_GAME_PLAYED])
+    #  print('ván chơi thứ ', env_state[ENV_NUMBER_GAME_PLAYED])
     #reset 2 lá bài của người chơi và bài showdown, sau đó chia bài
     env_state[ENV_ALL_FIRST_CARD : ENV_BUTTON_PLAYER] = np.full(4*NUMBER_PLAYER, -1)
     all_card_num = np.arange(52)
@@ -227,14 +227,14 @@ def stepEnv(env_state, action):
             #nếu bet thì sang phase xem có bet tiếp k
 
             env_state[ENV_TEMP_BUTTON] = id_action
-            # print('gán lại temp button', id_action, env_state[ENV_TEMP_BUTTON])
+            #  print('gán lại temp button', id_action, env_state[ENV_TEMP_BUTTON])
             env_state[ENV_PHASE] = 1
         elif action == 4:
             #nếu người chơi all_in, bổ sung giá trị chip người chơi bỏ ra và tăng pot
             chip_to_allin = env_state[ENV_ALL_PLAYER_CHIP + id_action]
             env_state[ENV_ALL_PLAYER_CHIP_IN_POT+id_action] += chip_to_allin
             env_state[ENV_POT_VALUE] += chip_to_allin
-            # print('check', chip_to_allin, env_state[ENV_CASH_TO_CALL_OLD])
+            #  print('check', chip_to_allin, env_state[ENV_CASH_TO_CALL_OLD])
             #điều chỉnh cash to call nếu cần, điều chỉnh button nếu người chơi bet nhiều chip nhất
             if env_state[ENV_ALL_PLAYER_CHIP_GIVE+id_action] + chip_to_allin > np.max(env_state[ENV_ALL_PLAYER_CHIP_GIVE : ENV_ALL_PLAYER_CHIP_IN_POT]):
                 env_state[ENV_CASH_TO_CALL_OLD] = env_state[ENV_ALL_PLAYER_CHIP_GIVE+id_action] + chip_to_allin
@@ -253,10 +253,10 @@ def stepEnv(env_state, action):
             if id_action_next != env_state[ENV_TEMP_BUTTON]:
                 while env_state[ENV_ALL_PLAYER_STATUS + id_action_next] == 0 or env_state[ENV_ALL_PLAYER_CHIP + id_action_next] == 0:
                     id_action_next = (id_action_next + 1) % NUMBER_PLAYER
-                    # print('while 1')
+                    #  print('while 1')
                     if id_action_next == env_state[ENV_TEMP_BUTTON]:
                         break
-            # print('check', id_action_next, env_state[ENV_STATUS_GAME], env_state[ENV_TEMP_BUTTON])
+            #  print('check', id_action_next, env_state[ENV_STATUS_GAME], env_state[ENV_TEMP_BUTTON])
             if id_action_next == env_state[ENV_TEMP_BUTTON]:
                 #kết thúc vòng chơi, chuyển status game, reset give chip, xác định id_action mới là người còn chơi và còn chip. Nếu hết 1 vòng => các người chơi đã allin hết, đi thẳng đến showdown
                 if env_state[ENV_STATUS_GAME] != 5:
@@ -268,18 +268,18 @@ def stepEnv(env_state, action):
                         if np.count_nonzero(env_state[ENV_ALL_PLAYER_STATUS : ENV_ALL_FIRST_CARD]) == 1:
                             env_state[ENV_CARD_OPEN : ENV_CARD_OPEN + NUMBER_CARD_OPEN][max(0, int(env_state[ENV_STATUS_GAME])):] = -1
                         env_state[ENV_STATUS_GAME] = 6
-                        # print('gnas đi showdown khi chỉ còn 1 người còn tiền hoặc cả làng đã fold')
+                        #  print('gnas đi showdown khi chỉ còn 1 người còn tiền hoặc cả làng đã fold')
                         env_state[ENV_ID_ACTION] = env_state[ENV_TEMP_BUTTON]
                     else:
                         #loop cho đến khi gặp người vừa còn chơi và vừa còn chip
                         while env_state[int(ENV_ALL_PLAYER_STATUS + env_state[ENV_ID_ACTION])] == 0 or env_state[int(ENV_ALL_PLAYER_CHIP + env_state[ENV_ID_ACTION])] == 0:
-                            # print('while 2', env_state[ENV_ID_ACTION], env_state[ENV_BUTTON_PLAYER], env_state[int(ENV_ALL_PLAYER_STATUS + env_state[ENV_ID_ACTION])], env_state[int(ENV_ALL_PLAYER_CHIP + env_state[ENV_ID_ACTION])], env_state[ENV_BUTTON_PLAYER] )
+                            #  print('while 2', env_state[ENV_ID_ACTION], env_state[ENV_BUTTON_PLAYER], env_state[int(ENV_ALL_PLAYER_STATUS + env_state[ENV_ID_ACTION])], env_state[int(ENV_ALL_PLAYER_CHIP + env_state[ENV_ID_ACTION])], env_state[ENV_BUTTON_PLAYER] )
                             env_state[ENV_ID_ACTION] = (env_state[ENV_ID_ACTION] + 1) % NUMBER_PLAYER
                             #nếu mọi người hết khả năng action tiếp thì đi thẳng đến showdown
                             if env_state[ENV_ID_ACTION] == env_state[ENV_BUTTON_PLAYER]:
-                                # if np.count_nonzero(env_state[ENV_ALL_PLAYER_STATUS : ENV_ALL_FIRST_CARD]) != 1:
+                                #  if np.count_nonzero(env_state[ENV_ALL_PLAYER_STATUS : ENV_ALL_FIRST_CARD]) != 1:
                                 env_state[ENV_STATUS_GAME] = 6
-                                # print('gnas đi showdown')
+                                #  print('gnas đi showdown')
                                 env_state[ENV_ID_ACTION] = env_state[ENV_TEMP_BUTTON]
                                 break
                     
@@ -347,7 +347,7 @@ def stepEnv(env_state, action):
             id_action_next = (id_action + 1) % NUMBER_PLAYER
             while env_state[ENV_ALL_PLAYER_STATUS + id_action_next] == 0 or env_state[ENV_ALL_PLAYER_CHIP + id_action_next] == 0:
                 id_action_next = (id_action_next + 1) % NUMBER_PLAYER
-                # print('while 3')
+                #  print('while 3')
                 if id_action_next == env_state[ENV_TEMP_BUTTON]:
                     break
             if id_action_next == env_state[ENV_TEMP_BUTTON]:
@@ -361,9 +361,9 @@ def stepEnv(env_state, action):
                         env_state[ENV_ID_ACTION] = (env_state[ENV_ID_ACTION] + 1) % NUMBER_PLAYER
                         #nếu mọi người hết khả năng action tiếp thì đi thẳng đến showdown
                         if env_state[ENV_ID_ACTION] == env_state[ENV_BUTTON_PLAYER]:
-                            # if np.count_nonzero(env_state[ENV_ALL_PLAYER_STATUS : ENV_ALL_FIRST_CARD]) != 1:
+                            #  if np.count_nonzero(env_state[ENV_ALL_PLAYER_STATUS : ENV_ALL_FIRST_CARD]) != 1:
                             env_state[ENV_STATUS_GAME] = 6
-                            # print('gnas đi showdown')
+                            #  print('gnas đi showdown')
                             env_state[ENV_ID_ACTION] = env_state[ENV_TEMP_BUTTON]
                             break
                     if env_state[ENV_STATUS_GAME] != 6:
@@ -439,7 +439,7 @@ def bot_lv0(state, perData):
         action = 0
     elif 1 in arr_action:
         action = 1
-    # print(list(state))
+    #  print(list(state))
     return action, perData
 
 def one_game_print_mode(p0, list_other, per_player, per1, per2, per3, per4, per5, per6, per7, per8, p1, p2, p3, p4, p5, p6, p7, p8):

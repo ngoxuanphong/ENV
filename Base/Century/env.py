@@ -15,7 +15,7 @@ def getStateSize():
 def getActionSize():
     return 65
 
-# khởi tạo bàn chơi
+#  khởi tạo bàn chơi
 @njit()
 def initEnv():
     start_card_player = np.concatenate((np.array([1]), np.zeros(42), np.array([1, 0])))
@@ -46,9 +46,9 @@ def getAgentState(env_state):
     for idx in range(1, 5):
         id = int((player_action + idx) % NUMBER_PLAYER )
         all_other_player_in4 = env_state[ATTRIBUTE_PLAYER * id : ATTRIBUTE_PLAYER * id + BASIC_ATTRIBUTE_PLAYER].copy()
-        # all_other_player_card = np.where(all_other_player_in4[BASIC_ATTRIBUTE_PLAYER:] == -1, 1, 0)      #xác định thẻ người chơi có dựa trên các thẻ đã đánh
+        #  all_other_player_card = np.where(all_other_player_in4[BASIC_ATTRIBUTE_PLAYER:] == -1, 1, 0)      #xác định thẻ người chơi có dựa trên các thẻ đã đánh
         player_state[P_OTHER_PLAYER_IN4 + (idx -1) * BASIC_ATTRIBUTE_PLAYER : P_OTHER_PLAYER_IN4 + idx * BASIC_ATTRIBUTE_PLAYER] = all_other_player_in4
-    # player_state = np.concatenate((player_state, env_state[ENV_OPEN_ACTION_CARD:ENV_DOWN_ACTION_CARD], env_state[ENV_SILVER_COIN : ENV_ID_ACTION]))     
+    #  player_state = np.concatenate((player_state, env_state[ENV_OPEN_ACTION_CARD:ENV_DOWN_ACTION_CARD], env_state[ENV_SILVER_COIN : ENV_ID_ACTION]))     
     player_state[P_OPEN_ACTION_CARD : P_SILVER_COIN] = env_state[ENV_OPEN_ACTION_CARD : ENV_DOWN_ACTION_CARD]
     player_state[P_SILVER_COIN] = env_state[ENV_SILVER_COIN]
     player_state[P_GOLD_COIN] = env_state[ENV_GOLD_COIN]
@@ -155,7 +155,7 @@ def getReward(player_state):
         if end_true == 0:   #nếu loop quá lâu thì auto thua
             return 0
         else:
-            # all_player_point = np.zeros(NUMBER_PLAYER)
+            #  all_player_point = np.zeros(NUMBER_PLAYER)
             all_player_point = player_state[P_ORDER : P_ORDER + NUMBER_PLAYER].copy()
             for id_player in range(5):
                 player_in4 = np.zeros(BASIC_ATTRIBUTE_PLAYER)
@@ -182,17 +182,17 @@ def check_winner(env_state):
             end = 1
             break
     if end == 1:
-        # all_player_point = np.zeros(NUMBER_PLAYER)
+        #  all_player_point = np.zeros(NUMBER_PLAYER)
         all_player_point = env_state[ENV_ORDER_PLAYER : ENV_ORDER_PLAYER + NUMBER_PLAYER].copy()
         for id_player in range(5):
             player_in4 = env_state[ATTRIBUTE_PLAYER * id_player : ATTRIBUTE_PLAYER * (id_player + 1)]
             player_point = player_in4[0] + np.sum(player_in4[3:6])*10
-            # all_player_point[id_player] = player_point
+            #  all_player_point[id_player] = player_point
             all_player_point[id_player] += player_point
         winner = np.argmax(all_player_point)
         return winner                                            
     else:
-        # print('một ván ko kết thúc')
+        #  print('một ván ko kết thúc')
         return winner                                     
 
 @njit()
@@ -347,17 +347,17 @@ def stepEnv(env_state, action):
             token_free = np.zeros(NUMBBER_TYPE_TOKEN)
             if idx_card_buy != 5:
                 token_free = all_token_free[NUMBBER_TYPE_TOKEN * idx_card_buy : NUMBBER_TYPE_TOKEN * (idx_card_buy + 1)]
-                all_token_free = np.concatenate((all_token_free[: NUMBBER_TYPE_TOKEN * idx_card_buy], all_token_free[NUMBBER_TYPE_TOKEN * (idx_card_buy + 1): ], np.zeros(NUMBBER_TYPE_TOKEN)))      # cập nhật giảm token free
+                all_token_free = np.concatenate((all_token_free[: NUMBBER_TYPE_TOKEN * idx_card_buy], all_token_free[NUMBBER_TYPE_TOKEN * (idx_card_buy + 1): ], np.zeros(NUMBBER_TYPE_TOKEN)))      #  cập nhật giảm token free
             #cập nhật giá trị
             list_card_player[card_buy] = 1
             list_card_board[idx_card_buy:] = np.append(list_card_board[idx_card_buy+1:], -1)
-            # top_6_card = card_in4[np.array(list_card_board[:6], dtype = int)].flatten()
+            #  top_6_card = card_in4[np.array(list_card_board[:6], dtype = int)].flatten()
             top_6_card = np.zeros((NUMBER_OPEN_ACTION_CARD, LENGTH_ACTION_CARD))
             for i in range(6):
                 id = list_card_board[:6][i]
                 top_6_card[i] = ALL_CARD_IN4[int(id)]
                 
-            # top_6_card = np.array([card_in4[int(id)] for id in list_card_board[:6]]).flatten()
+            #  top_6_card = np.array([card_in4[int(id)] for id in list_card_board[:6]]).flatten()
             top_6_card = top_6_card.flatten()
             player_in4[BASIC_ATTRIBUTE_PLAYER :] = list_card_player       #cập nhật thẻ mới mua
             player_in4[2 : BASIC_ATTRIBUTE_PLAYER] = player_in4[2 : BASIC_ATTRIBUTE_PLAYER] + token_free            #cập nhật token free nếu có
@@ -397,8 +397,8 @@ def stepEnv(env_state, action):
             player_in4[2 : BASIC_ATTRIBUTE_PLAYER] = player_in4[2 : BASIC_ATTRIBUTE_PLAYER] - token_fee_get[: NUMBBER_TYPE_TOKEN] + token_fee_get[NUMBBER_TYPE_TOKEN : ATTRIBUTE_ACTION_CARD]
             env_state[ATTRIBUTE_PLAYER * id_action : ATTRIBUTE_PLAYER * (id_action + 1)] = player_in4
             if np.sum(token_fee_get[:NUMBBER_TYPE_TOKEN] > player_in4[2 : BASIC_ATTRIBUTE_PLAYER]) == 0:
-                # env_state[-7] = id_card_use     #lưu trữ thẻ dùng gần nhất
-                # env_state[-3] = action          #lưu trữ action_main gần nhất
+                #  env_state[-7] = id_card_use     #lưu trữ thẻ dùng gần nhất
+                #  env_state[-3] = action          #lưu trữ action_main gần nhất
                 env_state[ENV_PHASE] = 3               #chuyển phase                       
             else:  
                 env_state[ENV_CARD_BUY_OR_USE] = -0.5                                                 
@@ -412,7 +412,7 @@ def stepEnv(env_state, action):
 
     elif phase_env == 4:
         #lấy thông tin
-        # stay_drop = env_state[-6]
+        #  stay_drop = env_state[-6]
         token_drop = action - 57 
         #Cập nhật thông tin
         player_in4[2:6][token_drop] -= 1
@@ -426,11 +426,11 @@ def stepEnv(env_state, action):
 
     elif phase_env == 5:
         id_update = action - 62
-        # if id_update == 3:
-        #     env_state[-8] = 0
-        #     env_state[-2] = 1
-        #     env_state[-1] = (env_state[-1] + 1)%5
-        # else:
+        #  if id_update == 3:
+        #      env_state[-8] = 0
+        #      env_state[-2] = 1
+        #      env_state[-1] = (env_state[-1] + 1)%5
+        #  else:
         player_in4[2:6][id_update] -= 1
         player_in4[2:6][id_update+1] += 1
         env_state[ATTRIBUTE_PLAYER * id_action : ATTRIBUTE_PLAYER * (id_action + 1)] = player_in4

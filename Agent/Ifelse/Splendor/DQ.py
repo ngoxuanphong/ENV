@@ -33,7 +33,7 @@ def getGemsValue(state):
     myCards = state[207:212]
     cards = state[36:201].reshape(15,11)
     prices = np.zeros((15,5))
-    # print(cards)
+    #  print(cards)
     for i in range(15):
         if np.sum(cards[i]) != 0:
             prices[i] = cards[i][6:11] - myGems - myCards
@@ -41,11 +41,11 @@ def getGemsValue(state):
               if prices[i][j] < 0: prices[i][j] = 0
               else: prices[i][j] = prices[i][j]**1.4
         else: prices[i] = np.full(5,99)
-    # print(prices)
+    #  print(prices)
     cardsValue = np.zeros(15)
     for i in range(15):
         cardsValue[i] = (0.5*cards[i][0]+20.02)/(np.sum(prices[i]) +0.75)
-    # print(cardsValue)
+    #  print(cardsValue)
     idxmax = np.argmax(cardsValue)
     gemsValue = prices[idxmax]
     if np.sum(state[258:263]) == 1:
@@ -73,15 +73,15 @@ def Test(state, per):
     for action in ValidAction:
         if action in range(5):
             gems[action] = 1
-    # gems = np.where(gems ==1)[0] //bỏ
+    #  gems = np.where(gems ==1)[0] //bỏ
     if np.sum(gems) > 0:
         gemsValue = getGemsValue(state)
-        # print(gemsValue)
+        #  print(gemsValue)
         gemsValue = gemsValue*gems
-        # print(gemsValue)
+        #  print(gemsValue)
 
         action = np.argmax(gemsValue)
-        # print(action, ValidAction,'-------------')
+        #  print(action, ValidAction,'-------------')
         return action, per
     action = ValidAction[np.random.randint(len(ValidAction))]
     return action, per

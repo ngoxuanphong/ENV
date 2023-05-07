@@ -140,7 +140,7 @@ perx = [np.random.choice(getActionSize(),size=getActionSize(),replace=False).res
 #per[3]: sum all per[0] victory
 #per[4]: count turn in one game
 #per[5]: count game
-# per[6]: count win in 1000 games
+#  per[6]: count win in 1000 games
 #per[7]: max win in 1000 games phase 2
 #per[8]: max win in 1000 games phase 3
 #per[9]: per[1] best. 

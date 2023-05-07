@@ -26,21 +26,21 @@ getReward = env.getReward
 @njit
 def DataAgent():
   per = []
-  per.append(np.zeros(1)) # đếm số lượt
+  per.append(np.zeros(1)) #  đếm số lượt
   return per
 
 from Base.TLMN.env import __ACTIONS__
 
-# (0 1 2)
-# (1 2 3)
-# (2 3 4)
-# (3 4 5)
-# (4 5 6)
-# (5 6 7)
-# (6 7 8)
-# (7 8 9)
-# (8 9 10)
-# (9 10 11)
+#  (0 1 2)
+#  (1 2 3)
+#  (2 3 4)
+#  (3 4 5)
+#  (4 5 6)
+#  (5 6 7)
+#  (6 7 8)
+#  (7 8 9)
+#  (8 9 10)
+#  (9 10 11)
 
 @njit()
 def inGroup(card, cards):
@@ -56,7 +56,7 @@ def inGroup(card, cards):
             return True
         if (2 in values) and (3 in values):
             return True
-    if value in (2, 3, 4 ,5 ,6, 7, 8, 9):
+    if value in (2, 3, 4, 5, 6, 7, 8, 9):
         if ((value-1) in values) and ((value-2) in values):
             return True
         if ((value-1) in values) and ((value+1) in values):
@@ -85,7 +85,7 @@ def inStraight(card, cards):
             return True
         if (2 in values) and (3 in values):
             return True
-    if value in (2, 3, 4 ,5 ,6, 7, 8, 9):
+    if value in (2, 3, 4, 5, 6, 7, 8, 9):
         if ((value-1) in values) and ((value-2) in values):
             return True
         if ((value-1) in values) and ((value+1) in values):

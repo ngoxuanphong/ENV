@@ -92,7 +92,7 @@ def toiUuPhom(phom1, c1, phom2, c2):
     arrBo_ = laLap[k*4: k*4 + 4] 
 
     if sum(arrBo) == 3 and sum(arrBo_) == 1:
-      if a + b + 1 == 3: ### độ dài dây
+      if a + b + 1 == 3: ###  độ dài dây
         phom[i - 4*a: i + 4*b +1 : 4] -= 1
         phom[i] = 1
 
@@ -120,7 +120,7 @@ def Test(state, per):
         if act >= 2:
           id = act - 2
           if phom[id] == 0:
-            # print('ACTION----: ', act)
+            #  print('ACTION----: ', act)
             return act, per
 
     xxx = np.sum(state[104: 104 + 52* 6].reshape(6, 52), 0) + phom
@@ -137,7 +137,7 @@ def Test(state, per):
               return act, per
 
           if sum(myCard[k*4: k*4 + 4]) == 1:
-            # print('ACTION: ', act)
+            #  print('ACTION: ', act)
             return act, per
           
 
@@ -145,5 +145,5 @@ def Test(state, per):
           return act, per
 
     action = actions[-1]
-    # print('ACTION:random ', action)
+    #  print('ACTION:random ', action)
     return action, per

@@ -1,4 +1,4 @@
-##  Thông tin quan trọng:
+##   Thông tin quan trọng:
     - Ảnh map: xem ở folder "Base/Catan"
     - 203: Điểm của bản thân
     - 393, 578, 763: Điểm của 3 người chơi còn lại
@@ -13,7 +13,7 @@
     Tất cả đều ngoại trừ các giá trị -1.
 
 
-## :video_game: Action
+##  :video_game: Action
     * 0-53: Chọn điểm
     * 54: Roll xúc xắc
     * 55,56,57,58: Dùng thẻ dev, lần lượt Knight, RoadBuilding, Yearofplenty, Monopoly
@@ -30,7 +30,7 @@
     * 104: Dừng yêu cầu tài nguyên khi trading
     * 105: Người chơi chính không trade với ai cả
 
-## :bust_in_silhouette: P_state
+##  :bust_in_silhouette: P_state
     * [0:95] 5 vị trí liên tiếp là trạng thái nguyên liệu trên một ô đất (tổng 19 ô đất), 0 là không có, 1 là có, nguyên liệu được sắp xếp theo Cây Gạch Cừu Lúa Đá
 
     * [95:114] Vị trí Robber

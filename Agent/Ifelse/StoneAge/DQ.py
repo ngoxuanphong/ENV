@@ -41,11 +41,11 @@ def Test(state, per):
 
     
 
-    # if returnAction == -1:
-    #     civCards = state[14:110].reshape(4,-1)
-    #     for i in range(4):
-    #         if civCards[i][8] == 1 and i+19 in ValidAction:
-    #             returnAction = i+19
+    #  if returnAction == -1:
+    #      civCards = state[14:110].reshape(4,-1)
+    #      for i in range(4):
+    #          if civCards[i][8] == 1 and i+19 in ValidAction:
+    #              returnAction = i+19
 
     if returnAction == -1:
         buildingCards = state[110:142].reshape(4,-1)
@@ -56,7 +56,7 @@ def Test(state, per):
             if np.sum(price) > 0:
                 buy = myResource - price
                 if len(np.where(buy < 0)[0]) == 0 and i+23 in ValidAction:
-                    # print(buy, myResource, price)
+                    #  print(buy, myResource, price)
                     returnAction = i+23
 
     if returnAction == -1:
@@ -125,12 +125,12 @@ def Test(state, per):
 
     if returnAction == -1:
         returnAction = ValidAction[np.random.randint(len(ValidAction))]
-    #     print('random')
+    #      print('random')
 
 
-    # print(ValidAction, returnAction)
-    # print(state[142:318].reshape(4,44))
-    # print(state[14:110].reshape(4,-1))
-    # print(state[110:142].reshape(4,-1))
-    # print('----------')
+    #  print(ValidAction, returnAction)
+    #  print(state[142:318].reshape(4,44))
+    #  print(state[14:110].reshape(4,-1))
+    #  print(state[110:142].reshape(4,-1))
+    #  print('----------')
     return returnAction, per

@@ -191,13 +191,13 @@ def Test(state, per):
 @njit()
 def DataAgent():
     per_Ann = List()
-    per_Ann.append(np.random.rand(100, getActionSize()))  # 0
-    per_Ann.append(np.zeros((1, 100)))  # 1
-    per_Ann.append(np.zeros((1, 100)))  # 2
-    per_Ann.append(np.array([[-1.]]))  # 3
-    per_Ann.append(np.array([[0.]]))  # 4
-    per_Ann.append(np.zeros((getActionSize(), getActionSize())))  # 5
-    per_Ann.append(np.zeros((1, getActionSize())))  # 6
-    per_Ann.append(np.zeros((1, 1000)))  # 7
-    per_Ann.append(np.zeros((getActionSize(), getActionSize())))  # 8
+    per_Ann.append(np.random.rand(100, getActionSize()))  #  0
+    per_Ann.append(np.zeros((1, 100)))  #  1
+    per_Ann.append(np.zeros((1, 100)))  #  2
+    per_Ann.append(np.array([[-1.]]))  #  3
+    per_Ann.append(np.array([[0.]]))  #  4
+    per_Ann.append(np.zeros((getActionSize(), getActionSize())))  #  5
+    per_Ann.append(np.zeros((1, getActionSize())))  #  6
+    per_Ann.append(np.zeros((1, 1000)))  #  7
+    per_Ann.append(np.zeros((getActionSize(), getActionSize())))  #  8
     return per_Ann

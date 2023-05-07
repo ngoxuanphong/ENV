@@ -1,5 +1,5 @@
-# không gian n chiều
-# small NN deep
+#  không gian n chiều
+#  small NN deep
 import numpy as np
 import random as rd
 from numba import njit, jit
@@ -42,7 +42,7 @@ def findOut(state,geo):
 @njit()
 def Train(state,per):
     actions = getValidActions(state)
-    # nState = state - 1
+    #  nState = state - 1
     nState = state - per[3]
     output = np.sum((per[0] * nState) ** 2,axis = 1)
     output = actions * output + actions
@@ -60,11 +60,11 @@ def Train(state,per):
 @njit()
 def Test(state,per):
     actions = getValidActions(state)
-    # nState = state - 1
+    #  nState = state - 1
     nState = state - per[0]
     output = np.sum((per[1] * nState) ** 2,axis = 1)
     output = actions * output + actions
-    # action = np.argmax(output)
+    #  action = np.argmax(output)
     list_action = np.where(actions == 1)[0]
     action = list_action[np.argmax(output[list_action])]
     return action, per

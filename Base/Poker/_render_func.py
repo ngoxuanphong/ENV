@@ -19,8 +19,8 @@ class Sprites:
 
         self.cards.append(Image.open(IMG_PATH+f"Card_back.png").resize(CARD_SIZE))
 
-        # self.other_in4 = []
-        # self.other_in4.append(Image.open(IMG_PATH+f"button_dealer.png").resize(CARD_SIZE))
+        #  self.other_in4 = []
+        #  self.other_in4.append(Image.open(IMG_PATH+f"button_dealer.png").resize(CARD_SIZE))
 
 sprites = Sprites()
 
@@ -77,22 +77,22 @@ def get_env_components():
 
 def get_main_player_state(env_components: Env_components, list_agent, list_data, action=None):
     if not action is None:
-        # print('check qua 1')
+        #  print('check qua 1')
         if env_components.env[_env.ENV_STATUS_GAME] != 6:
             env_components.env = _env.stepEnv(env_components.env, action)
     my_idx = np.where(env_components.list_other == -1)[0][0]
-    # print(f'bot là người chơi thứ {my_idx}')
-    # if _env.checkEnded(env_components.env):
-    #     print('đoạn này thừa')
-    #     env_components.env[_env.ENV_CHECK_END] = 1
-    #     env_components.winner = _env.check_winner(env_components.env)
+    #  print(f'bot là người chơi thứ {my_idx}')
+    #  if _env.checkEnded(env_components.env):
+    #      print('đoạn này thừa')
+    #      env_components.env[_env.ENV_CHECK_END] = 1
+    #      env_components.winner = _env.check_winner(env_components.env)
     
     while not _env.checkEnded(env_components.env):
         while env_components.env[_env.ENV_STATUS_GAME] != 6:
             p_idx = int(env_components.env[_env.ENV_ID_ACTION])
 
             if env_components.list_other[p_idx] == -1 :
-                # print('toang đây')
+                #  print('toang đây')
                 state = _env.getAgentState(env_components.env)
                 win = -1
                 return win, state, env_components
@@ -103,13 +103,13 @@ def get_main_player_state(env_components: Env_components, list_agent, list_data,
             action, data = agent(state, data)
             if _env.getValidActions(state)[action] != 1:
                     raise Exception('bot dua ra action khong hop le')
-            # print(f'người chơi {p_idx} action {action}')
+            #  print(f'người chơi {p_idx} action {action}')
             
             env_components.env = _env.stepEnv(env_components.env, action)
         
         #chạy turn showdown
         if env_components.showdown_yet:
-            # print('chạy show down')
+            #  print('chạy show down')
             my_idx = -1
             for id in range(_env.NUMBER_PLAYER):
                 env_components.env[_env.ENV_ID_ACTION] = id
@@ -126,13 +126,13 @@ def get_main_player_state(env_components: Env_components, list_agent, list_data,
                     action, data = agent(state, data)
             env_components.showdown_yet = False
             if env_components.env[_env.ENV_ALL_PLAYER_STATUS + my_idx] == 1:
-                # print('check đây', my_idx)
+                #  print('check đây', my_idx)
                 env_components.env[_env.ENV_ID_ACTION] = my_idx
                 state = _env.getAgentState(env_components.env)
                 win = -1
                 return win, state, env_components
         else:
-            # print('reset round')
+            #  print('reset round')
             env_components.env = _env.reset_round(env_components.env)
             env_components.showdown_yet = True
 
@@ -140,15 +140,15 @@ def get_main_player_state(env_components: Env_components, list_agent, list_data,
     env_components.winner = _env.check_winner(env_components.env)
 
 
-    # for id in range(_env.NUMBER_PLAYER):
-    #     env_components.env[_env.ENV_PHASE] = 1
-    #     p_idx = int(env_components.env[_env.ENV_ID_ACTION])
-    #     state = _env.getAgentState(env_components.env)
-    #     my_idx = np.where(env_components.list_other == -1)[0][0]
-    #     if my_idx == env_components.winner:
-    #         win = 1
-    #     else:
-    #         win = 0
+    #  for id in range(_env.NUMBER_PLAYER):
+    #      env_components.env[_env.ENV_PHASE] = 1
+    #      p_idx = int(env_components.env[_env.ENV_ID_ACTION])
+    #      state = _env.getAgentState(env_components.env)
+    #      my_idx = np.where(env_components.list_other == -1)[0][0]
+    #      if my_idx == env_components.winner:
+    #          win = 1
+    #      else:
+    #          win = 0
 
     my_idx = np.where(env_components.list_other == -1)[0][0]
     env_components.env[_env.ENV_PHASE] = 1
@@ -228,7 +228,7 @@ def get_state_image(state=None):
             break
     if check < 2:
         open_card = np.array([])
-    # print(open_card , 'card chung', 'số ván đã chơi', state[513], state[508:513])
+    #  print(open_card,  'card chung', 'số ván đã chơi', state[513], state[508:513])
     #lấy card cho người chơi
     for i in range(9):
         player_i_card = np.where(state[52*i:52*(i+1)])[0]

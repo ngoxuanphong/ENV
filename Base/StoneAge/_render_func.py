@@ -95,7 +95,7 @@ action_description = {
 
 class Env_components:
     def __init__(self, env, winner, list_other, all_build_card, all_civ_card) -> None:
-        # print('Thứ tự các nền văn minh trong mô tả: \n Hình người, cây sáo, lá cây, dệt, đồng hồ, lu, xe, đá')
+        #  print('Thứ tự các nền văn minh trong mô tả: \n Hình người, cây sáo, lá cây, dệt, đồng hồ, lu, xe, đá')
         self.env = env
         self.winner = winner
         self.list_other = list_other
@@ -351,7 +351,7 @@ def draw_cards(bg, list_card_build_on_board, list_card_civ_on_board,list_count_b
         ImageDraw.Draw(bg).text((x + x*0.1, y - y*0.08), str(list_count_building[i]), fill= 'white', font = sprites.font)
         x -= int(BG_SIZE[0]*0.112)
 
-    # ImageDraw.Draw(bg).text((int(BG_SIZE[0]*0.73), int(BG_SIZE[1]*0.63)), str(count_civ), fill= 'black', font = sprites.font)
+    #  ImageDraw.Draw(bg).text((int(BG_SIZE[0]*0.73), int(BG_SIZE[1]*0.63)), str(count_civ), fill= 'black', font = sprites.font)
 
     x = int(BG_SIZE[0]*0.87)
     y = int(BG_SIZE[1]*0.735)
@@ -392,7 +392,7 @@ def draw_specifications_agent(im, state):
     people_x_array = all_agent_state[:, 39:43]
     all_type_civ = all_agent_state[:, 22:30]
     type_civ = [len(np.where(all_agent_state[:, 22:30][i])[0]) for i in range(4)]
-    # print(all_type_civ)
+    #  print(all_type_civ)
     _agent_.draw_agent_block(im, res_array=res_array, 
                              tool_array = tool_array, 
                              tool_temp_array = tool_temp_array,
@@ -506,7 +506,7 @@ def get_main_player_state(env_components: Env_components, list_agent, list_data,
         else:
             win = 0
 
-        # Chạy turn cuối cho 3 bot hệ thống
+        #  Chạy turn cuối cho 3 bot hệ thống
         for p_idx in range(4):
             if p_idx != my_idx:
                 env[83] = p_idx

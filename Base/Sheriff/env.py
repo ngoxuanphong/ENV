@@ -43,7 +43,7 @@ def initEnv():
                 card_player[card-1] += 1
             player_i[-15:] = card_player
             env_state[ATTRIBUTE_PLAYER * id : ATTRIBUTE_PLAYER * (id + 1)] = player_i
-    # print(env_state[ENV_PLAYER_IN4 : ATTRIBUTE_PLAYER*4])
+    #  print(env_state[ENV_PLAYER_IN4 : ATTRIBUTE_PLAYER*4])
     all_card = np.concatenate((normal_card[20:], royal_card))
     np.random.shuffle(all_card)
     env_state[ENV_LEFT_CARD : ENV_LEFT_CARD + CARD_OPEN_START] = all_card[: 5]
@@ -215,7 +215,7 @@ def stepEnv(env_state, action):
     elif phase_env == 2: 
         if action == 16:
             player_card = player_in4[-15:]
-            # print('check', player_card)
+            #  print('check', player_card)
             card_down = env_state[ENV_DOWN_CARD : ENV_DOWN_CARD + NUMBER_CARD_USE]
             number_card_get = int(MAX_CARD_TAKE - np.sum(player_card))
             card_get = card_down[:number_card_get]
@@ -248,7 +248,7 @@ def stepEnv(env_state, action):
         if np.sum(temp_card_drop) > 0:
             card_up = card_up[:int(-np.sum(temp_card_drop))]
 
-        # env_state[ENV_TEMP_DROP + NUMBER_TYPE_CARD * id_action : ENV_TEMP_DROP + NUMBER_TYPE_CARD * (id_action + 1)] = np.zeros(NUMBER_TYPE_CARD)
+        #  env_state[ENV_TEMP_DROP + NUMBER_TYPE_CARD * id_action : ENV_TEMP_DROP + NUMBER_TYPE_CARD * (id_action + 1)] = np.zeros(NUMBER_TYPE_CARD)
         env_state[ENV_LEFT_CARD + NUMBER_CARD_OPEN * (action - 19) : ENV_LEFT_CARD + NUMBER_CARD_OPEN*(action-18)] = card_up
         env_state[ENV_PHASE] = 1
         env_state[ENV_ID_ACTION] = (env_state[ENV_ID_ACTION] + 1)%4
@@ -322,7 +322,7 @@ def stepEnv(env_state, action):
             env_state[ENV_PHASE] = 10
             env_state[ENV_ID_ACTION] = (env_state[ENV_ROUND] - 1) % 4
         else:
-            # print(player_in4[-90:-60])
+            #  print(player_in4[-90:-60])
             all_card_bag = player_in4[-45:-30]
             all_card_bride_bag = player_in4[-60:-45]
             card_bride = action-62
@@ -439,7 +439,7 @@ def stepEnv(env_state, action):
         for i in range(len(temp_card_drop)):
             if temp_card_drop[i] > 0:
                 card_up = np.append(np.array([i+1]*int(temp_card_drop[i])), card_up)
-        # if np.sum(temp_card_drop) > 0:
+        #  if np.sum(temp_card_drop) > 0:
         card_up = card_up[:int(-np.sum(temp_card_drop))]
         temp_card_drop = np.zeros(NUMBER_TYPE_CARD)
         player_in4[-30:-15] = temp_card_drop

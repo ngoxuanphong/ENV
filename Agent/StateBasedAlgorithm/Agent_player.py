@@ -1,5 +1,5 @@
-# state based
-# small NN deep
+#  state based
+#  small NN deep
 import numpy as np
 import random as rd
 from numba import njit, jit
@@ -54,7 +54,7 @@ def Train(state,per):
     win = getReward(state)
     if win != -1:
         if win == 1:
-            # print("đây")
+            #  print("đây")
             per[1] += per[0]
             per[2][0][0][0] = 1
         else:
@@ -74,7 +74,7 @@ def Test(state, per):
 
     actions = getValidActions(state)
     output = (weight + 1) * actions
-    # action = np.argmax(output)
+    #  action = np.argmax(output)
     list_action = np.where(actions == 1)[0]
     action = list_action[np.argmax(output[list_action])]
     return action, per

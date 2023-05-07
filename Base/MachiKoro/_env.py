@@ -53,7 +53,7 @@ def getAgentState(env_state):
 def getValidActions(player_state_origin):
     list_action_return = np.zeros(getActionSize(), dtype= np.float64)
     player_state = player_state_origin.copy()
-    # phase_env = np.where(player_state[P_PHASE : P_PHASE + NUMBER_PHASE] == 1)[0][0] + 1
+    #  phase_env = np.where(player_state[P_PHASE : P_PHASE + NUMBER_PHASE] == 1)[0][0] + 1
     phase_env = -1
     if len(np.where(player_state[P_PHASE : P_PHASE + NUMBER_PHASE] == 1)[0]) != 0:
         phase_env = np.where(player_state[P_PHASE : P_PHASE + NUMBER_PHASE] == 1)[0][0] + 1

@@ -336,35 +336,35 @@ def getValidActions(p_state):
   t = np.where(temp==1)[0]
   if phase[0] == 1:
     validActions[1] = 1 #bốc bài 
-    if len(np.where(la_bai_truoc ==1)[0]) != 0:# có lá bài của người đi trước 
+    if len(np.where(la_bai_truoc ==1)[0]) != 0:#  có lá bài của người đi trước 
         if check_ca(np.where(la_bai_truoc ==1)[0][0],t) == True :
-          if len(np.where(p_state[104+52+52:104+52+52+52]==1)[0]) <1 : # có cạ trong bộ và có lá bài của người đi trước và chưa ăn phỏm nào 
-            validActions[0] = 1 # Ăn bài 
-          elif len(np.where(p_state[104+52+52:104+52+52+52]==1)[0]) == 1  : # có cạ trong bộ và có lá bài của người đi trước và đã ăn 1 phỏm 
+          if len(np.where(p_state[104+52+52:104+52+52+52]==1)[0]) <1 : #  có cạ trong bộ và có lá bài của người đi trước và chưa ăn phỏm nào 
+            validActions[0] = 1 #  Ăn bài 
+          elif len(np.where(p_state[104+52+52:104+52+52+52]==1)[0]) == 1  : #  có cạ trong bộ và có lá bài của người đi trước và đã ăn 1 phỏm 
             l1,r1 = check_so_ca(np.where(p_state[104+52+52:104+52+52+52]==1)[0][0],t)
             l2,r2 = check_so_ca(np.where(la_bai_truoc ==1)[0][0],t)
             if (l1 == l2) and l1 == 1:
               if (r1[0][0]== r2[0][0]) and (r1[0][1]== r2[0][1]) :
                  validActions[0] = 0
-            # elif (l1 == l2) and l1 == 2:
-            #   if (r1[0] == r2[0]).all() and (r1[1]==r2[1]).all():
-            #      validActions[0] = 0
-            # elif (l1 == l2) and l1 == 2:
+            #  elif (l1 == l2) and l1 == 2:
+            #    if (r1[0] == r2[0]).all() and (r1[1]==r2[1]).all():
+            #       validActions[0] = 0
+            #  elif (l1 == l2) and l1 == 2:
             else:
-              validActions[0] = 1 # Ăn bài 
-          elif  len(np.where(p_state[104+52+52:104+52+52+52]==1)[0]) == 2  : # có cạ trong bộ và có lá bài của người đi trước và đã ăn 2 phỏm 
+              validActions[0] = 1 #  Ăn bài 
+          elif  len(np.where(p_state[104+52+52:104+52+52+52]==1)[0]) == 2  : #  có cạ trong bộ và có lá bài của người đi trước và đã ăn 2 phỏm 
               l1,r1 = check_so_ca(np.where(p_state[104+52+52:104+52+52+52]==1)[0][0],t)
               l2,r2 = check_so_ca(np.where(p_state[104+52+52:104+52+52+52]==1)[0][1],t)
               l3,r3 = check_so_ca(np.where(la_bai_truoc ==1)[0][0],t)
               if l1 == 1 and l2 == 1 and l3 == 1 :
                 if (r1[0][0] == r3[0][1]) or (r3[0][1]== r2[0][1]):
                   validActions[0] = 0
-              # elif l1 == 2 and l2 ==1 and l3 == 1:
-              #      validActions[0] = 0
-              # elif l1 == 1 and l2 ==2 and l3 ==1 :
-              #      validActions[0] = 0
+              #  elif l1 == 2 and l2 ==1 and l3 == 1:
+              #       validActions[0] = 0
+              #  elif l1 == 1 and l2 ==2 and l3 ==1 :
+              #       validActions[0] = 0
               else :
-                  validActions[0] = 1 # Ăn bài 
+                  validActions[0] = 1 #  Ăn bài 
   elif phase[1] == 1:
     #check cạ 
     if len(np.where(p_state[104+52+52:104+52+52+52]==1)[0]) == 1 :
@@ -374,7 +374,7 @@ def getValidActions(p_state):
       if l == 1:
         r1 = r[0][0]
         r2 = r[0][1]
-        # khoa cac la bai lai 
+        #  khoa cac la bai lai 
         validActions[t[np.where((t==r1))[0]]+2] = 0
 
         validActions[t[np.where((t==r2))[0]]+2] = 0
@@ -386,21 +386,21 @@ def getValidActions(p_state):
         r12 = r1[0][1]
         r21 = r2[0][0]
         r22 = r2[0][1]
-         # khoa cac la bai t1,t2
+         #  khoa cac la bai t1,t2
         validActions[t[np.where((t!=r11) & (t!= r12) & (t!= r22) & (t!= r21))[0]]+2] = 1
       elif (l1 == 1 and l2 >2)  :
-        # t[r# khoa cac la bai t1
+        #  t[r#  khoa cac la bai t1
         r11 = r1[0][0]
         r12 = r1[0][1]
         validActions[t[(t!=r11) & (t!= r12)]+2] = 1
       elif (l1> 2 and l2 == 1):
-        # khoa cac la bai t2
+        #  khoa cac la bai t2
         r11 = r2[0][0]
         r12 = r2[0][1]
         validActions[t[(t!=r11) & (t!= r12) ]+2] = 1
 
       elif (l1 == 1 and l2 == 2)  :
-        # t[r# khoa cac la bai t1
+        #  t[r#  khoa cac la bai t1
         r11 = r1[0][0]
         r12 = r1[0][1]
 
@@ -415,7 +415,7 @@ def getValidActions(p_state):
         else :
             validActions[t[(t!=r11) & (t!= r12)]+2] = 1
       elif (l1 == 2 and l2 == 1):
-        # khoa cac la bai t2
+        #  khoa cac la bai t2
         r21 = r2[0][0]
         r22 = r2[0][1]
 
@@ -453,21 +453,21 @@ def stepEnv(action,env):
   turn = env[52] 
   pIdx = turn % 4
   if phase == 0 : 
-    if action == 0: # Ăn bài 
+    if action == 0: #  Ăn bài 
        temp[env[54]] = pIdx + 9
        env[53] = 1
 
-    if action == 1 : # không ăn bài 
+    if action == 1 : #  không ăn bài 
        id = np.random.choice(np.where(temp==4)[0])
        temp[id] = pIdx
        env[53] = 1
   elif phase == 1 :
-    if len(temp[temp == pIdx +5])+1 < 4: # đánh bài 
+    if len(temp[temp == pIdx +5])+1 < 4: #  đánh bài 
        temp[action-2] = pIdx+5
        env[54] = action-2
        env[55:55+52][np.where(temp ==pIdx)[0]]= pIdx   
 
-    elif len(temp[temp == pIdx +5])+1 >= 4:# đánh bài 
+    elif len(temp[temp == pIdx +5])+1 >= 4:#  đánh bài 
        temp[action-2] = pIdx+5
        env[55:55+52][np.where(temp ==pIdx)[0]]=pIdx
        if len(temp[temp == pIdx +9]) == 0:
@@ -507,24 +507,24 @@ def stepEnv(action,env):
         if np.where(env[55+52:55+52+52] == (env[52] +3)% 4 )[0][i] in np.where(env[55:55+52]== (env[52] +3)% 4 )[0] :
           env[55:55+52][np.where(env[55+52:55+52+52] == (env[52] +3)% 4 )[0][i]] = -1
           #print("4")
-    # for i in range(len(np.where(e_state[0:52] == (e_state[52] +1)% 4 +5)[0])):
-    #   if np.where(e_state[0:52] == (e_state[52] +1)% 4 +5)[0][i] in np.where(e_state[55:55+52]== (e_state[52] +1)% 4 +5)[0] :
-    #     p_state[423+52:423+52+52][np.where(e_state[0:52] == (e_state[52] +1)% 4 +5)[0][i]] = 0 
+    #  for i in range(len(np.where(e_state[0:52] == (e_state[52] +1)% 4 +5)[0])):
+    #    if np.where(e_state[0:52] == (e_state[52] +1)% 4 +5)[0][i] in np.where(e_state[55:55+52]== (e_state[52] +1)% 4 +5)[0] :
+    #      p_state[423+52:423+52+52][np.where(e_state[0:52] == (e_state[52] +1)% 4 +5)[0][i]] = 0 
 
-    # for i in range(len(np.where(e_state[0:52] == (e_state[52] +2)% 4 +5)[0])):
-    #   if np.where(e_state[0:52] == (e_state[52] +2)% 4 +5)[0][i] in np.where(e_state[55:55+52]== (e_state[52] +2)% 4 +5)[0] :
-    #     p_state[423+52+52:423+52+52+52][np.where(e_state[0:52] == (e_state[52] +2)% 4 +5)[0][i]] = 0 
+    #  for i in range(len(np.where(e_state[0:52] == (e_state[52] +2)% 4 +5)[0])):
+    #    if np.where(e_state[0:52] == (e_state[52] +2)% 4 +5)[0][i] in np.where(e_state[55:55+52]== (e_state[52] +2)% 4 +5)[0] :
+    #      p_state[423+52+52:423+52+52+52][np.where(e_state[0:52] == (e_state[52] +2)% 4 +5)[0][i]] = 0 
 
-    # for i in range(len(np.where(e_state[0:52] == (e_state[52] +3)% 4 +5)[0])):
-    #   if np.where(e_state[0:52] == (e_state[52] +3)% 4 +5)[0][i] in np.where(e_state[55:55+52]== (e_state[52] +3)% 4 +5)[0] :
-    #     p_state[423+52+52+52:423+52+52+52+52][np.where(e_state[0:52] == (e_state[52] +3)% 4 +5)[0][i]] = 0 
+    #  for i in range(len(np.where(e_state[0:52] == (e_state[52] +3)% 4 +5)[0])):
+    #    if np.where(e_state[0:52] == (e_state[52] +3)% 4 +5)[0][i] in np.where(e_state[55:55+52]== (e_state[52] +3)% 4 +5)[0] :
+    #      p_state[423+52+52+52:423+52+52+52+52][np.where(e_state[0:52] == (e_state[52] +3)% 4 +5)[0][i]] = 0 
        
        env[54] = action-2
     env[55:55+52][action-2] = -1
     env[53] = 0   
     env[52] += 1
 
-       # hạ phỏm 
+       #  hạ phỏm 
 
 @njit() 
 def initEnv():
@@ -536,12 +536,12 @@ def initEnv():
         env[temp[9*i:9*(i+1)]]= i
       else: 
         env[temp[36:]]=i
-    env[52] = 0 # Turn
-    env[53] = 0 # Phase 
+    env[52] = 0 #  Turn
+    env[53] = 0 #  Phase 
     #5,6,7,8 lá bài rác của từng người 
     #9,10,11,12 lá bài đã ăn  và các lá phỏm đã hạ 
-    env[54] = -1 # lá thằng trc đánh 
-    env[55:55+52] = -1 # các lá còn lại để hạ 
+    env[54] = -1 #  lá thằng trc đánh 
+    env[55:55+52] = -1 #  các lá còn lại để hạ 
     env[55+52:55+52+52] = -1
     #0,1,2,3 các lá còn lại  của từng player 
     return env
@@ -564,27 +564,27 @@ def getAgentState(e_state):
     p_state = np.full(633,0,dtype = np.float64)
     temp = e_state[0:52]
     pIdx = e_state[52] % 4 
-    # 0 -> 51: Index các lá bài. 1 Là trên tay,  0 là của người chơi khác hoặc chưa bốc, -1 là các lá đã đánh hoặc bị đã ăn
+    #  0 -> 51: Index các lá bài. 1 Là trên tay,  0 là của người chơi khác hoặc chưa bốc, -1 là các lá đã đánh hoặc bị đã ăn
     p_state[0:52] = e_state[0:52]
     p_state[np.where(e_state[0:52] == pIdx)[0]] = 1
     p_state[np.where((e_state[0:52] != pIdx))[0]] = 0
-    # 'la bai',np.where(p_state[0:52] == 1)[0])
-    # lá bài thằng trước đánh cho mình 
+    #  'la bai',np.where(p_state[0:52] == 1)[0])
+    #  lá bài thằng trước đánh cho mình 
     if e_state[54] > 0:
         p_state[52:104][e_state[54]] = 1 
-    # bài rác của người tiếp theo 
+    #  bài rác của người tiếp theo 
     if pIdx!= 3 :
       p_state[104:104+52][(np.where(temp == pIdx+6)[0])] = 1
     else :
       p_state[104:104+52][(np.where(temp == 5)[0])]= 1  
-    #  bài rác của mình và người khác 
+    #   bài rác của mình và người khác 
     if pIdx!= 3 :
       p_state[104+52:104+52+52][np.where((temp>4) & (temp<= 8) & (temp != pIdx+6))[0]]= 1    
     else :
       p_state[104+52:104+52+52][np.where((temp>4) & (temp<= 8) & (temp != 5))[0]]= 1       
-    # số phỏm của bản thân 
+    #  số phỏm của bản thân 
     p_state[104+52+52:104+52+52+52][np.where(temp == pIdx+9)[0]] = 1
-    # số phỏm của 3 người khác 
+    #  số phỏm của 3 người khác 
     if pIdx == 0  :
       p_state[104+52+52+52:104+52+52+52+52][np.where(temp == 10)[0]] = 1
       p_state[104+52+52+52+52:104+52+52+52+52+52][np.where(temp == 11)[0]] = 1
@@ -601,11 +601,11 @@ def getAgentState(e_state):
       p_state[104+52+52+52:104+52+52+52+52][np.where(temp == 12)[0]] = 1
       p_state[104+52+52+52+52:104+52+52+52+52+52][np.where(temp == 9 )[0]] = 1
       p_state[104+52+52+52+52+52:104+52+52+52+52+52+52][np.where(temp == 10)[0]] = 1
-    # vị tri của bản thân 
+    #  vị tri của bản thân 
     p_state[416:420][pIdx] = 1
     #Phase 
     p_state[420:423][e_state[53]] = 1
-    # các lá bài của người chơi khác khi hạ phỏm 
+    #  các lá bài của người chơi khác khi hạ phỏm 
     if len(np.where(e_state[0:52]==5)[0])+len(np.where(e_state[0:52]==6)[0])+len(np.where(e_state[0:52]==7)[0])+len(np.where(e_state[0:52]==8)[0]) == 16:
       p_state[423:423+52][np.where(e_state[55:55+52]== pIdx)[0]] = 1
       p_state[423+52:423+52+52][np.where(e_state[55:55+52]== (e_state[52] +1)% 4)[0]] = 1
@@ -629,12 +629,12 @@ def getAgentState(e_state):
         p_state[423+52+52+52:423+52+52+52+52][np.where(e_state[0:52] == (e_state[52] +3)% 4 +5)[0][i]] = 0 
 
     m = checkEnded(e_state)
-    # Đã kết thúc game chưa 
+    #  Đã kết thúc game chưa 
     if m == -1:
       p_state[631] = 0
     else :
       p_state[631] = 1
-    # Check xem có thắng hay không
+    #  Check xem có thắng hay không
     if m == pIdx:
       p_state[632] = 1
     else:
@@ -685,7 +685,7 @@ def getReward(state):
 
       
 from numba.typed import List
-# @njit 
+#  @njit 
 def one_game_normal(p0,  list_other, per_player, per1, per2, per3, p1, p2, p3):
     env= initEnv()
     while check_u_khan(np.where(env[0:52]==0)[0]) == True  or check_u_khan(np.where(env[0:52]==1)[0]) == True or check_u_khan(np.where(env[0:52]==2)[0]) == True or check_u_khan(np.where(env[0:52]==3)[0]) == True :
@@ -779,8 +779,8 @@ def one_game_numba(p0,  list_other, per_player, per1, per2, per3, p1, p2, p3):
         winner = True
     else: 
         winner = False
-    # print(checkEnded(env))
-    # print(list_other)
+    #  print(checkEnded(env))
+    #  print(list_other)
     return winner, per_player
 @njit()
 def random_Env(p_state, per):

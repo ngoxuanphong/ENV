@@ -53,7 +53,7 @@ def muaTheDiem(state, validActions): #lấy thẻ điểm ngay khi có thẻ
   return action  
 
 @njit
-def muaActCard(state, validActions): # lấy thẻ action: ưu tiên thẻ cho ngL miễn phí
+def muaActCard(state, validActions): #  lấy thẻ action: ưu tiên thẻ cho ngL miễn phí
   action = 0
   for act in range(1, 7):
     card = actionCard(state)[act - 1]
@@ -92,7 +92,7 @@ def sinhNgLnau(state, validActions): #dùng thẻ sinh ra Nâu
   return action
 
 @njit
-def sinhNgLxanh(state, validActions): # dùng thẻ sinh ra Xanh
+def sinhNgLxanh(state, validActions): #  dùng thẻ sinh ra Xanh
   myNgL = state[2:6]
   action = 0
   #sinh ra xanh
@@ -107,7 +107,7 @@ def sinhNgLxanh(state, validActions): # dùng thẻ sinh ra Xanh
   return action
 
 @njit
-def sinhNgLdo(state, validActions): # dùng thẻ sinh ra Đỏ
+def sinhNgLdo(state, validActions): #  dùng thẻ sinh ra Đỏ
   myNgL = state[2:6]
   action = 0
   #sinh ra đỏ
@@ -122,7 +122,7 @@ def sinhNgLdo(state, validActions): # dùng thẻ sinh ra Đỏ
   return action
 
 @njit
-def sinhNgLvang(state, validActions): # dùng thẻ sinh ra Vàng
+def sinhNgLvang(state, validActions): #  dùng thẻ sinh ra Vàng
   myNgL = state[2:6]
   action = 0
   #sinh ra vang
@@ -161,7 +161,7 @@ def dungActionCard(state, validActions): #dùng thẻ sinh ra Xanh or Nâu
   return action
 
 @njit
-def ngLfree(state, validActions): # lấy ngL miễn phí
+def ngLfree(state, validActions): #  lấy ngL miễn phí
   action = 0
   for act in range(12, 57):
     if act in validActions:
@@ -172,7 +172,7 @@ def ngLfree(state, validActions): # lấy ngL miễn phí
   return action
 
 @njit
-def act_point(state, validActions): # dùng action để mua đc thẻ 
+def act_point(state, validActions): #  dùng action để mua đc thẻ 
   action = 0
   myNgL = state[2:6]
   for card in cardPoint(state):
@@ -261,7 +261,7 @@ def Test(state, per):
 
   if nhamThePoint(state, validActions):
     action = nhamThePoint(state, validActions)
-    return action , per
+    return action,  per
 
   if 61 in validActions:
     return validActions[-2], per
@@ -272,7 +272,7 @@ def Test(state, per):
 
   if truNgL(state, validActions):
     action = truNgL(state, validActions)
-    return action ,per
+    return action, per
 
   if levelUp(state, validActions):
     action = levelUp(state, validActions)

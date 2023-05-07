@@ -28,7 +28,7 @@ from Base.Catan.env import POINT_TILE
 @njit
 def DataAgent():
   per = []
-  per.append(np.zeros(1)) # đếm số lượt
+  per.append(np.zeros(1)) #  đếm số lượt
   return per
 
 @njit()

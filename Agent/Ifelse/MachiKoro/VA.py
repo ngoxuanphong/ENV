@@ -34,7 +34,7 @@ def Test(state, per):
     validActions[50] = validActions[50]*state[18]*state[16]
     validActions = np.where(validActions == 1)[0]
 
-    if 1 in validActions: # Đổ xúc xắc
+    if 1 in validActions: #  Đổ xúc xắc
         return 1, per
     
     if (0 in validActions) and (state[117] not in (2, 3, 4)):

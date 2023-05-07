@@ -1,4 +1,4 @@
-## :dart: Báo cáo Poker Texas Holdem
+##  :dart: Báo cáo Poker Texas Holdem
 1.   `Tốc độ chạy`
       - **1000 Game**: 
       - **1000 Game full numba**: 
@@ -12,7 +12,7 @@
 7. `Giá trị state,  
 9. `Tối thiểu số lần truyền vào player`: 
 
-## :globe_with_meridians: ENV_state
+##  :globe_with_meridians: ENV_state
 *   [0:52] **mảng tạm đại diện các thẻ trong cỗ bài trên bàn, -1 là vị trí không có**: 
 *   [52:57] **Các thẻ mở trên bàn ở các turn, có 5 thẻ, ở các turn chưa được mở thì có giá trị -1**
 *   [57:66] **Chip của 9 người chơi**
@@ -43,7 +43,7 @@
 
 **Total env_state length: 139**
 
-## :bust_in_silhouette: P_state
+##  :bust_in_silhouette: P_state
 *   [0:468] là **bài của 9 người chơi khác (chỉ thấy các ng khác khi showdown)**
 *   [468:477] **tổng chip còn lại của các người chơi** 
 *   [477:486]:   **Tổng chip người chơi đã bỏ ra trong ván để theo**
@@ -59,7 +59,7 @@
 
 **Total: player state length = 515**
 
-## :video_game: ALL_ACTION
+##  :video_game: ALL_ACTION
     - 0: call
     - 1: check
     - 2: fold
@@ -69,11 +69,11 @@
 
 **Total 6 action**
 
-# PHASE:
+#  PHASE:
     - 0 : call, check, fold, bet, allin,  (0, 1, 2, 3, 4) (chưa ai bet)
     - 1 : bet, allin, dừng bet, (3, 4, 5)                 (đã có người bet)
 
-# STATUS GAME:
+#  STATUS GAME:
     - 0: pre flop
     - 3: flop
     - 4: turn

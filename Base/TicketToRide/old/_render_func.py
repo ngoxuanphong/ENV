@@ -224,7 +224,7 @@ class Sprites:
         self.route_card.append(Image.open(IMG_PATH+f"/images_route/route_down.png").resize(ROUTE_SIZE))
         
 
-        # self.text_phase = ['chọn xúc sắc để đổ', 'chọn đổ lại hay k', 'chọn lấy tiền của ai', 'chọn người để đổi', 'chọn lá bài để đổi', 'chọn lá bài muốn lấy', 'chọn mua thẻ']
+        #  self.text_phase = ['chọn xúc sắc để đổ', 'chọn đổ lại hay k', 'chọn lấy tiền của ai', 'chọn người để đổi', 'chọn lá bài để đổi', 'chọn lá bài muốn lấy', 'chọn mua thẻ']
 
 sprites = Sprites()
 
@@ -275,7 +275,7 @@ def get_main_player_state(env_components: Env_components, list_agent, list_data,
 
         env_components.env = _env.stepEnv(env_components.env, action)
 
-    # env_components.env[_env.ENV_CHECK_END] = 1
+    #  env_components.env[_env.ENV_CHECK_END] = 1
     env_components.winner, env_components.env = _env.check_winner(env_components.env)
     for p_idx in range(5):
         if p_idx != my_idx:
@@ -333,20 +333,20 @@ def get_state_image(state=None):
 def draw_board_train_car(bg, board_train_car, down= 1):
     index = 1
     for type_card in range(9):
-        # if index == 5:
-        #     break
+        #  if index == 5:
+        #      break
         if board_train_car[type_card] != 0:
             for count in range(int(board_train_car[type_card])):
-                # print(index)
+                #  print(index)
                 bg.paste(sprites.cards[type_card], tuple(sprites.CARD_TRAIN_CARD_BOARD[index]))
                 index += 1
-                # if index == 5:
-                #     break
+                #  if index == 5:
+                #      break
     if down:
         bg.paste(sprites.cards[-1], tuple(sprites.CARD_TRAIN_CARD_BOARD[0]))
          
 def draw_route_cards_player(bg, route_cards):
-    # print(route_cards)
+    #  print(route_cards)
     n = route_cards.shape[0]
     for i in range(n):
         card = sprites.route_card[route_cards[i]].rotate(90, expand=True)
@@ -355,7 +355,7 @@ def draw_route_cards_player(bg, route_cards):
 def draw_train_car_cards_player(bg, train_car_card, draw):
     n = train_car_card.shape[0]
     for card in range(9):
-        # if train_car_card[card] > 0:
+        #  if train_car_card[card] > 0:
         bg.paste(sprites.cards[card], tuple(sprites.PLAYER_TRAIN_CARD_COOR[card]))
         draw.text(sprites.COUNT_PLAYER_TRAIN_CARD_COOR[card], f"{train_car_card[card]}", (100,255,100), font= sprites.myFont)
 
@@ -371,7 +371,7 @@ def draw_other(bg, draw, state):
     player_score = state[0:5].astype(np.int64)
     last_player = state[660:665].astype(np.int64)
     phase = np.where(state[653:657])[0][0] + 1
-    # print('check;',state[659])
+    #  print('check;',state[659])
     if state[659]:
         route_complete = state[668:673].astype(np.int64)
         is_longest_road = state[673:678].astype(np.int64)
@@ -410,15 +410,15 @@ def draw_other(bg, draw, state):
 
             index = 0
             for type_card in range(9):
-                # if index == 3:
-                #     break
+                #  if index == 3:
+                #      break
                 if card_test_tunnel[type_card] != 0:
                     for count in range(int(card_test_tunnel[type_card])):
-                        # print(index)
+                        #  print(index)
                         bg.paste(sprites.cards[type_card], tuple(sprites.ROUTE_CARD_BOARD_COOR[index]))
                         index += 1
-                        # if index == 3:
-                        #     break
+                        #  if index == 3:
+                        #      break
 
     
     #print number_train

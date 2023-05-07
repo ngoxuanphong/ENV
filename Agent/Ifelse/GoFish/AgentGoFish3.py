@@ -57,7 +57,7 @@ def Test(state, per):
     if ValidAction[0] in range(4,17):
         person = np.where(state[64:67] == 1)[0][0] 
         for card in myCards:
-          # if len(otherCardRequest) > 0:
+          #  if len(otherCardRequest) > 0:
               if per[person][card] > 0:
                         if card + 4 in ValidAction:
                             returnAction = card + 4
@@ -67,27 +67,27 @@ def Test(state, per):
 
     if returnAction == -1:
         returnAction = ValidAction[np.random.randint(len(ValidAction))]
-    #     print("random")
+    #      print("random")
  
-    # print(state[0:13],myCards)
-    # print("Person: ", state[64:67])
-    # print("other info:\n",state[15:60].reshape(3,15))
-    # print("Request Card:\n", otherCardRequest)
-    # print(per)
-    # print(ValidAction, returnAction)
-    # print("-------------")
-    # print()
-    # print()
+    #  print(state[0:13],myCards)
+    #  print("Person: ", state[64:67])
+    #  print("other info:\n",state[15:60].reshape(3,15))
+    #  print("Request Card:\n", otherCardRequest)
+    #  print(per)
+    #  print(ValidAction, returnAction)
+    #  print("-------------")
+    #  print()
+    #  print()
 
     if returnAction in range(4,17):
         person = np.where(state[64:67] == 1)[0]
-        # print(person)
+        #  print(person)
         if len(person) > 0:
             person = person[0]
             per[person][returnAction - 4] = -1
 
-    # if state[60] > 10 and state[60] < 15:
-    #     per = np.zeros((3,13))
+    #  if state[60] > 10 and state[60] < 15:
+    #      per = np.zeros((3,13))
    
     if state[60] <= 6:
         per = np.zeros((3,13))

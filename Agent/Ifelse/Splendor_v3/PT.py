@@ -35,15 +35,15 @@ def getCardValue(state,card):
     type_card = card[1:6]
     type_card = np.where(type_card == 1)[0][0]
     player_stock_const = state[6+6:6+6+5]
-    # print('player_stock_const',player_stock_const)
+    #  print('player_stock_const',player_stock_const)
     had = player_stock_const[type_card]
     point = card[0]
     stock_require = card[6:11]
-    # print('stock_require',stock_require)
+    #  print('stock_require',stock_require)
     result = player_stock_const -  stock_require
-    # print(result)
+    #  print(result)
     need = sum(result[result < 0])
-    # print('need',need)
+    #  print('need',need)
 
     value =  (point+0.1) * (need+0.1) - (had*0.1)
     return value

@@ -2,8 +2,8 @@ import numpy as np
 import random as rd
 from numba import njit, jit
 
-# normal_cards_infor = np.array([[0, 2, 2, 2, 0, 0, 0], [0, 2, 3, 0, 0, 0, 0], [0, 2, 1, 1, 0, 2, 1], [0, 2, 0, 1, 0, 0, 2], [0, 2, 0, 3, 1, 0, 1], [0, 2, 1, 1, 0, 1, 1], [1, 2, 0, 0, 0, 4, 0], [0, 2, 2, 1, 0, 2, 0], [0, 1, 2, 0, 2, 0, 1], [0, 1, 0, 0, 2, 2, 0], [0, 1, 1, 0, 1, 1, 1], [0, 1, 2, 0, 1, 1, 1], [0, 1, 1, 1, 3, 0, 0], [0, 1, 0, 0, 0, 2, 1], [0, 1, 0, 0, 0, 3, 0], [1, 1, 4, 0, 0, 0, 0], [1, 0, 0, 0, 0, 0, 4], [0, 0, 0, 0, 0, 0, 3], [0, 0, 0, 1, 1, 1, 2], [0, 0, 0, 0, 1, 2, 2], [0, 0, 1, 0, 0, 3, 1], [0, 0, 2, 0, 0, 0, 2], [0, 0, 0, 1, 1, 1, 1], [0, 0, 0, 2, 1, 0, 0], [0, 4, 0, 2, 2, 1, 0], [0, 4, 1, 1, 2, 1, 0], [0, 4, 0, 1, 0, 1, 3], [1, 4, 0, 0, 4, 0, 0], [0, 4, 0, 2, 0, 2, 0], [0, 4, 2, 0, 0, 1, 0], [0, 4, 1, 1, 1, 1, 0], [0, 4, 0, 3, 0, 0, 0], [0, 3, 1, 0, 2, 0, 0], [0, 3, 1, 1, 1, 0, 1], [1, 3, 0, 4, 0, 0, 0], [0, 3, 1, 2, 0, 0, 2], [0, 3, 0, 0, 3, 0, 0], [0, 3, 0, 0, 2, 0, 2], [0, 3, 3, 0, 1, 1, 0], [0, 3, 1, 2, 1, 0, 1], [1, 2, 0, 3, 0, 2, 2], [2, 2, 0, 2, 0, 1, 4], [1, 2, 3, 0, 2, 0, 3], [2, 2, 0, 5, 3, 0, 0], [2, 2, 0, 0, 5, 0, 0], [3, 2, 0, 0, 6, 0, 0], [3, 1, 0, 6, 0, 0, 0], [2, 1, 1, 0, 0, 4, 2], [2, 1, 0, 5, 0, 0, 0], [2, 1, 0, 3, 0, 0, 5], [1, 1, 0, 2, 3, 3, 0], [1, 1, 3, 2, 2, 0, 0], [3, 0, 6, 0, 0, 0, 0], [2, 0, 0, 0, 0, 5, 3], [2, 0, 0, 0, 0, 5, 0], [2, 0, 0, 4, 2, 0, 1], [1, 0, 2, 3, 0, 3, 0], [1, 0, 2, 0, 0, 3, 2], [3, 4, 0, 0, 0, 0, 6], [2, 4, 5, 0, 0, 3, 0], [2, 4, 5, 0, 0, 0, 0], [1, 4, 3, 3, 0, 0, 2], [1, 4, 2, 0, 3, 2, 0], [2, 4, 4, 0, 1, 2, 0], [1, 3, 0, 2, 2, 0, 3], [1, 3, 0, 0, 3, 2, 3], [2, 3, 2, 1, 4, 0, 0], [2, 3, 3, 0, 5, 0, 0], [2, 3, 0, 0, 0, 0, 5], [3, 3, 0, 0, 0, 6, 0], [4, 2, 0, 7, 0, 0, 0], [4, 2, 0, 6, 3, 0, 3], [5, 2, 0, 7, 3, 0, 0], [3, 2, 3, 3, 0, 3, 5], [3, 1, 3, 0, 3, 5, 3], [4, 1, 0, 0, 0, 0, 7], [5, 1, 0, 3, 0, 0, 7], [4, 1, 0, 3, 0, 3, 6], [3, 0, 0, 5, 3, 3, 3], [4, 0, 0, 0, 7, 0, 0], [5, 0, 3, 0, 7, 0, 0], [4, 0, 3, 3, 6, 0, 0], [5, 4, 0, 0, 0, 7, 3], [3, 4, 5, 3, 3, 3, 0], [4, 4, 0, 0, 0, 7, 0], [4, 4, 3, 0, 0, 6, 3], [3, 3, 3, 3, 5, 0, 3], [5, 3, 7, 0, 0, 3, 0], [4, 3, 6, 0, 3, 3, 0], [4, 3, 7, 0, 0, 0, 0]])
-normal_cards_infor = np.array([[0, 0, 0, 1, 0, 0, 2, 2, 0, 0, 0],[0, 0, 0, 1, 0, 0, 3, 0, 0, 0, 0],[0, 0, 0, 1, 0, 0, 1, 1, 0, 2, 1],[0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 2],[0, 0, 0, 1, 0, 0, 0, 3, 1, 0, 1],[0, 0, 0, 1, 0, 0, 1, 1, 0, 1, 1],[1, 0, 0, 1, 0, 0, 0, 0, 0, 4, 0],[0, 0, 0, 1, 0, 0, 2, 1, 0, 2, 0],[0, 0, 1, 0, 0, 0, 2, 0, 2, 0, 1],[0, 0, 1, 0, 0, 0, 0, 0, 2, 2, 0],[0, 0, 1, 0, 0, 0, 1, 0, 1, 1, 1],[0, 0, 1, 0, 0, 0, 2, 0, 1, 1, 1],[0, 0, 1, 0, 0, 0, 1, 1, 3, 0, 0],[0, 0, 1, 0, 0, 0, 0, 0, 0, 2, 1],[0, 0, 1, 0, 0, 0, 0, 0, 0, 3, 0],[1, 0, 1, 0, 0, 0, 4, 0, 0, 0, 0],[1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 4],[0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 3],[0, 1, 0, 0, 0, 0, 0, 1, 1, 1, 2],[0, 1, 0, 0, 0, 0, 0, 0, 1, 2, 2],[0, 1, 0, 0, 0, 0, 1, 0, 0, 3, 1],[0, 1, 0, 0, 0, 0, 2, 0, 0, 0, 2],[0, 1, 0, 0, 0, 0, 0, 1, 1, 1, 1],[0, 1, 0, 0, 0, 0, 0, 2, 1, 0, 0],[0, 0, 0, 0, 0, 1, 0, 2, 2, 1, 0],[0, 0, 0, 0, 0, 1, 1, 1, 2, 1, 0],[0, 0, 0, 0, 0, 1, 0, 1, 0, 1, 3],[1, 0, 0, 0, 0, 1, 0, 0, 4, 0, 0],[0, 0, 0, 0, 0, 1, 0, 2, 0, 2, 0],[0, 0, 0, 0, 0, 1, 2, 0, 0, 1, 0],[0, 0, 0, 0, 0, 1, 1, 1, 1, 1, 0],[0, 0, 0, 0, 0, 1, 0, 3, 0, 0, 0],[0, 0, 0, 0, 1, 0, 1, 0, 2, 0, 0],[0, 0, 0, 0, 1, 0, 1, 1, 1, 0, 1],[1, 0, 0, 0, 1, 0, 0, 4, 0, 0, 0],[0, 0, 0, 0, 1, 0, 1, 2, 0, 0, 2],[0, 0, 0, 0, 1, 0, 0, 0, 3, 0, 0],[0, 0, 0, 0, 1, 0, 0, 0, 2, 0, 2],[0, 0, 0, 0, 1, 0, 3, 0, 1, 1, 0],[0, 0, 0, 0, 1, 0, 1, 2, 1, 0, 1],[1, 0, 0, 1, 0, 0, 0, 3, 0, 2, 2],[2, 0, 0, 1, 0, 0, 0, 2, 0, 1, 4],[1, 0, 0, 1, 0, 0, 3, 0, 2, 0, 3],[2, 0, 0, 1, 0, 0, 0, 5, 3, 0, 0],[2, 0, 0, 1, 0, 0, 0, 0, 5, 0, 0],[3, 0, 0, 1, 0, 0, 0, 0, 6, 0, 0],[3, 0, 1, 0, 0, 0, 0, 6, 0, 0, 0],[2, 0, 1, 0, 0, 0, 1, 0, 0, 4, 2],[2, 0, 1, 0, 0, 0, 0, 5, 0, 0, 0],[2, 0, 1, 0, 0, 0, 0, 3, 0, 0, 5],[1, 0, 1, 0, 0, 0, 0, 2, 3, 3, 0],[1, 0, 1, 0, 0, 0, 3, 2, 2, 0, 0],[3, 1, 0, 0, 0, 0, 6, 0, 0, 0, 0],[2, 1, 0, 0, 0, 0, 0, 0, 0, 5, 3],[2, 1, 0, 0, 0, 0, 0, 0, 0, 5, 0],[2, 1, 0, 0, 0, 0, 0, 4, 2, 0, 1],[1, 1, 0, 0, 0, 0, 2, 3, 0, 3, 0],[1, 1, 0, 0, 0, 0, 2, 0, 0, 3, 2],[3, 0, 0, 0, 0, 1, 0, 0, 0, 0, 6],[2, 0, 0, 0, 0, 1, 5, 0, 0, 3, 0],[2, 0, 0, 0, 0, 1, 5, 0, 0, 0, 0],[1, 0, 0, 0, 0, 1, 3, 3, 0, 0, 2],[1, 0, 0, 0, 0, 1, 2, 0, 3, 2, 0],[2, 0, 0, 0, 0, 1, 4, 0, 1, 2, 0],[1, 0, 0, 0, 1, 0, 0, 2, 2, 0, 3],[1, 0, 0, 0, 1, 0, 0, 0, 3, 2, 3],[2, 0, 0, 0, 1, 0, 2, 1, 4, 0, 0],[2, 0, 0, 0, 1, 0, 3, 0, 5, 0, 0],[2, 0, 0, 0, 1, 0, 0, 0, 0, 0, 5],[3, 0, 0, 0, 1, 0, 0, 0, 0, 6, 0],[4, 0, 0, 1, 0, 0, 0, 7, 0, 0, 0],[4, 0, 0, 1, 0, 0, 0, 6, 3, 0, 3],[5, 0, 0, 1, 0, 0, 0, 7, 3, 0, 0],[3, 0, 0, 1, 0, 0, 3, 3, 0, 3, 5],[3, 0, 1, 0, 0, 0, 3, 0, 3, 5, 3],[4, 0, 1, 0, 0, 0, 0, 0, 0, 0, 7],[5, 0, 1, 0, 0, 0, 0, 3, 0, 0, 7],[4, 0, 1, 0, 0, 0, 0, 3, 0, 3, 6],[3, 1, 0, 0, 0, 0, 0, 5, 3, 3, 3],[4, 1, 0, 0, 0, 0, 0, 0, 7, 0, 0],[5, 1, 0, 0, 0, 0, 3, 0, 7, 0, 0],[4, 1, 0, 0, 0, 0, 3, 3, 6, 0, 0],[5, 0, 0, 0, 0, 1, 0, 0, 0, 7, 3],[3, 0, 0, 0, 0, 1, 5, 3, 3, 3, 0],[4, 0, 0, 0, 0, 1, 0, 0, 0, 7, 0],[4, 0, 0, 0, 0, 1, 3, 0, 0, 6, 3],[3, 0, 0, 0, 1, 0, 3, 3, 5, 0, 3],[5, 0, 0, 0, 1, 0, 7, 0, 0, 3, 0],[4, 0, 0, 0, 1, 0, 6, 0, 3, 3, 0],[4, 0, 0, 0, 1, 0, 7, 0, 0, 0, 0]])
+#  normal_cards_infor = np.array([[0, 2, 2, 2, 0, 0, 0], [0, 2, 3, 0, 0, 0, 0], [0, 2, 1, 1, 0, 2, 1], [0, 2, 0, 1, 0, 0, 2], [0, 2, 0, 3, 1, 0, 1], [0, 2, 1, 1, 0, 1, 1], [1, 2, 0, 0, 0, 4, 0], [0, 2, 2, 1, 0, 2, 0], [0, 1, 2, 0, 2, 0, 1], [0, 1, 0, 0, 2, 2, 0], [0, 1, 1, 0, 1, 1, 1], [0, 1, 2, 0, 1, 1, 1], [0, 1, 1, 1, 3, 0, 0], [0, 1, 0, 0, 0, 2, 1], [0, 1, 0, 0, 0, 3, 0], [1, 1, 4, 0, 0, 0, 0], [1, 0, 0, 0, 0, 0, 4], [0, 0, 0, 0, 0, 0, 3], [0, 0, 0, 1, 1, 1, 2], [0, 0, 0, 0, 1, 2, 2], [0, 0, 1, 0, 0, 3, 1], [0, 0, 2, 0, 0, 0, 2], [0, 0, 0, 1, 1, 1, 1], [0, 0, 0, 2, 1, 0, 0], [0, 4, 0, 2, 2, 1, 0], [0, 4, 1, 1, 2, 1, 0], [0, 4, 0, 1, 0, 1, 3], [1, 4, 0, 0, 4, 0, 0], [0, 4, 0, 2, 0, 2, 0], [0, 4, 2, 0, 0, 1, 0], [0, 4, 1, 1, 1, 1, 0], [0, 4, 0, 3, 0, 0, 0], [0, 3, 1, 0, 2, 0, 0], [0, 3, 1, 1, 1, 0, 1], [1, 3, 0, 4, 0, 0, 0], [0, 3, 1, 2, 0, 0, 2], [0, 3, 0, 0, 3, 0, 0], [0, 3, 0, 0, 2, 0, 2], [0, 3, 3, 0, 1, 1, 0], [0, 3, 1, 2, 1, 0, 1], [1, 2, 0, 3, 0, 2, 2], [2, 2, 0, 2, 0, 1, 4], [1, 2, 3, 0, 2, 0, 3], [2, 2, 0, 5, 3, 0, 0], [2, 2, 0, 0, 5, 0, 0], [3, 2, 0, 0, 6, 0, 0], [3, 1, 0, 6, 0, 0, 0], [2, 1, 1, 0, 0, 4, 2], [2, 1, 0, 5, 0, 0, 0], [2, 1, 0, 3, 0, 0, 5], [1, 1, 0, 2, 3, 3, 0], [1, 1, 3, 2, 2, 0, 0], [3, 0, 6, 0, 0, 0, 0], [2, 0, 0, 0, 0, 5, 3], [2, 0, 0, 0, 0, 5, 0], [2, 0, 0, 4, 2, 0, 1], [1, 0, 2, 3, 0, 3, 0], [1, 0, 2, 0, 0, 3, 2], [3, 4, 0, 0, 0, 0, 6], [2, 4, 5, 0, 0, 3, 0], [2, 4, 5, 0, 0, 0, 0], [1, 4, 3, 3, 0, 0, 2], [1, 4, 2, 0, 3, 2, 0], [2, 4, 4, 0, 1, 2, 0], [1, 3, 0, 2, 2, 0, 3], [1, 3, 0, 0, 3, 2, 3], [2, 3, 2, 1, 4, 0, 0], [2, 3, 3, 0, 5, 0, 0], [2, 3, 0, 0, 0, 0, 5], [3, 3, 0, 0, 0, 6, 0], [4, 2, 0, 7, 0, 0, 0], [4, 2, 0, 6, 3, 0, 3], [5, 2, 0, 7, 3, 0, 0], [3, 2, 3, 3, 0, 3, 5], [3, 1, 3, 0, 3, 5, 3], [4, 1, 0, 0, 0, 0, 7], [5, 1, 0, 3, 0, 0, 7], [4, 1, 0, 3, 0, 3, 6], [3, 0, 0, 5, 3, 3, 3], [4, 0, 0, 0, 7, 0, 0], [5, 0, 3, 0, 7, 0, 0], [4, 0, 3, 3, 6, 0, 0], [5, 4, 0, 0, 0, 7, 3], [3, 4, 5, 3, 3, 3, 0], [4, 4, 0, 0, 0, 7, 0], [4, 4, 3, 0, 0, 6, 3], [3, 3, 3, 3, 5, 0, 3], [5, 3, 7, 0, 0, 3, 0], [4, 3, 6, 0, 3, 3, 0], [4, 3, 7, 0, 0, 0, 0]])
+normal_cards_infor = np.array([[0, 0, 0, 1, 0, 0, 2, 2, 0, 0, 0], [0, 0, 0, 1, 0, 0, 3, 0, 0, 0, 0], [0, 0, 0, 1, 0, 0, 1, 1, 0, 2, 1], [0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 2], [0, 0, 0, 1, 0, 0, 0, 3, 1, 0, 1], [0, 0, 0, 1, 0, 0, 1, 1, 0, 1, 1], [1, 0, 0, 1, 0, 0, 0, 0, 0, 4, 0], [0, 0, 0, 1, 0, 0, 2, 1, 0, 2, 0], [0, 0, 1, 0, 0, 0, 2, 0, 2, 0, 1], [0, 0, 1, 0, 0, 0, 0, 0, 2, 2, 0], [0, 0, 1, 0, 0, 0, 1, 0, 1, 1, 1], [0, 0, 1, 0, 0, 0, 2, 0, 1, 1, 1], [0, 0, 1, 0, 0, 0, 1, 1, 3, 0, 0], [0, 0, 1, 0, 0, 0, 0, 0, 0, 2, 1], [0, 0, 1, 0, 0, 0, 0, 0, 0, 3, 0], [1, 0, 1, 0, 0, 0, 4, 0, 0, 0, 0], [1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 4], [0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 3], [0, 1, 0, 0, 0, 0, 0, 1, 1, 1, 2], [0, 1, 0, 0, 0, 0, 0, 0, 1, 2, 2], [0, 1, 0, 0, 0, 0, 1, 0, 0, 3, 1], [0, 1, 0, 0, 0, 0, 2, 0, 0, 0, 2], [0, 1, 0, 0, 0, 0, 0, 1, 1, 1, 1], [0, 1, 0, 0, 0, 0, 0, 2, 1, 0, 0], [0, 0, 0, 0, 0, 1, 0, 2, 2, 1, 0], [0, 0, 0, 0, 0, 1, 1, 1, 2, 1, 0], [0, 0, 0, 0, 0, 1, 0, 1, 0, 1, 3], [1, 0, 0, 0, 0, 1, 0, 0, 4, 0, 0], [0, 0, 0, 0, 0, 1, 0, 2, 0, 2, 0], [0, 0, 0, 0, 0, 1, 2, 0, 0, 1, 0], [0, 0, 0, 0, 0, 1, 1, 1, 1, 1, 0], [0, 0, 0, 0, 0, 1, 0, 3, 0, 0, 0], [0, 0, 0, 0, 1, 0, 1, 0, 2, 0, 0], [0, 0, 0, 0, 1, 0, 1, 1, 1, 0, 1], [1, 0, 0, 0, 1, 0, 0, 4, 0, 0, 0], [0, 0, 0, 0, 1, 0, 1, 2, 0, 0, 2], [0, 0, 0, 0, 1, 0, 0, 0, 3, 0, 0], [0, 0, 0, 0, 1, 0, 0, 0, 2, 0, 2], [0, 0, 0, 0, 1, 0, 3, 0, 1, 1, 0], [0, 0, 0, 0, 1, 0, 1, 2, 1, 0, 1], [1, 0, 0, 1, 0, 0, 0, 3, 0, 2, 2], [2, 0, 0, 1, 0, 0, 0, 2, 0, 1, 4], [1, 0, 0, 1, 0, 0, 3, 0, 2, 0, 3], [2, 0, 0, 1, 0, 0, 0, 5, 3, 0, 0], [2, 0, 0, 1, 0, 0, 0, 0, 5, 0, 0], [3, 0, 0, 1, 0, 0, 0, 0, 6, 0, 0], [3, 0, 1, 0, 0, 0, 0, 6, 0, 0, 0], [2, 0, 1, 0, 0, 0, 1, 0, 0, 4, 2], [2, 0, 1, 0, 0, 0, 0, 5, 0, 0, 0], [2, 0, 1, 0, 0, 0, 0, 3, 0, 0, 5], [1, 0, 1, 0, 0, 0, 0, 2, 3, 3, 0], [1, 0, 1, 0, 0, 0, 3, 2, 2, 0, 0], [3, 1, 0, 0, 0, 0, 6, 0, 0, 0, 0], [2, 1, 0, 0, 0, 0, 0, 0, 0, 5, 3], [2, 1, 0, 0, 0, 0, 0, 0, 0, 5, 0], [2, 1, 0, 0, 0, 0, 0, 4, 2, 0, 1], [1, 1, 0, 0, 0, 0, 2, 3, 0, 3, 0], [1, 1, 0, 0, 0, 0, 2, 0, 0, 3, 2], [3, 0, 0, 0, 0, 1, 0, 0, 0, 0, 6], [2, 0, 0, 0, 0, 1, 5, 0, 0, 3, 0], [2, 0, 0, 0, 0, 1, 5, 0, 0, 0, 0], [1, 0, 0, 0, 0, 1, 3, 3, 0, 0, 2], [1, 0, 0, 0, 0, 1, 2, 0, 3, 2, 0], [2, 0, 0, 0, 0, 1, 4, 0, 1, 2, 0], [1, 0, 0, 0, 1, 0, 0, 2, 2, 0, 3], [1, 0, 0, 0, 1, 0, 0, 0, 3, 2, 3], [2, 0, 0, 0, 1, 0, 2, 1, 4, 0, 0], [2, 0, 0, 0, 1, 0, 3, 0, 5, 0, 0], [2, 0, 0, 0, 1, 0, 0, 0, 0, 0, 5], [3, 0, 0, 0, 1, 0, 0, 0, 0, 6, 0], [4, 0, 0, 1, 0, 0, 0, 7, 0, 0, 0], [4, 0, 0, 1, 0, 0, 0, 6, 3, 0, 3], [5, 0, 0, 1, 0, 0, 0, 7, 3, 0, 0], [3, 0, 0, 1, 0, 0, 3, 3, 0, 3, 5], [3, 0, 1, 0, 0, 0, 3, 0, 3, 5, 3], [4, 0, 1, 0, 0, 0, 0, 0, 0, 0, 7], [5, 0, 1, 0, 0, 0, 0, 3, 0, 0, 7], [4, 0, 1, 0, 0, 0, 0, 3, 0, 3, 6], [3, 1, 0, 0, 0, 0, 0, 5, 3, 3, 3], [4, 1, 0, 0, 0, 0, 0, 0, 7, 0, 0], [5, 1, 0, 0, 0, 0, 3, 0, 7, 0, 0], [4, 1, 0, 0, 0, 0, 3, 3, 6, 0, 0], [5, 0, 0, 0, 0, 1, 0, 0, 0, 7, 3], [3, 0, 0, 0, 0, 1, 5, 3, 3, 3, 0], [4, 0, 0, 0, 0, 1, 0, 0, 0, 7, 0], [4, 0, 0, 0, 0, 1, 3, 0, 0, 6, 3], [3, 0, 0, 0, 1, 0, 3, 3, 5, 0, 3], [5, 0, 0, 0, 1, 0, 7, 0, 0, 3, 0], [4, 0, 0, 0, 1, 0, 6, 0, 3, 3, 0], [4, 0, 0, 0, 1, 0, 7, 0, 0, 0, 0]])
 noble_cards_infor = np.array([[0, 4, 4, 0, 0], [3, 0, 3, 3, 0], [3, 3, 3, 0, 0], [3, 0, 0, 3, 3], [0, 3, 0, 3, 3], [4, 0, 4, 0, 0], [4, 0, 0, 4, 0], [0, 3, 3, 0, 3], [0, 4, 0, 0, 4], [0, 0, 0, 4, 4]])
 
 P_STATE_SIZE = 221
@@ -111,7 +111,7 @@ def get_id_card_normal_in_lv(lv1, lv2, lv3):
 @njit()
 def getAgentState(env_state, lv1, lv2, lv3):
     p_id = env_state[100] % 4  #Lấy người đang chơi
-    b_infor = env_state[101:107] # Lấy 6 loại nguyên liệu của bàn chơi
+    b_infor = env_state[101:107] #  Lấy 6 loại nguyên liệu của bàn chơi
     p_infor = env_state[107 + 12*p_id:119 + 12*p_id]  #Lấy thông tin người đang chơi, 6 nguyên liệu trên bàn, 5 nguyên liệu mặc định, điểm
 
     list_open_card = concatenate_all_lv_card(lv1, lv2, lv3) #Lấy list thẻ normal đang mở trên bàn
@@ -205,7 +205,7 @@ def get_card_can_get(env_state, p_id, cur_p, b_stocks, card_id, nl_auto, nl_bt, 
     cur_p[6:11][np.where(card_infor[1:6] == 1)[0][0]] += 1  #const_stock
     cur_p[11] += card_infor[0] #Score
 
-    # Check Noble
+    #  Check Noble
     noble_lst = []
     nobles = [i for i in range(90,100) if env_state[:100][i]==5]
     for noble_id in nobles:
@@ -226,7 +226,7 @@ def get_card(env_state, action_, cur_p, b_stocks, p_id, lv1, lv2, lv3):
         id_action = int(action_)
         id_card_normal_ = get_id_card_normal_in_lv(lv1, lv2, lv3)
     else:
-        #  print('Thẻ này đang úp')
+        #   print('Thẻ này đang úp')
         id_action = int(action_) - 12
         id_card_normal_ = np.where(env_state[:90] == -(p_id+1))[0]
 
@@ -239,9 +239,9 @@ def get_card(env_state, action_, cur_p, b_stocks, p_id, lv1, lv2, lv3):
 
     card_need = cur_p[:5] + cur_p[6:11] - card_price
 
-    #  print('Taget', get_id_card(card_id))
+    #   print('Taget', get_id_card(card_id))
     if -sum(card_need[np.where(card_need < 0)]) <= cur_p[5] or min(card_need) >= 0: #(x*x>0)
-        #  print('Lấy thẻ', card_infor, card_need, get_id_card(card_id))
+        #   print('Lấy thẻ', card_infor, card_need, get_id_card(card_id))
 
         return get_card_can_get(env_state, p_id, cur_p, b_stocks, card_id, nl_auto, nl_bt, card_infor, lv1, lv2, lv3)
 
@@ -275,7 +275,7 @@ def stepEnv(action,env_state, lv1, lv2, lv3, all_actions):
         id_action = action
         id_card_normal = get_id_card_normal_in_lv(lv1, lv2, lv3)
     else:
-        #  print('Thẻ này đang úp')
+        #   print('Thẻ này đang úp')
         id_action = action - 12
         id_card_normal = np.where(env_state[:90] == -(p_id+1))[0]
 
@@ -285,25 +285,25 @@ def stepEnv(action,env_state, lv1, lv2, lv3, all_actions):
     nl_bo_ra = (card_price>cur_p[6:11]) * (card_price-cur_p[6:11])
     nl_bt = np.minimum(nl_bo_ra, cur_p[:5])
     nl_auto = np.sum(nl_bo_ra - nl_bt)
-    #  print(nl_bo_ra)
+    #   print(nl_bo_ra)
 
     card_need = cur_p[:5] + cur_p[6:11] - card_price
 
-    #  print('Taget', get_id_card(card_id))
+    #   print('Taget', get_id_card(card_id))
     if -np.sum(card_need[np.where(card_need < 0)]) <= cur_p[5] or np.min(card_need) >= 0: #(x*x>0)
-        #  print('Lấy thẻ', card_infor, card_need, cur_p[5], get_id_card(card_id))
+        #   print('Lấy thẻ', card_infor, card_need, cur_p[5], get_id_card(card_id))
         return get_card_can_get(env_state, p_id, cur_p, b_stocks, card_id, nl_auto, nl_bt, card_infor, lv1, lv2, lv3)
 
 
     res_max = np.argmax(nl_bo_ra)
     if np.sum(cur_p[:6]) <=8:
         if np.max(nl_bo_ra - cur_p[:5]) >= 2 and b_stocks[res_max] >= 4:
-            #  print('Lấy 2 nguyên liệu', res_max, card_infor, nl_bo_ra)
+            #   print('Lấy 2 nguyên liệu', res_max, card_infor, nl_bo_ra)
             return return_2_res_to_board(env_state, lv1, lv2, lv3, cur_p, b_stocks, res_max, p_id)
 
         for res in (np.argsort(nl_bo_ra)[::-1]):
             if (nl_bo_ra[res] - cur_p[:5][res]) >= 2 and b_stocks[res] >= 4:
-                #  print('Lấy 2 nguyên liệu nhiều thứ 2__', res, card_infor, nl_bo_ra)
+                #   print('Lấy 2 nguyên liệu nhiều thứ 2__', res, card_infor, nl_bo_ra)
                 return return_2_res_to_board(env_state, lv1, lv2, lv3, cur_p, b_stocks, res, p_id)
 
 
@@ -315,33 +315,33 @@ def stepEnv(action,env_state, lv1, lv2, lv3, all_actions):
             if res == 1:
                 array_res_buy[id] = 1
                 if np.sum(array_res_buy) == 3:
-                    #  print('Mua nguyên liệu_I:', array_res_buy, '----', res_can_buy, card_infor, nl_bo_ra)
+                    #   print('Mua nguyên liệu_I:', array_res_buy, '----', res_can_buy, card_infor, nl_bo_ra)
                     return return_res_to_board(env_state, lv1, lv2, lv3, cur_p, b_stocks, array_res_buy, p_id)
                 
         res_du = np.where(((res_board_have > 0) - array_res_buy) > 0)[0]
         if np.sum(array_res_buy) == 2 and len(res_du) >= 1:
             res = np.random.randint(0, len(res_du))
             array_res_buy[res_du[res]] = 1
-            #  print('Mua nguyên liệu_II:', array_res_buy, '----', res_du, card_infor, nl_bo_ra)
+            #   print('Mua nguyên liệu_II:', array_res_buy, '----', res_du, card_infor, nl_bo_ra)
             return return_res_to_board(env_state, lv1, lv2, lv3, cur_p, b_stocks, array_res_buy, p_id)
 
         if np.sum(array_res_buy) == 1 and len(res_du) >= 2:
             res = np.random.choice(res_du, 2, replace = False)
             array_res_buy[res] = 1
-            #  print('Mua nguyên liệu_III:', array_res_buy, '----', res_du, res, card_infor, nl_bo_ra)
+            #   print('Mua nguyên liệu_III:', array_res_buy, '----', res_du, res, card_infor, nl_bo_ra)
             return return_res_to_board(env_state, lv1, lv2, lv3, cur_p, b_stocks, array_res_buy, p_id)
 
 
     if len(np.where(env_state[:90] == -(p_id+1))[0]) < 3 and (action < 12): #Úp thẻ
         card_can_upside_down = np.where(env_state[:90] == 5)[0]
         if len(card_can_upside_down) > 0:
-            #  print('Úp thẻ', card_infor, card_infor, nl_bo_ra, p_id, get_id_card(card_id))
+            #   print('Úp thẻ', card_infor, card_infor, nl_bo_ra, p_id, get_id_card(card_id))
             env_state[card_id] = -(p_id+1)
             if b_stocks[5] > 0: 
                 if np.sum(cur_p[:6]) == 10:
                     for res in np.argsort(nl_bo_ra):
                         if cur_p[res] > 0:
-                            #  print('Trả nguyên liệu', res)
+                            #   print('Trả nguyên liệu', res)
                             cur_p[res] -= 1
                             b_stocks[res] += 1
                             break
@@ -384,9 +384,9 @@ def stepEnv(action,env_state, lv1, lv2, lv3, all_actions):
         if -np.sum(card_need_[np.where(card_need_ < 0)]) <= cur_p[5] or np.min(card_need_) >= 0: #(x*x>0)
             action_co_the_lay_the = np.append(action_co_the_lay_the, action_)
             soluong_nl_bo_ra = np.append(soluong_nl_bo_ra, np.sum(nl_bo_ra_))
-            #  print('Thẻ có thể lấy', get_id_card(card_id_), 'Số lượng nguyên liệu bỏ ra', np.sum(nl_bo_ra_))
+            #   print('Thẻ có thể lấy', get_id_card(card_id_), 'Số lượng nguyên liệu bỏ ra', np.sum(nl_bo_ra_))
             if (nl_bo_ra[card_infor_[1]] - cur_p[card_infor_[1]])> 0:
-                #  print('Thẻ này có nguyên liệu cần')
+                #   print('Thẻ này có nguyên liệu cần')
                 action_have_res_count = np.append(action_have_res_count, action_)
             else:
                 action_have_res_count = np.append(action_have_res_count, -99)
@@ -395,7 +395,7 @@ def stepEnv(action,env_state, lv1, lv2, lv3, all_actions):
     check = False
     if len(action_chon_lay_the_co_nl_mac_dinh) > 0: #Lấy thẻ có nguyên liệu mặc định
         nl_bo_ra_min = 99
-        #  print("Lấy thẻ có nguyên liệu mặc định", soluong_nl_bo_ra, action_chon_lay_the_co_nl_mac_dinh)
+        #   print("Lấy thẻ có nguyên liệu mặc định", soluong_nl_bo_ra, action_chon_lay_the_co_nl_mac_dinh)
         for action_id in action_chon_lay_the_co_nl_mac_dinh:
             if soluong_nl_bo_ra[action_id] < nl_bo_ra_min:
                 nl_bo_ra_min = soluong_nl_bo_ra[action_id]
@@ -419,16 +419,16 @@ def stepEnv(action,env_state, lv1, lv2, lv3, all_actions):
             array_res_buy[id] = 1
 
     if np.sum(array_res_buy) > 1 :
-        #  print('Mua nguyên liệu_IIII:', array_res_buy, '----', res_can_buy, card_infor, nl_bo_ra)
+        #   print('Mua nguyên liệu_IIII:', array_res_buy, '----', res_can_buy, card_infor, nl_bo_ra)
         return return_res_to_board(env_state, lv1, lv2, lv3, cur_p, b_stocks, array_res_buy, p_id)
 
     if len(soluong_nl_bo_ra) > 1 and np.min(soluong_nl_bo_ra) == 0:
         action_ = action_co_the_lay_the[np.argmin(soluong_nl_bo_ra)]
-        #  print("Lấy thẻ không có nguyên liệu mặc định miễn phí:", np.min(soluong_nl_bo_ra))
+        #   print("Lấy thẻ không có nguyên liệu mặc định miễn phí:", np.min(soluong_nl_bo_ra))
         return get_card(env_state, action_, cur_p, b_stocks, p_id, lv1, lv2, lv3)
 
     if np.max(nl_bo_ra) > 0 and b_stocks[res_max] >= 4 and np.sum(cur_p[:6]) <= 8:
-        #  print('Lấy 2 nguyên liệu_II:', res_max, '----', card_infor, nl_bo_ra)
+        #   print('Lấy 2 nguyên liệu_II:', res_max, '----', card_infor, nl_bo_ra)
         return return_2_res_to_board(env_state, lv1, lv2, lv3, cur_p, b_stocks, res_max, p_id)
 
     if np.sum(array_res_buy) > 0:
@@ -437,12 +437,12 @@ def stepEnv(action,env_state, lv1, lv2, lv3, all_actions):
                 if np.sum(array_res_buy) == sum_res_need:
                     break
                 array_res_buy[id] = 1
-        #  print('Mua nguyên liệu_IIIII:', array_res_buy, '----', res_can_buy, card_infor, nl_bo_ra)
+        #   print('Mua nguyên liệu_IIIII:', array_res_buy, '----', res_can_buy, card_infor, nl_bo_ra)
         return return_res_to_board(env_state, lv1, lv2, lv3, cur_p, b_stocks, array_res_buy, p_id)
 
     res_max = np.argmax(b_stocks[:5])
     if b_stocks[res_max] >= 4 and np.sum(cur_p[:6]) <= 8:
-        #  print('Lấy 2 nguyên liệu_III, bất kỳ:', res_max, '----', card_infor, nl_bo_ra)
+        #   print('Lấy 2 nguyên liệu_III, bất kỳ:', res_max, '----', card_infor, nl_bo_ra)
         return return_2_res_to_board(env_state, lv1, lv2, lv3, cur_p, b_stocks, res_max, p_id)
 
     for id, res in enumerate(b_stocks[:5]):
@@ -452,16 +452,16 @@ def stepEnv(action,env_state, lv1, lv2, lv3, all_actions):
             array_res_buy[id] = 1
 
     if np.sum(array_res_buy) > 0:
-        #  print('Mua nguyên liệu còn thừa trên bàn_IIIIII:', array_res_buy, '----', res_can_buy, card_infor, nl_bo_ra, sum_res_need)
+        #   print('Mua nguyên liệu còn thừa trên bàn_IIIIII:', array_res_buy, '----', res_can_buy, card_infor, nl_bo_ra, sum_res_need)
         return return_res_to_board(env_state, lv1, lv2, lv3, cur_p, b_stocks, array_res_buy, p_id)
 
     if len(soluong_nl_bo_ra) > 1:
         action_ = action_co_the_lay_the[np.argmin(soluong_nl_bo_ra)]
-        #  print("Lấy thẻ không có nguyên liệu mặc định:", np.min(soluong_nl_bo_ra))
+        #   print("Lấy thẻ không có nguyên liệu mặc định:", np.min(soluong_nl_bo_ra))
         return get_card(env_state, action_, cur_p, b_stocks, p_id, lv1, lv2, lv3)
 
     
-    #  print('Không làm gì cả')
+    #   print('Không làm gì cả')
     return env_state, lv1, lv2, lv3
 
 @njit()
