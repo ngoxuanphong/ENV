@@ -1,14 +1,13 @@
 import numpy as np
 
 
-
 NUMBER_PLAYER = 5
 NUMBER_PHASE = 5
 ATTRIBUTE_POINT_CARD = 5
 ATTRIBUTE_ACTION_CARD = 8
-LENGTH_ACTION_CARD = 9       #(số lượng tài nguyên bỏ ra(4 vị trí), số lượng tài nguyên nhận(4 vị trí), số lần nâng cấp (1 vị trí))
-ATTRIBUTE_PLAYER = 51       #(điểm, số thẻ đã mua, 4 vị trí thể hiện số lượng 4 loại token, 45 vị trí cho 45 loại thẻ hành động)
-BASIC_ATTRIBUTE_PLAYER = 6  #(điểm, số thẻ đã mua, 4 loại token)
+LENGTH_ACTION_CARD = 9  # (số lượng tài nguyên bỏ ra(4 vị trí), số lượng tài nguyên nhận(4 vị trí), số lần nâng cấp (1 vị trí))
+ATTRIBUTE_PLAYER = 51  # (điểm, số thẻ đã mua, 4 vị trí thể hiện số lượng 4 loại token, 45 vị trí cho 45 loại thẻ hành động)
+BASIC_ATTRIBUTE_PLAYER = 6  # (điểm, số thẻ đã mua, 4 loại token)
 NUMBER_OPEN_ACTION_CARD = 6
 NUMBER_OPEN_POINT_CARD = 5
 NUMBBER_TYPE_TOKEN = 4
@@ -26,7 +25,6 @@ FIRST_ACTION_DROP_TOKEN = 57
 FIRST_ACTION_UPGRADE_TOKEN = 62
 
 
-
 INDEX = 0
 
 #  thông tin người chơi
@@ -41,7 +39,7 @@ INDEX += NUMBER_OPEN_ACTION_CARD * LENGTH_ACTION_CARD
 ENV_TOKEN_ON_ACTION_CARD = INDEX
 INDEX += NUMBBER_TYPE_TOKEN * (NUMBER_OPEN_ACTION_CARD - 1)
 
-#thông tin 5 thẻ khu chợ (thẻ điểm ), mỗi thẻ có (điểm, số lượng 4 token cần để mua)
+# thông tin 5 thẻ khu chợ (thẻ điểm ), mỗi thẻ có (điểm, số lượng 4 token cần để mua)
 ENV_OPEN_POINT_CARD = INDEX
 INDEX += NUMBER_OPEN_POINT_CARD * ATTRIBUTE_POINT_CARD
 
@@ -49,26 +47,26 @@ INDEX += NUMBER_OPEN_POINT_CARD * ATTRIBUTE_POINT_CARD
 ENV_DOWN_ACTION_CARD = INDEX
 INDEX += NUMBER_ACTION_CARD - NUMBER_BASIC_ACTION_CARD
 
-#chuỗi index các thẻ khu chợ (thẻ điểm) đang úp
+# chuỗi index các thẻ khu chợ (thẻ điểm) đang úp
 ENV_DOWN_POINT_CARD = INDEX
-INDEX += NUMBER_POINT_CARD 
+INDEX += NUMBER_POINT_CARD
 
-#Other_in4
-ENV_NUMBER_ACTION_UPGRADE = INDEX 
+# Other_in4
+ENV_NUMBER_ACTION_UPGRADE = INDEX
 INDEX += 1
 
-ENV_CARD_BUY_OR_USE = INDEX   #card hand used
+ENV_CARD_BUY_OR_USE = INDEX  # card hand used
 INDEX += 1
 
 #  số lượng token cần bỏ lại ngân hàng
 ENV_TOKEN_NEED_DROP = INDEX
 INDEX += 1
 
-#số đồng bạc còn lại
+# số đồng bạc còn lại
 ENV_SILVER_COIN = INDEX
 INDEX += 1
 
-#số đồng vàng còn lại
+# số đồng vàng còn lại
 ENV_GOLD_COIN = INDEX
 INDEX += 1
 
@@ -88,7 +86,7 @@ INDEX += 1
 ENV_ID_ACTION = INDEX
 INDEX += 1
 
-#Thứ tự người chơi hành động
+# Thứ tự người chơi hành động
 ENV_ORDER_PLAYER = INDEX
 INDEX += NUMBER_PLAYER
 
@@ -96,27 +94,27 @@ ENV_LENGTH = INDEX
 
 
 P_INDEX = 0
-#điểm người chơi
+# điểm người chơi
 P_SCORE = P_INDEX
 P_INDEX += 1
 
-#số thẻ điểm của người chơi
+# số thẻ điểm của người chơi
 P_PLAYER_NUMBER_POINT_CARD = P_INDEX
 P_INDEX += 1
 
-#Token của người chơi
+# Token của người chơi
 P_TOKEN = P_INDEX
 P_INDEX += NUMBBER_TYPE_TOKEN
 
-#Action card của người chơi
+# Action card của người chơi
 P_ACTION_CARD_PLAYER = P_INDEX
 P_INDEX += NUMBER_ACTION_CARD
 
-#Action card down của người chơi
+# Action card down của người chơi
 P_ACTION_CARD_DOWN_PLAYER = P_INDEX
 P_INDEX += NUMBER_ACTION_CARD
 
-#Thông tin các người chơi khác
+# Thông tin các người chơi khác
 P_OTHER_PLAYER_IN4 = P_INDEX
 P_INDEX += (NUMBER_PLAYER - 1) * BASIC_ATTRIBUTE_PLAYER
 
@@ -124,24 +122,24 @@ P_INDEX += (NUMBER_PLAYER - 1) * BASIC_ATTRIBUTE_PLAYER
 P_OPEN_ACTION_CARD = P_INDEX
 P_INDEX += NUMBER_OPEN_ACTION_CARD * LENGTH_ACTION_CARD
 
-#Token đặt trên các thẻ action trên bàn
+# Token đặt trên các thẻ action trên bàn
 P_TOKEN_ON_ACTION_CARD = P_INDEX
-P_INDEX +=  NUMBBER_TYPE_TOKEN * (NUMBER_OPEN_ACTION_CARD - 1)
+P_INDEX += NUMBBER_TYPE_TOKEN * (NUMBER_OPEN_ACTION_CARD - 1)
 
-#thông tin các thẻ điểm trên bàn
+# thông tin các thẻ điểm trên bàn
 P_OPEN_POINT_CARD = P_INDEX
 P_INDEX += NUMBER_OPEN_POINT_CARD * ATTRIBUTE_POINT_CARD
 
-#Other in4
-#số lượng đồng bạc còn lại
+# Other in4
+# số lượng đồng bạc còn lại
 P_SILVER_COIN = P_INDEX
 P_INDEX += 1
 
-#số lượng đồng vàng còn lại
+# số lượng đồng vàng còn lại
 P_GOLD_COIN = P_INDEX
 P_INDEX += 1
 
-#action vừa thực hiện (dùng khi dùng action card)
+# action vừa thực hiện (dùng khi dùng action card)
 P_LAST_ACTION = P_INDEX
 P_INDEX += NUMBER_ACTION_CARD
 
@@ -149,42 +147,15 @@ P_INDEX += NUMBER_ACTION_CARD
 P_CHECK_END = P_INDEX
 P_INDEX += 1
 
-#Phase
+# Phase
 P_PHASE = P_INDEX
 P_INDEX += NUMBER_PHASE
 
-#Thứ tự bắt đầu game
+# Thứ tự bắt đầu game
 P_ORDER = P_INDEX
 P_INDEX += NUMBER_PLAYER
 
 P_LENGTH = P_INDEX
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 #  ALL_CARD_POINT_IN4 = np.array([[0, 0, 0, 5, 20], [0, 0, 2, 3, 18], [0, 0, 3, 2, 17], [0, 0, 0, 4, 16], [0, 2, 0, 3, 16], [0, 0, 5, 0, 15], [0, 0, 2, 2, 14],
@@ -200,100 +171,95 @@ P_LENGTH = P_INDEX
 #                          [0, 0, 2, 0, 2, 3, 0, 0], [0, 0, 2, 0, 0, 2, 0, 1], [0, 0, 3, 0, 0, 0, 0, 3], [0, 0, 0, 1, 0, 0, 2, 0], [0, 0, 0, 1, 3, 0, 1, 0], [0, 0, 0, 1, 0, 3, 0, 0], [0, 0, 0, 1, 2, 2, 0, 0], [0, 0, 0, 1, 1, 1, 1, 0],
 #                          [0, 0, 0, 2, 1, 1, 3, 0], [0, 0, 0, 2, 0, 3, 2, 0], [1, 1, 0, 0, 0, 0, 0, 1], [2, 0, 1, 0, 0, 0, 0, 2], [0, 0, 0, 0, 0, 0, 0, 0], [0, 0, 0, 0, 0, 0, 0, 0], [0, 0, 0, 0, 0, 0, 0, 0]])
 
-ALL_CARD_POINT_IN4 = np.array([[  0,   0,   0,   5, 200],
-                            [  0,   0,   2,   3, 180],
-                            [  0,   0,   3,   2, 170],
-                            [  0,   0,   0,   4, 160],
-                            [  0,   2,   0,   3, 160],
-                            [  0,   0,   5,   0, 150],
-                            [  0,   0,   2,   2, 140],
-                            [  0,   3,   0,   2, 140],
-                            [  2,   0,   0,   3, 140],
-                            [  0,   2,   3,   0, 130],
-                            [  0,   0,   4,   0, 120],
-                            [  0,   2,   0,   2, 120],
-                            [  0,   3,   2,   0, 120],
-                            [  2,   2,   0,   0,  60],
-                            [  3,   2,   0,   0,  70],
-                            [  2,   3,   0,   0,  80],
-                            [  2,   0,   2,   0,  80],
-                            [  0,   4,   0,   0,  80],
-                            [  3,   0,   2,   0,  90],
-                            [  2,   0,   0,   2, 100],
-                            [  0,   5,   0,   0, 100],
-                            [  0,   2,   2,   0, 100],
-                            [  2,   0,   3,   0, 110],
-                            [  3,   0,   0,   2, 110],
-                            [  1,   1,   1,   3, 200],
-                            [  0,   2,   2,   2, 190],
-                            [  1,   1,   3,   1, 180],
-                            [  2,   0,   2,   2, 170],
-                            [  1,   3,   1,   1, 160],
-                            [  2,   2,   0,   2, 150],
-                            [  3,   1,   1,   1, 140],
-                            [  2,   2,   2,   0, 130],
-                            [  0,   2,   1,   1, 120],
-                            [  1,   0,   2,   1, 120],
-                            [  1,   1,   1,   1, 120],
-                            [  2,   1,   0,   1,  90]])
+ALL_CARD_POINT_IN4 = np.array(
+    [
+        [0, 0, 0, 5, 200],
+        [0, 0, 2, 3, 180],
+        [0, 0, 3, 2, 170],
+        [0, 0, 0, 4, 160],
+        [0, 2, 0, 3, 160],
+        [0, 0, 5, 0, 150],
+        [0, 0, 2, 2, 140],
+        [0, 3, 0, 2, 140],
+        [2, 0, 0, 3, 140],
+        [0, 2, 3, 0, 130],
+        [0, 0, 4, 0, 120],
+        [0, 2, 0, 2, 120],
+        [0, 3, 2, 0, 120],
+        [2, 2, 0, 0, 60],
+        [3, 2, 0, 0, 70],
+        [2, 3, 0, 0, 80],
+        [2, 0, 2, 0, 80],
+        [0, 4, 0, 0, 80],
+        [3, 0, 2, 0, 90],
+        [2, 0, 0, 2, 100],
+        [0, 5, 0, 0, 100],
+        [0, 2, 2, 0, 100],
+        [2, 0, 3, 0, 110],
+        [3, 0, 0, 2, 110],
+        [1, 1, 1, 3, 200],
+        [0, 2, 2, 2, 190],
+        [1, 1, 3, 1, 180],
+        [2, 0, 2, 2, 170],
+        [1, 3, 1, 1, 160],
+        [2, 2, 0, 2, 150],
+        [3, 1, 1, 1, 140],
+        [2, 2, 2, 0, 130],
+        [0, 2, 1, 1, 120],
+        [1, 0, 2, 1, 120],
+        [1, 1, 1, 1, 120],
+        [2, 1, 0, 1, 90],
+    ]
+)
 
 
-ALL_CARD_IN4 = np.array([
-                            [ 0,  0,  0,  0,  2,  0,  0,  0,  0],
-                            [ 0,  0,  0,  0,  3,  0,  0,  0,  0],
-                            [ 0,  0,  0,  0,  4,  0,  0,  0,  0],
-                            [ 0,  0,  0,  0,  1,  1,  0,  0,  0],
-                            [ 0,  0,  0,  0,  0,  0,  1,  0,  0],
-                            [ 0,  0,  0,  0,  2,  1,  0,  0,  0],
-                            [ 0,  0,  0,  0,  0,  2,  0,  0,  0],
-                            [ 0,  0,  0,  0,  1,  0,  1,  0,  0],
-                            [ 0,  0,  0,  0,  0,  0,  0,  1,  0],
-                            [ 2,  0,  0,  0,  0,  2,  0,  0,  0],
-                            [ 2,  0,  0,  0,  0,  0,  1,  0,  0],
-                            [ 3,  0,  0,  0,  0,  0,  0,  1,  0],
-                            [ 3,  0,  0,  0,  0,  3,  0,  0,  0],
-                            [ 3,  0,  0,  0,  0,  1,  1,  0,  0],
-                            [ 4,  0,  0,  0,  0,  0,  2,  0,  0],
-                            [ 4,  0,  0,  0,  0,  0,  1,  1,  0],
-                            [ 5,  0,  0,  0,  0,  0,  0,  2,  0],
-                            [ 5,  0,  0,  0,  0,  0,  3,  0,  0],
-                            [ 0,  1,  0,  0,  3,  0,  0,  0,  0],
-                            [ 0,  2,  0,  0,  0,  0,  2,  0,  0],
-                            [ 0,  2,  0,  0,  3,  0,  1,  0,  0],
-                            [ 0,  2,  0,  0,  2,  0,  0,  1,  0],
-                            [ 0,  3,  0,  0,  0,  0,  3,  0,  0],
-                            [ 0,  3,  0,  0,  0,  0,  0,  2,  0],
-                            [ 0,  3,  0,  0,  1,  0,  1,  1,  0],
-                            [ 0,  3,  0,  0,  2,  0,  2,  0,  0],
-                            [ 0,  0,  1,  0,  4,  1,  0,  0,  0],
-                            [ 0,  0,  1,  0,  1,  2,  0,  0,  0],
-                            [ 0,  0,  1,  0,  0,  2,  0,  0,  0],
-                            [ 0,  0,  2,  0,  2,  1,  0,  1,  0],
-                            [ 0,  0,  2,  0,  0,  0,  0,  2,  0],
-                            [ 0,  0,  2,  0,  2,  3,  0,  0,  0],
-                            [ 0,  0,  2,  0,  0,  2,  0,  1,  0],
-                            [ 0,  0,  3,  0,  0,  0,  0,  3,  0],
-                            [ 0,  0,  0,  1,  0,  0,  2,  0,  0],
-                            [ 0,  0,  0,  1,  3,  0,  1,  0,  0],
-                            [ 0,  0,  0,  1,  0,  3,  0,  0,  0],
-                            [ 0,  0,  0,  1,  2,  2,  0,  0,  0],
-                            [ 0,  0,  0,  1,  1,  1,  1,  0,  0],
-                            [ 0,  0,  0,  2,  1,  1,  3,  0,  0],
-                            [ 0,  0,  0,  2,  0,  3,  2,  0,  0],
-                            [ 1,  1,  0,  0,  0,  0,  0,  1,  0],
-                            [ 2,  0,  1,  0,  0,  0,  0,  2,  0],
-                            [ 0,  0,  0,  0,  0,  0,  0,  0,  2],
-                            [ 0,  0,  0,  0,  0,  0,  0,  0,  3],
-                            [ 0,  0,  0,  0,  0,  0,  0,  0,  0]
-                     ])
-
-
-
-
-
-
-
-
-
-
-
+ALL_CARD_IN4 = np.array(
+    [
+        [0, 0, 0, 0, 2, 0, 0, 0, 0],
+        [0, 0, 0, 0, 3, 0, 0, 0, 0],
+        [0, 0, 0, 0, 4, 0, 0, 0, 0],
+        [0, 0, 0, 0, 1, 1, 0, 0, 0],
+        [0, 0, 0, 0, 0, 0, 1, 0, 0],
+        [0, 0, 0, 0, 2, 1, 0, 0, 0],
+        [0, 0, 0, 0, 0, 2, 0, 0, 0],
+        [0, 0, 0, 0, 1, 0, 1, 0, 0],
+        [0, 0, 0, 0, 0, 0, 0, 1, 0],
+        [2, 0, 0, 0, 0, 2, 0, 0, 0],
+        [2, 0, 0, 0, 0, 0, 1, 0, 0],
+        [3, 0, 0, 0, 0, 0, 0, 1, 0],
+        [3, 0, 0, 0, 0, 3, 0, 0, 0],
+        [3, 0, 0, 0, 0, 1, 1, 0, 0],
+        [4, 0, 0, 0, 0, 0, 2, 0, 0],
+        [4, 0, 0, 0, 0, 0, 1, 1, 0],
+        [5, 0, 0, 0, 0, 0, 0, 2, 0],
+        [5, 0, 0, 0, 0, 0, 3, 0, 0],
+        [0, 1, 0, 0, 3, 0, 0, 0, 0],
+        [0, 2, 0, 0, 0, 0, 2, 0, 0],
+        [0, 2, 0, 0, 3, 0, 1, 0, 0],
+        [0, 2, 0, 0, 2, 0, 0, 1, 0],
+        [0, 3, 0, 0, 0, 0, 3, 0, 0],
+        [0, 3, 0, 0, 0, 0, 0, 2, 0],
+        [0, 3, 0, 0, 1, 0, 1, 1, 0],
+        [0, 3, 0, 0, 2, 0, 2, 0, 0],
+        [0, 0, 1, 0, 4, 1, 0, 0, 0],
+        [0, 0, 1, 0, 1, 2, 0, 0, 0],
+        [0, 0, 1, 0, 0, 2, 0, 0, 0],
+        [0, 0, 2, 0, 2, 1, 0, 1, 0],
+        [0, 0, 2, 0, 0, 0, 0, 2, 0],
+        [0, 0, 2, 0, 2, 3, 0, 0, 0],
+        [0, 0, 2, 0, 0, 2, 0, 1, 0],
+        [0, 0, 3, 0, 0, 0, 0, 3, 0],
+        [0, 0, 0, 1, 0, 0, 2, 0, 0],
+        [0, 0, 0, 1, 3, 0, 1, 0, 0],
+        [0, 0, 0, 1, 0, 3, 0, 0, 0],
+        [0, 0, 0, 1, 2, 2, 0, 0, 0],
+        [0, 0, 0, 1, 1, 1, 1, 0, 0],
+        [0, 0, 0, 2, 1, 1, 3, 0, 0],
+        [0, 0, 0, 2, 0, 3, 2, 0, 0],
+        [1, 1, 0, 0, 0, 0, 0, 1, 0],
+        [2, 0, 1, 0, 0, 0, 0, 2, 0],
+        [0, 0, 0, 0, 0, 0, 0, 0, 2],
+        [0, 0, 0, 0, 0, 0, 0, 0, 3],
+        [0, 0, 0, 0, 0, 0, 0, 0, 0],
+    ]
+)

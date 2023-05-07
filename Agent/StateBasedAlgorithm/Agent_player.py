@@ -6,14 +6,19 @@ from numba import njit, jit
 import sys, os
 from setup import SHORT_PATH
 import importlib.util
+
 game_name = sys.argv[1]
 
+
 def setup_game(game_name):
-    spec = importlib.util.spec_from_file_location('env', f"{SHORT_PATH}Base/{game_name}/env.py")
+    spec = importlib.util.spec_from_file_location(
+        "env", f"{SHORT_PATH}Base/{game_name}/env.py"
+    )
     module = importlib.util.module_from_spec(spec)
-    sys.modules[spec.name] = module 
+    sys.modules[spec.name] = module
     spec.loader.exec_module(module)
     return module
+
 
 env = setup_game(game_name)
 
@@ -27,15 +32,24 @@ getReward = env.getReward
 
 from numba.typed import List
 
+
 def DataAgent():
-    per = List([np.zeros((100,getStateSize(),getActionSize())), #[0][value][idS] khi mở đầu game
-           np.zeros((100,getStateSize(),getActionSize())), #[1][value][ids] lưu lại cuối cùng
-           np.zeros((1,1,1)) #[2][0][0][0] vừa thắng hay thua
-           ])
+    per = List(
+        [
+            np.zeros(
+                (100, getStateSize(), getActionSize())
+            ),  # [0][value][idS] khi mở đầu game
+            np.zeros(
+                (100, getStateSize(), getActionSize())
+            ),  # [1][value][ids] lưu lại cuối cùng
+            np.zeros((1, 1, 1)),  # [2][0][0][0] vừa thắng hay thua
+        ]
+    )
     return per
 
+
 @njit()
-def Train(state,per):
+def Train(state, per):
     actions = getValidActions(state)
     weights = np.zeros(getActionSize())
     if per[2][0][0][0] == 0:
@@ -44,11 +58,14 @@ def Train(state,per):
         weights += temp
         for ids in range(getStateSize()):
             if state[ids] < 100:
-                per[0][int(state[ids])][ids] += temp/np.max(temp)
+                per[0][int(state[ids])][ids] += temp / np.max(temp)
     else:
         for ids in range(getStateSize()):
             if state[ids] < 100:
-                weights += np.argsort(np.argsort(per[0][int(state[ids])][ids]))/getActionSize()
+                weights += (
+                    np.argsort(np.argsort(per[0][int(state[ids])][ids]))
+                    / getActionSize()
+                )
     output = weights * actions + actions
     action = np.argmax(output)
     win = getReward(state)
@@ -61,6 +78,7 @@ def Train(state,per):
             per[0][:, :, :] = 0.0
             per[2][0][0][0] = 0
     return action, per
+
 
 @njit
 def Test(state, per):
@@ -78,6 +96,7 @@ def Test(state, per):
     list_action = np.where(actions == 1)[0]
     action = list_action[np.argmax(output[list_action])]
     return action, per
+
 
 def convert_to_save(perData):
     if len(perData) == getStateSize() + 1:
@@ -97,14 +116,15 @@ def convert_to_save(perData):
                     break
         else:
             arr[i] = 100
-    
+
     for i in range(getStateSize()):
-        data.append(perData[1][:arr[i], i])
+        data.append(perData[1][: arr[i], i])
         for j in range(data[i].shape[0]):
-            data[i][j] = np.argsort(np.argsort(data[i][j]))/float(getActionSize())
-    
+            data[i][j] = np.argsort(np.argsort(data[i][j])) / float(getActionSize())
+
     data.append(np.array([arr], float))
     return data
+
 
 def convert_to_test(perData):
     return List(perData)

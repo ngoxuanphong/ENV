@@ -3,305 +3,309 @@ from numba import njit, jit
 from numba.typed import List
 
 TILE_TILE = np.array(
-    [[1, 11, 12, 17, -1, -1],  #  0
-     [0, 2, 17, -1, -1, -1],  #  1
-     [1, 3, 16, 17, -1, -1],  #  2
-     [2, 4, 16, -1, -1, -1],  #  3
-     [3, 5, 15, 16, -1, -1],  #  4
-     [4, 6, 15, -1, -1, -1],  #  5
-     [5, 7, 14, 15, -1, -1],  #  6
-     [6, 8, 14, -1, -1, -1],  #  7
-     [7, 9, 13, 14, -1, -1],  #  8
-     [8, 10, 13, -1, -1, -1],  #  9
-     [9, 11, 12, 13, -1, -1],  #  10
-     [0, 10, 12, -1, -1, -1],  #  11
-     [0, 10, 11, 13, 17, 18],  #  12
-     [8, 9, 10, 12, 14, 18],  #  13
-     [6, 7, 8, 13, 15, 18],  #  14
-     [4, 5, 6, 14, 16, 18],  #  15
-     [2, 3, 4, 15, 17, 18],  #  16
-     [0, 1, 2, 12, 16, 18],  #  17
-     [12, 13, 14, 15, 16, 17]]  #  18
+    [
+        [1, 11, 12, 17, -1, -1],  #  0
+        [0, 2, 17, -1, -1, -1],  #  1
+        [1, 3, 16, 17, -1, -1],  #  2
+        [2, 4, 16, -1, -1, -1],  #  3
+        [3, 5, 15, 16, -1, -1],  #  4
+        [4, 6, 15, -1, -1, -1],  #  5
+        [5, 7, 14, 15, -1, -1],  #  6
+        [6, 8, 14, -1, -1, -1],  #  7
+        [7, 9, 13, 14, -1, -1],  #  8
+        [8, 10, 13, -1, -1, -1],  #  9
+        [9, 11, 12, 13, -1, -1],  #  10
+        [0, 10, 12, -1, -1, -1],  #  11
+        [0, 10, 11, 13, 17, 18],  #  12
+        [8, 9, 10, 12, 14, 18],  #  13
+        [6, 7, 8, 13, 15, 18],  #  14
+        [4, 5, 6, 14, 16, 18],  #  15
+        [2, 3, 4, 15, 17, 18],  #  16
+        [0, 1, 2, 12, 16, 18],  #  17
+        [12, 13, 14, 15, 16, 17],
+    ]  #  18
 )
 
 POINT_POINT = np.array(
-    [[1, 29, -1],  #  0
-     [0, 2, 46],  #  1
-     [1, 3, -1],  #  2
-     [2, 4, -1],  #  3
-     [3, 5, 45],  #  4
-     [4, 6, -1],  #  5
-     [5, 7, 43],  #  6
-     [6, 8, -1],  #  7
-     [7, 9, -1],  #  8
-     [8, 10, 42],  #  9
-     [9, 11, -1],  #  10
-     [10, 12, 40],  #  11
-     [11, 13, -1],  #  12
-     [12, 14, -1],  #  13
-     [13, 15, 39],  #  14
-     [14, 16, -1],  #  15
-     [15, 17, 37],  #  16
-     [16, 18, -1],  #  17
-     [17, 19, -1],  #  18
-     [18, 20, 36],  #  19
-     [19, 21, -1],  #  20
-     [20, 22, 34],  #  21
-     [21, 23, -1],  #  22
-     [22, 24, -1],  #  23
-     [23, 25, 33],  #  24
-     [24, 26, -1],  #  25
-     [25, 27, 31],  #  26
-     [26, 28, -1],  #  27
-     [27, 29, -1],  #  28
-     [0, 28, 30],  #  29
-     [29, 31, 47],  #  30
-     [26, 30, 32],  #  31
-     [31, 33, 49],  #  32
-     [24, 32, 34],  #  33
-     [21, 33, 35],  #  34
-     [34, 36, 50],  #  35
-     [19, 35, 37],  #  36
-     [16, 36, 38],  #  37
-     [37, 39, 51],  #  38
-     [14, 38, 40],  #  39
-     [11, 39, 41],  #  40
-     [40, 42, 52],  #  41
-     [9, 41, 43],  #  42
-     [6, 42, 44],  #  43
-     [43, 45, 53],  #  44
-     [4, 44, 46],  #  45
-     [1, 45, 47],  #  46
-     [30, 46, 48],  #  47
-     [47, 49, 53],  #  48
-     [32, 48, 50],  #  49
-     [35, 49, 51],  #  50
-     [38, 50, 52],  #  51
-     [41, 51, 53],  #  52
-     [44, 48, 52]]  #  53
+    [
+        [1, 29, -1],  #  0
+        [0, 2, 46],  #  1
+        [1, 3, -1],  #  2
+        [2, 4, -1],  #  3
+        [3, 5, 45],  #  4
+        [4, 6, -1],  #  5
+        [5, 7, 43],  #  6
+        [6, 8, -1],  #  7
+        [7, 9, -1],  #  8
+        [8, 10, 42],  #  9
+        [9, 11, -1],  #  10
+        [10, 12, 40],  #  11
+        [11, 13, -1],  #  12
+        [12, 14, -1],  #  13
+        [13, 15, 39],  #  14
+        [14, 16, -1],  #  15
+        [15, 17, 37],  #  16
+        [16, 18, -1],  #  17
+        [17, 19, -1],  #  18
+        [18, 20, 36],  #  19
+        [19, 21, -1],  #  20
+        [20, 22, 34],  #  21
+        [21, 23, -1],  #  22
+        [22, 24, -1],  #  23
+        [23, 25, 33],  #  24
+        [24, 26, -1],  #  25
+        [25, 27, 31],  #  26
+        [26, 28, -1],  #  27
+        [27, 29, -1],  #  28
+        [0, 28, 30],  #  29
+        [29, 31, 47],  #  30
+        [26, 30, 32],  #  31
+        [31, 33, 49],  #  32
+        [24, 32, 34],  #  33
+        [21, 33, 35],  #  34
+        [34, 36, 50],  #  35
+        [19, 35, 37],  #  36
+        [16, 36, 38],  #  37
+        [37, 39, 51],  #  38
+        [14, 38, 40],  #  39
+        [11, 39, 41],  #  40
+        [40, 42, 52],  #  41
+        [9, 41, 43],  #  42
+        [6, 42, 44],  #  43
+        [43, 45, 53],  #  44
+        [4, 44, 46],  #  45
+        [1, 45, 47],  #  46
+        [30, 46, 48],  #  47
+        [47, 49, 53],  #  48
+        [32, 48, 50],  #  49
+        [35, 49, 51],  #  50
+        [38, 50, 52],  #  51
+        [41, 51, 53],  #  52
+        [44, 48, 52],
+    ]  #  53
 )
 
 ROAD_POINT = np.array(
-    [[0, 29],  #  0
-     [0,  1],  #  1
-     [1, 46],  #  2
-     [1,  2],  #  3
-     [2,  3],  #  4
-     [3,  4],  #  5
-     [4, 45],  #  6
-     [4,  5],  #  7
-     [5,  6],  #  8
-     [6, 43],  #  9
-     [6,  7],  #  10
-     [7,  8],  #  11
-     [8,  9],  #  12
-     [9, 42],  #  13
-     [9, 10],  #  14
-     [10, 11],  #  15
-     [11, 40],  #  16
-     [11, 12],  #  17
-     [12, 13],  #  18
-     [13, 14],  #  19
-     [14, 39],  #  20
-     [14, 15],  #  21
-     [15, 16],  #  22
-     [16, 37],  #  23
-     [16, 17],  #  24
-     [17, 18],  #  25
-     [18, 19],  #  26
-     [19, 36],  #  27
-     [19, 20],  #  28
-     [20, 21],  #  29
-     [21, 34],  #  30
-     [21, 22],  #  31
-     [22, 23],  #  32
-     [23, 24],  #  33
-     [24, 33],  #  34
-     [24, 25],  #  35
-     [25, 26],  #  36
-     [26, 31],  #  37
-     [26, 27],  #  38
-     [27, 28],  #  39
-     [28, 29],  #  40
-     [29, 30],  #  41
-     [30, 31],  #  42
-     [31, 32],  #  43
-     [32, 49],  #  44
-     [32, 33],  #  45
-     [33, 34],  #  46
-     [34, 35],  #  47
-     [35, 50],  #  48
-     [35, 36],  #  49
-     [36, 37],  #  50
-     [37, 38],  #  51
-     [38, 51],  #  52
-     [38, 39],  #  53
-     [39, 40],  #  54
-     [40, 41],  #  55
-     [41, 52],  #  56
-     [41, 42],  #  57
-     [42, 43],  #  58
-     [43, 44],  #  59
-     [44, 53],  #  60
-     [44, 45],  #  61
-     [45, 46],  #  62
-     [46, 47],  #  63
-     [47, 48],  #  64
-     [30, 47],  #  65
-     [48, 49],  #  66
-     [49, 50],  #  67
-     [50, 51],  #  68
-     [51, 52],  #  69
-     [52, 53],  #  70
-     [48, 53]]  #  71
+    [
+        [0, 29],  #  0
+        [0, 1],  #  1
+        [1, 46],  #  2
+        [1, 2],  #  3
+        [2, 3],  #  4
+        [3, 4],  #  5
+        [4, 45],  #  6
+        [4, 5],  #  7
+        [5, 6],  #  8
+        [6, 43],  #  9
+        [6, 7],  #  10
+        [7, 8],  #  11
+        [8, 9],  #  12
+        [9, 42],  #  13
+        [9, 10],  #  14
+        [10, 11],  #  15
+        [11, 40],  #  16
+        [11, 12],  #  17
+        [12, 13],  #  18
+        [13, 14],  #  19
+        [14, 39],  #  20
+        [14, 15],  #  21
+        [15, 16],  #  22
+        [16, 37],  #  23
+        [16, 17],  #  24
+        [17, 18],  #  25
+        [18, 19],  #  26
+        [19, 36],  #  27
+        [19, 20],  #  28
+        [20, 21],  #  29
+        [21, 34],  #  30
+        [21, 22],  #  31
+        [22, 23],  #  32
+        [23, 24],  #  33
+        [24, 33],  #  34
+        [24, 25],  #  35
+        [25, 26],  #  36
+        [26, 31],  #  37
+        [26, 27],  #  38
+        [27, 28],  #  39
+        [28, 29],  #  40
+        [29, 30],  #  41
+        [30, 31],  #  42
+        [31, 32],  #  43
+        [32, 49],  #  44
+        [32, 33],  #  45
+        [33, 34],  #  46
+        [34, 35],  #  47
+        [35, 50],  #  48
+        [35, 36],  #  49
+        [36, 37],  #  50
+        [37, 38],  #  51
+        [38, 51],  #  52
+        [38, 39],  #  53
+        [39, 40],  #  54
+        [40, 41],  #  55
+        [41, 52],  #  56
+        [41, 42],  #  57
+        [42, 43],  #  58
+        [43, 44],  #  59
+        [44, 53],  #  60
+        [44, 45],  #  61
+        [45, 46],  #  62
+        [46, 47],  #  63
+        [47, 48],  #  64
+        [30, 47],  #  65
+        [48, 49],  #  66
+        [49, 50],  #  67
+        [50, 51],  #  68
+        [51, 52],  #  69
+        [52, 53],  #  70
+        [48, 53],
+    ]  #  71
 )
 
 POINT_ROAD = np.array(
-    [[0,  1, -1],  #  0
-     [1,  2,  3],  #  1
-     [3,  4, -1],  #  2
-     [4,  5, -1],  #  3
-     [5,  6,  7],  #  4
-     [7,  8, -1],  #  5
-     [8,  9, 10],  #  6
-     [10, 11, -1],  #  7
-     [11, 12, -1],  #  8
-     [12, 13, 14],  #  9
-     [14, 15, -1],  #  10
-     [15, 16, 17],  #  11
-     [17, 18, -1],  #  12
-     [18, 19, -1],  #  13
-     [19, 20, 21],  #  14
-     [21, 22, -1],  #  15
-     [22, 23, 24],  #  16
-     [24, 25, -1],  #  17
-     [25, 26, -1],  #  18
-     [26, 27, 28],  #  19
-     [28, 29, -1],  #  20
-     [29, 30, 31],  #  21
-     [31, 32, -1],  #  22
-     [32, 33, -1],  #  23
-     [33, 34, 35],  #  24
-     [35, 36, -1],  #  25
-     [36, 37, 38],  #  26
-     [38, 39, -1],  #  27
-     [39, 40, -1],  #  28
-     [0, 40, 41],  #  29
-     [41, 42, 65],  #  30
-     [37, 42, 43],  #  31
-     [43, 44, 45],  #  32
-     [34, 45, 46],  #  33
-     [30, 46, 47],  #  34
-     [47, 48, 49],  #  35
-     [27, 49, 50],  #  36
-     [23, 50, 51],  #  37
-     [51, 52, 53],  #  38
-     [20, 53, 54],  #  39
-     [16, 54, 55],  #  40
-     [55, 56, 57],  #  41
-     [13, 57, 58],  #  42
-     [9, 58, 59],  #  43
-     [59, 60, 61],  #  44
-     [6, 61, 62],  #  45
-     [2, 62, 63],  #  46
-     [63, 64, 65],  #  47
-     [64, 66, 71],  #  48
-     [44, 66, 67],  #  49
-     [48, 67, 68],  #  50
-     [52, 68, 69],  #  51
-     [56, 69, 70],  #  52
-     [60, 70, 71]]  #  53
+    [
+        [0, 1, -1],  #  0
+        [1, 2, 3],  #  1
+        [3, 4, -1],  #  2
+        [4, 5, -1],  #  3
+        [5, 6, 7],  #  4
+        [7, 8, -1],  #  5
+        [8, 9, 10],  #  6
+        [10, 11, -1],  #  7
+        [11, 12, -1],  #  8
+        [12, 13, 14],  #  9
+        [14, 15, -1],  #  10
+        [15, 16, 17],  #  11
+        [17, 18, -1],  #  12
+        [18, 19, -1],  #  13
+        [19, 20, 21],  #  14
+        [21, 22, -1],  #  15
+        [22, 23, 24],  #  16
+        [24, 25, -1],  #  17
+        [25, 26, -1],  #  18
+        [26, 27, 28],  #  19
+        [28, 29, -1],  #  20
+        [29, 30, 31],  #  21
+        [31, 32, -1],  #  22
+        [32, 33, -1],  #  23
+        [33, 34, 35],  #  24
+        [35, 36, -1],  #  25
+        [36, 37, 38],  #  26
+        [38, 39, -1],  #  27
+        [39, 40, -1],  #  28
+        [0, 40, 41],  #  29
+        [41, 42, 65],  #  30
+        [37, 42, 43],  #  31
+        [43, 44, 45],  #  32
+        [34, 45, 46],  #  33
+        [30, 46, 47],  #  34
+        [47, 48, 49],  #  35
+        [27, 49, 50],  #  36
+        [23, 50, 51],  #  37
+        [51, 52, 53],  #  38
+        [20, 53, 54],  #  39
+        [16, 54, 55],  #  40
+        [55, 56, 57],  #  41
+        [13, 57, 58],  #  42
+        [9, 58, 59],  #  43
+        [59, 60, 61],  #  44
+        [6, 61, 62],  #  45
+        [2, 62, 63],  #  46
+        [63, 64, 65],  #  47
+        [64, 66, 71],  #  48
+        [44, 66, 67],  #  49
+        [48, 67, 68],  #  50
+        [52, 68, 69],  #  51
+        [56, 69, 70],  #  52
+        [60, 70, 71],
+    ]  #  53
 )
 
 PORT_POINT = np.array(
-    [[0, 1],
-     [4, 5],
-     [7, 8],
-     [10, 11],
-     [14, 15],
-     [17, 18],
-     [20, 21],
-     [24, 25],
-     [27, 28]]
+    [[0, 1], [4, 5], [7, 8], [10, 11], [14, 15], [17, 18], [20, 21], [24, 25], [27, 28]]
 )
 
 POINT_TILE = np.array(
-    [[0, -1, -1],  #  0
-     [0, 1, -1],  #  1
-     [1, -1, -1],  #  2
-     [1, -1, -1],  #  3
-     [1, 2, -1],  #  4
-     [2, -1, -1],  #  5
-     [2, 3, -1],  #  6
-     [3, -1, -1],  #  7
-     [3, -1, -1],  #  8
-     [3, 4, -1],  #  9
-     [4, -1, -1],  #  10
-     [4, 5, -1],  #  11
-     [5, -1, -1],  #  12
-     [5, -1, -1],  #  13
-     [5, 6, -1],  #  14
-     [6, -1, -1],  #  15
-     [6, 7, -1],  #  16
-     [7, -1, -1],  #  17
-     [7, -1, -1],  #  18
-     [7, 8, -1],  #  19
-     [8, -1, -1],  #  20
-     [8, 9, -1],  #  21
-     [9, -1, -1],  #  22
-     [9, -1, -1],  #  23
-     [9, 10, -1],  #  24
-     [10, -1, -1],  #  25
-     [10, 11, -1],  #  26
-     [11, -1, -1],  #  27
-     [11, -1, -1],  #  28
-     [0, 11, -1],  #  29
-     [0, 11, 12],  #  30
-     [10, 11, 12],  #  31
-     [10, 12, 13],  #  32
-     [9, 10, 13],  #  33
-     [8, 9, 13],  #  34
-     [8, 13, 14],  #  35
-     [7, 8, 14],  #  36
-     [6, 7, 14],  #  37
-     [6, 14, 15],  #  38
-     [5, 6, 15],  #  39
-     [4, 5, 15],  #  40
-     [4, 15, 16],  #  41
-     [3, 4, 16],  #  42
-     [2, 3, 16],  #  43
-     [2, 16, 17],  #  44
-     [1, 2, 17],  #  45
-     [0, 1, 17],  #  46
-     [0, 12, 17],  #  47
-     [12, 17, 18],  #  48
-     [12, 13, 18],  #  49
-     [13, 14, 18],  #  50
-     [14, 15, 18],  #  51
-     [15, 16, 18],  #  52
-     [16, 17, 18]]  #  53
+    [
+        [0, -1, -1],  #  0
+        [0, 1, -1],  #  1
+        [1, -1, -1],  #  2
+        [1, -1, -1],  #  3
+        [1, 2, -1],  #  4
+        [2, -1, -1],  #  5
+        [2, 3, -1],  #  6
+        [3, -1, -1],  #  7
+        [3, -1, -1],  #  8
+        [3, 4, -1],  #  9
+        [4, -1, -1],  #  10
+        [4, 5, -1],  #  11
+        [5, -1, -1],  #  12
+        [5, -1, -1],  #  13
+        [5, 6, -1],  #  14
+        [6, -1, -1],  #  15
+        [6, 7, -1],  #  16
+        [7, -1, -1],  #  17
+        [7, -1, -1],  #  18
+        [7, 8, -1],  #  19
+        [8, -1, -1],  #  20
+        [8, 9, -1],  #  21
+        [9, -1, -1],  #  22
+        [9, -1, -1],  #  23
+        [9, 10, -1],  #  24
+        [10, -1, -1],  #  25
+        [10, 11, -1],  #  26
+        [11, -1, -1],  #  27
+        [11, -1, -1],  #  28
+        [0, 11, -1],  #  29
+        [0, 11, 12],  #  30
+        [10, 11, 12],  #  31
+        [10, 12, 13],  #  32
+        [9, 10, 13],  #  33
+        [8, 9, 13],  #  34
+        [8, 13, 14],  #  35
+        [7, 8, 14],  #  36
+        [6, 7, 14],  #  37
+        [6, 14, 15],  #  38
+        [5, 6, 15],  #  39
+        [4, 5, 15],  #  40
+        [4, 15, 16],  #  41
+        [3, 4, 16],  #  42
+        [2, 3, 16],  #  43
+        [2, 16, 17],  #  44
+        [1, 2, 17],  #  45
+        [0, 1, 17],  #  46
+        [0, 12, 17],  #  47
+        [12, 17, 18],  #  48
+        [12, 13, 18],  #  49
+        [13, 14, 18],  #  50
+        [14, 15, 18],  #  51
+        [15, 16, 18],  #  52
+        [16, 17, 18],
+    ]  #  53
 )
 
 TILE_POINT = np.array(
-    [[0,  1, 29, 30, 46, 47],  #  0
-     [1,  2,  3,  4, 45, 46],  #  1
-     [4,  5,  6, 43, 44, 45],  #  2
-     [6,  7,  8,  9, 42, 43],  #  3
-     [9, 10, 11, 40, 41, 42],  #  4
-     [11, 12, 13, 14, 39, 40],  #  5
-     [14, 15, 16, 37, 38, 39],  #  6
-     [16, 17, 18, 19, 36, 37],  #  7
-     [19, 20, 21, 34, 35, 36],  #  8
-     [21, 22, 23, 24, 33, 34],  #  9
-     [24, 25, 26, 31, 32, 33],  #  10
-     [26, 27, 28, 29, 30, 31],  #  11
-     [30, 31, 32, 47, 48, 49],  #  12
-     [32, 33, 34, 35, 49, 50],  #  13
-     [35, 36, 37, 38, 50, 51],  #  14
-     [38, 39, 40, 41, 51, 52],  #  15
-     [41, 42, 43, 44, 52, 53],  #  16
-     [44, 45, 46, 47, 48, 53],  #  17
-     [48, 49, 50, 51, 52, 53]]  #  18
+    [
+        [0, 1, 29, 30, 46, 47],  #  0
+        [1, 2, 3, 4, 45, 46],  #  1
+        [4, 5, 6, 43, 44, 45],  #  2
+        [6, 7, 8, 9, 42, 43],  #  3
+        [9, 10, 11, 40, 41, 42],  #  4
+        [11, 12, 13, 14, 39, 40],  #  5
+        [14, 15, 16, 37, 38, 39],  #  6
+        [16, 17, 18, 19, 36, 37],  #  7
+        [19, 20, 21, 34, 35, 36],  #  8
+        [21, 22, 23, 24, 33, 34],  #  9
+        [24, 25, 26, 31, 32, 33],  #  10
+        [26, 27, 28, 29, 30, 31],  #  11
+        [30, 31, 32, 47, 48, 49],  #  12
+        [32, 33, 34, 35, 49, 50],  #  13
+        [35, 36, 37, 38, 50, 51],  #  14
+        [38, 39, 40, 41, 51, 52],  #  15
+        [41, 42, 43, 44, 52, 53],  #  16
+        [44, 45, 46, 47, 48, 53],  #  17
+        [48, 49, 50, 51, 52, 53],
+    ]  #  18
 )
 
 ROAD_PRICE = np.array([1, 1, 0, 0, 0])
@@ -311,15 +315,24 @@ DEV_PRICE = np.array([0, 0, 1, 1, 1])
 
 LEN_P_STATE = 220
 AMOUNT_ACTION = 95
-MAX_TURN_IN_ONE_GAME = 1200 #  Càng cao thì chạy càng lâu, nhưng tỉ lệ không end được game càng thấp
+MAX_TURN_IN_ONE_GAME = (
+    1200  #  Càng cao thì chạy càng lâu, nhưng tỉ lệ không end được game càng thấp
+)
 
 import warnings
-warnings.filterwarnings('ignore')
-from numba.core.errors import NumbaDeprecationWarning, NumbaPendingDeprecationWarning,NumbaExperimentalFeatureWarning, NumbaWarning
-warnings.simplefilter('ignore', category=NumbaDeprecationWarning)
-warnings.simplefilter('ignore', category=NumbaPendingDeprecationWarning)
-warnings.simplefilter('ignore', category=NumbaExperimentalFeatureWarning)
-warnings.simplefilter('ignore', category=NumbaWarning)
+
+warnings.filterwarnings("ignore")
+from numba.core.errors import (
+    NumbaDeprecationWarning,
+    NumbaPendingDeprecationWarning,
+    NumbaExperimentalFeatureWarning,
+    NumbaWarning,
+)
+
+warnings.simplefilter("ignore", category=NumbaDeprecationWarning)
+warnings.simplefilter("ignore", category=NumbaPendingDeprecationWarning)
+warnings.simplefilter("ignore", category=NumbaExperimentalFeatureWarning)
+warnings.simplefilter("ignore", category=NumbaWarning)
 
 
 @njit()
@@ -373,7 +386,7 @@ def initEnv() -> np.ndarray:
 
     #  Thông tin người chơi: [58,100], [100:142], [142,184], [184:226]
     for p_idx in range(4):
-        s_ = 58 + 42*p_idx  #  58, 100, 142, 184
+        s_ = 58 + 42 * p_idx  #  58, 100, 142, 184
         #  [+0:+5]: Tài nguyên
         #  [+5:+10]: Thẻ dev
         #  [+10]: Điểm
@@ -381,13 +394,13 @@ def initEnv() -> np.ndarray:
         #  [+11:+26]: Đường
         #  [+26:+31]: Nhà
         #  [+31:+35]: Thành phố
-        env[s_+11:s_+35] = -1
+        env[s_ + 11 : s_ + 35] = -1
 
         #  [+35]: Số thẻ knight đã dùng
         #  [+36]: Con đường dài nhất
 
         #  [+37:+42]: Tỉ lệ trao đổi với Bank
-        env[s_+37:s_+42] = 4
+        env[s_ + 37 : s_ + 42] = 4
 
     #  [226]: Danh hiệu quân đội mạnh nhất
     #  [227]: Danh hiệu con đường dài nhất
@@ -414,7 +427,7 @@ def initEnv() -> np.ndarray:
     env[239 + resource_turn_0] = 3
     #  [244]: Người chơi đang action (không hẳn là người chơi chính)
     #  [245:249], số nguyên liệu đã lấy trong turn đầu game
-    env[245] = 1 #Người chơi đầu tiên đã nhận 1 nguyên liệu
+    env[245] = 1  # Người chơi đầu tiên đã nhận 1 nguyên liệu
     #  [249:254]: Tài nguyên đưa ra trong trade offer
     #  [254:259]: Tài nguyên yêu cầu trong trade offer
     #  [254:274]: Tài nguyên trong kho dự trữ của các người chơi
@@ -425,98 +438,105 @@ def initEnv() -> np.ndarray:
 
 @njit()
 def getAgentState(env: np.ndarray) -> np.ndarray:
-    p_state = np.zeros(P_END_GAME_N+1)
+    p_state = np.zeros(P_END_GAME_N + 1)
     p_idx = int(env[244])
 
     #  p_state[0:48] = env[0:48]
 
-    for id, res in enumerate(env[:19]): #Tài nguyên trên các ô đất
-        p_state[id*6 + int(res)] = 1
-    p_state[P_START_ROBBLE + int(env[19])] = 1 #Vị trí robble
-    for id, count in enumerate(env[20:39]): #Số trên các ô đất
+    for id, res in enumerate(env[:19]):  # Tài nguyên trên các ô đất
+        p_state[id * 6 + int(res)] = 1
+    p_state[P_START_ROBBLE + int(env[19])] = 1  # Vị trí robble
+    for id, count in enumerate(env[20:39]):  # Số trên các ô đất
         if count == 0:
-            p_state[P_START_COUNT_LAND + id*12] = 1
+            p_state[P_START_COUNT_LAND + id * 12] = 1
         else:
-            p_state[P_START_COUNT_LAND + id*12 + int(count) - 1] = 1
-    for id, port in enumerate(env[39:48]): #Các cảng
-        p_state[P_START_PORT + id*6 + int(port)] = 1
+            p_state[P_START_COUNT_LAND + id * 12 + int(count) - 1] = 1
+    for id, port in enumerate(env[39:48]):  # Các cảng
+        p_state[P_START_PORT + id * 6 + int(port)] = 1
 
-    p_state[P_START_RES_BANK:P_END_RES_BANK] = env[48:53] > 0 #Tài nguyên ngân hàng dạng 0, 1
-    p_state[P_DEV_BANK] = (env[53:58] > 0).any()  #Thẻ dev Bank dạng không hoặc có
+    p_state[P_START_RES_BANK:P_END_RES_BANK] = (
+        env[48:53] > 0
+    )  # Tài nguyên ngân hàng dạng 0, 1
+    p_state[P_DEV_BANK] = (env[53:58] > 0).any()  # Thẻ dev Bank dạng không hoặc có
 
-    s_ = 58 + 42*p_idx
-    p_state[P_PLAYER:P_PLAYER+11] = env[s_:s_+11] #Tài nguyên, thẻ dev, điểm
+    s_ = 58 + 42 * p_idx
+    p_state[P_PLAYER : P_PLAYER + 11] = env[s_ : s_ + 11]  # Tài nguyên, thẻ dev, điểm
     if env[280] == 0:
-        p_state[P_PLAYER+10] += p_state[P_PLAYER+9]
+        p_state[P_PLAYER + 10] += p_state[P_PLAYER + 9]
 
-    road_have = env[s_+11:s_+26]
-    road_have = road_have[road_have>=0].astype(np.int64)
-    p_state[P_PLAYER+11+road_have] = 1
+    road_have = env[s_ + 11 : s_ + 26]
+    road_have = road_have[road_have >= 0].astype(np.int64)
+    p_state[P_PLAYER + 11 + road_have] = 1
 
-    stm_have = env[s_+26:s_+31]
-    stm_have = stm_have[stm_have>=0].astype(np.int64)
-    p_state[P_PLAYER+83+stm_have] = 1
+    stm_have = env[s_ + 26 : s_ + 31]
+    stm_have = stm_have[stm_have >= 0].astype(np.int64)
+    p_state[P_PLAYER + 83 + stm_have] = 1
 
-    city_have = env[s_+31:s_+35]
-    city_have = city_have[city_have>=0].astype(np.int64)
-    p_state[P_PLAYER+137+city_have] = 1
+    city_have = env[s_ + 31 : s_ + 35]
+    city_have = city_have[city_have >= 0].astype(np.int64)
+    p_state[P_PLAYER + 137 + city_have] = 1
 
-    p_state[P_PLAYER+191] = env[s_+35]
-    p_state[P_PLAYER+192] = env[s_+36]
+    p_state[P_PLAYER + 191] = env[s_ + 35]
+    p_state[P_PLAYER + 192] = env[s_ + 36]
 
-    for id, trade in enumerate(env[s_+37:s_+42]):
-        p_state[P_PLAYER+193 + 3*id + int(trade) - 2] = 1
+    for id, trade in enumerate(env[s_ + 37 : s_ + 42]):
+        p_state[P_PLAYER + 193 + 3 * id + int(trade) - 2] = 1
 
     for i in range(1, 4):
         e_idx = (p_idx + i) % 4
-        s_e = 58 + 42*e_idx
+        s_e = 58 + 42 * e_idx
 
-        s_new = (P_OTHER_PLAYER + 185*(i-1))
-        p_state[s_new + 0] = np.sum(env[s_e:s_e+5]) #  [+0]: Tổng tài nguyên
-        p_state[s_new + 1] = np.sum(env[s_e+5:s_e+10]) #  [+1]: Tổng số thẻ dev
-        p_state[s_new + 2] = env[s_e+10] #  [+2]: Điểm
+        s_new = P_OTHER_PLAYER + 185 * (i - 1)
+        p_state[s_new + 0] = np.sum(env[s_e : s_e + 5])  #  [+0]: Tổng tài nguyên
+        p_state[s_new + 1] = np.sum(env[s_e + 5 : s_e + 10])  #  [+1]: Tổng số thẻ dev
+        p_state[s_new + 2] = env[s_e + 10]  #  [+2]: Điểm
 
-        road_have = env[s_e+11:s_e+26]
-        road_have = road_have[road_have>=0].astype(np.int64)
+        road_have = env[s_e + 11 : s_e + 26]
+        road_have = road_have[road_have >= 0].astype(np.int64)
         p_state[s_new + 3 + road_have] = 1
 
-        stm_have = env[s_e+26:s_e+31]
-        stm_have = stm_have[stm_have>=0].astype(np.int64)
+        stm_have = env[s_e + 26 : s_e + 31]
+        stm_have = stm_have[stm_have >= 0].astype(np.int64)
         p_state[s_new + 75 + stm_have] = 1
 
-        city_have = env[s_e+31:s_e+35]
-        city_have = city_have[city_have>=0].astype(np.int64)
+        city_have = env[s_e + 31 : s_e + 35]
+        city_have = city_have[city_have >= 0].astype(np.int64)
         p_state[s_new + 129 + city_have] = 1
 
-        p_state[s_new + 183] = env[s_e+35]
-        p_state[s_new + 184] = env[s_e+36]
+        p_state[s_new + 183] = env[s_e + 35]
+        p_state[s_new + 184] = env[s_e + 36]
 
     if env[226] != -1:
         temp = env[226]
         idx = int((temp - p_idx) % 4)
-        p_state[P_START_STRONGEST_ARMY + idx] = 1 #Quân đội mạnh nhất
+        p_state[P_START_STRONGEST_ARMY + idx] = 1  # Quân đội mạnh nhất
     if env[227] != -1:
         temp = env[227]
         idx = int((temp - p_idx) % 4)
-        p_state[P_START_LONGEST_ROAD + idx] = 1 #Con đường dài nhất
-    p_state[P_START_DICE + int(env[228]) - 2] = 1 #Tổng xúc xắc
-    p_state[P_RES_REMAIN_START_GAME] = env[245+p_idx]     #  Nguyên liệu còn lại có thể lấy ở đầu game
-    if int(env[231]) != -1:                                 #Điểm đặt thứ nhất(Có -1)
+        p_state[P_START_LONGEST_ROAD + idx] = 1  # Con đường dài nhất
+    p_state[P_START_DICE + int(env[228]) - 2] = 1  # Tổng xúc xắc
+    p_state[P_RES_REMAIN_START_GAME] = env[
+        245 + p_idx
+    ]  #  Nguyên liệu còn lại có thể lấy ở đầu game
+    if int(env[231]) != -1:  # Điểm đặt thứ nhất(Có -1)
         p_state[P_START_FIRST_POINT + int(env[231])] = 1
 
-    p_state[P_SPLIT_RES] = env[232]                         #Số tài nguyên phải bỏ do bị chia
-    if int(env[233]) != -1:                                     #Đang dùng thẻ dev gì
+    p_state[P_SPLIT_RES] = env[232]  # Số tài nguyên phải bỏ do bị chia
+    if int(env[233]) != -1:  # Đang dùng thẻ dev gì
         p_state[P_START_DEV_USING + int(env[233])] = 1
-    p_state[P_COUNT_USING_DEV] = env[234]            #Số lần dùng thẻ dev
+    p_state[P_COUNT_USING_DEV] = env[234]  # Số lần dùng thẻ dev
 
-
-    p_state[P_START_DEV_CAN_USE:P_END_DEV_CAN_USE] = env[235:239] #
+    p_state[P_START_DEV_CAN_USE:P_END_DEV_CAN_USE] = env[235:239]  #
     #  p_state[P_START_RES_WAREHOUSE:P_END_RES_WAREHOUSE] = env[239:244] #Số nguyên liệu còn lại ở trong kho
-    p_state[P_START_RES_WAREHOUSE_PLAYER:P_END_RES_WAREHOUSE_PLAYER] = env[254+5*p_idx:259+5*p_idx]     #Các ngyên liệu có trong kho của người chơi
+    p_state[P_START_RES_WAREHOUSE_PLAYER:P_END_RES_WAREHOUSE_PLAYER] = env[
+        254 + 5 * p_idx : 259 + 5 * p_idx
+    ]  # Các ngyên liệu có trong kho của người chơi
     phase = int(env[229])
     p_state[P_START_PHASE + phase] = 1
     if np.max(env[249:254]) > 0:
-        p_state[P_START_TRADE_BANK + np.argmax(env[249:254])] = 1 #Tài nguyên đưa ra trong trade offer để trade với bank
+        p_state[
+            P_START_TRADE_BANK + np.argmax(env[249:254])
+        ] = 1  # Tài nguyên đưa ra trong trade offer để trade với bank
     p_state[P_END_GAME_N] = env[280]
     return p_state
 
@@ -566,102 +586,127 @@ P_START_TRADE_BANK = 1286
 P_END_TRADE_BANK = 1291
 P_END_GAME_N = 1291
 
+
 @njit()
 def new_to_old(p_state_new):
     p_state_old = np.zeros(220)
 
-    for i in range(19): #Tài nguyên trên các ô đất
-        p_state_old[i] = np.argmax(p_state_new[i*6:(i+1)*6])
+    for i in range(19):  # Tài nguyên trên các ô đất
+        p_state_old[i] = np.argmax(p_state_new[i * 6 : (i + 1) * 6])
 
-    p_state_old[19] = np.argmax(p_state_new[P_START_ROBBLE:P_END_ROBBLE]) #Vị trí robble
+    p_state_old[19] = np.argmax(
+        p_state_new[P_START_ROBBLE:P_END_ROBBLE]
+    )  # Vị trí robble
 
-    for i in range(19): #Số trên các ô đất
-        count = np.argmax(p_state_new[P_START_COUNT_LAND + i*12: P_START_COUNT_LAND + (i+1)*12])
+    for i in range(19):  # Số trên các ô đất
+        count = np.argmax(
+            p_state_new[P_START_COUNT_LAND + i * 12 : P_START_COUNT_LAND + (i + 1) * 12]
+        )
         if count != 0:
             count += 1
-        p_state_old[20+i] = count
+        p_state_old[20 + i] = count
 
-    for i in range(9): #Các cảng
-        p_state_old[39+i] = np.argmax(p_state_new[P_START_PORT+i*6:P_START_PORT+(i+1)*6])
+    for i in range(9):  # Các cảng
+        p_state_old[39 + i] = np.argmax(
+            p_state_new[P_START_PORT + i * 6 : P_START_PORT + (i + 1) * 6]
+        )
 
-    p_state_old[48:53] = p_state_new[P_START_RES_BANK:P_END_RES_BANK] #Tài nguyên ngân hàng dạng 0, 1
-    p_state_old[53] = p_state_new[P_DEV_BANK] #Thẻ dev Bank dạng không hoặc có
-    p_state_old[54:54+11] = p_state_new[P_PLAYER:P_PLAYER+11] #Tài nguyên, thẻ dev, điểm
+    p_state_old[48:53] = p_state_new[
+        P_START_RES_BANK:P_END_RES_BANK
+    ]  # Tài nguyên ngân hàng dạng 0, 1
+    p_state_old[53] = p_state_new[P_DEV_BANK]  # Thẻ dev Bank dạng không hoặc có
+    p_state_old[54 : 54 + 11] = p_state_new[
+        P_PLAYER : P_PLAYER + 11
+    ]  # Tài nguyên, thẻ dev, điểm
 
-    road_have = np.where(p_state_new[P_PLAYER+11:P_PLAYER+83] == 1)[0]
-    p_state_old[54+11:54+26] = np.full(15, -1)
+    road_have = np.where(p_state_new[P_PLAYER + 11 : P_PLAYER + 83] == 1)[0]
+    p_state_old[54 + 11 : 54 + 26] = np.full(15, -1)
     if len(road_have) > 0:
-        p_state_old[54+11:54+11+len(road_have)] = road_have
+        p_state_old[54 + 11 : 54 + 11 + len(road_have)] = road_have
 
-    stm_have = np.where(p_state_new[P_PLAYER+83:P_PLAYER+137] == 1)[0]
-    p_state_old[54+26:54+31] = np.full(5, -1)
+    stm_have = np.where(p_state_new[P_PLAYER + 83 : P_PLAYER + 137] == 1)[0]
+    p_state_old[54 + 26 : 54 + 31] = np.full(5, -1)
     if len(stm_have) > 0:
-        p_state_old[54+26:54+26+len(stm_have)] = stm_have
+        p_state_old[54 + 26 : 54 + 26 + len(stm_have)] = stm_have
 
-    city_have = np.where(p_state_new[P_PLAYER+137:P_PLAYER+191] == 1)[0]
-    p_state_old[54+31:54+35] = np.full(4, -1)
+    city_have = np.where(p_state_new[P_PLAYER + 137 : P_PLAYER + 191] == 1)[0]
+    p_state_old[54 + 31 : 54 + 35] = np.full(4, -1)
     if len(city_have) > 0:
-        p_state_old[54+31:54+31+len(city_have)] = city_have
+        p_state_old[54 + 31 : 54 + 31 + len(city_have)] = city_have
 
-    p_state_old[54+35] = p_state_new[P_PLAYER+191]
-    p_state_old[54+36] = p_state_new[P_PLAYER+192]
+    p_state_old[54 + 35] = p_state_new[P_PLAYER + 191]
+    p_state_old[54 + 36] = p_state_new[P_PLAYER + 192]
 
-    for i in range(5): #Tỉ lệ trade
-        p_state_old[54+37+i] = np.argmax(p_state_new[P_PLAYER+193+i*3:P_PLAYER+193+(i+1)*3]) + 2
+    for i in range(5):  # Tỉ lệ trade
+        p_state_old[54 + 37 + i] = (
+            np.argmax(
+                p_state_new[P_PLAYER + 193 + i * 3 : P_PLAYER + 193 + (i + 1) * 3]
+            )
+            + 2
+        )
 
     for id_player in range(3):
-        s_ = (96 + 29*id_player)
-        s_new = (P_OTHER_PLAYER + 185*id_player)
-        p_state_old[s_ + 0] = p_state_new[s_new + 0] #  [+0]: Tổng tài nguyên
-        p_state_old[s_ + 1] = p_state_new[s_new + 1] #  [+1]: Tổng số thẻ dev
-        p_state_old[s_ + 2] = p_state_new[s_new + 2] #  [+2]: Điểm
+        s_ = 96 + 29 * id_player
+        s_new = P_OTHER_PLAYER + 185 * id_player
+        p_state_old[s_ + 0] = p_state_new[s_new + 0]  #  [+0]: Tổng tài nguyên
+        p_state_old[s_ + 1] = p_state_new[s_new + 1]  #  [+1]: Tổng số thẻ dev
+        p_state_old[s_ + 2] = p_state_new[s_new + 2]  #  [+2]: Điểm
 
-        road_have = np.where(p_state_new[s_new+3:s_new+75] == 1)[0]
-        p_state_old[s_+3:s_+18] = np.full(15, -1)
-        if 15 >= len(road_have)>0:
+        road_have = np.where(p_state_new[s_new + 3 : s_new + 75] == 1)[0]
+        p_state_old[s_ + 3 : s_ + 18] = np.full(15, -1)
+        if 15 >= len(road_have) > 0:
             #  print(len(road_have), len(p_state_old[s_+3:s_+3+len(road_have)]))
-            p_state_old[s_+3:s_+3+len(road_have)] = road_have
+            p_state_old[s_ + 3 : s_ + 3 + len(road_have)] = road_have
 
-        stm_have = np.where(p_state_new[s_new+75:s_new+129] == 1)[0]
-        p_state_old[s_+18:s_+23] = np.full(5, -1)
-        if 5 >= len(stm_have)>0:
-            p_state_old[s_+18:s_+18+len(stm_have)] = stm_have
+        stm_have = np.where(p_state_new[s_new + 75 : s_new + 129] == 1)[0]
+        p_state_old[s_ + 18 : s_ + 23] = np.full(5, -1)
+        if 5 >= len(stm_have) > 0:
+            p_state_old[s_ + 18 : s_ + 18 + len(stm_have)] = stm_have
 
-        city_have = np.where(p_state_new[s_new+129:s_new+183] == 1)[0]
-        p_state_old[s_+23:s_+27] = np.full(4, -1)
-        if 4 >= len(city_have)>0:
-            p_state_old[s_+23:s_+23+len(city_have)] = city_have
+        city_have = np.where(p_state_new[s_new + 129 : s_new + 183] == 1)[0]
+        p_state_old[s_ + 23 : s_ + 27] = np.full(4, -1)
+        if 4 >= len(city_have) > 0:
+            p_state_old[s_ + 23 : s_ + 23 + len(city_have)] = city_have
 
         p_state_old[s_ + 27] = p_state_new[s_new + 183]
         p_state_old[s_ + 28] = p_state_new[s_new + 184]
 
-
     if np.sum(p_state_new[P_START_STRONGEST_ARMY:P_END_STRONGEST_ARMY]) == 0:
         p_state_old[183] = -1
-    else: p_state_old[183] = np.argmax(p_state_new[P_START_STRONGEST_ARMY:P_END_STRONGEST_ARMY])
+    else:
+        p_state_old[183] = np.argmax(
+            p_state_new[P_START_STRONGEST_ARMY:P_END_STRONGEST_ARMY]
+        )
 
-    if np.sum(p_state_new[P_START_LONGEST_ROAD:P_END_LONGEST_ROAD] ) == 0:
+    if np.sum(p_state_new[P_START_LONGEST_ROAD:P_END_LONGEST_ROAD]) == 0:
         p_state_old[184] = -1
-    else:p_state_old[184] = np.argmax(p_state_new[P_START_LONGEST_ROAD:P_END_LONGEST_ROAD])
+    else:
+        p_state_old[184] = np.argmax(
+            p_state_new[P_START_LONGEST_ROAD:P_END_LONGEST_ROAD]
+        )
 
     if np.sum(p_state_new[P_START_DICE:P_END_DICE]) == 0:
         p_state_old[185] = -1
-    else:p_state_old[185] = np.argmax(p_state_new[P_START_DICE:P_END_DICE]) + 2
+    else:
+        p_state_old[185] = np.argmax(p_state_new[P_START_DICE:P_END_DICE]) + 2
 
-    p_state_old[186] = p_state_new[P_RES_REMAIN_START_GAME]        #  Nguyên liệu còn lại có thể lấy ở đầu game
+    p_state_old[186] = p_state_new[
+        P_RES_REMAIN_START_GAME
+    ]  #  Nguyên liệu còn lại có thể lấy ở đầu game
 
     if np.sum(p_state_new[P_START_FIRST_POINT:P_END_FIRST_POINT]) == 0:
         p_state_old[187] = -1
-    else: p_state_old[187] = np.argmax(p_state_new[P_START_FIRST_POINT:P_END_FIRST_POINT])
+    else:
+        p_state_old[187] = np.argmax(p_state_new[P_START_FIRST_POINT:P_END_FIRST_POINT])
 
-    p_state_old[188] = p_state_new[P_SPLIT_RES]                  #Số tài nguyên phải bỏ do bị chia
-
+    p_state_old[188] = p_state_new[P_SPLIT_RES]  # Số tài nguyên phải bỏ do bị chia
 
     if np.sum(p_state_new[P_START_DEV_USING:P_END_DEV_USING]) == 0:
         p_state_old[189] = -1
-    else: p_state_old[189] = np.argmax(p_state_new[P_START_DEV_USING:P_END_DEV_USING])
+    else:
+        p_state_old[189] = np.argmax(p_state_new[P_START_DEV_USING:P_END_DEV_USING])
 
-    p_state_old[190] = p_state_new[P_COUNT_USING_DEV]            #Số lần dùng thẻ dev
+    p_state_old[190] = p_state_new[P_COUNT_USING_DEV]  # Số lần dùng thẻ dev
     p_state_old[191:195] = p_state_new[P_START_DEV_CAN_USE:P_END_DEV_CAN_USE]
     p_state_old[200:218] = p_state_new[P_START_RES_WAREHOUSE_PLAYER:P_END_PHASE]
     p_state_old[218] = np.argmax(p_state_new[P_START_TRADE_BANK:P_END_TRADE_BANK])
@@ -677,16 +722,17 @@ def getValidActions(p_state_new: np.ndarray):
     #      return list_action
     #  else: phase = phase[0]
 
-    if np.sum(p_state[P_PHASE:P_PHASE+TOTAL_PHASE]) == 0:
+    if np.sum(p_state[P_PHASE : P_PHASE + TOTAL_PHASE]) == 0:
         return list_action
     else:
-        phase = np.argmax(p_state[P_PHASE:P_PHASE+TOTAL_PHASE])
+        phase = np.argmax(p_state[P_PHASE : P_PHASE + TOTAL_PHASE])
 
     if phase == 0:  #  Chọn điểm đặt nhà đầu game
         list_action[0:54] = 1
 
-        temp = p_state[np.array(
-            [80, 81, 114, 115, 143, 144, 172, 173])].astype(np.int32)
+        temp = p_state[np.array([80, 81, 114, 115, 143, 144, 172, 173])].astype(
+            np.int32
+        )
         for stm in temp:
             if stm != -1:
                 list_action[stm] = 0
@@ -725,19 +771,23 @@ def getValidActions(p_state_new: np.ndarray):
                         break
 
         #  Mua thành phố (85)
-        if (p_state[54:59] >= CITY_PRICE).all() and p_state[80] != -1 and p_state[88] == -1:
+        if (
+            (p_state[54:59] >= CITY_PRICE).all()
+            and p_state[80] != -1
+            and p_state[88] == -1
+        ):
             list_action[85] = 1
 
         #  Mua thẻ dev (86)
         if (p_state[54:59] >= DEV_PRICE).all() and p_state[53] == 1:
             list_action[86] = 1
 
-        if (p_state[54:59] > 0).any(): #  Trade với bank (87)
+        if (p_state[54:59] > 0).any():  #  Trade với bank (87)
             if (p_state[54:59] >= p_state[91:96]).any():
                 temp = np.where(p_state[54:59] >= p_state[91:96])[0]
                 for res in temp:
                     for res_1 in range(5):
-                        if res_1 != res and p_state[48+res_1] == 1:
+                        if res_1 != res and p_state[48 + res_1] == 1:
                             list_action[87] = 1
                             break
 
@@ -756,8 +806,8 @@ def getValidActions(p_state_new: np.ndarray):
 
     if phase == 3:  #  Trả tài nguyên do bị chia bài
         for i in range(5):
-            if p_state[54+i] > 0:
-                list_action[89+i] = 1
+            if p_state[54 + i] > 0:
+                list_action[89 + i] = 1
 
         return list_action.astype(np.float64)
 
@@ -772,10 +822,10 @@ def getValidActions(p_state_new: np.ndarray):
     if phase == 10:  #  Chọn tài nguyên khi trade với ngân hàng
         #  Chọn những tài nguyên mà khi chọn, ngân hàng còn ít nhất 1 loại tài nguyên khác
         for res in range(5):
-            if p_state[54+res] >= p_state[91+res]:
+            if p_state[54 + res] >= p_state[91 + res]:
                 for res_1 in range(5):
-                    if res_1 != res and p_state[48+res_1] == 1:
-                        list_action[89+res] = 1
+                    if res_1 != res and p_state[48 + res_1] == 1:
+                        list_action[89 + res] = 1
                         break
         return list_action.astype(np.float64)
 
@@ -783,7 +833,7 @@ def getValidActions(p_state_new: np.ndarray):
         if p_state[187] == -1:  #  Chọn điểm thứ nhất
             p_point, all_road = get_p_point_n_all_road(p_state)
             list_point = np.where(p_point == 1)[0]
-          #   print('lst point', list_point)
+            #   print('lst point', list_point)
             for point in list_point:
                 for road in POINT_ROAD[point]:
                     if road != -1 and all_road[road] == 0:
@@ -801,9 +851,9 @@ def getValidActions(p_state_new: np.ndarray):
                 all_road[i] = 1
 
         for j in range(3):
-            s_ = 96 + 29*j
+            s_ = 96 + 29 * j
 
-            temp = p_state[s_+3:s_+18].astype(np.int32)
+            temp = p_state[s_ + 3 : s_ + 18].astype(np.int32)
             for i in temp:
                 if i == -1:
                     break
@@ -816,17 +866,17 @@ def getValidActions(p_state_new: np.ndarray):
                 list_action[ROAD_POINT[road]] = 1
 
         list_action[first_point] = 0
-      #   print(np.where(list_action == 1)[0])
+        #   print(np.where(list_action == 1)[0])
         return list_action.astype(np.float64)
 
     if phase == 4:  #  Di chuyển Robber
         list_action[64:83] = 1
-        list_action[int(64+p_state[19])] = 0
+        list_action[int(64 + p_state[19])] = 0
 
         return list_action.astype(np.float64)
 
-    if phase == 5: #  Lấy nguyên liệu đầu game
-        list_action[59:64] = (p_state[195:200] > 0)*1
+    if phase == 5:  #  Lấy nguyên liệu đầu game
+        list_action[59:64] = (p_state[195:200] > 0) * 1
 
     if phase == 2:  #  Đổ xx hoặc dùng thẻ dev
         #  Đổ xx
@@ -865,10 +915,11 @@ def getValidActions(p_state_new: np.ndarray):
 
         return list_action.astype(np.float64)
 
-    if phase == 12: #Lấy nguyên liệu từ kho ở trước hoặc sau khi đổ xúc xắc
-        list_action[59:64] = (p_state[200:205] > 0)*1
+    if phase == 12:  # Lấy nguyên liệu từ kho ở trước hoặc sau khi đổ xúc xắc
+        list_action[59:64] = (p_state[200:205] > 0) * 1
         return list_action.astype(np.float64)
     return list_action.astype(np.float64)
+
 
 @njit()
 def random_choice_weight(a):
@@ -879,24 +930,24 @@ def random_choice_weight(a):
     res_choice = np.random.randint(0, len(b))
     return b[res_choice]
 
+
 @njit()
 def stepEnv(env: np.ndarray, action: int):
     phase = env[229]
     p_idx = int(env[244])
-    s_ = 58 + 42*p_idx
-
+    s_ = 58 + 42 * p_idx
 
     if phase == 6:  #  Chọn các mô đun giữa turn
         if action == 88:  #  Kết thúc lượt
             env[239] = 1  #  Reset lại số lần tạo trade offer
             env[230] += 1  #  Tăng turn
             n_idx = int(env[230] % 4)
-            env[245+n_idx] = 1
-            s_n = int(58 + 42*n_idx)
+            env[245 + n_idx] = 1
+            s_n = int(58 + 42 * n_idx)
             env[244] = n_idx  #  Người đi tiếp theo
 
             #  Kiểm tra thẻ dev có thể sử dụng
-            env[235:239] = env[s_n+5:s_n+9] > 0
+            env[235:239] = env[s_n + 5 : s_n + 9] > 0
             #  print(env[235:239])
 
             #  Tổng xx
@@ -912,27 +963,26 @@ def stepEnv(env: np.ndarray, action: int):
 
             return
 
-
         if action == 87:  #  Trade với bank
             env[229] = 10
 
             return
 
         if action == 83:  #  Mua đường
-            env[s_:s_+5] -= ROAD_PRICE  #  Trả tài nguyên
+            env[s_ : s_ + 5] -= ROAD_PRICE  #  Trả tài nguyên
             env[48:53] += ROAD_PRICE
             env[229] = 1  #  Chuyển sang pha đặt đường
 
             return
 
         if action == 86:  #  Mua thẻ dev, không chuyển pha
-            env[s_:s_+5] -= DEV_PRICE  #  Trả tài nguyên mua thẻ dev
+            env[s_ : s_ + 5] -= DEV_PRICE  #  Trả tài nguyên mua thẻ dev
             env[48:53] += DEV_PRICE
             temp = env[53:58]
             #  print('Các thẻ dev còn lại trong game', temp)
             dev_idx = weighted_random(temp)
-            env[53+dev_idx] -= 1  #  type: ignore #  Trừ thẻ dev ở ngân hàng
-            env[s_+5+dev_idx] += 1  #  type: ignore #  Cộng thẻ dev cho người chơi
+            env[53 + dev_idx] -= 1  #  type: ignore #  Trừ thẻ dev ở ngân hàng
+            env[s_ + 5 + dev_idx] += 1  #  type: ignore #  Cộng thẻ dev cho người chơi
 
             #  Nếu thẻ dev vừa nhận là thẻ vp (dev_idx = 4) thì cộng điểm cho người chơi
             #  if dev_idx == 4:
@@ -947,41 +997,41 @@ def stepEnv(env: np.ndarray, action: int):
             return
 
         if action == 84:  #  Mua nhà
-            env[s_:s_+5] -= SETTLEMENT_PRICE
+            env[s_ : s_ + 5] -= SETTLEMENT_PRICE
             env[48:53] += SETTLEMENT_PRICE
             env[229] = 8  #  Sang pha mua nhà
 
             return
 
         if action == 85:  #  Mua thành phố
-            env[s_:s_+5] -= CITY_PRICE
+            env[s_ : s_ + 5] -= CITY_PRICE
             env[48:53] += CITY_PRICE
             env[229] = 9  #  Chuyển sang pha mua thành phố
 
             return
 
-        if action == 94: #Lấy thẻ từ kho dự trữ phát triển
+        if action == 94:  # Lấy thẻ từ kho dự trữ phát triển
             env[229] = 12
             env[245:249] = 0
             return
 
     if phase == 3:  #  Trả tài nguyên do bị chia bài
-        env[s_+action-89] -= 1  #  Trừ tài nguyên của người chơi
-        env[action-41] += 1  #  Trả tài nguyên này cho ngân hàng
+        env[s_ + action - 89] -= 1  #  Trừ tài nguyên của người chơi
+        env[action - 41] += 1  #  Trả tài nguyên này cho ngân hàng
 
         env[232] -= 1  #  Giảm số lượng thẻ cần trả
         if env[232] == 0:  #  Đã trả đủ
             for i in range(1, 5):
                 e_idx = (p_idx + i) % 4
-                s_e = 58 + 42*e_idx
+                s_e = 58 + 42 * e_idx
                 if e_idx == env[230] % 4:  #  Quay về người chơi chính
                     env[229] = 4  #  Sang pha di chuyển Robber
                     env[244] = e_idx  #  Chuyển người action
                     break
                 else:
-                    if np.sum(env[s_e:s_e+5]) > 7:
+                    if np.sum(env[s_e : s_e + 5]) > 7:
                         #  Cập nhật số lá phải bỏ
-                        env[232] = np.sum(env[s_e:s_e+5]) // 2
+                        env[232] = np.sum(env[s_e : s_e + 5]) // 2
                         env[244] = e_idx  #  Chuyển người action
                         break
 
@@ -991,11 +1041,11 @@ def stepEnv(env: np.ndarray, action: int):
         res_idx = action - 59
 
         #  Người chơi
-        env[s_+res_idx] += 1
-        env[s_:s_+5] -= env[249:254]
+        env[s_ + res_idx] += 1
+        env[s_ : s_ + 5] -= env[249:254]
 
         #  Ngân hàng
-        env[48+res_idx] -= 1
+        env[48 + res_idx] -= 1
         env[48:53] += env[249:254]
 
         env[249:254] = 0
@@ -1005,7 +1055,7 @@ def stepEnv(env: np.ndarray, action: int):
 
     if phase == 10:  #  Chọn tài nguyên khi trade với ngân hàng
         res_idx = action - 89
-        env[249+res_idx] = env[s_+37+res_idx]
+        env[249 + res_idx] = env[s_ + 37 + res_idx]
 
         env[229] = 11
 
@@ -1020,17 +1070,17 @@ def stepEnv(env: np.ndarray, action: int):
         #  Tìm con đường tương ứng và thay đổi tập đường
         for road in np.where(ROAD_POINT == env[231])[0]:
             if action in ROAD_POINT[road]:
-                i = np.count_nonzero(env[s_+11:s_+26] != -1)
-                env[s_+11+i] = road
+                i = np.count_nonzero(env[s_ + 11 : s_ + 26] != -1)
+                env[s_ + 11 + i] = road
                 break
 
         #  Check con đường dài nhất
-        env[s_+36] = get_p_longest_road(env, p_idx)
+        env[s_ + 36] = get_p_longest_road(env, p_idx)
         list_p_longestRoad = env[np.array([94, 136, 178, 220])]
         longestRoad = np.max(list_p_longestRoad)
 
         #  Check lại danh hiệu
-        if env[s_+36] >= 5 and env[s_+36] == longestRoad and env[227] != p_idx:
+        if env[s_ + 36] >= 5 and env[s_ + 36] == longestRoad and env[227] != p_idx:
             #  Nếu cddn < 5 thì ko cần xét do ko thể giành danh hiệu
             #  Nếu cddn != longestRoad thì cũng ko cần xét do có xét cũng ko được danh hiệu
             #  Nếu đang có danh hiệu thì việc xây đường giúp củng cố danh hiệu, nên ko cần xét
@@ -1038,11 +1088,11 @@ def stepEnv(env: np.ndarray, action: int):
             if len(list_p_check) == 1:  #  Ghi nhận danh hiệu hoặc thay đổi danh hiệu
                 if env[227] == -1:  #  Chưa có danh hiệu
                     env[227] = p_idx  #  Ghi nhận danh hiệu
-                    env[s_+10] += 2  #  Cộng điểm
+                    env[s_ + 10] += 2  #  Cộng điểm
                 else:  #  Thay đổi danh hiệu
-                    env[int(58+42*env[227]+10)] -= 2  #  Trừ điểm người cũ
+                    env[int(58 + 42 * env[227] + 10)] -= 2  #  Trừ điểm người cũ
                     env[227] = p_idx  #  Ghi nhận người mới
-                    env[s_+10] += 2  #  Cộng điểm người cũ
+                    env[s_ + 10] += 2  #  Cộng điểm người cũ
             #  Nếu có 2 người cùng có con đường dài nhất, không thay đổi danh hiệu
 
         #  Xóa điểm đặt thứ nhất
@@ -1060,19 +1110,20 @@ def stepEnv(env: np.ndarray, action: int):
                 env[229] = 0
                 if env[230] < 8:
                     env[244] = env[230] // 2
-                    total_resource_take = int(turn//2 + 1)
+                    total_resource_take = int(turn // 2 + 1)
                     for i_res in range(total_resource_take):
                         #  res = random.choices([0,1,2,3,4], weights = env[239:244])[0]
                         res = random_choice_weight(env[239:244])
-                        env[239+res] -= 1
+                        env[239 + res] -= 1
                         if p_idx != 3:
-                            o_idx = p_idx+1
-                        else: o_idx = 3
-                        env[254+5*o_idx+res] += 1
-                        env[245+o_idx] += 1
+                            o_idx = p_idx + 1
+                        else:
+                            o_idx = 3
+                        env[254 + 5 * o_idx + res] += 1
+                        env[245 + o_idx] += 1
                 else:
-                    env[244] = 7 - env[230]//2
-                    if turn == 8 :
+                    env[244] = 7 - env[230] // 2
+                    if turn == 8:
                         o_idx = int(p_idx)
                         total_resource_take = int(5 - env[245 + o_idx])
                     else:
@@ -1081,10 +1132,9 @@ def stepEnv(env: np.ndarray, action: int):
                     for i_res in range(total_resource_take):
                         #  res = random.choices([0,1,2,3,4], weights = env[239:244])[0]
                         res = random_choice_weight(env[239:244])
-                        env[239+res] -= 1
-                        env[254+5*o_idx+res] += 1
-                        env[245+o_idx] += 1
-
+                        env[239 + res] -= 1
+                        env[254 + 5 * o_idx + res] += 1
+                        env[245 + o_idx] += 1
 
         else:  #  Các turn giữa game
             if env[233] != 1:  #  Không dùng thẻ roadbuilding, về pha 6
@@ -1097,7 +1147,7 @@ def stepEnv(env: np.ndarray, action: int):
                 #  Hoặc là hết lượt dùng, hoặc đủ 15 đường, hoặc hết vị trí xây đường
                 check = True
                 #  if env[234] == 0 or (env[s_+11:s_+26] != -1).all():
-                if env[234] == 0 or env[s_+25] != -1:
+                if env[234] == 0 or env[s_ + 25] != -1:
                     check = False
 
                 if check:
@@ -1106,7 +1156,7 @@ def stepEnv(env: np.ndarray, action: int):
                     all_road = np.zeros(72)
 
                     #  Đường và điểm của người chơi
-                    temp = env[s_+11:s_+26].astype(np.int32)
+                    temp = env[s_ + 11 : s_ + 26].astype(np.int32)
                     #  list_road = temp[temp != -1].astype(np.int32)
                     #  all_road[list_road] = 1
                     #  p_point[ROAD_POINT[list_road].flatten()] = 1
@@ -1120,9 +1170,9 @@ def stepEnv(env: np.ndarray, action: int):
 
                     for i in range(1, 4):
                         e_idx = (p_idx + i) % 4
-                        s_e = 58 + 42*e_idx
+                        s_e = 58 + 42 * e_idx
 
-                        temp = env[s_e+11:s_e+26].astype(np.int32)
+                        temp = env[s_e + 11 : s_e + 26].astype(np.int32)
                         #  list_road = temp[temp != -1].astype(np.int32)
                         #  all_road[list_road] = 1
                         for road in temp:
@@ -1131,7 +1181,7 @@ def stepEnv(env: np.ndarray, action: int):
                             else:
                                 all_road[road] = 1
 
-                        temp = env[s_e+26:s_e+31].astype(np.int32)
+                        temp = env[s_e + 26 : s_e + 31].astype(np.int32)
                         #  stm_and_city = temp[temp != -1].astype(np.int32)
                         #  p_point[stm_and_city] = 0
 
@@ -1141,7 +1191,7 @@ def stepEnv(env: np.ndarray, action: int):
                             else:
                                 p_point[stm] = 0
 
-                        temp = env[s_e+31:s_e+35].astype(np.int32)
+                        temp = env[s_e + 31 : s_e + 35].astype(np.int32)
                         for city in temp:
                             if city == -1:
                                 break
@@ -1173,33 +1223,33 @@ def stepEnv(env: np.ndarray, action: int):
         robber_pos = action - 64
         env[19] = robber_pos  #  Cập nhật vị trí Robber
         res = int(env[int(env[19])])
-        if res != 5 and env[48+res] > 0:
-            env[s_+res] += 1 #Người chơi
-            env[48+res] -= 1 #Ngân hàng
+        if res != 5 and env[48 + res] > 0:
+            env[s_ + res] += 1  # Người chơi
+            env[48 + res] -= 1  # Ngân hàng
         after_Rob(env)
 
         return
 
     if phase == 5:  #  Lấy nguyên liệu đầu game
         res_idx = action - 59
-        env[254+5*p_idx+res_idx] += 1
-        env[239+res_idx] -= 1
+        env[254 + 5 * p_idx + res_idx] += 1
+        env[239 + res_idx] -= 1
         turn = env[230]
-        env[245+p_idx] += 1
-        if turn <=7:
-            if env[245+p_idx] < (turn//2 + 1):
+        env[245 + p_idx] += 1
+        if turn <= 7:
+            if env[245 + p_idx] < (turn // 2 + 1):
                 env[229] = 5
             else:
-                env[229] = 0 #Lấy nguyên liệu xong chuyển sang phase 0
+                env[229] = 0  # Lấy nguyên liệu xong chuyển sang phase 0
                 env[230] += 1
                 env[244] = turn // 2
         elif turn <= 15:
-            if env[245+p_idx] < 5:
+            if env[245 + p_idx] < 5:
                 env[229] = 5
             else:
-                env[229] = 0 #Lấy nguyên liệu xong chuyển sang phase 0
+                env[229] = 0  # Lấy nguyên liệu xong chuyển sang phase 0
                 env[230] += 1
-                env[244] = (3 - (turn - 8)//2)
+                env[244] = 3 - (turn - 8) // 2
                 #  print('Chuyển người chơi thành, ', (3 - (turn - 8)//2), env[244])
 
         return
@@ -1218,13 +1268,13 @@ def stepEnv(env: np.ndarray, action: int):
         update_new_stm(env, action, s_)
 
         #  Nếu là lần 2 thì cộng tài nguyên
-        if env[s_+10] == 2:
+        if env[s_ + 10] == 2:
             temp = POINT_TILE[action][POINT_TILE[action] != -1]
             nearest_tiles = temp[env[temp] != 5]
             for tile in nearest_tiles:
                 env_tile = int(env[tile])
-                env[s_+env_tile] += 1  #  Cộng tài nguyên cho người chơi
-                env[48+env_tile] -= 1  #  Trừ tài nguyên ở ngân hàng
+                env[s_ + env_tile] += 1  #  Cộng tài nguyên cho người chơi
+                env[48 + env_tile] -= 1  #  Trừ tài nguyên ở ngân hàng
 
         #  Chuyển sang pha đặt đường
         env[231] = action  #  Điểm đặt thứ nhất
@@ -1242,9 +1292,9 @@ def stepEnv(env: np.ndarray, action: int):
 
         for i in range(1, 4):
             e_idx = (p_idx + i) % 4
-            s_e = 58 + 42*e_idx
+            s_e = 58 + 42 * e_idx
 
-            temp = env[s_e+11:s_e+26]
+            temp = env[s_e + 11 : s_e + 26]
             list_road = temp[temp != -1].astype(np.int32)
             count = 0
             for road in POINT_ROAD[action]:
@@ -1257,14 +1307,14 @@ def stepEnv(env: np.ndarray, action: int):
                 break
 
         if check:  #  Người này vừa xây nhà cắt đường người khác
-            s_w = 58 + 42*w_idx
-            env[s_w+36] = get_p_longest_road(env, w_idx)
+            s_w = 58 + 42 * w_idx
+            env[s_w + 36] = get_p_longest_road(env, w_idx)
             list_p_longestRoad = env[np.array([94, 136, 178, 220])]
             longestRoad = np.max(list_p_longestRoad)
 
             if longestRoad < 5:
                 if env[227] != -1:  #  Có ông có danh hiệu, chứng tỏ vừa bị cướp
-                    env[int(58+42*env[227]+10)] -= 2  #  Trừ điểm
+                    env[int(58 + 42 * env[227] + 10)] -= 2  #  Trừ điểm
                     env[227] = -1  #  Thu hồi danh hiệu
                 #   Nếu chưa ai có danh hiệu thì bỏ qua
             else:
@@ -1272,18 +1322,18 @@ def stepEnv(env: np.ndarray, action: int):
                 if len(list_p_check) == 1:  #  Có đúng 1 ông có con đường dài nhất
                     if env[227] == -1:  #  Chưa có ai có danh hiệu
                         env[227] = list_p_check[0]  #  Bàn chơi ghi nhận
-                        env[int(58+42*env[227]+10)] += 2  #  Cộng điểm
+                        env[int(58 + 42 * env[227] + 10)] += 2  #  Cộng điểm
                     else:  #  Có ông đã có danh hiệu
                         if env[227] != list_p_check[0]:  #  Thay đổi danh hiệu
-                            env[int(58+42*env[227]+10)] -= 2  #  Trừ điểm ông cũ
+                            env[int(58 + 42 * env[227] + 10)] -= 2  #  Trừ điểm ông cũ
                             env[227] = list_p_check[0]  #  Bàn chơi ghi nhận
                             #  Cộng điểm ông mới
-                            env[int(58+42*env[227]+10)] += 2
+                            env[int(58 + 42 * env[227] + 10)] += 2
                         #   Nếu cùng là một người thì không thay đổi danh hiệu
                 else:  #  Có từ 2 ông trở lên cùng có con đường dài nhất
                     #  Đang có người có danh hiệu, nhưng con đường không dài nhất
                     if env[227] != -1 and env[227] not in list_p_check:
-                        env[int(58+42*env[227]+10)] -= 2  #  Trừ điểm
+                        env[int(58 + 42 * env[227] + 10)] -= 2  #  Trừ điểm
                         env[227] = -1
                     #  Hoặc là chưa ai có danh hiệu, hoặc là danh hiệu nằm trong list thì ko cần check
 
@@ -1293,8 +1343,8 @@ def stepEnv(env: np.ndarray, action: int):
 
     if phase == 7:  #  Chọn tài nguyên khi dùng thẻ dev
         if env[233] == 2:  #  Đang dùng thẻ yearofplenty
-            env[action-11] -= 1  #  Trừ tài nguyên cho ngân hàng
-            env[s_+action-59] += 1  #  Cộng tài nguyên cho người chơi
+            env[action - 11] -= 1  #  Trừ tài nguyên cho ngân hàng
+            env[s_ + action - 59] += 1  #  Cộng tài nguyên cho người chơi
 
             #  Giảm số lần sử dụng thẻ xuống
             env[234] -= 1
@@ -1314,7 +1364,7 @@ def stepEnv(env: np.ndarray, action: int):
                     res_thieu = env[48 + res_idx]
 
                 env[48 + res_idx] -= res_thieu
-                env[s_+res_idx] += res_thieu
+                env[s_ + res_idx] += res_thieu
             #  for i in range(1, 4):
             #      e_idx = (p_idx + i) % 4
             #      s_e = 58 + 42*e_idx
@@ -1328,32 +1378,32 @@ def stepEnv(env: np.ndarray, action: int):
 
     if phase == 9:  #  Chọn các điểm mua thành phố
         #  Cập nhật tập nhà
-        r_ = np.count_nonzero(env[s_+31:s_+35] != -1)
-        env[s_+31+r_] = action
+        r_ = np.count_nonzero(env[s_ + 31 : s_ + 35] != -1)
+        env[s_ + 31 + r_] = action
 
         #  Xóa nhà vừa được nâng cấp lên thành phố
-        temp = env[s_+26:s_+31]
+        temp = env[s_ + 26 : s_ + 31]
         for i in range(5):
             if temp[i] == action:
                 temp[i] = -1
                 break
 
         temp = temp[temp != -1]
-        env[s_+26:s_+31] = -1
-        env[s_+26:s_+26+len(temp)] = temp
+        env[s_ + 26 : s_ + 31] = -1
+        env[s_ + 26 : s_ + 26 + len(temp)] = temp
 
         #  Cộng điểm
-        env[s_+10] += 1
+        env[s_ + 10] += 1
 
         env[229] = 6  #  Sang pha chọn mô đun
 
         return
 
-    if phase == 12: #  Lấy nguyên liệu ở trong kho trước hoặc sau khi đổ xúc xắc
+    if phase == 12:  #  Lấy nguyên liệu ở trong kho trước hoặc sau khi đổ xúc xắc
         res = action - 59
-        env[58 + 42*p_idx + res] += 1 #Cộng thêm nguyên liệu cho người chơi
-        env[254 + 5*p_idx + res] -= 1 #Trừ nguyên liệu cho kho của người chơi
-        env[245+p_idx] = 0
+        env[58 + 42 * p_idx + res] += 1  # Cộng thêm nguyên liệu cho người chơi
+        env[254 + 5 * p_idx + res] -= 1  # Trừ nguyên liệu cho kho của người chơi
+        env[245 + p_idx] = 0
         if env[228] == -1:
             env[229] = 2
             roll_xx(env)
@@ -1363,6 +1413,7 @@ def stepEnv(env: np.ndarray, action: int):
         return
 
     return
+
 
 @njit()
 def get_p_point_n_all_road(p_state: np.ndarray):
@@ -1378,23 +1429,23 @@ def get_p_point_n_all_road(p_state: np.ndarray):
             p_point[ROAD_POINT[road]] = 1
 
     for j in range(3):
-        s_ = 96 + 29*j
+        s_ = 96 + 29 * j
 
-        temp = p_state[s_+3:s_+18].astype(np.int32)
+        temp = p_state[s_ + 3 : s_ + 18].astype(np.int32)
         for road in temp:
             if road == -1:
                 break
             else:
                 all_road[road] = 1
 
-        temp = p_state[s_+18:s_+23].astype(np.int32)
+        temp = p_state[s_ + 18 : s_ + 23].astype(np.int32)
         for i in temp:
             if i == -1:
                 break
             else:
                 p_point[i] = 0
 
-        temp = p_state[s_+23:s_+27].astype(np.int32)
+        temp = p_state[s_ + 23 : s_ + 27].astype(np.int32)
         for i in temp:
             if i == -1:
                 break
@@ -1411,7 +1462,7 @@ def check_firstPoint(p_state: np.ndarray):
     for point in list_point:
         for road in POINT_ROAD[point]:
             if road != -1 and all_road[road] == 0:
-              #   print('road', list_point)
+                #   print('road', list_point)
                 return True
 
     return False
@@ -1465,9 +1516,9 @@ def get_p_point_n_all_stm_city(p_state: np.ndarray):
             p_point[i] = 0
 
     for j in range(3):
-        s_ = 96 + 29*j
+        s_ = 96 + 29 * j
 
-        temp = p_state[s_+18:s_+23].astype(np.int32)
+        temp = p_state[s_ + 18 : s_ + 23].astype(np.int32)
         for i in temp:
             if i == -1:
                 break
@@ -1475,7 +1526,7 @@ def get_p_point_n_all_stm_city(p_state: np.ndarray):
                 all_stm_and_city[i] = 1
                 p_point[i] = 0
 
-        temp = p_state[s_+23:s_+27].astype(np.int32)
+        temp = p_state[s_ + 23 : s_ + 27].astype(np.int32)
         for i in temp:
             if i == -1:
                 break
@@ -1487,7 +1538,13 @@ def get_p_point_n_all_stm_city(p_state: np.ndarray):
 
 
 @njit()
-def find_max_road(len_: int, diemXP: int, duongDaDi: np.ndarray, p_road: np.ndarray, p_point: np.ndarray):
+def find_max_road(
+    len_: int,
+    diemXP: int,
+    duongDaDi: np.ndarray,
+    p_road: np.ndarray,
+    p_point: np.ndarray,
+):
     duongCanCheck = np.zeros(72)
     for road in POINT_ROAD[diemXP]:
         if road != -1 and p_road[road] == 1 and duongDaDi[road] == 0:
@@ -1508,8 +1565,7 @@ def find_max_road(len_: int, diemXP: int, duongDaDi: np.ndarray, p_road: np.ndar
                 diemXP_1 = diem
                 break
 
-        len_1 = find_max_road(
-            len_+1, diemXP_1, duongDaDi_copy, p_road, p_point)
+        len_1 = find_max_road(len_ + 1, diemXP_1, duongDaDi_copy, p_road, p_point)
         if len_1 > max_len:
             max_len = len_1
 
@@ -1518,11 +1574,11 @@ def find_max_road(len_: int, diemXP: int, duongDaDi: np.ndarray, p_road: np.ndar
 
 @njit()
 def get_p_longest_road(env: np.ndarray, p_idx: int):
-    s_ = 58 + 42*p_idx
+    s_ = 58 + 42 * p_idx
     p_road = np.zeros(72)
     p_full_point = np.zeros(54)
 
-    temp = env[s_+11:s_+26]
+    temp = env[s_ + 11 : s_ + 26]
     list_road = temp[temp != -1].astype(np.int32)
     p_road[list_road] = 1
     p_full_point[ROAD_POINT[list_road].flatten()] = 1
@@ -1530,8 +1586,8 @@ def get_p_longest_road(env: np.ndarray, p_idx: int):
     p_point = p_full_point.copy()
     for i in range(1, 4):
         e_idx = (p_idx + i) % 4
-        s_e = 58 + 42*e_idx
-        temp = env[s_e+26:s_e+35]
+        s_e = 58 + 42 * e_idx
+        temp = env[s_e + 26 : s_e + 35]
         stm_and_city = temp[temp != -1].astype(np.int32)
         p_point[stm_and_city] = 0
 
@@ -1558,11 +1614,11 @@ def roll_xx(env: np.ndarray):
         env[229] = 4
         for i in range(0, 4):
             e_idx = (p_idx + i) % 4
-            s_e = 58 + 42*e_idx
-            if np.sum(env[s_e:s_e+5]) > 7:  #  Thừa, sang pha bỏ bài
+            s_e = 58 + 42 * e_idx
+            if np.sum(env[s_e : s_e + 5]) > 7:  #  Thừa, sang pha bỏ bài
                 env[229] = 3  #  Sang pha bỏ tài nguyên do bị chia
                 #  Cập nhật số lượng tài nguyên phải bỏ
-                env[232] = np.sum(env[s_e:s_e+5]) // 2
+                env[232] = np.sum(env[s_e : s_e + 5]) // 2
                 env[244] = e_idx  #  Đổi người chơi action
                 env[235:239] = 0
                 break
@@ -1573,12 +1629,12 @@ def roll_xx(env: np.ndarray):
         #  print('Ngân hàng trả tài nguyên', list_tile, env[list_tile])
         p_res_receive = np.zeros((4, 5))
         for i in range(4):
-            s_i = 58 + 42*i
+            s_i = 58 + 42 * i
 
-            temp = env[s_i+26:s_i+31]
+            temp = env[s_i + 26 : s_i + 31]
             p_stm = temp[temp != -1].astype(np.int32)
 
-            temp = env[s_i+31:s_i+35]
+            temp = env[s_i + 31 : s_i + 35]
             p_city = temp[temp != -1].astype(np.int32)
 
             for tile in list_tile:
@@ -1601,9 +1657,9 @@ def roll_xx(env: np.ndarray):
         #  Trả tài nguyên
         env[48:53] -= total_res_receive  #  Trừ tài nguyên ngân hàng
         for i in range(4):
-            s_i = 58 + 42*i
+            s_i = 58 + 42 * i
             #  Cộng tài nguyên cho người chơi
-            env[s_i:s_i+5] += p_res_receive[i]
+            env[s_i : s_i + 5] += p_res_receive[i]
 
         #  Sang phase chọn mô đun
         env[229] = 6
@@ -1612,52 +1668,51 @@ def roll_xx(env: np.ndarray):
 @njit()
 def update_new_stm(env: np.ndarray, new_stm_pos: int, s_: int):
     #  Cập nhật tập nhà
-    r_ = np.count_nonzero(env[s_+26:s_+31] != -1)
-    env[s_+26+r_] = new_stm_pos
+    r_ = np.count_nonzero(env[s_ + 26 : s_ + 31] != -1)
+    env[s_ + 26 + r_] = new_stm_pos
 
     #  Cộng 1 điểm
-    env[s_+10] += 1
+    env[s_ + 10] += 1
 
     #  Kiểm tra cảng
     for port in range(9):
         if new_stm_pos in PORT_POINT[port]:
-            if env[39+port] == 5:
-                env[s_+37:s_+42] = np.minimum(3, env[s_+37:s_+42])
+            if env[39 + port] == 5:
+                env[s_ + 37 : s_ + 42] = np.minimum(3, env[s_ + 37 : s_ + 42])
             else:
-                env[int(s_+37+env[39+port])] = 2
+                env[int(s_ + 37 + env[39 + port])] = 2
 
             break
 
 
 @njit()
 def useDev(env: np.ndarray, action: int, s_: int, p_idx: int):
-    env[s_+action-50] -= 1  #  Giảm số lá dev của người chơi
+    env[s_ + action - 50] -= 1  #  Giảm số lá dev của người chơi
     env[235:239] = 0  #  Mỗi turn chỉ được sử dụng 1 thẻ dev
     if action == 55:  #  Thẻ knight
         env[233] = 0
         env[234] = 1
         env[229] = 4  #  Chuyển sang pha di chuyển Robber
-        env[s_+35] += 1
+        env[s_ + 35] += 1
 
         list_p_usedKnight = env[np.array([93, 135, 177, 219])]
         largestArmy = np.max(list_p_usedKnight)
 
         #  Check lại danh hiệu
-        if env[s_+35] >= 3 and env[s_+35] == largestArmy and env[226] != p_idx:
+        if env[s_ + 35] >= 3 and env[s_ + 35] == largestArmy and env[226] != p_idx:
             #  Nếu cddn < 3 thì ko cần xét do ko thể giành danh hiệu
             #  Nếu cddn != longestRoad thì cũng ko cần xét do có xét cũng ko được danh hiệu
             #  Nếu đang có danh hiệu thì việc xây đường giúp củng cố danh hiệu, nên ko cần xét
-            list_p_check = np.where(
-                list_p_usedKnight == largestArmy)[0]
+            list_p_check = np.where(list_p_usedKnight == largestArmy)[0]
             if len(list_p_check) == 1:  #  Ghi nhận danh hiệu hoặc thay đổi danh hiệu
                 if env[226] == -1:  #  Chưa có danh hiệu
                     env[226] = p_idx  #  Ghi nhận danh hiệu
-                    env[s_+10] += 2  #  Cộng điểm
+                    env[s_ + 10] += 2  #  Cộng điểm
                 else:  #  Thay đổi danh hiệu
                     #  Trừ điểm người cũ
-                    env[int(58+42*env[226]+10)] -= 2
+                    env[int(58 + 42 * env[226] + 10)] -= 2
                     env[226] = p_idx  #  Ghi nhận người mới
-                    env[s_+10] += 2  #  Cộng điểm người cũ
+                    env[s_ + 10] += 2  #  Cộng điểm người cũ
             #  Nếu có 2 người cùng có con đường dài nhất, không thay đổi danh hiệu
 
     elif action == 56:  #  Roadbuilding
@@ -1705,7 +1760,6 @@ def weighted_random(p: np.ndarray):
             return i
 
 
-
 @njit()
 def checkEnded(env: np.ndarray):
     #  Người chơi chỉ có thể chiến thắng khi tới lượt của mình
@@ -1715,8 +1769,9 @@ def checkEnded(env: np.ndarray):
     #  mặc cho A có nhiều điểm hơn C
     ##
     main_p_idx = int(env[230]) % 4
-    all_total_score = env[np.array([68, 110, 152, 194])] \
-        + env[np.array([67, 109, 151, 193])]
+    all_total_score = (
+        env[np.array([68, 110, 152, 194])] + env[np.array([67, 109, 151, 193])]
+    )
 
     if all_total_score[main_p_idx] > 9:
         list_more_than_9 = np.where(all_total_score > 9)[0]
@@ -1760,16 +1815,18 @@ def getReward(p_state: np.ndarray):
 
 @njit()
 def getStateSize():
-    return P_END_GAME_N+1
+    return P_END_GAME_N + 1
 
 
 @njit()
 def getActionSize():
     return AMOUNT_ACTION
 
+
 @njit()
 def getAgentSize():
     return 4
+
 
 @njit()
 def random_Env(p_state, per):
@@ -1777,6 +1834,7 @@ def random_Env(p_state, per):
     arr_action = np.where(arr_action == 1)[0]
     act_idx = np.random.randint(0, len(arr_action))
     return arr_action[act_idx], per
+
 
 @njit()
 def one_game_numba(p0, list_other, per_player, per1, per2, per3, p1, p2, p3):
@@ -1795,7 +1853,7 @@ def one_game_numba(p0, list_other, per_player, per1, per2, per3, p1, p2, p3):
         elif list_other[p_idx] == 3:
             action, per3 = p3(state, per3)
         else:
-            raise Exception('Sai list_other.')
+            raise Exception("Sai list_other.")
 
         stepEnv(env, action)
         winner = checkEnded(env)
@@ -1806,7 +1864,7 @@ def one_game_numba(p0, list_other, per_player, per1, per2, per3, p1, p2, p3):
     env[np.array([68, 110, 152, 194])] += env[np.array([67, 109, 151, 193])]
 
     env[229] = 2
-    p0_idx = np.where(list_other==-1)[0][0]
+    p0_idx = np.where(list_other == -1)[0][0]
     for p_idx in range(4):
         env[244] = p_idx
         state = getAgentState(env)
@@ -1819,10 +1877,12 @@ def one_game_numba(p0, list_other, per_player, per1, per2, per3, p1, p2, p3):
         elif list_other[p_idx] == 3:
             action, per3 = p3(state, per3)
         else:
-            raise Exception('Sai list_other.')
+            raise Exception("Sai list_other.")
 
-    if p0_idx == winner: result = 1
-    else: result = 0
+    if p0_idx == winner:
+        result = 1
+    else:
+        result = 0
     return result, per_player
 
 
@@ -1831,10 +1891,13 @@ def n_games_numba(p0, num_game, per_player, list_other, per1, per2, per3, p1, p2
     win = 0
     for _ in range(num_game):
         np.random.shuffle(list_other)
-        winner, per_player = one_game_numba(p0, list_other, per_player, per1, per2, per3, p1, p2, p3)
+        winner, per_player = one_game_numba(
+            p0, list_other, per_player, per1, per2, per3, p1, p2, p3
+        )
         win += winner
 
     return win, per_player
+
 
 def one_game_normal(p0, list_other, per_player, per1, per2, per3, p1, p2, p3):
     env = initEnv()
@@ -1852,7 +1915,7 @@ def one_game_normal(p0, list_other, per_player, per1, per2, per3, p1, p2, p3):
         elif list_other[p_idx] == 3:
             action, per3 = p3(state, per3)
         else:
-            raise Exception('Sai list_other.')
+            raise Exception("Sai list_other.")
 
         stepEnv(env, action)
         winner = checkEnded(env)
@@ -1863,7 +1926,7 @@ def one_game_normal(p0, list_other, per_player, per1, per2, per3, p1, p2, p3):
     env[np.array([68, 110, 152, 194])] += env[np.array([67, 109, 151, 193])]
 
     env[229] = 2
-    p0_idx = np.where(list_other==-1)[0][0]
+    p0_idx = np.where(list_other == -1)[0][0]
     for p_idx in range(4):
         env[244] = p_idx
         state = getAgentState(env)
@@ -1876,10 +1939,12 @@ def one_game_normal(p0, list_other, per_player, per1, per2, per3, p1, p2, p3):
         elif list_other[p_idx] == 3:
             action, per3 = p3(state, per3)
         else:
-            raise Exception('Sai list_other.')
+            raise Exception("Sai list_other.")
 
-    if p0_idx == winner: result = 1
-    else: result = 0
+    if p0_idx == winner:
+        result = 1
+    else:
+        result = 0
     return result, per_player
 
 
@@ -1887,31 +1952,39 @@ def n_games_normal(p0, num_game, per_player, list_other, per1, per2, per3, p1, p
     win = 0
     for _ in range(num_game):
         np.random.shuffle(list_other)
-        winner, per_player = one_game_normal(p0, list_other, per_player, per1, per2, per3, p1, p2, p3)
+        winner, per_player = one_game_normal(
+            p0, list_other, per_player, per1, per2, per3, p1, p2, p3
+        )
         win += winner
 
     return win, per_player
 
+
 @njit()
 def bot_lv0(state, perData):
     validActions = getValidActions(state)
-    arr_action = np.where(validActions==1)[0]
+    arr_action = np.where(validActions == 1)[0]
     idx = np.random.randint(0, arr_action.shape[0])
     return arr_action[idx], perData
 
 
 import importlib.util, json, sys
+
 try:
     from setup import SHORT_PATH
 except:
     pass
 
 
-def load_module_player(player, game_name = None):
+def load_module_player(player, game_name=None):
     if game_name == None:
-        spec = importlib.util.spec_from_file_location('Agent_player', f"{SHORT_PATH}Agent/{player}/Agent_player.py")
+        spec = importlib.util.spec_from_file_location(
+            "Agent_player", f"{SHORT_PATH}Agent/{player}/Agent_player.py"
+        )
     else:
-        spec = importlib.util.spec_from_file_location('Agent_player', f"{SHORT_PATH}Agent/ifelse/{game_name}/{player}.py")
+        spec = importlib.util.spec_from_file_location(
+            "Agent_player", f"{SHORT_PATH}Agent/ifelse/{game_name}/{player}.py"
+        )
     module = importlib.util.module_from_spec(spec)
     sys.modules[spec.name] = module
     spec.loader.exec_module(module)
@@ -1939,28 +2012,39 @@ def load_agent(level, *args):
         _list_bot_level_ = []
 
         if _level_ == 0:
-            _list_per_level_ = [np.array([[0.]], dtype=np.float64) for _ in range(num_bot)]
+            _list_per_level_ = [
+                np.array([[0.0]], dtype=np.float64) for _ in range(num_bot)
+            ]
             _list_bot_level_ = [bot_lv0 for _ in range(num_bot)]
         else:
             env_name = sys.argv[1]
             if len(args) > 0:
-                dict_level = json.load(open(f'{SHORT_PATH}Log/check_system_about_level.json'))
+                dict_level = json.load(
+                    open(f"{SHORT_PATH}Log/check_system_about_level.json")
+                )
             else:
-                dict_level = json.load(open(f'{SHORT_PATH}Log/level_game.json'))
+                dict_level = json.load(open(f"{SHORT_PATH}Log/level_game.json"))
 
             if str(_level_) not in dict_level[env_name]:
-                raise Exception('Hiện tại không có level này')
+                raise Exception("Hiện tại không có level này")
 
             lst_agent_level = dict_level[env_name][str(level)][2]
 
             for i in range(num_bot):
                 if level == -1:
-                    module_agent = load_module_player(lst_agent_level[i], game_name = env_name)
+                    module_agent = load_module_player(
+                        lst_agent_level[i], game_name=env_name
+                    )
                     _list_per_level_.append(module_agent.DataAgent())
                 else:
-                    data_agent_level = np.load(f'{SHORT_PATH}Agent/{lst_agent_level[i]}/Data/{env_name}_{level}/Train.npy',allow_pickle=True)
+                    data_agent_level = np.load(
+                        f"{SHORT_PATH}Agent/{lst_agent_level[i]}/Data/{env_name}_{level}/Train.npy",
+                        allow_pickle=True,
+                    )
                     module_agent = load_module_player(lst_agent_level[i])
-                    _list_per_level_.append(module_agent.convert_to_test(data_agent_level))
+                    _list_per_level_.append(
+                        module_agent.convert_to_test(data_agent_level)
+                    )
                 _list_bot_level_.append(module_agent.Test)
 
     return _list_bot_level_, _list_per_level_
@@ -1973,17 +2057,37 @@ def check_run_under_njit(agent, perData):
 
 def numba_main_2(p0, num_game, per_player, level, *args):
     num_bot = getAgentSize() - 1
-    list_other = np.array([-1] + [i+1 for i in range(num_bot)])
-    try: check_njit = check_run_under_njit(p0, per_player)
-    except: check_njit = False
+    list_other = np.array([-1] + [i + 1 for i in range(num_bot)])
+    try:
+        check_njit = check_run_under_njit(p0, per_player)
+    except:
+        check_njit = False
 
     load_agent(level, *args)
 
     if check_njit:
-        return n_games_numba(p0, num_game, per_player, list_other,
-                                _list_per_level_[0], _list_per_level_[1], _list_per_level_[2],
-                                _list_bot_level_[0], _list_bot_level_[1], _list_bot_level_[2])
+        return n_games_numba(
+            p0,
+            num_game,
+            per_player,
+            list_other,
+            _list_per_level_[0],
+            _list_per_level_[1],
+            _list_per_level_[2],
+            _list_bot_level_[0],
+            _list_bot_level_[1],
+            _list_bot_level_[2],
+        )
     else:
-        return n_games_normal(p0, num_game, per_player, list_other,
-                                _list_per_level_[0], _list_per_level_[1], _list_per_level_[2],
-                                _list_bot_level_[0], _list_bot_level_[1], _list_bot_level_[2])
+        return n_games_normal(
+            p0,
+            num_game,
+            per_player,
+            list_other,
+            _list_per_level_[0],
+            _list_per_level_[1],
+            _list_per_level_[2],
+            _list_bot_level_[0],
+            _list_bot_level_[1],
+            _list_bot_level_[2],
+        )

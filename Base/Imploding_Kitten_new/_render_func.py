@@ -2,35 +2,89 @@ from PIL import Image, ImageDraw, ImageFont
 import numpy as np
 from setup import SHORT_PATH
 from Base.Imploding_Kitten_new import _env
+
 IMG_PATH = SHORT_PATH + "Base/Exploding_Kitten_new/images/"
 
 
 class Params:
     def __init__(self) -> None:
-        self.card_order = ["Nope", "Attack", "Skip", "Favor", "Shuffle", "Future", "Taco", "Rainbow", "Beard", "Potato", "Melon", "Defuse", "Exploding"]
-        self.im_card_order = ["Reverse", "DrawFromBottom", "Feral", "AlterTheFuture", "TargetAttack", "Imploding"]
-        self.all_card_order = ["Nope", "Attack", "Skip", "Favor", "Shuffle", "Future", "Taco", "Rainbow", "Beard", "Potato", "Melon", "Reverse", "DrawFromBottom", "Feral", "AlterTheFuture", "TargetAttack", "Defuse"]
+        self.card_order = [
+            "Nope",
+            "Attack",
+            "Skip",
+            "Favor",
+            "Shuffle",
+            "Future",
+            "Taco",
+            "Rainbow",
+            "Beard",
+            "Potato",
+            "Melon",
+            "Defuse",
+            "Exploding",
+        ]
+        self.im_card_order = [
+            "Reverse",
+            "DrawFromBottom",
+            "Feral",
+            "AlterTheFuture",
+            "TargetAttack",
+            "Imploding",
+        ]
+        self.all_card_order = [
+            "Nope",
+            "Attack",
+            "Skip",
+            "Favor",
+            "Shuffle",
+            "Future",
+            "Taco",
+            "Rainbow",
+            "Beard",
+            "Potato",
+            "Melon",
+            "Reverse",
+            "DrawFromBottom",
+            "Feral",
+            "AlterTheFuture",
+            "TargetAttack",
+            "Defuse",
+        ]
         self.font32 = ImageFont.FreeTypeFont("ImageFonts/arial.ttf", 32)
         self.font24 = ImageFont.FreeTypeFont("ImageFonts/arial.ttf", 24)
+
+
 params = Params()
 
 
 class Sprites:
     def __init__(self) -> None:
-        self.background = Image.open(IMG_PATH+"Im_background.png").resize((2100, 900))
+        self.background = Image.open(IMG_PATH + "Im_background.png").resize((2100, 900))
         self._background_ = self.background.copy()
-        self.card_back = Image.open(IMG_PATH+"Cardback.png").resize((120, 168)).convert("RGBA")
+        self.card_back = (
+            Image.open(IMG_PATH + "Cardback.png").resize((120, 168)).convert("RGBA")
+        )
         self.cards = []
         self.sm_cards = []
         for name in params.card_order:
-            self.cards.append(Image.open(IMG_PATH+f"{name}.png").resize((120, 168)).convert("RGBA"))
-            self.sm_cards.append(Image.open(IMG_PATH+f"{name}.png").resize((100, 140)).convert("RGBA"))
+            self.cards.append(
+                Image.open(IMG_PATH + f"{name}.png").resize((120, 168)).convert("RGBA")
+            )
+            self.sm_cards.append(
+                Image.open(IMG_PATH + f"{name}.png").resize((100, 140)).convert("RGBA")
+            )
 
         self.im_cards = []
         self.sm_im_cards = []
         for name in params.im_card_order:
-            self.im_cards.append(Image.open(IMG_PATH+f"{name}.png").resize((120, 168)).convert("RGBA"))
-            self.sm_im_cards.append(Image.open(IMG_PATH+f"{name}.png").resize((100, 140)).convert("RGBA"))
+            self.im_cards.append(
+                Image.open(IMG_PATH + f"{name}.png").resize((120, 168)).convert("RGBA")
+            )
+            self.sm_im_cards.append(
+                Image.open(IMG_PATH + f"{name}.png").resize((100, 140)).convert("RGBA")
+            )
+
+
 sprites = Sprites()
 
 
@@ -38,10 +92,10 @@ def draw_outlined_text(draw, text, font, pos, color, opx):
     o_color = (255 - color[0], 255 - color[1], 255 - color[2])
     x = pos[0]
     y = pos[1]
-    draw.text((x+opx, y+opx), text, o_color, font)
-    draw.text((x-opx, y+opx), text, o_color, font)
-    draw.text((x+opx, y-opx), text, o_color, font)
-    draw.text((x-opx, y-opx), text, o_color, font)
+    draw.text((x + opx, y + opx), text, o_color, font)
+    draw.text((x - opx, y + opx), text, o_color, font)
+    draw.text((x + opx, y - opx), text, o_color, font)
+    draw.text((x - opx, y - opx), text, o_color, font)
     draw.text(pos, text, color, font)
 
 
@@ -58,38 +112,58 @@ def get_state_image(state=None):
     temp = state[0:17].astype(int)
     for i in range(17):
         text = str(temp[i])
-        draw_outlined_text(draw, text, params.font32, (68+110*i, 827), (255, 255, 255), 1)
+        draw_outlined_text(
+            draw, text, params.font32, (68 + 110 * i, 827), (255, 255, 255), 1
+        )
 
     #  Discard pile
     temp = state[17:35].astype(int)
     for i in range(18):
         text = str(temp[i])
         bbox = draw.textbbox((0, 0), text, params.font32)
-        draw_outlined_text(draw, text, params.font32, (162+110*i-bbox[2], 720), (255, 255, 255), 1)
+        draw_outlined_text(
+            draw,
+            text,
+            params.font32,
+            (162 + 110 * i - bbox[2], 720),
+            (255, 255, 255),
+            1,
+        )
 
     #  Draw pile
     text = str(int(state[35]))
     bbox = draw.textbbox((0, 0), text, params.font32)
-    draw_outlined_text(draw, text, params.font32, (1050-bbox[2]//2, 380), (255, 255, 255), 1)
+    draw_outlined_text(
+        draw, text, params.font32, (1050 - bbox[2] // 2, 380), (255, 255, 255), 1
+    )
 
     #  Have to draw
     text = str(int(state[100]))
     bbox = draw.textbbox((0, 0), text, params.font32)
-    draw_outlined_text(draw, text, params.font32, (1050-bbox[2]//2, 420), (0, 0, 0), 1)
+    draw_outlined_text(
+        draw, text, params.font32, (1050 - bbox[2] // 2, 420), (0, 0, 0), 1
+    )
 
     #  Others
     for i in range(5):
-        if state[116+i] == 0:
+        if state[116 + i] == 0:
             text = "Exploded"
             font = params.font24
             b_h = 5
         else:
-            text = str(int(state[122+i]))
+            text = str(int(state[122 + i]))
             font = params.font32
             b_h = 0
 
         bbox = draw.textbbox((0, 0), text, font)
-        draw_outlined_text(draw, text, font, (110+470*i-bbox[2]//2, 160+b_h), (255, 255, 255), 1)
+        draw_outlined_text(
+            draw,
+            text,
+            font,
+            (110 + 470 * i - bbox[2] // 2, 160 + b_h),
+            (255, 255, 255),
+            1,
+        )
 
     #  Last action
     a = np.where(state[101:116] == 1)[0]
@@ -118,30 +192,34 @@ def get_state_image(state=None):
                 text = ""
 
             bbox = draw.textbbox((0, 0), text, params.font32)
-            draw_outlined_text(draw, text, params.font32, (360-bbox[2]//2, 300), (0, 0, 0), 1)
+            draw_outlined_text(
+                draw, text, params.font32, (360 - bbox[2] // 2, 300), (0, 0, 0), 1
+            )
 
     #  Exploded
     if state[121] == 0:
         text = "Exploded"
         bbox = draw.textbbox((0, 0), text, params.font32)
-        draw_outlined_text(draw, text, params.font32, (1050-bbox[2]//2, 630), (0, 0, 0), 1)
+        draw_outlined_text(
+            draw, text, params.font32, (1050 - bbox[2] // 2, 630), (0, 0, 0), 1
+        )
 
     #  See the future
     temp = []
     for i in range(3):
         try:
-            temp.append(np.where(state[38+19*i:57+19*i] == 1)[0][0])
+            temp.append(np.where(state[38 + 19 * i : 57 + 19 * i] == 1)[0][0])
         except:
             pass
 
-    w_ = len(temp)*140 - 20
+    w_ = len(temp) * 140 - 20
     s_ = 1520 - w_ // 2
     for i in range(len(temp)):
         idx = temp[i]
         if idx < 11:
             card = sprites.cards[idx]
         elif idx < 16:
-            card = sprites.im_cards[idx-11]
+            card = sprites.im_cards[idx - 11]
         elif idx == 16:
             card = sprites.cards[-2]
         elif idx == 17:
@@ -149,30 +227,32 @@ def get_state_image(state=None):
         else:
             card = sprites.im_cards[-1]
 
-        bg.paste(card, (s_+140*i, 250))
+        bg.paste(card, (s_ + 140 * i, 250))
 
     #  Nope
     if state[37] == 1:
         text = "Nope"
         bbox = draw.textbbox((0, 0), text, params.font32)
-        draw_outlined_text(draw, text, params.font32, (360-bbox[2]//2, 420), (0, 0, 0), 1)
+        draw_outlined_text(
+            draw, text, params.font32, (360 - bbox[2] // 2, 420), (0, 0, 0), 1
+        )
 
     #  Cards have been discarded
     temp = []
     for i in range(16):
-        for k in range(int(state[128+i])):
+        for k in range(int(state[128 + i])):
             temp.append(i)
 
-    w_ = len(temp)*110 - 10
+    w_ = len(temp) * 110 - 10
     s_ = 1050 - w_ // 2
     for i in range(len(temp)):
         idx = temp[i]
         if idx < 11:
             card = sprites.sm_cards[idx]
         elif idx < 16:
-            card = sprites.sm_im_cards[idx-11]
+            card = sprites.sm_im_cards[idx - 11]
 
-        bg.paste(card, (s_+110*i, 470))
+        bg.paste(card, (s_ + 110 * i, 470))
 
     #  Imploded
     if state[127] == 1:
@@ -181,8 +261,51 @@ def get_state_image(state=None):
     return bg
 
 
-temp = ["Nope", "Attack", "Skip", "Favor", "Shuffle", "Future", "Taco", "Rainbow", "Beard", "Potato", "Melon", "Reverse", "DrawFromBottom", "Feral", "AlterTheFuture", "TargetAttack", "Defuse"]
-action_annotations = ["Nope", "Attack", "Skip", "Favor", "Shuffle", "See the future", "Draw card", "Play doublecard", "Play triplecard", "Play five kinds of card", "Not Nope", "Reverse", "Draw from bottom", "Alter the future", "Targeted Attack"] + [f"Choose player {i+1} to rob" for i in range(5)] + [f'Choose "{temp[i]}"-card to give' for i in range(17)] + [f'Ask about "{temp[i]}"-card' for i in range(17)] + [f'Choose "{temp[i]}"-card from Discard pile' for i in range(17)] + [f'Choose the {i+1}-th combination to Alter' for i in range(6)] + [f'Discard "{temp[i]}"-card' for i in range(16)]
+temp = [
+    "Nope",
+    "Attack",
+    "Skip",
+    "Favor",
+    "Shuffle",
+    "Future",
+    "Taco",
+    "Rainbow",
+    "Beard",
+    "Potato",
+    "Melon",
+    "Reverse",
+    "DrawFromBottom",
+    "Feral",
+    "AlterTheFuture",
+    "TargetAttack",
+    "Defuse",
+]
+action_annotations = (
+    [
+        "Nope",
+        "Attack",
+        "Skip",
+        "Favor",
+        "Shuffle",
+        "See the future",
+        "Draw card",
+        "Play doublecard",
+        "Play triplecard",
+        "Play five kinds of card",
+        "Not Nope",
+        "Reverse",
+        "Draw from bottom",
+        "Alter the future",
+        "Targeted Attack",
+    ]
+    + [f"Choose player {i+1} to rob" for i in range(5)]
+    + [f'Choose "{temp[i]}"-card to give' for i in range(17)]
+    + [f'Ask about "{temp[i]}"-card' for i in range(17)]
+    + [f'Choose "{temp[i]}"-card from Discard pile' for i in range(17)]
+    + [f"Choose the {i+1}-th combination to Alter" for i in range(6)]
+    + [f'Discard "{temp[i]}"-card' for i in range(16)]
+)
+
 
 def get_description(action):
     if action < 0 or action >= _env.getActionSize():
@@ -200,6 +323,7 @@ class Env_components:
         self.list_other = list_other
         self.turn = turn
 
+
 def get_env_components():
     env, draw, discard = _env.initEnv()
     winner = _env.checkEnded(env)
@@ -209,10 +333,13 @@ def get_env_components():
     return Env_components(env, draw, discard, winner, list_other, turn)
 
 
-def get_main_player_state(env_components: Env_components, list_agent, list_data, action=None):
+def get_main_player_state(
+    env_components: Env_components, list_agent, list_data, action=None
+):
     if not action is None:
-        env_components.env, env_components.draw, env_components.discard \
-        = _env.stepEnv(env_components.env, env_components.draw, env_components.discard, action)
+        env_components.env, env_components.draw, env_components.discard = _env.stepEnv(
+            env_components.env, env_components.draw, env_components.discard, action
+        )
         env_components.turn += 1
 
     env_components.winner = _env.checkEnded(env_components.env)
@@ -221,36 +348,41 @@ def get_main_player_state(env_components: Env_components, list_agent, list_data,
         main_id = env_components.env[77]
         nope_id = env_components.env[95]
         last_action = env_components.env[94]
-        if phase==0:
+        if phase == 0:
             pIdx = int(main_id)
-        elif phase==1:
+        elif phase == 1:
             pIdx = int(nope_id)
-        elif phase==2:
+        elif phase == 2:
             pIdx = int(main_id)
-        elif phase==3:
-            if last_action==3:
+        elif phase == 3:
+            if last_action == 3:
                 pIdx = int(env_components.env[96])
             else:
                 pIdx = int(main_id)
-        elif phase==4:
+        elif phase == 4:
             pIdx = int(main_id)
-        elif phase==5:
+        elif phase == 5:
             pIdx = int(main_id)
 
         if env_components.list_other[pIdx] == -1:
             break
 
-        state = _env.getAgentState(env_components.env, env_components.draw, env_components.discard)
-        agent = list_agent[env_components.list_other[pIdx]-1]
-        data = list_data[env_components.list_other[pIdx]-1]
+        state = _env.getAgentState(
+            env_components.env, env_components.draw, env_components.discard
+        )
+        agent = list_agent[env_components.list_other[pIdx] - 1]
+        data = list_data[env_components.list_other[pIdx] - 1]
         action, data = agent(state, data)
-        env_components.env, env_components.draw, env_components.discard \
-        = _env.stepEnv(env_components.env, env_components.draw, env_components.discard, action)
+        env_components.env, env_components.draw, env_components.discard = _env.stepEnv(
+            env_components.env, env_components.draw, env_components.discard, action
+        )
         env_components.turn += 1
         env_components.winner = _env.checkEnded(env_components.env)
 
     if env_components.winner == -1 and env_components.turn < 300:
-        state = _env.getAgentState(env_components.env, env_components.draw, env_components.discard)
+        state = _env.getAgentState(
+            env_components.env, env_components.draw, env_components.discard
+        )
         win = -1
     else:
         env = env_components.env.copy()
@@ -268,9 +400,11 @@ def get_main_player_state(env_components: Env_components, list_agent, list_data,
             env[77] = pIdx
             env[78:83] = _env.nopeTurn(pIdx)
             if pIdx != my_idx:
-                _state = _env.getAgentState(env, env_components.draw, env_components.discard)
-                agent = list_agent[env_components.list_other[pIdx]-1]
-                data = list_data[env_components.list_other[pIdx]-1]
+                _state = _env.getAgentState(
+                    env, env_components.draw, env_components.discard
+                )
+                agent = list_agent[env_components.list_other[pIdx] - 1]
+                data = list_data[env_components.list_other[pIdx] - 1]
                 action, data = agent(_state, data)
 
     return win, state, env_components

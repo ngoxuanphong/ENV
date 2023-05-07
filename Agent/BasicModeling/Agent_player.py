@@ -7,12 +7,16 @@ import importlib.util
 
 game_name = sys.argv[1]
 
+
 def setup_game(game_name):
-    spec = importlib.util.spec_from_file_location('env', f"{SHORT_PATH}Base/{game_name}/env.py")
+    spec = importlib.util.spec_from_file_location(
+        "env", f"{SHORT_PATH}Base/{game_name}/env.py"
+    )
     module = importlib.util.module_from_spec(spec)
-    sys.modules[spec.name] = module 
+    sys.modules[spec.name] = module
     spec.loader.exec_module(module)
     return module
+
 
 env = setup_game(game_name)
 
@@ -32,12 +36,16 @@ MAX_DEPTH = 7
 def DataAgent():
     perData = List()
 
-    perData.append(np.array([[0.]], dtype=np.float64)) #  0: Đếm số trận đấu đã train
-    perData.append(np.full((2, getActionSize()), 1e-9, dtype=np.float64)) #  Bias và temp Bias
-    perData[1][1] = np.arange(1, getActionSize()+1, dtype=np.float64)
+    perData.append(np.array([[0.0]], dtype=np.float64))  #  0: Đếm số trận đấu đã train
+    perData.append(
+        np.full((2, getActionSize()), 1e-9, dtype=np.float64)
+    )  #  Bias và temp Bias
+    perData[1][1] = np.arange(1, getActionSize() + 1, dtype=np.float64)
     np.random.shuffle(perData[1][1])
 
-    perData.append(np.full((2, getStateSize()), 0.0, dtype=np.float64)) #  Minimum state và maximum state
+    perData.append(
+        np.full((2, getStateSize()), 0.0, dtype=np.float64)
+    )  #  Minimum state và maximum state
     perData[2][0] = 1e9
     perData[2][1] = -1e9
 
@@ -63,7 +71,7 @@ def Train(state, perData):
             if perData[0][0][0] == 10000:
                 min_ = np.min(perData[1][0])
                 if min_ < 0:
-                    perData[1][0] += (1.0-min_)
+                    perData[1][0] += 1.0 - min_
 
                 perData[1][0] /= np.max(perData[1][0])
                 perData[1][0] **= 2
@@ -75,7 +83,7 @@ def Train(state, perData):
         perData[2][1] = np.maximum(perData[2][1], state)
 
         validActions = getValidActions(state)
-        actions = np.where(validActions==1)[0]
+        actions = np.where(validActions == 1)[0]
         a_idx = np.random.randint(0, actions.shape[0])
 
         reward = getReward(state)
@@ -84,24 +92,48 @@ def Train(state, perData):
             if perData[0][0][0] == 20000:
                 size_ = int(np.round(np.max(perData[2][1] - perData[2][0])))
                 if len(perData) < 11:
-                    perData.append(np.full((getStateSize(), size_), 0.0, dtype=np.float64)) #  3 win_state
-                    perData.append(np.full((getStateSize(), size_), 1e-9, dtype=np.float64)) #  4 last_state
-                    perData.append(np.full((getActionSize(), getStateSize()), 0.0, dtype=np.float64)) #  5 Delta_state
-                    perData.append(np.full((getActionSize(), getStateSize()), 0.0, dtype=np.float64)) #  6 Pre_state
-                    perData.append(np.full((getActionSize(), 1), 0.0, dtype=np.float64)) #  7 Số lần xuất hiện
-                    perData.append(np.array([[-1.0]], dtype=np.float64)) #  8 Pre_action
-                    perData.append(np.full((getStateSize(), size_), 0.01, dtype=np.float64)) #  9 = 3 / 4
-                    perData.append(np.full((getActionSize(), getStateSize()), 0.0, dtype=np.float64)) #  10 = 5 / 7
+                    perData.append(
+                        np.full((getStateSize(), size_), 0.0, dtype=np.float64)
+                    )  #  3 win_state
+                    perData.append(
+                        np.full((getStateSize(), size_), 1e-9, dtype=np.float64)
+                    )  #  4 last_state
+                    perData.append(
+                        np.full(
+                            (getActionSize(), getStateSize()), 0.0, dtype=np.float64
+                        )
+                    )  #  5 Delta_state
+                    perData.append(
+                        np.full(
+                            (getActionSize(), getStateSize()), 0.0, dtype=np.float64
+                        )
+                    )  #  6 Pre_state
+                    perData.append(
+                        np.full((getActionSize(), 1), 0.0, dtype=np.float64)
+                    )  #  7 Số lần xuất hiện
+                    perData.append(
+                        np.array([[-1.0]], dtype=np.float64)
+                    )  #  8 Pre_action
+                    perData.append(
+                        np.full((getStateSize(), size_), 0.01, dtype=np.float64)
+                    )  #  9 = 3 / 4
+                    perData.append(
+                        np.full(
+                            (getActionSize(), getStateSize()), 0.0, dtype=np.float64
+                        )
+                    )  #  10 = 5 / 7
 
         return actions[a_idx], perData
 
     elif perData[0][0][0] < 100000:
         if perData[8][0][0] > -1.0:
-            perData[5][int(perData[8][0][0])] += state - perData[6][int(perData[8][0][0])]
+            perData[5][int(perData[8][0][0])] += (
+                state - perData[6][int(perData[8][0][0])]
+            )
             perData[7][0][int(perData[8][0][0])] += 1
 
         validActions = getValidActions(state)
-        actions = np.where(validActions==1)[0]
+        actions = np.where(validActions == 1)[0]
         a_idx = np.random.randint(0, actions.shape[0])
 
         perData[8][0][0] = actions[a_idx]
@@ -135,7 +167,7 @@ def get_value_state(state, value):
     state = state.astype(np.int64)
     for i in range(state.shape[0]):
         score += value[i][state[i]]
-    
+
     return score / state.shape[0]
 
 
@@ -147,7 +179,7 @@ def weighted_random(p: np.ndarray):
         b -= p[i]
         if b <= 0:
             return i
-    
+
     return 999999
 
 
@@ -157,21 +189,27 @@ def scoring(action, state, depth, delta, bias, score):
     new_state_round = np.empty_like(new_state)
     new_state_round = np.round(new_state, 0, new_state_round)
     validActions = getValidActions(new_state_round)
-    actions = np.where(validActions==1)[0]
+    actions = np.where(validActions == 1)[0]
     reward = getReward(new_state_round)
 
     if depth >= MAX_DEPTH:
         return get_value_state(new_state_round, score)
-    
+
     if reward == 1:
-        return (MAX_DEPTH - depth + 1) / (MAX_DEPTH + 1) + get_value_state(new_state_round, score)
-    
+        return (MAX_DEPTH - depth + 1) / (MAX_DEPTH + 1) + get_value_state(
+            new_state_round, score
+        )
+
     if reward == 0:
-        return (depth - MAX_DEPTH - 1) / (MAX_DEPTH + 1) + get_value_state(new_state_round, score)
-    
+        return (depth - MAX_DEPTH - 1) / (MAX_DEPTH + 1) + get_value_state(
+            new_state_round, score
+        )
+
     if actions.shape[0] == 0:
-        return (depth - MAX_DEPTH) / (MAX_DEPTH + 1) + get_value_state(new_state_round, score)
-    
+        return (depth - MAX_DEPTH) / (MAX_DEPTH + 1) + get_value_state(
+            new_state_round, score
+        )
+
     temp = bias[actions]
     a_idx = weighted_random(temp)
     depth_ = depth + 1
@@ -181,7 +219,7 @@ def scoring(action, state, depth, delta, bias, score):
 @njit
 def Test(state, perData):
     validActions = getValidActions(state)
-    actions = np.where(validActions==1)[0]
+    actions = np.where(validActions == 1)[0]
     score = np.full(actions.shape, 0.0, dtype=np.float64)
     for i in range(actions.shape[0]):
         score[i] = scoring(actions[i], state, 0, perData[0], perData[1][0], perData[2])
@@ -195,13 +233,14 @@ def convert_to_save(perData):
     data.append(perData[10])
     min_ = np.min(perData[1][0])
     if min_ < 0:
-        perData[1][0] += (1.0-min_)
+        perData[1][0] += 1.0 - min_
 
     perData[1][0] /= np.max(perData[1][0])
     perData[1][0] **= 2
     data.append(perData[1])
     data.append(perData[9])
     return data
+
 
 def convert_to_test(perData):
     return List(perData)

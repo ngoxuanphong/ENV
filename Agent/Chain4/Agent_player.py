@@ -2,17 +2,23 @@ import numpy as np
 import random as rd
 from numba import njit, jit
 import sys, os
+
 #  SHOT_PATH=''
 from setup import SHORT_PATH
 import importlib.util
+
 game_name = sys.argv[1]
 
+
 def setup_game(game_name):
-    spec = importlib.util.spec_from_file_location('env', f"{SHORT_PATH}Base/{game_name}/env.py")
+    spec = importlib.util.spec_from_file_location(
+        "env", f"{SHORT_PATH}Base/{game_name}/env.py"
+    )
     module = importlib.util.module_from_spec(spec)
-    sys.modules[spec.name] = module 
+    sys.modules[spec.name] = module
     spec.loader.exec_module(module)
     return module
+
 
 env = setup_game(game_name)
 
@@ -36,16 +42,16 @@ def DataAgent():
     temp_[0] = np.full(0, 0, dtype=np.int64)
     temp_.clear()
 
-    perData[0] = temp_.copy() #  Các biến dùng trong thuật toán
-    perData[1] = temp_.copy() #  Temp bias của các chuỗi
-    perData[2] = temp_.copy() #  Per bias của các chuỗi
-    perData[3] = temp_.copy() #  Đếm số lần xuất hiện của các chuỗi
+    perData[0] = temp_.copy()  #  Các biến dùng trong thuật toán
+    perData[1] = temp_.copy()  #  Temp bias của các chuỗi
+    perData[2] = temp_.copy()  #  Per bias của các chuỗi
+    perData[3] = temp_.copy()  #  Đếm số lần xuất hiện của các chuỗi
 
     #  Các biến dùng trong thuật toán
-    perData[0][0] = np.full(1, 0, dtype=np.int64) #  Đếm số trận
-    perData[0][1] = np.full(CHAIN_LENGTH, 0, dtype=np.int64) #  Lưu lịch sử
-    perData[0][2] = np.full(1, 0, dtype=np.int64) #  Đếm số turn trong trận
-    perData[0][3] = np.full(10000, -1, dtype=np.int64) #  Lưu các chuỗi xuất hiện
+    perData[0][0] = np.full(1, 0, dtype=np.int64)  #  Đếm số trận
+    perData[0][1] = np.full(CHAIN_LENGTH, 0, dtype=np.int64)  #  Lưu lịch sử
+    perData[0][2] = np.full(1, 0, dtype=np.int64)  #  Đếm số turn trong trận
+    perData[0][3] = np.full(10000, -1, dtype=np.int64)  #  Lưu các chuỗi xuất hiện
 
     #  Bias tự do (Temp)
     perData[1][-1] = np.arange(getActionSize(), dtype=np.int64) + 1
@@ -62,7 +68,7 @@ def DataAgent():
 def encode(arr_chain):
     res = 0
     for i in range(arr_chain.shape[0]):
-        res += arr_chain[i] * getActionSize()**i
+        res += arr_chain[i] * getActionSize() ** i
 
     return res
 
@@ -116,20 +122,20 @@ def Train(state, perData):
                     np.random.shuffle(temp_bias[key])
 
                 action = np.argmax(validActions * temp_bias[key])
-                action_history[0:CHAIN_LENGTH-1] = action_history[1:CHAIN_LENGTH]
-                action_history[CHAIN_LENGTH-1] = action
-                chain_history[count_turn[0]-CHAIN_LENGTH] = key
+                action_history[0 : CHAIN_LENGTH - 1] = action_history[1:CHAIN_LENGTH]
+                action_history[CHAIN_LENGTH - 1] = action
+                chain_history[count_turn[0] - CHAIN_LENGTH] = key
 
             count_turn[0] += 1
         else:
             if reward == 1:
                 per_bias[-1] += temp_bias[-1]
-                for i in range(count_turn[0]-CHAIN_LENGTH):
+                for i in range(count_turn[0] - CHAIN_LENGTH):
                     per_bias[chain_history[i]] += temp_bias[chain_history[i]]
                     count_bias[chain_history[i]][0] += 1
             else:
                 np.random.shuffle(temp_bias[-1])
-                for i in range(count_turn[0]-CHAIN_LENGTH):
+                for i in range(count_turn[0] - CHAIN_LENGTH):
                     np.random.shuffle(temp_bias[chain_history[i]])
                     count_bias[chain_history[i]][0] += 1
 
@@ -156,16 +162,16 @@ def Train(state, perData):
                     action = np.argmax(validActions * temp_bias[key])
                     check = True
 
-                action_history[0:CHAIN_LENGTH-1] = action_history[1:CHAIN_LENGTH]
-                action_history[CHAIN_LENGTH-1] = action
+                action_history[0 : CHAIN_LENGTH - 1] = action_history[1:CHAIN_LENGTH]
+                action_history[CHAIN_LENGTH - 1] = action
                 if check:
-                    chain_history[count_turn[0]-CHAIN_LENGTH] = key
+                    chain_history[count_turn[0] - CHAIN_LENGTH] = key
 
             count_turn[0] += 1
         else:
             if reward == 1:
                 per_bias[-1] += temp_bias[-1]
-                for i in range(count_turn[0]-CHAIN_LENGTH):
+                for i in range(count_turn[0] - CHAIN_LENGTH):
                     if chain_history[i] == -1:
                         break
 
@@ -173,7 +179,7 @@ def Train(state, perData):
                     count_bias[chain_history[i]][0] += 1
             else:
                 np.random.shuffle(temp_bias[-1])
-                for i in range(count_turn[0]-CHAIN_LENGTH):
+                for i in range(count_turn[0] - CHAIN_LENGTH):
                     if chain_history[i] == -1:
                         break
 
@@ -212,8 +218,8 @@ def Test(state, perData):
             else:
                 action = np.argmax(validActions * per_bias[key] + validActions)
 
-            action_history[0:CHAIN_LENGTH-1] = action_history[1:CHAIN_LENGTH]
-            action_history[CHAIN_LENGTH-1] = action
+            action_history[0 : CHAIN_LENGTH - 1] = action_history[1:CHAIN_LENGTH]
+            action_history[CHAIN_LENGTH - 1] = action
 
         count_turn[0] += 1
     else:
@@ -240,7 +246,7 @@ def convert_to_save(perData):
     data[0].pop(3)
     for key in data[0].keys():
         data[0][key] = data[0][key].astype(np.int16)
-    
+
     data[2] = temp[2]
     for key in data[2].keys():
         data[2][key] = np.argsort(np.argsort(data[2][key])).astype(np.int16)
