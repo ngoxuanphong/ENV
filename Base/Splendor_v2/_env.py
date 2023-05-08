@@ -164,7 +164,7 @@ def initEnv():
 
 
 @njit()
-def get_list_id_card_on_lv(lv):
+def get_list_id_card_on_lv(lv):  # Get id card
     if len(lv) >= 4:
         return lv[:4]
     else:
