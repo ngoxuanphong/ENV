@@ -976,13 +976,8 @@ def random_Env(p_state, per):
     return arr_action[act_idx], per
 
 
-def numba_main_2(p0, num_game, per_player, level, *args):
+def load_agent(level, *args):
     num_bot = getAgentSize() - 1
-    list_other = np.array([-1] + [i + 1 for i in range(num_bot)])
-    try:
-        check_njit = check_run_under_njit(p0)
-    except:
-        check_njit = False
 
     if "_level_" not in globals():
         global _level_
@@ -1031,6 +1026,19 @@ def numba_main_2(p0, num_game, per_player, level, *args):
                     lst_module_level[i].convert_to_test(data_agent_level)
                 )
                 _list_bot_level_.append(lst_module_level[i].Test)
+
+    return _list_bot_level_, _list_per_level_
+
+
+def numba_main_2(p0, num_game, per_player, level, *args):
+
+    list_other = np.array([-1] + [i + 1 for i in range(num_bot)])
+    try:
+        check_njit = check_run_under_njit(p0)
+    except:
+        check_njit = False
+
+    load_agent(level, *args)
 
     if check_njit:
         return n_game_numba(
