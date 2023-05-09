@@ -33,15 +33,15 @@ def initEnv():
     env[15:19] = lv2[:4]
     env[19:23] = lv3[:4]
 
-    # 23:38:53:68:83
+    #  23:38:53:68:83
     for pIdx in range(4):
         temp_ = 15*pIdx
-        # env[23+temp_:35+temp_] = 0
+        #  env[23+temp_:35+temp_] = 0
         env[35+temp_:38+temp_] = -1
 
-    # env[83] == 0 # Turn
-    # env[84:89] = 0 # Dùng khi lấy nguyên liệu
-    # env[89] = 0 # 1 khi game kết thúc
+    #  env[83] == 0 #  Turn
+    #  env[84:89] = 0 #  Dùng khi lấy nguyên liệu
+    #  env[89] = 0 #  1 khi game kết thúc
 
     return env, lv1, lv2, lv3
 
@@ -53,14 +53,14 @@ def getAgentState(env, lv1, lv2, lv3):
 
     state[0:6] = env[0:6]
 
-    # 6:12:18:24:30:36 # Thẻ Noble
+    #  6:12:18:24:30:36 #  Thẻ Noble
     for i in range(5):
         nobleId = env[6+i]
         if nobleId != -1:
             temp_ = 6*i
             state[6+temp_:12+temp_] = __NOBLE_CARD__[nobleId]
 
-    # 36:47:58:69:80:91:102:113:124:135:146:157:168 # Thẻ normal
+    #  36:47:58:69:80:91:102:113:124:135:146:157:168 #  Thẻ normal
     for i in range(12):
         cardId = env[11+i]
         if cardId != -1:
@@ -73,11 +73,11 @@ def getAgentState(env, lv1, lv2, lv3):
         temp1 = 12*i
         temp2 = 15*pEnvIdx
 
-        # 201:213:225:237:249 # Player infor
+        #  201:213:225:237:249 #  Player infor
         state[201+temp1:213+temp1] = env[23+temp2:35+temp2]
 
         if i == 0:
-            # 168:179:190:201 # Thẻ úp
+            #  168:179:190:201 #  Thẻ úp
             for j in range(3):
                 cardId = env[35+temp2+j]
                 if cardId != -1:
@@ -85,7 +85,7 @@ def getAgentState(env, lv1, lv2, lv3):
                     state[168+temp_:179+temp_] = __NORMAL_CARD__[cardId]
 
         else:
-            # 249:252:255:258 # Đếm cấp thẻ úp
+            #  249:252:255:258 #  Đếm cấp thẻ úp
             temp_ = 3*(i-1)
             for j in range(3):
                 cardId = env[35+temp2+j]
@@ -97,17 +97,17 @@ def getAgentState(env, lv1, lv2, lv3):
                     else:
                         state[251+temp_] += 1
 
-    # [258:263] # Nguyên liệu đã lấy
+    #  [258:263] #  Nguyên liệu đã lấy
     state[258:263] = env[84:89]
 
-    # [263]
+    #  [263]
     state[263] = env[89]
 
-    if lv1[-1] < 40: # Còn thẻ ẩn cấp 1
+    if lv1[-1] < 40: #  Còn thẻ ẩn cấp 1
         state[264] = 1
-    if lv2[-1] < 30: # Còn thẻ ẩn cấp 2
+    if lv2[-1] < 30: #  Còn thẻ ẩn cấp 2
         state[265] = 1
-    if lv3[-1] < 20: # Còn thẻ ẩn cấp 3
+    if lv3[-1] < 20: #  Còn thẻ ẩn cấp 3
         state[266] = 1
 
     return state
@@ -138,7 +138,7 @@ def getValidActions(state):
     boardStocks = state[0:6]
 
     takenStocks = state[258:263]
-    if (takenStocks > 0).any(): # Đang lấy nguyên liệu
+    if (takenStocks > 0).any(): #  Đang lấy nguyên liệu
         temp_ = np.where(boardStocks[0:5]>0)[0]
         validActions[temp_] = 1
 
@@ -155,12 +155,12 @@ def getValidActions(state):
 
         return validActions
 
-    if np.sum(state[201:207]) > 10: # Thừa nguyên liệu, cần trả nguyên liệu
+    if np.sum(state[201:207]) > 10: #  Thừa nguyên liệu, cần trả nguyên liệu
         temp_ = np.where(state[201:206]>0)[0] + 185
         validActions[temp_] = 1
         return validActions
 
-    # Lấy nguyên liệu
+    #  Lấy nguyên liệu
     temp_ = np.where(boardStocks[0:5]>0)[0]
     validActions[temp_] = 1
 
@@ -171,7 +171,7 @@ def getValidActions(state):
             checkReserveCard = True
             break
 
-    # Các action mua thẻ (và úp thẻ)
+    #  Các action mua thẻ (và úp thẻ)
     for i in range(15):
         temp_ = 11*i
         cardPrice = state[42+temp_:47+temp_]
@@ -184,13 +184,13 @@ def getValidActions(state):
                 if checkBuyCard(state[201:207], state[207:212], cardPrice):
                     validActions[5+card_id] = 1
 
-    # Check úp thẻ ẩn
+    #  Check úp thẻ ẩn
     if checkReserveCard:
         for i in range(3):
             if state[264+i] == 1:
                 validActions[190+i] = 1
 
-    # Check nếu không có action nào có thể thực hiện (bị kẹt) thì cho action bỏ lượt
+    #  Check nếu không có action nào có thể thực hiện (bị kẹt) thì cho action bỏ lượt
     if (validActions > 0).any():
         return validActions
 
@@ -223,10 +223,10 @@ def checkEnded(env):
 
             min_ = np.min(playerBoughtCards)
             winnerIdx = np.where(playerBoughtCards==min_)[0]
-            # if winnerIdx.shape[0] == 1:
+            #  if winnerIdx.shape[0] == 1:
             return maxScorePlayers[winnerIdx]
-            # else:
-            #     return 4
+            #  else:
+            #      return 4
     else:
         return np.array([-1])
 
@@ -262,7 +262,7 @@ def stepEnv(action, env, lv1, lv2, lv3):
     pPerStocks = env[29+temp_:34+temp_]
     takenStocks = env[84:89]
 
-    # Lấy nguyên liệu
+    #  Lấy nguyên liệu
     if action < 5:
         takenStocks[action] += 1
         pStocks[action] += 1
@@ -282,21 +282,21 @@ def stepEnv(action, env, lv1, lv2, lv3):
         if check_:
             takenStocks[:] = 0
 
-            # Nếu không thừa nguyên liệu thì next turn
+            #  Nếu không thừa nguyên liệu thì next turn
             if np.sum(pStocks) <= 10:
                 env[83] += 1
 
-    # Trả nguyên liệu
+    #  Trả nguyên liệu
     elif action >= 185 and action < 190:
         gem = action - 185
         pStocks[gem] -= 1
         bStocks[gem] += 1
 
-        # Nếu không thừa nguyên liệu thì next turn
+        #  Nếu không thừa nguyên liệu thì next turn
         if np.sum(pStocks) <= 10:
             env[83] += 1
 
-    # Úp thẻ
+    #  Úp thẻ
     elif (action >= 95 and action < 185) or (action >= 190 and action < 193):
         temp_hideCard = 35 + temp_
         posP = np.where(env[temp_hideCard:temp_hideCard+3]==-1)[0][0] + temp_hideCard
@@ -305,28 +305,28 @@ def stepEnv(action, env, lv1, lv2, lv3):
             pStocks[5] += 1
             bStocks[5] -= 1
 
-        if action == 190: # Úp thẻ ẩn cấp 1
+        if action == 190: #  Úp thẻ ẩn cấp 1
             env[posP] = lv1[lv1[-1]]
             lv1[-1] += 1
-        elif action == 191: # Úp thẻ ẩn cấp 2
+        elif action == 191: #  Úp thẻ ẩn cấp 2
             env[posP] = lv2[lv2[-1]]
             lv2[-1] += 1
-        elif action == 192: # Úp thẻ ẩn cấp 3
+        elif action == 192: #  Úp thẻ ẩn cấp 3
             env[posP] = lv3[lv3[-1]]
             lv3[-1] += 1
-        else: # Úp thẻ trên bàn
+        else: #  Úp thẻ trên bàn
             cardId = action - 95
             posE = np.where(env[11:23] == cardId)[0][0] + 11
             env[posP] = cardId
 
-            # Mở thẻ từ chồng úp lên trên bàn chơi
+            #  Mở thẻ từ chồng úp lên trên bàn chơi
             openCard(env, lv1, lv2, lv3, cardId, posE)
 
-        # Nếu không thừa nguyên liệu thì next turn
+        #  Nếu không thừa nguyên liệu thì next turn
         if np.sum(pStocks) <= 10:
             env[83] += 1
 
-    # Mua thẻ
+    #  Mua thẻ
     elif action >= 5 and action < 95:
         cardId = action - 5
         if cardId in env[11:23]:
@@ -343,25 +343,25 @@ def stepEnv(action, env, lv1, lv2, lv3):
         nlBt = np.minimum(nlMat, pStocks[0:5])
         nlG = np.sum(nlMat - nlBt)
 
-        # Trả nguyên liệu
-        pStocks[0:5] -= nlBt # Trả nguyên liệu
+        #  Trả nguyên liệu
+        pStocks[0:5] -= nlBt #  Trả nguyên liệu
         pStocks[5] -= nlG
         bStocks[0:5] += nlBt
         bStocks[5] += nlG
 
-        # Nhận các phần thưởng từ thẻ
+        #  Nhận các phần thưởng từ thẻ
         if inboard:
             openCard(env, lv1, lv2, lv3, cardId, posE)
         else:
             env[posE] = -1
 
-        env[34+temp_] += cardIn4[0] # Cộng điểm
+        env[34+temp_] += cardIn4[0] #  Cộng điểm
         pPerStocks[:] += cardIn4[1:6]
 
-        # Next turn
+        #  Next turn
         env[83] += 1
 
-    # 40: Bỏ qua lượt (trường hợp đặc biệt khi không thể thực hiện action nào)
+    #  40: Bỏ qua lượt (trường hợp đặc biệt khi không thể thực hiện action nào)
     else:
         env[83] += 1
 
@@ -409,11 +409,11 @@ def getReward(state):
     else:
         scoreArr = state[np.array([212, 224, 236, 248])]
         maxScore = np.max(scoreArr)
-        if scoreArr[0] < maxScore or scoreArr[0] < 15: # Điểm của bản thân không cao nhất
+        if scoreArr[0] < maxScore or scoreArr[0] < 15: #  Điểm của bản thân không cao nhất
             return 0
         else:
             maxScorePlayers = np.where(scoreArr==maxScore)[0]
-            if maxScorePlayers.shape[0] == 1: # Bản thân là người duy nhất đạt điểm cao nhất
+            if maxScorePlayers.shape[0] == 1: #  Bản thân là người duy nhất đạt điểm cao nhất
                 return 1
             else:
                 playerBoughtCards = maxScorePlayers.copy()
@@ -423,9 +423,9 @@ def getReward(state):
                     playerBoughtCards[i] = np.sum(state[207+temp_:212+temp_])
 
                 min_ = np.min(playerBoughtCards)
-                if playerBoughtCards[0] > min_: # Số thẻ của bản thân nhiều hơn
+                if playerBoughtCards[0] > min_: #  Số thẻ của bản thân nhiều hơn
                     return 0
-                else: # Tất cả đều thắng
+                else: #  Tất cả đều thắng
                     return 1
 
 

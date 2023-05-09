@@ -1,10 +1,10 @@
-##  Thông tin quan trọng:
+##   Thông tin quan trọng:
     0: Coin của bản thân
     100, 129, 159: Coin của người khác
     Total: number all action = 82 
     Total: player state length = 474 
 
-## :video_game: ALL_ACTION
+##  :video_game: ALL_ACTION
         0	bỏ thẻ apple
         1	bỏ thẻ cheese
         2	bỏ thẻ bread
@@ -89,7 +89,7 @@
         81	Bỏ thẻ tịch thu vào bên phải
 
 
-## :bust_in_silhouette: P_state
+##  :bust_in_silhouette: P_state
     *   [0:100]: Thông tin của người chơi chính:
             0: player coin  : số coin đang có
             1: player debt  : số coin người chơi nợ tổng các ng chơi khác
@@ -124,7 +124,7 @@
     *   [425:470]:   Các thẻ người chơi khác buôn thành công trong game: Chỉ khác 0 khi game kết thúc, còn lại luôn bằng 0
     *   [470:474]: thứ tự hành động của các người chơi
 
-    ## :globe_with_meridians: ENV_state
+    ##  :globe_with_meridians: ENV_state
     *   [0:400] Thông tin các người chơi: (coin, debt, is_police, typy_bag(4),    coin_bribe, number_smuggle_card, number_bribe_card_in_bag) => 10; 15*6: thẻ hối lộ done, thẻ done, thẻ hối lộ trong túi, thẻ trong túi, thẻ bỏ đi, thẻ trên tay => 90 => tổng mỗi người chơi 100 thông tin/người
     *   [400:586] thẻ bài ở chồng bài úp, có giá trị từ 0 - 15, trong đó 0 đại điện cho ko có thẻ, còn các thẻ còn lại có giá trị như dưới
             NORMAL_CARD = np.array([1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1,
@@ -152,7 +152,7 @@
     *   [904] phase game
 
 
-## :video_game: điều chỉnh so với phiên bản gốc:
+##  :video_game: điều chỉnh so với phiên bản gốc:
     * người chơi không thể hối lộ để sheriff kiểm tra hàng hóa người chơi khác trong giai đoạn sheriff kiểm tra người chơi khác
     * người chơi không thể hối lộ bằng các ước hẹn trong tương lai, chỉ có thể hối lộ bằng tiền (nếu coin - debt > 0), hối lộ bằng thẻ trong túi đi chợ, hối lộ bằng thẻ đã đi chợ thành công
     * khi người chơi không đủ tiền nộp phạt, thay vì phải nộp các thẻ đã đi chợ thành công cho sheriff để trừ nợ, người chơi sẽ bị trừ sạch tiền và khoản tiền thiếu sẽ trở thành nợ. Sheriff sẽ nhận đủ khoản tiền phạt. 

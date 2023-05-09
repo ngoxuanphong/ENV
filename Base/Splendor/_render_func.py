@@ -3,18 +3,19 @@ import numpy as np
 from setup import SHORT_PATH
 from Base.Splendor import _env
 from Base.Splendor._env import __NORMAL_CARD__, __NOBLE_CARD__
+
 IMG_PATH = SHORT_PATH + "Base/Splendor/images/"
 
 
 class Sprites:
     def __init__(self) -> None:
-        self.background = Image.open(IMG_PATH+"background.png").resize((2100, 900))
+        self.background = Image.open(IMG_PATH + "background.png").resize((2100, 900))
         self._background_ = self.background.copy()
 
         self.cards = []
         self.small_cards = []
         for i in range(100):
-            card = Image.open(IMG_PATH+f"{i}.png")
+            card = Image.open(IMG_PATH + f"{i}.png")
             if i < 90:
                 card = card.resize((120, 168)).convert("RGBA")
             else:
@@ -30,14 +31,20 @@ class Sprites:
         self.cards_back = []
         self.small_cards_back = []
         for i in range(1, 4):
-            card = Image.open(IMG_PATH+f"hide_card_{i}.png").resize((120, 168)).convert("RGBA")
+            card = (
+                Image.open(IMG_PATH + f"hide_card_{i}.png")
+                .resize((120, 168))
+                .convert("RGBA")
+            )
             self.cards_back.append(card)
             self.small_cards_back.append(card.resize((80, 112)))
 
         self.gems = []
         for name in ["red", "blue", "green", "black", "white", "gold"]:
-            gem = Image.open(IMG_PATH+f"{name}.png").resize((50, 50)).convert("RGBA")
+            gem = Image.open(IMG_PATH + f"{name}.png").resize((50, 50)).convert("RGBA")
             self.gems.append(gem)
+
+
 sprites = Sprites()
 
 
@@ -46,6 +53,8 @@ class Params:
         self.font28 = ImageFont.FreeTypeFont("ImageFonts/arial.ttf", 28)
         self.font32 = ImageFont.FreeTypeFont("ImageFonts/arial.ttf", 32)
         self.font40 = ImageFont.FreeTypeFont("ImageFonts/arial.ttf", 40)
+
+
 params = Params()
 
 
@@ -53,10 +62,10 @@ def draw_outlined_text(draw, text, font, pos, color, opx):
     o_color = (255 - color[0], 255 - color[1], 255 - color[2])
     x = pos[0]
     y = pos[1]
-    draw.text((x+opx, y+opx), text, o_color, font)
-    draw.text((x-opx, y+opx), text, o_color, font)
-    draw.text((x+opx, y-opx), text, o_color, font)
-    draw.text((x-opx, y-opx), text, o_color, font)
+    draw.text((x + opx, y + opx), text, o_color, font)
+    draw.text((x - opx, y + opx), text, o_color, font)
+    draw.text((x + opx, y - opx), text, o_color, font)
+    draw.text((x - opx, y - opx), text, o_color, font)
     draw.text(pos, text, color, font)
 
 
@@ -66,26 +75,26 @@ def get_state_image(state=None):
 
     bg = sprites.background.copy()
 
-    # Draw
+    #  Draw
     draw = ImageDraw.ImageDraw(bg)
 
-    # Noble
+    #  Noble
     for i in range(5):
-        nob = state[6+6*i:12+6*i]
+        nob = state[6 + 6 * i : 12 + 6 * i]
         if (nob != 0).any():
             for k in range(10):
                 if (__NOBLE_CARD__[k] == nob).all():
                     nob_id = k
                     break
 
-            bg.paste(sprites.nob_cards[k],
-                     (1150+160*i, 120),
-                     sprites.nob_cards[nob_id])
+            bg.paste(
+                sprites.nob_cards[k], (1150 + 160 * i, 120), sprites.nob_cards[nob_id]
+            )
 
-    # Normal card
+    #  Normal card
     nm_cards_ = []
     for i in range(12):
-        card = state[36+11*i:47+11*i]
+        card = state[36 + 11 * i : 47 + 11 * i]
         if (card != 0).any():
             for k in range(90):
                 if (__NORMAL_CARD__[k] == card).all():
@@ -103,82 +112,106 @@ def get_state_image(state=None):
         if nm_cards[i] != -1:
             a = i % 4
             b = i // 4
-            bg.paste(sprites.cards[nm_cards[i]],
-                    (1310+160*a, 270+200*b), sprites.cards[nm_cards[i]])
+            bg.paste(
+                sprites.cards[nm_cards[i]],
+                (1310 + 160 * a, 270 + 200 * b),
+                sprites.cards[nm_cards[i]],
+            )
             text = str(nm_cards[i])
             if len(text) == 1:
                 text = "0" + text
 
-            draw_outlined_text(draw, text, params.font32, (1390+160*a, 405+200*b), (0, 0, 0), 1)
-
+            draw_outlined_text(
+                draw, text, params.font32, (1390 + 160 * a, 405 + 200 * b), (0, 0, 0), 1
+            )
 
     for i in range(3):
-        card = state[168+11*i:179+11*i]
+        card = state[168 + 11 * i : 179 + 11 * i]
         if (card != 0).any():
             for k in range(90):
                 if (__NORMAL_CARD__[k] == card).all():
                     card_id = k
                     break
-            bg.paste(sprites.cards[card_id],
-                     (360+140*i, 690),
-                     sprites.cards[card_id])
+            bg.paste(
+                sprites.cards[card_id], (360 + 140 * i, 690), sprites.cards[card_id]
+            )
             text = str(card_id)
             if len(text) == 1:
                 text = "0" + text
 
-            draw_outlined_text(draw, text, params.font32, (440+140*i, 825), (0, 0, 0), 1)
+            draw_outlined_text(
+                draw, text, params.font32, (440 + 140 * i, 825), (0, 0, 0), 1
+            )
 
     for p in range(3):
         temp = []
         for i in range(3):
-            temp += [i] * int(state[249+3*p+i])
+            temp += [i] * int(state[249 + 3 * p + i])
 
         for k in range(len(temp)):
-            bg.paste(sprites.small_cards_back[temp[k]],
-                     (380+140*k, 90+200*p),
-                     sprites.small_cards_back[temp[k]])
+            bg.paste(
+                sprites.small_cards_back[temp[k]],
+                (380 + 140 * k, 90 + 200 * p),
+                sprites.small_cards_back[temp[k]],
+            )
 
     for i in range(3):
-        if state[264+i] == 1:
+        if state[264 + i] == 1:
             k = 2 - i
-            bg.paste(sprites.cards_back[i],
-                     (1150, 270+200*k),
-                     sprites.cards_back[i])
+            bg.paste(
+                sprites.cards_back[i], (1150, 270 + 200 * k), sprites.cards_back[i]
+            )
 
     for i in range(6):
         text = str(int(state[i]))
-        draw_outlined_text(draw, text, params.font28, (1290+75*i, 20), (0, 0, 0), 1)
-        text = str(int(state[201+i]))
-        draw_outlined_text(draw, text, params.font28, (340+75*i, 620), (0, 0, 0), 1)
-        text = str(int(state[213+i]))
-        draw_outlined_text(draw, text, params.font28, (340+75*i, 20), (0, 0, 0), 1)
-        text = str(int(state[225+i]))
-        draw_outlined_text(draw, text, params.font28, (340+75*i, 220), (0, 0, 0), 1)
-        text = str(int(state[237+i]))
-        draw_outlined_text(draw, text, params.font28, (340+75*i, 420), (0, 0, 0), 1)
+        draw_outlined_text(draw, text, params.font28, (1290 + 75 * i, 20), (0, 0, 0), 1)
+        text = str(int(state[201 + i]))
+        draw_outlined_text(draw, text, params.font28, (340 + 75 * i, 620), (0, 0, 0), 1)
+        text = str(int(state[213 + i]))
+        draw_outlined_text(draw, text, params.font28, (340 + 75 * i, 20), (0, 0, 0), 1)
+        text = str(int(state[225 + i]))
+        draw_outlined_text(draw, text, params.font28, (340 + 75 * i, 220), (0, 0, 0), 1)
+        text = str(int(state[237 + i]))
+        draw_outlined_text(draw, text, params.font28, (340 + 75 * i, 420), (0, 0, 0), 1)
 
         if i != 5:
-            text = str(int(state[207+i]))
-            draw_outlined_text(draw, text, params.font28, (340+75*i, 650), (0, 0, 0), 1)
-            text = str(int(state[219+i]))
-            draw_outlined_text(draw, text, params.font28, (340+75*i, 50), (0, 0, 0), 1)
-            text = str(int(state[231+i]))
-            draw_outlined_text(draw, text, params.font28, (340+75*i, 250), (0, 0, 0), 1)
-            text = str(int(state[243+i]))
-            draw_outlined_text(draw, text, params.font28, (340+75*i, 450), (0, 0, 0), 1)
+            text = str(int(state[207 + i]))
+            draw_outlined_text(
+                draw, text, params.font28, (340 + 75 * i, 650), (0, 0, 0), 1
+            )
+            text = str(int(state[219 + i]))
+            draw_outlined_text(
+                draw, text, params.font28, (340 + 75 * i, 50), (0, 0, 0), 1
+            )
+            text = str(int(state[231 + i]))
+            draw_outlined_text(
+                draw, text, params.font28, (340 + 75 * i, 250), (0, 0, 0), 1
+            )
+            text = str(int(state[243 + i]))
+            draw_outlined_text(
+                draw, text, params.font28, (340 + 75 * i, 450), (0, 0, 0), 1
+            )
 
     text = str(int(state[212]))
     bbox = draw.textbbox((0, 0), text, params.font40)
-    draw_outlined_text(draw, text, params.font40, (200-bbox[2]/2, 700), (255, 255, 255), 1)
+    draw_outlined_text(
+        draw, text, params.font40, (200 - bbox[2] / 2, 700), (255, 255, 255), 1
+    )
     text = str(int(state[224]))
     bbox = draw.textbbox((0, 0), text, params.font40)
-    draw_outlined_text(draw, text, params.font40, (200-bbox[2]/2, 100), (255, 255, 255), 1)
+    draw_outlined_text(
+        draw, text, params.font40, (200 - bbox[2] / 2, 100), (255, 255, 255), 1
+    )
     text = str(int(state[236]))
     bbox = draw.textbbox((0, 0), text, params.font40)
-    draw_outlined_text(draw, text, params.font40, (200-bbox[2]/2, 300), (255, 255, 255), 1)
+    draw_outlined_text(
+        draw, text, params.font40, (200 - bbox[2] / 2, 300), (255, 255, 255), 1
+    )
     text = str(int(state[248]))
     bbox = draw.textbbox((0, 0), text, params.font40)
-    draw_outlined_text(draw, text, params.font40, (200-bbox[2]/2, 500), (255, 255, 255), 1)
+    draw_outlined_text(
+        draw, text, params.font40, (200 - bbox[2] / 2, 500), (255, 255, 255), 1
+    )
 
     return bg
 
@@ -229,8 +262,15 @@ def get_env_components():
     return Env_components(env, lv1, lv2, lv3, winner, list_other)
 
 
-def get_main_player_state(env_components: Env_components, list_agent, list_data, action=None):
-    env, lv1, lv2, lv3 = env_components.env, env_components.lv1, env_components.lv2, env_components.lv3
+def get_main_player_state(
+    env_components: Env_components, list_agent, list_data, action=None
+):
+    env, lv1, lv2, lv3 = (
+        env_components.env,
+        env_components.lv1,
+        env_components.lv2,
+        env_components.lv3,
+    )
     if not action is None:
         _env.stepEnv(action, env, lv1, lv2, lv3)
     env_components.winner = _env.checkEnded(env)
@@ -241,8 +281,8 @@ def get_main_player_state(env_components: Env_components, list_agent, list_data,
                 break
 
             state = _env.getAgentState(env, lv1, lv2, lv3)
-            agent = list_agent[env_components.list_other[p_idx]-1]
-            data = list_data[env_components.list_other[p_idx]-1]
+            agent = list_agent[env_components.list_other[p_idx] - 1]
+            data = list_data[env_components.list_other[p_idx] - 1]
             action, data = agent(state, data)
             _env.stepEnv(action, env, lv1, lv2, lv3)
             env_components.winner = _env.checkEnded(env)
@@ -267,13 +307,13 @@ def get_main_player_state(env_components: Env_components, list_agent, list_data,
         else:
             win = 0
 
-        # Chạy turn cuối cho 3 bot hệ thống
+        #  Chạy turn cuối cho 3 bot hệ thống
         for p_idx in range(4):
             if p_idx != my_idx:
                 env_[83] = p_idx
                 _state = _env.getAgentState(env_, lv1, lv2, lv3)
-                agent = list_agent[env_components.list_other[p_idx]-1]
-                data = list_data[env_components.list_other[p_idx]-1]
+                agent = list_agent[env_components.list_other[p_idx] - 1]
+                data = list_data[env_components.list_other[p_idx] - 1]
                 action, data = agent(_state, data)
 
     return win, state, env_components

@@ -1,12 +1,12 @@
-##  Thông tin quan trọng:
+##   Thông tin quan trọng:
      -    17: Điểm của bản thân
      -    213, 214, 215: Điểm của 3 người chơi còn lại
      
-## :video_game: Action
+##  :video_game: Action
      -   [0:12]: Chọn 12 thẻ trên bàn
      -   [12:15]: Chọn 3 thẻ úp trên tay
 
-## Thứ tự ưu tiên các action
+##  Thứ tự ưu tiên các action
      - 1. -> Lấy thẻ target
      - 2. -> Lấy nguyên liệu đang cần cho thẻ target
                - Lấy 2 nguyên liệu giống nhau(Nguyên liệu thẻ target cần >= 2)
@@ -20,7 +20,7 @@
      - 7. -> Không làm được gì cả (Skip turn)
 
 
-## :bust_in_silhouette: P_state
+##  :bust_in_silhouette: P_state
      - Thông tin nguyên liệu theo thứ tự: red, blue, green, black, white, yellow
      -   [:6]            là Số lượng nguyên liệu đang có trên bàn
      -   [6: 18]         thông tin của người chơi, gồm có  6 nguyên liệu đang có, 5 nguyên liệu mặc định và điểm
@@ -55,7 +55,7 @@
 
 
      
-## :globe_with_meridians: ENV_state
+##  :globe_with_meridians: ENV_state
     -   [0:90] các thẻ trên bàn: 5 là đang ở trên bàn, -(p_id) là đang úp, p_id là người chơi đã mua được
     -   [100] Turn
     -   [101:107] Nguyên liệu trên bàn, gồm có 6 nguyên liệu
@@ -64,7 +64,7 @@
     -   [161:164] 3 thẻ ẩn có thể úp cấp 1, 2, 3
 
 
-## Thứ tự ưu tiên các action cũ
+##  Thứ tự ưu tiên các action cũ
      - 1. -> Lấy thẻ target
      - 2. Nếu số nguyên liệu đang có <=7 và lấy được và có nguyên liệu để mua thẻ target -> Lấy 3 nguyên liệu
      - 3. Nếu thẻ target ở trên bàn và úp được -> úp thẻ
