@@ -1,9 +1,9 @@
 from PIL import Image, ImageDraw, ImageFont
 import numpy as np
 from setup import SHORT_PATH
-from Base.Imploding_Kitten_new import _env
+from Base.Exploding_Kitten import _env
 
-IMG_PATH = SHORT_PATH + "Base/Exploding_Kitten_new/images/"
+IMG_PATH = SHORT_PATH + "Base/Exploding_Kitten/images/"
 
 
 class Params:
@@ -23,35 +23,9 @@ class Params:
             "Defuse",
             "Exploding",
         ]
-        self.im_card_order = [
-            "Reverse",
-            "DrawFromBottom",
-            "Feral",
-            "AlterTheFuture",
-            "TargetAttack",
-            "Imploding",
-        ]
-        self.all_card_order = [
-            "Nope",
-            "Attack",
-            "Skip",
-            "Favor",
-            "Shuffle",
-            "Future",
-            "Taco",
-            "Rainbow",
-            "Beard",
-            "Potato",
-            "Melon",
-            "Reverse",
-            "DrawFromBottom",
-            "Feral",
-            "AlterTheFuture",
-            "TargetAttack",
-            "Defuse",
-        ]
         self.font32 = ImageFont.FreeTypeFont("ImageFonts/arial.ttf", 32)
         self.font24 = ImageFont.FreeTypeFont("ImageFonts/arial.ttf", 24)
+        self.coords = [(50, 430), (50, 30), (1930, 30), (1930, 430)]
 
 
 params = Params()
@@ -59,29 +33,15 @@ params = Params()
 
 class Sprites:
     def __init__(self) -> None:
-        self.background = Image.open(IMG_PATH + "Im_background.png").resize((2100, 900))
+        self.background = Image.open(IMG_PATH + "background.png").resize((2100, 900))
         self._background_ = self.background.copy()
         self.card_back = (
             Image.open(IMG_PATH + "Cardback.png").resize((120, 168)).convert("RGBA")
         )
         self.cards = []
-        self.sm_cards = []
         for name in params.card_order:
             self.cards.append(
                 Image.open(IMG_PATH + f"{name}.png").resize((120, 168)).convert("RGBA")
-            )
-            self.sm_cards.append(
-                Image.open(IMG_PATH + f"{name}.png").resize((100, 140)).convert("RGBA")
-            )
-
-        self.im_cards = []
-        self.sm_im_cards = []
-        for name in params.im_card_order:
-            self.im_cards.append(
-                Image.open(IMG_PATH + f"{name}.png").resize((120, 168)).convert("RGBA")
-            )
-            self.sm_im_cards.append(
-                Image.open(IMG_PATH + f"{name}.png").resize((100, 140)).convert("RGBA")
             )
 
 
@@ -109,49 +69,49 @@ def get_state_image(state=None):
     draw = ImageDraw.ImageDraw(bg)
 
     #  Hold in hand
-    temp = state[0:17].astype(int)
-    for i in range(17):
+    temp = state[0:12].astype(int)
+    for i in range(12):
         text = str(temp[i])
         draw_outlined_text(
-            draw, text, params.font32, (68 + 110 * i, 827), (255, 255, 255), 1
+            draw, text, params.font32, (153 + 140 * i, 835), (255, 255, 255), 1
         )
 
     #  Discard pile
-    temp = state[17:35].astype(int)
-    for i in range(18):
+    temp = state[12:25].astype(int)
+    for i in range(13):
         text = str(temp[i])
         bbox = draw.textbbox((0, 0), text, params.font32)
         draw_outlined_text(
             draw,
             text,
             params.font32,
-            (162 + 110 * i - bbox[2], 720),
+            (147 + 140 * i + 120 - bbox[2], 700),
             (255, 255, 255),
             1,
         )
 
     #  Draw pile
-    text = str(int(state[35]))
+    text = str(int(state[25]))
     bbox = draw.textbbox((0, 0), text, params.font32)
     draw_outlined_text(
-        draw, text, params.font32, (1050 - bbox[2] // 2, 380), (255, 255, 255), 1
+        draw, text, params.font32, (1050 - bbox[2] // 2, 260), (255, 255, 255), 1
     )
 
     #  Have to draw
-    text = str(int(state[100]))
+    text = str(int(state[71]))
     bbox = draw.textbbox((0, 0), text, params.font32)
     draw_outlined_text(
-        draw, text, params.font32, (1050 - bbox[2] // 2, 420), (0, 0, 0), 1
+        draw, text, params.font32, (1050 - bbox[2] // 2, 300), (0, 0, 0), 1
     )
 
     #  Others
-    for i in range(5):
-        if state[116 + i] == 0:
+    for i in range(4):
+        if state[82 + i] == 0:
             text = "Exploded"
             font = params.font24
             b_h = 5
         else:
-            text = str(int(state[122 + i]))
+            text = str(int(state[87 + i]))
             font = params.font32
             b_h = 0
 
@@ -160,25 +120,17 @@ def get_state_image(state=None):
             draw,
             text,
             font,
-            (110 + 470 * i - bbox[2] // 2, 160 + b_h),
+            (params.coords[i][0] + 60 - bbox[2] // 2, params.coords[i][1] + 130 + b_h),
             (255, 255, 255),
             1,
         )
 
     #  Last action
-    a = np.where(state[101:116] == 1)[0]
+    a = np.where(state[72:82] == 1)[0]
     if len(a) == 1:
         last_action = a[0]
         if last_action < 6:
-            bg.paste(sprites.cards[last_action], (300, 250))
-        elif last_action == 11:
-            bg.paste(sprites.im_cards[0], (300, 250))
-        elif last_action == 12:
-            bg.paste(sprites.im_cards[1], (300, 250))
-        elif last_action == 13:
-            bg.paste(sprites.im_cards[3], (300, 250))
-        elif last_action == 14:
-            bg.paste(sprites.im_cards[4], (300, 250))
+            bg.paste(sprites.cards[last_action], (520, 130))
         else:
             if last_action == 6:
                 text = "Draw card"
@@ -193,93 +145,52 @@ def get_state_image(state=None):
 
             bbox = draw.textbbox((0, 0), text, params.font32)
             draw_outlined_text(
-                draw, text, params.font32, (360 - bbox[2] // 2, 300), (0, 0, 0), 1
+                draw, text, params.font32, (580 - bbox[2] // 2, 180), (0, 0, 0), 1
             )
 
     #  Exploded
-    if state[121] == 0:
+    if state[86] == 0:
         text = "Exploded"
         bbox = draw.textbbox((0, 0), text, params.font32)
         draw_outlined_text(
-            draw, text, params.font32, (1050 - bbox[2] // 2, 630), (0, 0, 0), 1
+            draw, text, params.font32, (1050 - bbox[2] // 2, 600), (0, 0, 0), 1
         )
 
     #  See the future
     temp = []
     for i in range(3):
         try:
-            temp.append(np.where(state[38 + 19 * i : 57 + 19 * i] == 1)[0][0])
+            temp.append(np.where(state[28 + 13 * i : 41 + 13 * i] == 1)[0][0])
         except:
             pass
 
     w_ = len(temp) * 140 - 20
     s_ = 1520 - w_ // 2
     for i in range(len(temp)):
-        idx = temp[i]
-        if idx < 11:
-            card = sprites.cards[idx]
-        elif idx < 16:
-            card = sprites.im_cards[idx - 11]
-        elif idx == 16:
-            card = sprites.cards[-2]
-        elif idx == 17:
-            card = sprites.cards[-1]
-        else:
-            card = sprites.im_cards[-1]
-
-        bg.paste(card, (s_ + 140 * i, 250))
+        bg.paste(sprites.cards[temp[i]], (s_ + 140 * i, 130))
 
     #  Nope
-    if state[37] == 1:
+    if state[27] == 1:
         text = "Nope"
         bbox = draw.textbbox((0, 0), text, params.font32)
         draw_outlined_text(
-            draw, text, params.font32, (360 - bbox[2] // 2, 420), (0, 0, 0), 1
+            draw, text, params.font32, (580 - bbox[2] // 2, 300), (0, 0, 0), 1
         )
 
     #  Cards have been discarded
     temp = []
-    for i in range(16):
-        for k in range(int(state[128 + i])):
+    for i in range(11):
+        for k in range(int(state[91 + i])):
             temp.append(i)
 
-    w_ = len(temp) * 110 - 10
+    w_ = len(temp) * 140 - 20
     s_ = 1050 - w_ // 2
     for i in range(len(temp)):
-        idx = temp[i]
-        if idx < 11:
-            card = sprites.sm_cards[idx]
-        elif idx < 16:
-            card = sprites.sm_im_cards[idx - 11]
-
-        bg.paste(card, (s_ + 110 * i, 470))
-
-    #  Imploded
-    if state[127] == 1:
-        bg.paste(sprites.im_cards[-1], (680, 250))
+        bg.paste(sprites.cards[temp[i]], (s_ + 140 * i, 380))
 
     return bg
 
 
-temp = [
-    "Nope",
-    "Attack",
-    "Skip",
-    "Favor",
-    "Shuffle",
-    "Future",
-    "Taco",
-    "Rainbow",
-    "Beard",
-    "Potato",
-    "Melon",
-    "Reverse",
-    "DrawFromBottom",
-    "Feral",
-    "AlterTheFuture",
-    "TargetAttack",
-    "Defuse",
-]
 action_annotations = (
     [
         "Nope",
@@ -293,17 +204,12 @@ action_annotations = (
         "Play triplecard",
         "Play five kinds of card",
         "Not Nope",
-        "Reverse",
-        "Draw from bottom",
-        "Alter the future",
-        "Targeted Attack",
     ]
-    + [f"Choose player {i+1} to rob" for i in range(5)]
-    + [f'Choose "{temp[i]}"-card to give' for i in range(17)]
-    + [f'Ask about "{temp[i]}"-card' for i in range(17)]
-    + [f'Choose "{temp[i]}"-card from Discard pile' for i in range(17)]
-    + [f"Choose the {i+1}-th combination to Alter" for i in range(6)]
-    + [f'Discard "{temp[i]}"-card' for i in range(16)]
+    + [f"Choose player {i+1} to rob" for i in range(4)]
+    + [f'Choose "{params.card_order[i]}"-card to give' for i in range(12)]
+    + [f'Ask about "{params.card_order[i]}"-card' for i in range(12)]
+    + [f'Choose "{params.card_order[i]}"-card from Discard pile' for i in range(12)]
+    + [f'Discard "{params.card_order[i]}"-card' for i in range(11)]
 )
 
 
@@ -327,7 +233,7 @@ class Env_components:
 def get_env_components():
     env, draw, discard = _env.initEnv()
     winner = _env.checkEnded(env)
-    list_other = np.array([-1, 1, 2, 3, 4, 5])
+    list_other = np.array([-1, 1, 2, 3, 4])
     np.random.shuffle(list_other)
     turn = 0
     return Env_components(env, draw, discard, winner, list_other, turn)
@@ -343,11 +249,11 @@ def get_main_player_state(
         env_components.turn += 1
 
     env_components.winner = _env.checkEnded(env_components.env)
-    while env_components.winner == -1 and env_components.turn < 300:
-        phase = env_components.env[89]
-        main_id = env_components.env[77]
-        nope_id = env_components.env[95]
-        last_action = env_components.env[94]
+    while env_components.winner == -1 and env_components.turn < 500:
+        phase = env_components.env[67]
+        main_id = env_components.env[57]
+        nope_id = env_components.env[73]
+        last_action = env_components.env[72]
         if phase == 0:
             pIdx = int(main_id)
         elif phase == 1:
@@ -356,12 +262,10 @@ def get_main_player_state(
             pIdx = int(main_id)
         elif phase == 3:
             if last_action == 3:
-                pIdx = int(env_components.env[96])
+                pIdx = int(env_components.env[74])
             else:
                 pIdx = int(main_id)
         elif phase == 4:
-            pIdx = int(main_id)
-        elif phase == 5:
             pIdx = int(main_id)
 
         if env_components.list_other[pIdx] == -1:
@@ -379,17 +283,17 @@ def get_main_player_state(
         env_components.turn += 1
         env_components.winner = _env.checkEnded(env_components.env)
 
-    if env_components.winner == -1 and env_components.turn < 300:
+    if env_components.winner == -1 and env_components.turn < 500:
         state = _env.getAgentState(
             env_components.env, env_components.draw, env_components.discard
         )
         win = -1
     else:
         env = env_components.env.copy()
-        env[89] = 0
+        env[67] = 0
         my_idx = np.where(env_components.list_other == -1)[0][0]
-        env[77] = my_idx
-        env[78:83] = _env.nopeTurn(my_idx)
+        env[57] = my_idx
+        env[58:62] = _env.nopeTurn(env[57])
         state = _env.getAgentState(env, env_components.draw, env_components.discard)
         if _env.checkEnded(env) == my_idx:
             win = 1
@@ -397,8 +301,8 @@ def get_main_player_state(
             win = 0
 
         for pIdx in range(5):
-            env[77] = pIdx
-            env[78:83] = _env.nopeTurn(pIdx)
+            env[57] = pIdx
+            env[58:62] = _env.nopeTurn(env[57])
             if pIdx != my_idx:
                 _state = _env.getAgentState(
                     env, env_components.draw, env_components.discard
