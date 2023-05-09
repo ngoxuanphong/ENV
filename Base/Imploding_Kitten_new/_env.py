@@ -1032,7 +1032,7 @@ def load_agent(level, *args):
 
 
 def numba_main_2(p0, num_game, per_player, level, *args):
-
+    num_bot = getAgentSize() - 1
     list_other = np.array([-1] + [i + 1 for i in range(num_bot)])
     try:
         check_njit = check_run_under_njit(p0)
