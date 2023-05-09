@@ -1,7 +1,7 @@
-# Thông tin quan trọng
+#  Thông tin quan trọng
     state[0:8]: Điểm của bàn chơi
 
-# ACTION
+#  ACTION
     0: Bỏ lượt
     1: Lật Monster 
     2: Bỏ Monster vào hang
@@ -19,7 +19,7 @@
     23: Choose Warrior
     24: Choose Rogue
 
-# State
+#  State
 
     state[0:8] : Số trận thắng, thua trên bàn chơi
     state[8:12] : Trạng thái bỏ lượt của 4 người trong round
@@ -55,7 +55,7 @@
         Phase 2: Chọn quái vật tiêu diệt quái vật khi có vorpal
         Phase 3: Chọn Hero
 
-# ENVIRONMENT        
+#  ENVIRONMENT        
     env[0:8] = 0
         env[0:2]: Thắng,Thua của người chơi 1
         env[2:4]: Thắng,Thua của người chơi 2
@@ -80,7 +80,7 @@
     env[62] = 0: Phase
 
 
-# Info equipments
+#  Info equipments
     Warrior = [ "Knight Shield: HP+3",
             "Plate Armor: HP+5",
             "Torch: Defeat Monsters with strength 3 or less",

@@ -1,4 +1,4 @@
-## :video_game: Action
+##  :video_game: Action
     0-51: attack or defense card with index respectively:
         0-12: Two Spade - Ace Spade
         13-25: Two Club - Ace Club
@@ -8,7 +8,7 @@
     52: skip turn (attacker) or defend fail(defender).
 
 
-## :bust_in_silhouette: P_state
+##  :bust_in_silhouette: P_state
 
     state[0:52] = {"1":have that card,"0":dont have that card} (index of the card)
     state[52:104] = {"1":card defend successful(being defend),"0":not or dont have to}
@@ -20,7 +20,7 @@
     state[166]: end game
 
 
-## :globe_with_meridians: ENV_state
+##  :globe_with_meridians: ENV_state
 
     *Index:(env[0:52])
     0-12: Two Spade - Ace Spade

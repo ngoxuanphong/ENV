@@ -1,9 +1,9 @@
-##  Thông tin quan trọng:
+##   Thông tin quan trọng:
       16-17-18-19: Thông tin 4 thẻ chiến thắng của bản thân
       [36:40], [56:60], [76:80]: Thông tin 4 thẻ chiến thắng của các người chơi khác
       Total: player state length = 130
       
-## :video_game: ALL_ACTION
+##  :video_game: ALL_ACTION
       0	Không đổ lại xúc sắc
       1	Đổ 1 xúc sắc
       2	Đổ 2 xúc sắc
@@ -59,7 +59,7 @@
       52	Mua thẻ 4đ
       53	Ko mua thẻ nữa
 
-## :bust_in_silhouette: P_state
+##  :bust_in_silhouette: P_state
       Quy ước phase: 
       phase1: chọn xúc sắc để đổ
       phase2: chọn đổ lại hay k
@@ -102,7 +102,7 @@
       *   [129]:  Check end game
 
 
-## :globe_with_meridians: ENV_state
+##  :globe_with_meridians: ENV_state
       *   [0:80] Thông tin các người chơi (coin, số lượng thẻ mỗi loại): 
       *   [80:92] Số lượng của 12 thẻ bình thường còn trên bàn
       *   [92:104] Số lượng loại thẻ mà người chơi đã mua trong turn

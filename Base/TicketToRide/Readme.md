@@ -1,4 +1,4 @@
-## :video_game: ALL_ACTION
+##  :video_game: ALL_ACTION
 * range(0,101): action xây đường
 * range(101, 147): action drop thẻ route
 * range(147, 157): action nhặt thẻ train_car
@@ -8,7 +8,7 @@
 * range(170, 171): action skip
 **Total 171 action**
 
-## :bust_in_silhouette: P_state
+##  :bust_in_silhouette: P_state
 *   [0:5] là **điểm của các người chơi**
 *   [5:10] là **điểm cần trừ của các người chơi** : do ko hoàn thành thẻ route
 
@@ -34,7 +34,7 @@
 
 **Total: player state length = 678**
 
-## :globe_with_meridians: ENV_state
+##  :globe_with_meridians: ENV_state
 *   [0:101] **các đường trên bàn**: range(0,5) là của người chơi, chưa bị sở hữu là -1
 *   [101:147] **mảng tạm đại diện thẻ route trên bàn chơi, vị trí nào không có thì là -1, số vị trí khác -1 là số thẻ route còn trên bàn**
 *   [147:257] **Mảng tạm đại diện cho các thẻ train_car trên bàn chơi, vị trí không có là -1**, Các giá trị là range(0,9) và -1

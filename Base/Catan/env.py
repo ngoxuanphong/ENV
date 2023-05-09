@@ -1,7 +1,10 @@
 from Base.Catan import _env as __env
 from render_template import Render as __Render, import_files as __import_files
-from numba.core.errors import NumbaPendingDeprecationWarning as __NumbaPendingDeprecationWarning
+from numba.core.errors import (
+    NumbaPendingDeprecationWarning as __NumbaPendingDeprecationWarning,
+)
 import warnings as __warnings
+
 __warnings.simplefilter("ignore", __NumbaPendingDeprecationWarning)
 
 
@@ -19,8 +22,6 @@ POINT_POINT = __env.POINT_POINT
 POINT_ROAD = __env.POINT_ROAD
 TILE_TILE = __env.TILE_TILE
 ROAD_POINT = __env.ROAD_POINT
-
-
 
 
 def render(Agent, per_data, level, *args, max_temp_frame=100):

@@ -1,17 +1,21 @@
 import numpy as np
-import random as rd
-from numba import njit, jit
-import sys, os
+from numba import njit
+import sys
 from setup import SHORT_PATH
 import importlib.util
+
 game_name = sys.argv[1]
 
+
 def setup_game(game_name):
-    spec = importlib.util.spec_from_file_location('env', f"{SHORT_PATH}Base/{game_name}/env.py")
+    spec = importlib.util.spec_from_file_location(
+        "env", f"{SHORT_PATH}Base/{game_name}/env.py"
+    )
     module = importlib.util.module_from_spec(spec)
     sys.modules[spec.name] = module
     spec.loader.exec_module(module)
     return module
+
 
 env = setup_game(game_name)
 
@@ -25,10 +29,12 @@ getReward = env.getReward
 
 from numba.typed import List
 
+
 def convert_to_save(perData):
     if type(perData) == np.ndarray:
         raise Exception("Data này đã được convert rồi.")
     return perData[0][0]
+
 
 def convert_to_test(perData):
     return perData
@@ -36,7 +42,6 @@ def convert_to_test(perData):
 
 @njit()
 def Train(state, per):
-
     if per[4][0][0] < 10000:
         if per[3][0][0] == -1:
             choice = np.argmin(per[2][0])
@@ -191,13 +196,13 @@ def Test(state, per):
 @njit()
 def DataAgent():
     per_Ann = List()
-    per_Ann.append(np.random.rand(100, getActionSize()))  # 0
-    per_Ann.append(np.zeros((1, 100)))  # 1
-    per_Ann.append(np.zeros((1, 100)))  # 2
-    per_Ann.append(np.array([[-1.]]))  # 3
-    per_Ann.append(np.array([[0.]]))  # 4
-    per_Ann.append(np.zeros((getActionSize(), getActionSize())))  # 5
-    per_Ann.append(np.zeros((1, getActionSize())))  # 6
-    per_Ann.append(np.zeros((1, 1000)))  # 7
-    per_Ann.append(np.zeros((getActionSize(), getActionSize())))  # 8
+    per_Ann.append(np.random.rand(100, getActionSize()))  #  0
+    per_Ann.append(np.zeros((1, 100)))  #  1
+    per_Ann.append(np.zeros((1, 100)))  #  2
+    per_Ann.append(np.array([[-1.0]]))  #  3
+    per_Ann.append(np.array([[0.0]]))  #  4
+    per_Ann.append(np.zeros((getActionSize(), getActionSize())))  #  5
+    per_Ann.append(np.zeros((1, getActionSize())))  #  6
+    per_Ann.append(np.zeros((1, 1000)))  #  7
+    per_Ann.append(np.zeros((getActionSize(), getActionSize())))  #  8
     return per_Ann

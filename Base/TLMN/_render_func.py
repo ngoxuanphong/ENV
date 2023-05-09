@@ -2,6 +2,7 @@ from PIL import Image, ImageEnhance
 import numpy as np
 from setup import SHORT_PATH
 from Base.TLMN import _env
+
 IMG_PATH = SHORT_PATH + "Base/TLMN/playing_card_images/"
 BG_SIZE = (1680, 720)
 CARD_SIZE = (80, 112)
@@ -9,20 +10,24 @@ CARD_SIZE = (80, 112)
 
 class Sprites:
     def __init__(self) -> None:
-        self.background = Image.open(IMG_PATH+"background.png").resize(BG_SIZE)
+        self.background = Image.open(IMG_PATH + "background.png").resize(BG_SIZE)
         card_values = ["3", "4", "5", "6", "7", "8", "9", "10", "J", "Q", "K", "A", "2"]
         card_suits = ["Spade", "Club", "Diamond", "Heart"]
         self.cards = []
         for value in card_values:
             for suit in card_suits:
-                self.cards.append(Image.open(IMG_PATH+f"{value}-{suit}.png").resize(CARD_SIZE))
+                self.cards.append(
+                    Image.open(IMG_PATH + f"{value}-{suit}.png").resize(CARD_SIZE)
+                )
 
-        self.card_back = Image.open(IMG_PATH+"Card_back.png").resize(CARD_SIZE)
+        self.card_back = Image.open(IMG_PATH + "Card_back.png").resize(CARD_SIZE)
         self.faded_card_back = self.card_back.copy()
         br = ImageEnhance.Brightness(self.faded_card_back)
         self.faded_card_back = br.enhance(0.5)
         ct = ImageEnhance.Contrast(self.faded_card_back)
         self.faded_card_back = ct.enhance(0.5)
+
+
 sprites = Sprites()
 
 
@@ -31,21 +36,25 @@ class Params:
         self.center_card_x = BG_SIZE[0] * 0.5
         self.center_card_y = (BG_SIZE[1] - CARD_SIZE[1]) * 0.5
         self.list_coords_0 = [
-            (self.center_card_x, 0.92*BG_SIZE[1] - CARD_SIZE[1]),
-            (0.82*BG_SIZE[0], self.center_card_y),
-            (self.center_card_x, 0.08*BG_SIZE[1]),
-            (0.18*BG_SIZE[0], self.center_card_y)
+            (self.center_card_x, 0.92 * BG_SIZE[1] - CARD_SIZE[1]),
+            (0.82 * BG_SIZE[0], self.center_card_y),
+            (self.center_card_x, 0.08 * BG_SIZE[1]),
+            (0.18 * BG_SIZE[0], self.center_card_y),
         ]
 
         x_0 = BG_SIZE[0] * 0.32
         x_1 = BG_SIZE[0] * 0.68
-        y_0 = 0.2*BG_SIZE[1] - 0.25*CARD_SIZE[1]
-        y_1 = 0.8*BG_SIZE[1] - 0.75*CARD_SIZE[1]
+        y_0 = 0.2 * BG_SIZE[1] - 0.25 * CARD_SIZE[1]
+        y_1 = 0.8 * BG_SIZE[1] - 0.75 * CARD_SIZE[1]
         self.list_coords_1 = [(x_0, y_1), (x_1, y_1), (x_1, y_0), (x_0, y_0)]
+
+
 params = Params()
 
 
 _d_ = CARD_SIZE[0] * 0.2
+
+
 def draw_cards(bg, cards, s, y, back=False, faded=False):
     n = cards.shape[0]
     y = round(y)
@@ -56,10 +65,10 @@ def draw_cards(bg, cards, s, y, back=False, faded=False):
             im = sprites.card_back
 
         for i in range(n):
-            bg.paste(im, (round(s+_d_*i), y))
+            bg.paste(im, (round(s + _d_ * i), y))
     else:
         for i in range(n):
-            bg.paste(sprites.cards[cards[i]], (round(s+_d_*i), y))
+            bg.paste(sprites.cards[cards[i]], (round(s + _d_ * i), y))
 
 
 def get_state_image(state=None):
@@ -69,37 +78,39 @@ def get_state_image(state=None):
 
     my_cards = np.where(state[0:52])[0]
     n = my_cards.shape[0]
-    w = CARD_SIZE[0] + _d_ * (n-1)
-    s = params.list_coords_0[0][0] - 0.5*w
+    w = CARD_SIZE[0] + _d_ * (n - 1)
+    s = params.list_coords_0[0][0] - 0.5 * w
     draw_cards(background, my_cards, s, params.list_coords_0[0][1])
 
     for k in range(1, 4):
-        faded = not state[103+k]
-        n = state[106+k]
-        w = CARD_SIZE[0] + _d_ * (n-1)
+        faded = not state[103 + k]
+        n = state[106 + k]
+        w = CARD_SIZE[0] + _d_ * (n - 1)
         if k == 1:
             s = params.list_coords_0[1][0] - w
         elif k == 2:
-            s = params.list_coords_0[2][0] - 0.5*w
+            s = params.list_coords_0[2][0] - 0.5 * w
         else:
             s = params.list_coords_0[3][0]
 
-        draw_cards(background, np.full(int(n), 0), s, params.list_coords_0[k][1], True, faded)
+        draw_cards(
+            background, np.full(int(n), 0), s, params.list_coords_0[k][1], True, faded
+        )
 
     cards_played = np.where(state[52:104])[0]
     cur_cards = np.where(state[113:165])[0]
     cards_played = np.setdiff1d(cards_played, cur_cards)
 
     n = cur_cards.shape[0]
-    w = CARD_SIZE[0] + _d_ * (n-1)
-    s = params.center_card_x - 0.5*w
+    w = CARD_SIZE[0] + _d_ * (n - 1)
+    s = params.center_card_x - 0.5 * w
     draw_cards(background, cur_cards, s, params.center_card_y)
 
     list_cards_played = np.array_split(cards_played, 4)
     for k in range(4):
         n = list_cards_played[k].shape[0]
-        w = CARD_SIZE[0] + _d_ * (n-1)
-        s = params.list_coords_1[k][0] - 0.5*w
+        w = CARD_SIZE[0] + _d_ * (n - 1)
+        s = params.list_coords_1[k][0] - 0.5 * w
         draw_cards(background, list_cards_played[k], s, params.list_coords_1[k][1])
 
     return background
@@ -120,7 +131,7 @@ hand_name = {
     12: "10-card straight",
     13: "11-card straight",
     14: "3-pair straight",
-    15: "4-pair straight"
+    15: "4-pair straight",
 }
 
 card_name = []
@@ -164,7 +175,9 @@ def get_env_components():
     return env_components
 
 
-def get_main_player_state(env_components: Env_components, list_agent, list_data, action=None):
+def get_main_player_state(
+    env_components: Env_components, list_agent, list_data, action=None
+):
     if not action is None:
         if action != 0:
             env_components.cur_cards = _env.stepEnv(action, env_components.env)
@@ -179,8 +192,8 @@ def get_main_player_state(env_components: Env_components, list_agent, list_data,
                 break
 
             state = _env.getAgentState(env_components.env, env_components.cur_cards)
-            agent = list_agent[env_components.list_other[p_idx]-1]
-            data = list_data[env_components.list_other[p_idx]-1]
+            agent = list_agent[env_components.list_other[p_idx] - 1]
+            data = list_data[env_components.list_other[p_idx] - 1]
             action, data = agent(state, data)
             if action != 0:
                 env_components.cur_cards = _env.stepEnv(action, env_components.env)
@@ -206,14 +219,14 @@ def get_main_player_state(env_components: Env_components, list_agent, list_data,
         else:
             win = 0
 
-        # Chạy turn cuối cho 3 bot hệ thống
+        #  Chạy turn cuối cho 3 bot hệ thống
         for p_idx in range(4):
             if p_idx != my_idx:
                 env[52] = p_idx
                 env[57] = p_idx
                 _state = _env.getAgentState(env, cur_cards)
-                agent = list_agent[env_components.list_other[p_idx]-1]
-                data = list_data[env_components.list_other[p_idx]-1]
+                agent = list_agent[env_components.list_other[p_idx] - 1]
+                data = list_data[env_components.list_other[p_idx] - 1]
                 action, data = agent(_state, data)
 
     return win, state, env_components

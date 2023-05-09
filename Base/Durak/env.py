@@ -1,7 +1,10 @@
 from Base.Durak import _env as __env
 from render_template import Render as __Render, import_files as __import_files
-from numba.core.errors import NumbaPendingDeprecationWarning as __NumbaPendingDeprecationWarning
+from numba.core.errors import (
+    NumbaPendingDeprecationWarning as __NumbaPendingDeprecationWarning,
+)
 import warnings as __warnings
+
 __warnings.simplefilter("ignore", __NumbaPendingDeprecationWarning)
 
 
@@ -26,6 +29,7 @@ def render(Agent, per_data, level, *args, max_temp_frame=100):
         __render.__init__(Agent, per_data, list_agent, list_data, max_temp_frame)
 
     return __render.render()
+
 
 def get_data_from_visualized_match():
     if "__render" not in globals():

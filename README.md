@@ -1,10 +1,10 @@
-## Installation
+##  Installation
 **In terminal**
     ```
     git clone https://github.com/ngoxuanphong/ENV.git
     ```
 
-## API
+##  API
 ```
 from setup import make
 from numba import njit, jit
@@ -24,7 +24,7 @@ count_win, perData = env.numba_main_2(Agent, count_game_train, perData, level)
 print(count_win)
 ```
 
-## FUNCTION
+##  FUNCTION
     * Agent(state, perData):
         input: state, data
         output: action(int), data
@@ -41,7 +41,7 @@ print(count_win)
         input: None
         output: int, count of array state size of Env
 
-## Environment
+##  Environment
 * [Catan](https://github.com/ngoxuanphong/ENV/tree/main/Base/Catan/)
 * [CatanNoExchange](https://github.com/ngoxuanphong/ENV/tree/main/Base/CatanNoExchange/)
 * [Century](https://github.com/ngoxuanphong/ENV/tree/main/Base/Century/)
@@ -60,17 +60,17 @@ print(count_win)
 * [TicketToRide](https://github.com/ngoxuanphong/ENV/tree/main/Base/TicketToRide/)
 * [TLMN](https://github.com/ngoxuanphong/ENV/tree/main/Base/TLMN/)
 
-## Make Environment
+##  Make Environment
 * [User Manual](https://docs.google.com/document/d/1I2Fquk4aEHwC-v_ROxmONNlOXUtiNQWWS6eiYBQUEeM/edit)
     
-## Check Environment
+##  Check Environment
 ```
 from CheckEnv import check_env
 import your_env as env #path to your env
 print(check_env(env))
 ```
 
-## Check Agent
+##  Check Agent
 ```
 from CheckPlayer import check_player
 import your_agent as agent #path to your env

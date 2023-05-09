@@ -1,4 +1,4 @@
-##  Thông tin quan trọng:
+##   Thông tin quan trọng:
     [0:4]: Trạng thái bỏ lượt của mọi người
     [4:12]: Điểm của mọi người
     __STATE_SIZE__ = 71
@@ -19,7 +19,7 @@
         Demon 12
         Dragon 13
 
-## :video_game: ALL_ACTION
+##  :video_game: ALL_ACTION
     Trong Bidding phase:
         [0]: Bỏ lượt
         [1]: Rút thẻ quái vật và bỏ vào hang
@@ -34,7 +34,7 @@
         [13]: Chọn Mage
 
 
-## :bust_in_silhouette: P_state
+##  :bust_in_silhouette: P_state
     [0:4]: Trạng thái bỏ lượt của mọi người
     [4:12]: Điểm của mọi người
     [12]: Số thẻ quái vật chưa mở
@@ -75,7 +75,7 @@
         Dragon 82
 
 
-## :globe_with_meridians: env_state
+##  :globe_with_meridians: env_state
     [0:4]: Người chơi có bỏ lượt (1: có, 0: không)
     [4:12]: Thắng/Thua của người chơi
         [4:6]: Thắng,Thua của người chơi 1

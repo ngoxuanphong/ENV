@@ -1,8 +1,8 @@
-##  Thông tin quan trọng:
+##   Thông tin quan trọng:
     -   142: Điểm của bản thân
     -   186, 230, 274: Điểm của 3 người chơi còn lại
     
-## :video_game: Action
+##  :video_game: Action
     -    0: Dừng lấy công cụ
     -    [1:11]: Đặt số người (từ 1 đến 10)
     -    11: Đặt người vào lúa
@@ -30,7 +30,7 @@
   
   
   
-  ## :bust_in_silhouette: P_state
+  ##  :bust_in_silhouette: P_state
     -    Thứ tự nguyên liệu: Gỗ, Gạch, Bạc Vàng
     -    thứ tự các ô: Lúa, cụ, sinh, gỗ, gạch, bạc, vàng, thực, 4 thẻ civ, 4 thẻ build
 
@@ -83,7 +83,7 @@
     -        10:   trả nguyên liệu nếu không đủ thức ăn
   
   
-## Civ card
+##  Civ card
     -   0: Loại thẻ có dùng xúc xắc hay không(thẻ Roll xúc xắc lấy giá trị rồi chia cho nguyên liệu trong thẻ)
     -   1: Thẻ roll xúc xắc(Thẻ roll 4 xúc xắc, mõi người chọn một loại tài nguyên tương ứng với số xúc xắc)
     -   2: Thẻ lấy thức ăn
@@ -112,7 +112,7 @@
     -   23: Loại nâng cấp: lúa
        
   
-## Building card
+##  Building card
     -   0: Điểm
     -   1: Gỗ
     -   2: Gạch
@@ -122,7 +122,7 @@
     -   6: Thẻ đổi điểm bằng nguyên liệu từ 4 hoặc 5
     -   7: Số lượng nguyên liệu khác nhau
   
-## :globe_with_meridians: ENV_state
+##  :globe_with_meridians: ENV_state
     - [0:4]: Nguời đang chơi
     - 4: Vòng chơi
     - [5:41]: 36 thẻ Civ

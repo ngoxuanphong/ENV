@@ -219,9 +219,9 @@ def check_winner(env_state):
         number_route_winner_comp[winner_1] = number_route_comp[winner_1]
         route_max = np.max(number_route_winner_comp)
         winner_2 = np.where(number_route_winner_comp == route_max)[0]
-        # env_state[ENV_CHECK_MOST_ROUTE : ENV_CHECK_LONGEST_ROAD][winner_2] = 1
+        #  env_state[ENV_CHECK_MOST_ROUTE : ENV_CHECK_LONGEST_ROAD][winner_2] = 1
         if len(winner_2) == 1:
-            # player_win = winner_2[0]
+            #  player_win = winner_2[0]
             return winner_2, env_state
         else:
             winner_3 = np.array([-1])
@@ -232,7 +232,7 @@ def check_winner(env_state):
                 return winner_2, env_state
             else:
                 winner_3 = winner_3[1:]
-                # env_state[ENV_CHECK_LONGEST_ROAD : ENV_CHECK_LONGEST_ROAD + NUMBER_PLAYER][winner_3] = 1
+                #  env_state[ENV_CHECK_LONGEST_ROAD : ENV_CHECK_LONGEST_ROAD + NUMBER_PLAYER][winner_3] = 1
                 return winner_3, env_state
        
 #########################################################
@@ -265,7 +265,7 @@ def getValidActions(player_state_origin):
             list_action_return[road_can_build] = 1
             train_car_can_get = np.where(train_car_board > 0)[0] + 147
             list_action_return[train_car_can_get] = 1
-        else:      # player_state[P_NUMBER_TRAIN_CAR_GET] != 0:
+        else:      #  player_state[P_NUMBER_TRAIN_CAR_GET] != 0:
             #nếu đã nhặt thẻ train_car thì k được nhặt thẻ locomotive
             train_car_board[0] = 0
             train_car_can_get = np.where(train_car_board > 0)[0] + 147
@@ -384,7 +384,7 @@ def stepEnv(env_state, action):
         #nếu nhặt thẻ từ chồng train_Car úp
         elif action == 156:
             new_train_car = int(env_state[ENV_TRAIN_CAR_CARD])
-            # print('màu của thẻ úp được nhặt là ', LIST_COLOR[int(new_train_car)])
+            #  print('màu của thẻ úp được nhặt là ', LIST_COLOR[int(new_train_car)])
             env_state[ENV_IN4_PLAYER + ATTRIBUTE_PLAYER * id_action : ENV_IN4_PLAYER + ATTRIBUTE_PLAYER* (id_action + 1)][new_train_car + ATT_NUMBER_TYPE_TRAIN_CARD] += 1
             env_state[ENV_TRAIN_CAR_CARD : ENV_IN4_PLAYER] = np.concatenate((env_state[ENV_TRAIN_CAR_CARD : ENV_IN4_PLAYER][1:], np.array([-1])))
             env_state[ENV_NUMBER_TRAIN_CAR_GET] += 1
@@ -569,7 +569,7 @@ def stepEnv(env_state, action):
                 if env_state[ENV_CHECK_END] >= 1:
                     if env_state[ENV_ID_ACTION] == env_state[ENV_ID_PLAYER_END]:
                         env_state[ENV_CHECK_END] += 0.5              #edit by Hieu 05012023
-                # env_state[ENV_TURN] += 1
+                #  env_state[ENV_TURN] += 1
                 if env_state[ENV_TURN] <= NUMBER_PLAYER:
                     env_state[ENV_TURN] += 1
                 if env_state[ENV_TURN] <= NUMBER_PLAYER:
@@ -619,7 +619,7 @@ def stepEnv(env_state, action):
 
     return env_state
 
-# #########################################################
+#  #########################################################
 
 @njit()
 def bot_lv0(state, perData):

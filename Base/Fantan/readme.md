@@ -1,10 +1,10 @@
-## :video_game: Action
+##  :video_game: Action
 
       ACTION_SIZE: 53
       [0:52]: Bài muốn đánh
       [52]: bỏ lượt
 
-## :bust_in_silhouette: Player_state
+##  :bust_in_silhouette: Player_state
       STATE_SIZE: 112
       [0:52]: Player card
       [52:104]: Những lá có thể đánh
@@ -16,7 +16,7 @@
       [105:108]: Độ dài lá bài còn lại của 3 người chơi
       [108]: Game đã kết thúc hay chưa
       [109:112]: Chip của 3 người chơi còn lại
-## :globe_with_meridians: env
+##  :globe_with_meridians: env
       
       [0:8]: 8 lá có thể đánh trên bàn
       [8:21]: Bài người chơi 1

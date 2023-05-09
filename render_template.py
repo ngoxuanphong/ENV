@@ -7,12 +7,16 @@ from setup import SHORT_PATH
 
 
 def import_files(game_name):
-    spec = importlib.util.spec_from_file_location('_env', f"{SHORT_PATH}Base/{game_name}/_env.py")
+    spec = importlib.util.spec_from_file_location(
+        "_env", f"{SHORT_PATH}Base/{game_name}/_env.py"
+    )
     global _env
     _env = importlib.util.module_from_spec(spec)
     spec.loader.exec_module(_env)
 
-    spec_1 = importlib.util.spec_from_file_location('_render_func', f"{SHORT_PATH}Base/{game_name}/_render_func.py")
+    spec_1 = importlib.util.spec_from_file_location(
+        "_render_func", f"{SHORT_PATH}Base/{game_name}/_render_func.py"
+    )
     global _render_func
     _render_func = importlib.util.module_from_spec(spec_1)
     spec_1.loader.exec_module(_render_func)
@@ -32,7 +36,7 @@ class Render:
             options=["Take an action"],
             value="Take an action",
             disabled=True,
-            layout=widgets.Layout(width="20%")
+            layout=widgets.Layout(width="20%"),
         )
         self.take.observe(self.handle_take, "value")
 
@@ -40,7 +44,7 @@ class Render:
             options=["Explain an action"],
             value="Explain an action",
             disabled=True,
-            layout=widgets.Layout(width="20%")
+            layout=widgets.Layout(width="20%"),
         )
         self.explain.observe(self.handle_explain, "value")
 
@@ -49,34 +53,36 @@ class Render:
             min=-1,
             max=0,
             step=1,
-            description='State:',
+            description="State:",
             disabled=True,
             continuous_update=False,
-            orientation='horizontal',
+            orientation="horizontal",
             readout=True,
-            readout_format='d',
-            layout=widgets.Layout(width="50%")
+            readout_format="d",
+            layout=widgets.Layout(width="50%"),
         )
         self.slider.observe(self.handle_slider, "value")
 
         self.previous = widgets.Button(
-            disabled=True,
-            icon="fa-chevron-left",
-            layout=widgets.Layout(width="5%")
+            disabled=True, icon="fa-chevron-left", layout=widgets.Layout(width="5%")
         )
         self.previous.on_click(self.handle_previous)
 
         self.next = widgets.Button(
-            disabled=True,
-            icon="fa-chevron-right",
-            layout=widgets.Layout(width="5%")
+            disabled=True, icon="fa-chevron-right", layout=widgets.Layout(width="5%")
         )
         self.next.on_click(self.handle_next)
 
         self.output_text = widgets.Output()
 
-        self.hbox = widgets.HBox([self.take, self.previous, self.slider, self.next, self.explain], layout=widgets.Layout(width="100%"))
-        self.vbox = widgets.VBox([self.output_image, self.hbox, self.output_text], layout=widgets.Layout(display="flex", align_items="center"))
+        self.hbox = widgets.HBox(
+            [self.take, self.previous, self.slider, self.next, self.explain],
+            layout=widgets.Layout(width="100%"),
+        )
+        self.vbox = widgets.VBox(
+            [self.output_image, self.hbox, self.output_text],
+            layout=widgets.Layout(display="flex", align_items="center"),
+        )
 
         self.start()
 
@@ -93,7 +99,9 @@ class Render:
             self.step()
         else:
             action = None
-            win, state, self.env_components = _render_func.get_main_player_state(self.env_components, self.list_agent, self.list_data, action)
+            win, state, self.env_components = _render_func.get_main_player_state(
+                self.env_components, self.list_agent, self.list_data, action
+            )
             self.history_state.append(state)
             while win == -1:
                 valid_actions = np.where(_env.getValidActions(state) == 1)[0]
@@ -103,7 +111,9 @@ class Render:
                     raise Exception("Invalid action")
 
                 self.history_action.append(action)
-                win, state, self.env_components = _render_func.get_main_player_state(self.env_components, self.list_agent, self.list_data, action)
+                win, state, self.env_components = _render_func.get_main_player_state(
+                    self.env_components, self.list_agent, self.list_data, action
+                )
                 self.history_state.append(state)
 
             if win == 0:
@@ -122,7 +132,9 @@ class Render:
         if not action is None:
             self.history_action.append(action)
 
-        win, state, self.env_components = _render_func.get_main_player_state(self.env_components, self.list_agent, self.list_data, action)
+        win, state, self.env_components = _render_func.get_main_player_state(
+            self.env_components, self.list_agent, self.list_data, action
+        )
         self.history_state.append(state)
         self.max_state_idx += 1
 
@@ -185,9 +197,11 @@ class Render:
                     self.images.pop(key)
 
             keys = list(self.images.keys())
-            for key in range(lowbound, upbound+1):
+            for key in range(lowbound, upbound + 1):
                 if key not in keys:
-                    self.images[key] = _render_func.get_state_image(self.history_state[key])
+                    self.images[key] = _render_func.get_state_image(
+                        self.history_state[key]
+                    )
 
         self.show_image(p.new)
 
