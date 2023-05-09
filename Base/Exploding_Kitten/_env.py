@@ -781,13 +781,6 @@ def load_module_player(player, game_name=None):
     return module
 
 
-@njit()
-def random_Env(p_state, per):
-    arr_action = getValidActions(p_state)
-    arr_action = np.where(arr_action == 1)[0]
-    act_idx = np.random.randint(0, len(arr_action))
-    return arr_action[act_idx], per
-
 
 @njit()
 def bot_lv0(state, perData):
