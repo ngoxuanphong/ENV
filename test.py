@@ -1,6 +1,6 @@
 #  Check hệ thống
 #  import Base.WelcomeToTheDungeon_v2.env as env
-from CheckEnv import check_env
+from Test.CheckEnv import check_env
 
 from setup import make
 import numpy as np
