@@ -260,10 +260,10 @@ def getValidActions(state):
             list_action[8] = 1
         elif np.max(state[6:11]) + state[13] >= 3 and np.sum(state[122:127]) > 0:
             list_action[8] = 1
+
         type_card = (state[0:16] > 0).astype(np.float64)
-        if (np.sum(type_card) + state[13] >= 5) and np.sum(
-            state[17:34]
-        ) > 0:  # five of a kind
+        type_card[13] = 0
+        if (np.sum(type_card) + state[13] >= 5) and np.sum(state[17:34]) > 0:  # five of a kind
             list_action[9] = True
         list_action[11:13] = (state[11:13] > 0).astype(np.float64)  # 4 new action
         list_action[13:15] = (state[14:16] > 0).astype(np.float64)
@@ -343,7 +343,7 @@ def getValidActions(state):
                     list_action[77:93][type_card] = 1
         elif last_action == 9:
             available_card = (state[0:16] > 0).astype(np.float64)
-            list_action[77:93] = available_card - (state[128:144] > 0).astype(
+            list_action[77:93] = ((available_card - state[128:144]) > 0).astype(
                 np.float64
             )
             list_action[77:93][13] = (state[13] > 0) * 1.0
@@ -831,6 +831,8 @@ def getReward(state):
 def random_player(state, per):
     list_action = np.where(getValidActions(state) == 1)[0]
     action = np.random.choice(list_action)
+    # if list_action.shape[0]==0:
+    #     print(list(state))
     #  print(list_action)
     return action, per
 
@@ -839,7 +841,10 @@ def random_player(state, per):
 def bot_lv0(state, perData):
     validActions = getValidActions(state)
     arr_action = np.where(validActions == 1)[0]
+    # if arr_action.shape[0]==0:
+    #     print(list(state))
     idx = np.random.randint(0, arr_action.shape[0])
+
     return arr_action[idx], perData
 
 
