@@ -193,6 +193,14 @@ def stepEnv(action, env):
         if env[53] == 1:  # defense
             env[0:52][np.where(env[0:52] == 5)] = 6  # defense this card successful
             env[action] = 6
+            if len(np.where(env[0:52]==env[58])[0])==0:
+                env[0:52][np.where(env[0:52] == 5)] = -1  # Thrown away card
+                env[0:52][np.where(env[0:52] == 6)] = -1  # Thrown away card
+                env = drawCard(env)  # draw card
+                env[58] = 1 if env[58] == 4 else env[58] + 1  # change defend player
+                changeAttackPlayer(env)  # change attack players
+                env[57] = 0
+                env[59] = 0
             env[53] = 0  # change mode: attack
         elif env[53] == 0:  # attack
             env[action] = 5  # this card have to defend
