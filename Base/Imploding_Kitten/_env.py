@@ -232,7 +232,7 @@ def getAgentState(env, draw_pile, discard_pile):
                     card = np.zeros(19)
                     card[int(getCardType(env[91 + i]))] = 1
                     state[
-                        37 + 19 * i : 56 + 19 * i
+                        38 + 19 * i : 57 + 19 * i
                     ] = card  #  three card if use see the future
         state[100] = np.maximum(env[90], 0)  #  number of card player have to draw
 
@@ -779,9 +779,7 @@ def stepEnv(env, draw_pile, discard_pile, action):
         index_future = np.where(draw_pile != -1)[0]
         if index_future.shape[0] >= 3:
             if act>0:
-                draw_pile_2 = draw_pile.copy()
-                for i in range(3):
-                    draw_pile[index_future[i]] = draw_pile_2[index_future[0:3]][list_change[act][i]]
+                draw_pile[index_future[0:3]] = env[91:94]
         elif index_future.shape[0] == 2:
             if act == 2:
                 draw_pile[index_future] = draw_pile[index_future][np.array([1, 0])]
