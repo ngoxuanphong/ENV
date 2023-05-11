@@ -567,7 +567,7 @@ def stepEnv(env, draw_pile, discard_pile, action):
             low, high = getCardRange(type_card)  # range
             if np.where(env[low:high] == 6)[0].shape[0] > 0:
                 env[low:high][np.where(env[low:high] == 6)[0][0]] = env[57]
-                discard_pile[type_card]-=1
+                discard_pile[int(type_card)]-=1
         env[72] = -1
         env[67] = 0
 
