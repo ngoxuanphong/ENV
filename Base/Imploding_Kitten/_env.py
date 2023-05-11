@@ -765,7 +765,7 @@ def stepEnv(env, draw_pile, discard_pile, action):
             low, high = getCardRange(type_card)
             if np.where(env[low:high] == 6)[0].shape[0] > 0:
                 env[low:high][np.where(env[low:high] == 6)[0][0]] = env[77]
-                discard_pile[type_card]-=1
+                discard_pile[int(type_card)]-=1
         env[94] = -1  # reset last action
         env[89] = 0
         env[76] = 0
@@ -778,7 +778,10 @@ def stepEnv(env, draw_pile, discard_pile, action):
         env[91:94] = env[91:94][list_change[act]]
         index_future = np.where(draw_pile != -1)[0]
         if index_future.shape[0] >= 3:
-            draw_pile[index_future[:3]] = draw_pile[index_future[:3]][list_change[act]]
+            if act>0:
+                draw_pile_2 = draw_pile.copy()
+                for i in range(3):
+                    draw_pile[index_future[i]] = draw_pile_2[index_future[0:3]][list_change[act][i]]
         elif index_future.shape[0] == 2:
             if act == 2:
                 draw_pile[index_future] = draw_pile[index_future][np.array([1, 0])]
