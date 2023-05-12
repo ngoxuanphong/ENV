@@ -1,4 +1,5 @@
 ##   Thông tin quan trọng
+hihi
     14: Điểm của bản thân
     29, 44, 59: Điểm của người chơi khác
     
