@@ -32,15 +32,15 @@ class Sprites:
 sprites = Sprites()
 
 def get_state_image(state=None): ###-------------------------------------------------------
-    if state is None:
-        return bg
-    
     state = state.astype(int)
     fontMin = ImageFont.FreeTypeFont("ImageFonts/arial.ttf", 20)
     font = ImageFont.FreeTypeFont("ImageFonts/arial.ttf", 35)
     font50 = ImageFont.FreeTypeFont("ImageFonts/arial.ttf", 45)
     bg = sprites.background.copy()
     drawler = ImageDraw.ImageDraw(bg)
+    if state is None:
+        return bg
+ 
     pl = 0
     if np.sum( state[64: 67]) == 1:
         pl = np.where(state[64: 67])[0][0] + 1
