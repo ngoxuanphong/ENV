@@ -63,5 +63,6 @@ jobs:
       - uses: actions/labeler@v4
         with:
           repo-token: ${{ secrets.GITHUB_TOKEN}}
-          lable1: GoFish/**/*
+          labels: |
+            label1: GoFish/**/*
           
