@@ -1,4 +1,3 @@
-<!--  -->
 ##   Thông tin quan trọng:
     - Ảnh map: xem ở folder "Base/Catan"
     - 203: Điểm của bản thân
