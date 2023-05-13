@@ -1,4 +1,3 @@
-#thêm load_agent trong _env
 from PIL import Image, ImageEnhance, ImageDraw, ImageFont
 import numpy as np
 from setup import SHORT_PATH
