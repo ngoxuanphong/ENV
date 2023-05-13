@@ -5,6 +5,7 @@ Agent:
 Env:
 - Base/**/_env.py
 System:
+- .github/**
 - Log/**
 - *.py
 Document:

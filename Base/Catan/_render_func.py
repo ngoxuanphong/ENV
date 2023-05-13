@@ -8,7 +8,7 @@ IMG_PATH = SHORT_PATH + "Base/CatanNoExchange/images/"
 
 RES_NAME = ["lumber", "brick", "wool", "grain", "ore"]
 
-# -------------------------------
+
 class Sprites:
     def __init__(self) -> None:
         self.background = Image.open(IMG_PATH + "background.png")
