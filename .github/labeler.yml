@@ -8,9 +8,10 @@ Graphics:
 - Base/**/env.py
 - Base/**/_render_func.py
 System:
-- setup.py
+- '*.py'
 - Log/**
+- .github/**
 Document:
-- **/*.md
-- **/*.txt
-- **/*.docs
+- '**/*.md'
+- '**/*.txt'
+- '**/*.docs'
