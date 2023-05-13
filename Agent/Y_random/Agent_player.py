@@ -5,7 +5,7 @@ from setup import SHORT_PATH
 import importlib.util
 
 game_name = sys.argv[1]
-
+# ---------------------------------------------------------------
 
 def setup_game(game_name):
     spec = importlib.util.spec_from_file_location(
