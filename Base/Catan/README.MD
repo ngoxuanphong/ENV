@@ -1,4 +1,5 @@
 ##   Thông tin quan trọng:
+<!--  -->----------------------------------------
     - Ảnh map: xem ở folder "Base/Catan"
     - 203: Điểm của bản thân
     - 393, 578, 763: Điểm của 3 người chơi còn lại
