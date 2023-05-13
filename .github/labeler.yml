@@ -4,14 +4,14 @@ Agent:
 - Agent/**
 Env:
 - Base/**/_env.py
-System:
-- .github/**
-- Log/**
-- *.py
-Document:
-- **/*.md
-- **/*.txt
-- **/*.docs
 Graphics:
 - Base/**/env.py
 - Base/**/_render_func.py
+System:
+- '*.py'
+- Log/**
+- .github/**
+Document:
+- '**/*.md'
+- '**/*.txt'
+- '**/*.docs'
