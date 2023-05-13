@@ -1,11 +1,16 @@
-gofish:
-- Base/GoFish/*
 Testing:
 - Test/*
 Agent:
 - Agent/**
 Env:
 - Base/**/_env.py
+System:
+- Log/**
+- *.py
+Document:
+- **/*.md
+- **/*.txt
+- **/*.docs
 Graphics:
 - Base/**/env.py
 - Base/**/_render_func.py
