@@ -9,8 +9,8 @@ Graphics:
 - Base/**/_render_func.py
 System:
 - setup.py
-- log/**
+- Log/**
 Document:
 - **/*.md
 - **/*.txt
-- **/.docs
+- **/*.docs
