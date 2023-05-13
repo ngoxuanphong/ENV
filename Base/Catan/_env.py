@@ -1,6 +1,5 @@
 import numpy as np
 from numba import njit
-# abcxyz
 
 TILE_TILE = np.array(
     [
