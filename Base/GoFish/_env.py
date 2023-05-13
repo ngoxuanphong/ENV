@@ -1,6 +1,6 @@
 import numpy as np
 from numba import njit
-# ahhahaha------------ahahhaha
+
 @njit
 def getActionSize():
   return 17
