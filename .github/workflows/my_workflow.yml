@@ -1,20 +1,30 @@
-name: My Workflow
-on: [push]
+name: Pytest
+
+on:
+  push:
+    branches:
+      - main
+  pull_request:
+    branches:
+      - main
 
 jobs:
-  my_job:
+  pytest:
     runs-on: ubuntu-latest
+
     steps:
-    - name: Checkout repository
-      uses: actions/checkout@v2
-      
-    - name: Run Python function
-      run: |
-        python my_module.py
-        echo "{TEMP_VAR_NAME}={5}" >> $GITHUB_OUTPUT
-        python -c "from my_module import my_function; print(my_function(5))"
-        if [ $? -eq 0 ]; then
-          echo "Success"
-        else
-          echo "Failure"
-        fi
+      - name: Checkout repository
+        uses: actions/checkout@v2
+
+      - name: Set up Python
+        uses: actions/setup-python@v2
+        with:
+          python-version: '3.x'
+
+      - name: Install dependencies
+        run: |
+          python -m pip install --upgrade pip
+          pip install pytest
+
+      - name: Run pytest
+        run: pytest --a=2 --b=3
