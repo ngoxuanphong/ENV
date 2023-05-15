@@ -12,8 +12,7 @@ jobs:
       run: |
         python my_module.py
         echo "{TEMP_VAR_NAME}={5}" >> $GITHUB_OUTPUT
-        id: set_temp_var
-        python -c "from my_module import my_function; print(my_function(id))"
+        python -c "from my_module import my_function; print(my_function(TEMP_VAR_NAME))"
         if [ $? -eq 0 ]; then
           echo "Success"
         else
