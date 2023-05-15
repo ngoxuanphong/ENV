@@ -11,4 +11,11 @@ jobs:
     - name: Run Python function
       run: |
         python my_module.py
-        python -c "from my_module import my_function; print(my_function(5))"
+        echo "::set-output name=5::temp_var_value"
+        id: temp_var_value
+        python -c "from my_module import my_function; print(my_function(id))"
+        if [ $? -eq 0 ]; then
+          echo "Success"
+        else
+          echo "Failure"
+        fi
