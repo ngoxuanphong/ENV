@@ -45,7 +45,7 @@ train copy 6.py
 train copy 7.py
 train copy.py
 train.py
-tesst.py
+test_math.py
 
 #  env.py
 #  index.py
