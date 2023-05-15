@@ -3,6 +3,8 @@ on: [push]
 
 jobs:
   my_job:
+    if: ${{ env.ENV_VARIABLE == 'true' }}
+    continue-on-error: false
     runs-on: ubuntu-latest
     steps:
     - name: Checkout repository
