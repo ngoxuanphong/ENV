@@ -11,9 +11,8 @@ jobs:
     - name: Run Python function
       run: |
         python my_module.py
-        echo "::set-output name={TEMP_VAR_NAME}::{5}"
-        id: set_temp_var
-        python -c "from my_module import my_function; print(my_function(id))"
+        echo "{TEMP_VAR_NAME}={5}" >> $GITHUB_OUTPUT
+        python -c "from my_module import my_function; print(my_function(5))"
         if [ $? -eq 0 ]; then
           echo "Success"
         else
