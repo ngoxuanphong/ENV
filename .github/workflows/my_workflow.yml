@@ -14,7 +14,7 @@ jobs:
         echo "{TEMP_VAR_NAME}={5}" >> $GITHUB_OUTPUT
         python -c "from my_module import my_function; print(my_function(5))"
         if [ $? -eq 0 ]; then
-          echo "Success"
-        else
           echo "Failure"
+        else
+          echo "Success"
         fi
