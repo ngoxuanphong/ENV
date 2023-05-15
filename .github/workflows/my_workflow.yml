@@ -1,0 +1,14 @@
+name: My Workflow
+on: [push]
+
+jobs:
+  my_job:
+    runs-on: ubuntu-latest
+    steps:
+    - name: Checkout repository
+      uses: actions/checkout@v2
+      
+    - name: Run Python function
+      run: |
+        python my_module.py
+        python -c "from my_module import my_function; print(my_function(5))"
