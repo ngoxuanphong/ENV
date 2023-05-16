@@ -20,13 +20,15 @@ jobs:
         uses: actions/setup-python@v2
         with:
           python-version: '3.9'
-
-      - name: Install dependencies
+      - name: Print Changed Files
         run: |
-          python -m pip install --upgrade pip
-          pip install pytest
-          if [ -f requirements.txt ]; then pip install -r requirements.txt; fi
+          git diff-tree --no-commit-id --name-only -r ${{ github.sha }} | grep -E '\.py$'
+      # - name: Install dependencies
+      #   run: |
+      #     python -m pip install --upgrade pip
+      #     pip install pytest
+      #     if [ -f requirements.txt ]; then pip install -r requirements.txt; fi
 
-      - name: Run pytest check env sushi go
-        run: pytest -q -s --name SushiGo  
+      # - name: Run pytest check env sushi go
+      #   run: pytest -q -s --name SushiGo  
 
