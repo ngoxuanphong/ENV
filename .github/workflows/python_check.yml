@@ -44,5 +44,5 @@ jobs:
           echo "API URL: $api_url"
           changed_files=$(curl -s $api_url | jq -r '.files | .[] | .filename')
 
-          pytest -q -s --name $changed_files  
+          pytest -q -s --name SushiGo  
 
