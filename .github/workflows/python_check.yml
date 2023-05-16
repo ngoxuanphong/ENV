@@ -22,7 +22,7 @@ jobs:
           python-version: '3.9'
       - name: Print Changed Files
         run: |
-          git diff-tree --no-commit-id --name-only -r ${{ github.sha }} | grep -E '\.py$'
+          git diff --name-only HEAD~5
       # - name: Install dependencies
       #   run: |
       #     python -m pip install --upgrade pip
