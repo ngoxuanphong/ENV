@@ -27,7 +27,7 @@ jobs:
           repo_name=${{ github.repository }}
           api_url="https://api.github.com/repos/${repo_name}/commits/${commit_sha}"
           echo "API URL: $api_url"
-          changed_files=$(curl -s $api_url)
+          changed_files=$(curl -s $api_url | jq -r '.files | .[] | .filename')
 
           echo "Changed Files:"
           echo "$changed_files.files"
