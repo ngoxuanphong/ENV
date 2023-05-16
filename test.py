@@ -7,7 +7,7 @@ import numpy as np
 from numba import njit, jit
 import time
 
-env = make("Imploding_Kitten")
+env = make("Exploding_Kitten")
 print(check_env(env))
 getActionSize = env.getActionSize
 getStateSize = env.getStateSize
@@ -37,6 +37,3 @@ a = time.process_time()
 win3, per = numba_main_2(Test, 10000, np.array([0]), -1)
 b = time.process_time()
 print(win3, b - a)
-
-
-https://api.github.com/repos/ngoxuanphong/ngoxuanphong/ENV/commits/702115a7e09bb6dba60c4618f37dfe9fe6dbad70/files
