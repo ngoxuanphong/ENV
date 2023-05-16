@@ -30,7 +30,7 @@ jobs:
           changed_files=$(curl -s $api_url)
 
           echo "Changed Files:"
-          echo "$changed_files['files']"
+          echo "$changed_files.files"
       # - name: Install dependencies
       #   run: |
       #     python -m pip install --upgrade pip
