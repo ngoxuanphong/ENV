@@ -1,6 +1,6 @@
 #  Check hệ thống
 #  import Base.WelcomeToTheDungeon_v2.env as env
-from Test.CheckEnv import check_env
+from tests.CheckEnv import check_env
 
 from setup import make
 import numpy as np
@@ -37,3 +37,6 @@ a = time.process_time()
 win3, per = numba_main_2(Test, 10000, np.array([0]), -1)
 b = time.process_time()
 print(win3, b - a)
+
+
+https://api.github.com/repos/ngoxuanphong/ngoxuanphong/ENV/commits/702115a7e09bb6dba60c4618f37dfe9fe6dbad70/files
