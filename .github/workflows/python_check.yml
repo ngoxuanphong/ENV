@@ -22,7 +22,11 @@ jobs:
       #     python-version: '3.9'
       - name: Print Changed Files
         run: |
-          git diff-tree --no-commit-id --name-only -r ${{ github.sha }} | grep -E '\.py$'
+          if git diff --name-only HEAD~1 | grep setup.txt; then
+            echo "File example.txt has changed"
+          else
+            echo "File example.txt has not changed"
+          fi
       # - name: Install dependencies
       #   run: |
       #     python -m pip install --upgrade pip
