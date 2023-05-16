@@ -33,6 +33,7 @@ Agent/Chain4/Data/Fantan_1
 Agent/Chain4/Data/TicketToRide_1
 
 Agent/Chain4/Data/CatanNoExchange_1
+Agent/Chain4/Data/CatanNoExchange_0
 
 envtest.py
 
