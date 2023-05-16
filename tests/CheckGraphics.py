@@ -1,6 +1,5 @@
 import os
 
-
 def check_graphics(game_name):
     BOOL_CHECK_GRAPHICS = True
     msg = []
