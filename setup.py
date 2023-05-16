@@ -50,13 +50,13 @@ def setup_game(game_name):
     spec.loader.exec_module(module)
     return module
 
-# import subprocess
+import subprocess
 
-# def get_changed_files():
-#     command = "git diff --name-only HEAD"
-#     result = subprocess.run(command, shell=True, capture_output=True, text=True)
-#     changed_files = result.stdout.strip().split('\n')
-#     return changed_files
+def get_changed_files():
+    command = "git diff --name-only HEAD"
+    result = subprocess.run(command, shell=True, capture_output=True, text=True)
+    changed_files = result.stdout.strip().split('\n')
+    return changed_files
 
 # changed_files = get_changed_files()
 # print(changed_files)
