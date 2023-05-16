@@ -6,7 +6,7 @@
 **/__pycache__/
 **/.ipynb_checkpoints/
 .pytest_cache
-.github
+# .github
 
 Agent/Chain3/Data/Catan_1
 Agent/Chain3/Data/Century_1
