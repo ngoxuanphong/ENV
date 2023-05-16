@@ -22,7 +22,7 @@ jobs:
           python-version: '3.9'
       - name: Print Changed Files
         run: |
-          git diff --name-only HEAD~5
+          git log --name-only --pretty=format: -n 6 ${{ github.sha }}
       # - name: Install dependencies
       #   run: |
       #     python -m pip install --upgrade pip
