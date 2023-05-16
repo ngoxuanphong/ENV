@@ -16,13 +16,13 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v2
 
-      - name: Set up Python
-        uses: actions/setup-python@v2
-        with:
-          python-version: '3.9'
+      # - name: Set up Python
+      #   uses: actions/setup-python@v2
+      #   with:
+      #     python-version: '3.9'
       - name: Print Changed Files
         run: |
-          git log --name-only --pretty=format: -n 1 ${{ github.sha }}
+          git log --name-only --pretty=format: -n 1
       # - name: Install dependencies
       #   run: |
       #     python -m pip install --upgrade pip
