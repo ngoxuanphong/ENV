@@ -8,5 +8,7 @@ def name(pytestconfig):
 
 def test_print_name(name):
     print(f"\ncommand line param (name): {name}")
-    Bool_check = check_pytest(name)[0]
-    print(Bool_check)
+    # Bool_check = check_pytest(name)[0]
+    # print(Bool_check)
+    print('--------------------------')
+    print(type(name), name)
