@@ -20,16 +20,7 @@ jobs:
         uses: actions/setup-python@v2
         with:
           python-version: '3.9'
-      # - name: Print Changed Files
-      #   run: |
-      #     commit_sha=${{ github.sha }}
-      #     repo_name=${{ github.repository }}
-      #     api_url="https://api.github.com/repos/${repo_name}/commits/${commit_sha}"
-      #     echo "API URL: $api_url"
-      #     changed_files=$(curl -s $api_url | jq -r '.files | .[] | .filename')
 
-      #     echo "Changed Files:"
-      #     echo "$changed_files"
       - name: Install dependencies
         run: |
           python -m pip install --upgrade pip
@@ -45,8 +36,11 @@ jobs:
           changed_files=$(curl -s $api_url | jq -r '.files | .[] | .filename')
           
           echo "$changed_files"
-          name_game = "$changed_files"
-
-          pytest -q -s --name name_game
+          echo "::set-output name=changed_files::$changed_files"
+          echo "random_number=$(($RANDOM % 2))" >> $GITHUB_OUTPUT
+      
+      - name: Run pytest check env sushi go
+        run: |
           pytest -q -s --name SushiGo
+          pytest -q -s --name ${{ steps.pytest.outputs.changed_files }}
 

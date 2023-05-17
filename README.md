@@ -1,31 +1,40 @@
+# ENV - Environment for Reinforcement Learning
+    ENV is an open source Python library for developing and comparing reinforcement learning algorithms by providing a standard API to communicate between learning algorithms and environments, as well as a standard set of environments compliant with that API
 ##  Installation
-**In terminal**
+    We are support Python 3.7, 3.8, 3.9, 3.10 on Linux and Windows
+    To install the base ENV library, use:
+    - Using pip:
+    ```
+    pip install ENV
+    ```
+
+    - Directly from source (recommended):
     ```
     git clone https://github.com/ngoxuanphong/ENV.git
+    cd ma-gym
+    pip install -r requirements.txt
     ```
 
 ##  API
 ```
 from setup import make
-from numba import njit, jit
+from numba import njit
 import numpy as np
 
 @njit()
-def Agent(state, perData):
+def Agent(state, agent_data):
     validActions = env.getValidActions(state)
     actions = np.where(validActions==1)[0]
     action = np.random.choice(actions)
-    return arr_action[idx], perData
+    return arr_action[idx], agent_data
 
-perData = np.array([0])
-level = 0
-count_game_train = 1000
-count_win, perData = env.numba_main_2(Agent, count_game_train, perData, level)
-print(count_win)
+count_win, agent_data = env.numba_main_2(Agent, count_game_train, agent_data, level)
 ```
 
+Please refer to Wiki for complete usage details
+
 ##  FUNCTION
-    * Agent(state, perData):
+    * Agent(state, agent_data):
         input: state, data
         output: action(int), data
     * getValidActions(state): 
@@ -42,6 +51,7 @@ print(count_win)
         output: int, count of array state size of Env
 
 ##  Environment
+    ENV includes 20 games:
 * [Catan](https://github.com/ngoxuanphong/ENV/tree/main/Base/Catan/)
 * [CatanNoExchange](https://github.com/ngoxuanphong/ENV/tree/main/Base/CatanNoExchange/)
 * [Century](https://github.com/ngoxuanphong/ENV/tree/main/Base/Century/)
@@ -49,7 +59,6 @@ print(count_win)
 * [Exploding_Kitten](https://github.com/ngoxuanphong/ENV/tree/main/Base/Exploding_Kitten/)
 * [Imploding_Kitten](https://github.com/ngoxuanphong/ENV/tree/main/Base/Imploding_Kitten/)
 * [MachiKoro](https://github.com/ngoxuanphong/ENV/tree/main/Base/MachiKoro/)
-* [Phom](https://github.com/ngoxuanphong/ENV/tree/main/Base/Phom/)
 * [Poker](https://github.com/ngoxuanphong/ENV/tree/main/Base/Poker/)
 * [Sheriff](https://github.com/ngoxuanphong/ENV/tree/main/Base/Sheriff/)
 * [Splendor](https://github.com/ngoxuanphong/ENV/tree/main/Base/Splendor/)
@@ -60,19 +69,4 @@ print(count_win)
 * [TicketToRide](https://github.com/ngoxuanphong/ENV/tree/main/Base/TicketToRide/)
 * [TLMN](https://github.com/ngoxuanphong/ENV/tree/main/Base/TLMN/)
 
-##  Make Environment
-* [User Manual](https://docs.google.com/document/d/1I2Fquk4aEHwC-v_ROxmONNlOXUtiNQWWS6eiYBQUEeM/edit)
-    
-##  Check Environment
-```
-from CheckEnv import check_env
-import your_env as env #path to your env
-print(check_env(env))
-```
-
-##  Check Agent
-```
-from CheckPlayer import check_player
-import your_agent as agent #path to your env
-print(check_player(env))
-```
+    Please refer to Wiki for more details.
