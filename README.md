@@ -27,7 +27,8 @@ def Agent(state, agent_data):
     actions = np.where(validActions==1)[0]
     action = np.random.choice(actions)
     return arr_action[idx], agent_data
-
+    
+env = make('SushiGo)
 count_win, agent_data = env.numba_main_2(Agent, count_game_train, agent_data, level)
 ```
 
