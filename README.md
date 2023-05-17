@@ -4,19 +4,19 @@ ENV is an open source Python library for developing and comparing reinforcement 
 We are support Python 3.7, 3.8, 3.9, 3.10 on Linux and Windows
 To install the base ENV library, use:
 - Using pip:
-    ```
+    ```python
     Update later
     ```
 
 - Directly from source (recommended):
-    ```
+    ```python
     git clone https://github.com/ngoxuanphong/ENV.git
     cd ma-gym
     pip install -r requirements.txt
     ```
 
 ##  API
-```
+```python
 from setup import make
 from numba import njit
 import numpy as np
