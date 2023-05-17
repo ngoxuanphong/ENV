@@ -31,7 +31,7 @@ def Agent(state, agent_data):
 count_win, agent_data = env.numba_main_2(Agent, count_game_train, agent_data, level)
 ```
 
-Please refer to Wiki for complete usage details
+Please refer to [Wiki](https://github.com/ngoxuanphong/ENV/wiki/Using) for complete usage details
 
 ##  Environment
 ENV includes 20 games:
@@ -52,4 +52,4 @@ ENV includes 20 games:
 * [TicketToRide](https://github.com/ngoxuanphong/ENV/tree/main/Base/TicketToRide/)
 * [TLMN](https://github.com/ngoxuanphong/ENV/tree/main/Base/TLMN/)
 
-    Please refer to Wiki for more details.
+    Please refer to [Wiki](https://github.com/ngoxuanphong/ENV/wiki/Environments) for more details.
