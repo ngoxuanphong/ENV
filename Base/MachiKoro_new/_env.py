@@ -3,22 +3,22 @@ from numba import njit, jit
 from Base.MachiKoro_new.index import *
 
 
-#@njit()
+@njit()
 def getActionSize():
     return 54
 
 
-#@njit()
+@njit()
 def getAgentSize():
     return 4
 
 
-#@njit()
+@njit()
 def getStateSize():
     return 146
 
 
-#@njit()
+@njit()
 def initEnv():
     normal_card = np.full(NUMBER_TYPE_NORMAL_CARD, NUMBER_PER_NORMAL_CARD)      #khởi tạo mảng thẻ 
     start_player = np.concatenate((np.array([0, 1, 0, 1]), np.zeros(16)))       #thông tin ban đầu 4 người chơi
@@ -38,7 +38,7 @@ def initEnv():
     return env_state
 
 
-#@njit()
+@njit()
 def getAgentState(env_state):
     player_state = np.zeros(P_LENGTH, dtype=np.float64)
     player_action = int(env_state[ENV_ID_ACTION])
@@ -76,7 +76,7 @@ def getAgentState(env_state):
     return player_state
 
 
-#@njit()
+@njit()
 def getValidActions(player_state_origin):
     list_action_return = np.zeros(getActionSize(), dtype=np.float64)
     player_state = player_state_origin.copy()
@@ -232,7 +232,7 @@ def getValidActions(player_state_origin):
     return list_action_return
 
 
-#@njit()
+@njit()
 def stepEnv(env_state, action):
     phase_env = env_state[ENV_PHASE]
     id_action = int(env_state[ENV_ID_ACTION])
@@ -688,7 +688,7 @@ def stepEnv(env_state, action):
 
     return env_state
 
-#@njit()
+@njit()
 def getPredictState(state, action):
     phase_env = -1
     arr_all_state_predict = np.zeros((1, P_LENGTH))
@@ -1585,7 +1585,7 @@ def getPredictState(state, action):
 
     return arr_all_predict_state, arr_prob
 
-#@njit()
+@njit()
 def get_Prob_State(arr_all_predict_state):
     new_arr_state = np.zeros((1, P_LENGTH))
     arr_count = np.array([0])
@@ -1609,7 +1609,7 @@ def get_Prob_State(arr_all_predict_state):
 
 
 
-#@njit()
+@njit()
 def bot_lv0(state, perData):
     validActions = getValidActions(state)
     arr_action = np.where(validActions == 1)[0]
@@ -1617,7 +1617,7 @@ def bot_lv0(state, perData):
     return arr_action[idx], perData
 
 
-#@njit()
+@njit()
 def system_check_end(env_state):
     for id_player in range(NUMBER_PLAYER):
         if (
@@ -1632,7 +1632,7 @@ def system_check_end(env_state):
     return True
 
 
-#@njit()
+@njit()
 def getReward(player_state):
     value_return = -1
     if player_state[P_CHECK_END] != 1:
@@ -1651,7 +1651,7 @@ def getReward(player_state):
             return 0
 
 
-#@njit()
+@njit()
 def check_winner(env_state):
     winner = -1
     for id_player in range(NUMBER_PLAYER):
@@ -1663,7 +1663,7 @@ def check_winner(env_state):
     return winner
 
 
-#@njit()
+@njit()
 def one_game_numba(p0, list_other, per_player, per1, per2, per3, p1, p2, p3):
     env_state = initEnv()
     count_turn = 0
@@ -1712,7 +1712,7 @@ def one_game_numba(p0, list_other, per_player, per1, per2, per3, p1, p2, p3):
     return winner, per_player
 
 
-#@njit()
+@njit()
 def n_games_numba(p0, num_game, per_player, list_other, per1, per2, per3, p1, p2, p3):
     win = 0
     for _n in range(num_game):
@@ -1791,7 +1791,7 @@ except:
     pass
 
 
-#@njit()
+@njit()
 def check_run_under_njit(agent, perData):
     return True
 
