@@ -1,5 +1,11 @@
 # ENV - Environment for Reinforcement Learning
 ENV is an open source Python library for developing and comparing reinforcement learning algorithms by providing a standard API to communicate between learning algorithms and environments, as well as a standard set of environments compliant with that API
+
+![Python package](https://github.com/ngoxuanphong/ENV/workflows/Python%20package/badge.svg) 
+<!-- ![Upload Python Package](https://github.com/ngoxuanphong/ENV/workflows/Upload%20Python%20Package/badge.svg) -->
+<!-- [![Downloads](https://pepy.tech/badge/ma-gym)](https://pepy.tech/project/ma-gym) -->
+[![Wiki Docs](https://img.shields.io/badge/-Wiki%20Docs-informational?style=flat)](https://github.com/ngoxuanphong/ENV/wiki)
+
 ##  Installation
 We are support Python 3.7, 3.8, 3.9, 3.10 on Linux and Windows
 To install the base ENV library, use:
