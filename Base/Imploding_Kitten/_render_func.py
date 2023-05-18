@@ -59,7 +59,7 @@ params = Params()
 
 class Sprites:
     def __init__(self) -> None:
-        self.background = Image.open(IMG_PATH + "Im_background.png").resize((2100, 900))
+        self.background = Image.open(IMG_PATH + "im_background.png").resize((2100, 900))
         self._background_ = self.background.copy()
         self.card_back = (
             Image.open(IMG_PATH + "Cardback.png").resize((120, 168)).convert("RGBA")
