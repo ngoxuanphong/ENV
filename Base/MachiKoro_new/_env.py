@@ -1573,6 +1573,9 @@ def getPredictState(state, action):
                     state_predict[P_ID_ACTION + new_id_action_to_see] = 1
                 else:
                     state_predict[P_PLAYER_CONTINUE] = 0
+            else:
+                new_phase = 7
+                state_predict[P_PHASE + new_phase - 1] = 1
 
         state_predict = np.reshape(state_predict, (1, P_LENGTH))
         arr_all_state_predict = np.append(arr_all_state_predict, state_predict, axis= 0)
