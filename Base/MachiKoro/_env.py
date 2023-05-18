@@ -2,7 +2,7 @@ import numpy as np
 from numba import njit, jit
 from Base.MachiKoro.index import *
 
-
+#########################
 @njit()
 def getActionSize():
     return 54

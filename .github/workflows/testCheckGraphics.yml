@@ -1,0 +1,48 @@
+name: Run Python Function
+
+on:
+  push:
+    branches:
+      - main
+  pull_request:
+    branches:
+      - main
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Set up Python
+      uses: actions/setup-python@v2
+      with:
+        python-version: '3.9'
+
+    - name: Checkout code
+      uses: actions/checkout@v2
+
+    - name: Run Python Function
+      run: |
+        python3 -c "
+        import os
+
+        from tests.CheckGraphics import check_graphics
+
+        base_folder = 'Base'
+        folders = os.listdir(base_folder)
+        games = ''
+        for folder in folders:
+            result, msg = check_graphics(folder)
+            if not result :
+                games += folder + ', '
+        if len(games):
+          print('Game chưa có đồ họa: ' + games)
+        " > output.txt
+    
+        COMMENT=$(cat output.txt)
+        PR_NUMBER=$(jq --raw-output .pull_request.number "$GITHUB_EVENT_PATH")
+        REPO=$(jq --raw-output .repository.full_name "$GITHUB_EVENT_PATH")
+        curl -X POST -H "Authorization: Bearer ${{ secrets.GITHUB_TOKEN }}" \
+             -H "Accept: application/vnd.github.v3+json" \
+             "https://api.github.com/repos/$REPO/issues/$PR_NUMBER/comments" \
+             -d "{\"body\":\"$COMMENT\"}"

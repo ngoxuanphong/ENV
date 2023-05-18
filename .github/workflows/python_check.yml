@@ -16,27 +16,31 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v2
 
-      # - name: Set up Python
-      #   uses: actions/setup-python@v2
-      #   with:
-      #     python-version: '3.9'
-      - name: Print Changed Files
+      - name: Set up Python
+        uses: actions/setup-python@v2
+        with:
+          python-version: '3.9'
+
+      - name: Install dependencies
+        run: |
+          python -m pip install --upgrade pip
+          pip install pytest
+          if [ -f requirements.txt ]; then pip install -r requirements.txt; fi
+
+      - name: Run pytest check env sushi go
         run: |
           commit_sha=${{ github.sha }}
-          repo_owner=${{ github.repository_owner }}
           repo_name=${{ github.repository }}
-          api_url="https://api.github.com/repos/${repo_owner}/${repo_name}/commits/${commit_sha}/files"
+          api_url="https://api.github.com/repos/${repo_name}/commits/${commit_sha}"
           echo "API URL: $api_url"
-          changed_files=$(curl -s $api_url | jq -r '.[].file.filename')
-
-          echo "Changed Files:"
+          changed_files=$(curl -s $api_url | jq -r '.files | .[] | .filename')
+          
           echo "$changed_files"
-      # - name: Install dependencies
-      #   run: |
-      #     python -m pip install --upgrade pip
-      #     pip install pytest
-      #     if [ -f requirements.txt ]; then pip install -r requirements.txt; fi
-
-      # - name: Run pytest check env sushi go
-      #   run: pytest -q -s --name SushiGo  
+          echo "::set-output name=changed_files::$changed_files"
+          echo "random_number=$(($RANDOM % 2))" >> $GITHUB_OUTPUT
+      
+      - name: Run pytest check env sushi go
+        run: |
+          pytest -q -s --name SushiGo
+          pytest -q -s --name ${{ steps.pytest.outputs.changed_files }}
 

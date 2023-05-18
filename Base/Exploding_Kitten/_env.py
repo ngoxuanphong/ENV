@@ -4,7 +4,7 @@ import numba
 from numba.typed import List
 import sys
 
-
+###########################
 @njit
 def getActionSize():
     return 62
@@ -245,7 +245,9 @@ def getValidActions(state):
             available_card = (state[0:11] >= 3).astype(np.float64)
             list_action[51:62] = available_card
         elif last_action == 9:
-            list_action[51:62] = available_card - state[91:102]
+            list_action[51:62] = ((available_card - state[91:102]) > 0).astype(
+                np.float64
+            )
 
     #  if np.sum(list_action)==0:
     #      list_action[10] = 1
