@@ -1560,7 +1560,8 @@ def getPredictState(state, action):
                 # nếu mua thẻ trên bàn thì trừ ở bàn chơi đi
                 state_predict[P_CARD_BUY_IN_TURN:P_CARD_BUY_IN_TURN + NUMBER_TYPE_NORMAL_CARD][card_buy - 1] += 1
                 state_predict[P_NUMBER_NORMAL_CARD_BOARD + card_buy - 1] -= 1
-
+            if np.sum(player_in4[-4:]) == 4:
+                state_predict[P_CHECK_END] = 1
             if player_in4[0] == 0:
                 new_phase = 1
                 state_predict[P_PHASE + new_phase - 1] = 1
