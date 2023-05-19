@@ -39,6 +39,7 @@ env.numba_main_2(Agent, 1000, [0], 0)
 # count_win, agent_data = env.numba_main_2(Agent, count_game_train, agent_data, level)
 ```
 [Example](https://github.com/ngoxuanphong/ENV/blob/main/Log/Example.ipynb)
+
 Please refer to [Wiki](https://github.com/ngoxuanphong/ENV/wiki/Using) for complete usage details
 
 ##  Environment

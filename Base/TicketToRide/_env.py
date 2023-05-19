@@ -1200,7 +1200,6 @@ def bot_lv0(state, perData):
 def one_game_numba(p0, list_other, per_player, per1, per2, per3, per4, p1, p2, p3, p4):
     env_state = initEnv()
     count_turn = 0
-    count_check = 0
 
     while system_check_end(env_state) and count_turn < 3000:
         idx = int(env_state[ENV_ID_ACTION])
@@ -1220,10 +1219,7 @@ def one_game_numba(p0, list_other, per_player, per1, per2, per3, per4, p1, p2, p
             action, per4 = p4(player_state, per4)
         else:
             raise Exception("Sai list_other.")
-        if action == 170:
-            count_check += 1
-            if count_check == 50:
-                raise Exception("toang")
+        
         env_state = stepEnv(env_state, action)
         count_turn += 1
 
