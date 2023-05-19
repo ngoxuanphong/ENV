@@ -17,7 +17,7 @@ To install the base ENV library, use:
 - Directly from source (recommended):
     ```python
     git clone https://github.com/ngoxuanphong/ENV.git
-    cd ma-gym
+    cd ENV
     pip install -r requirements.txt
     ```
 
