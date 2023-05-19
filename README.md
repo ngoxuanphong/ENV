@@ -32,10 +32,11 @@ def Agent(state, agent_data):
     validActions = env.getValidActions(state)
     actions = np.where(validActions==1)[0]
     action = np.random.choice(actions)
-    return arr_action[idx], agent_data
+    return action, agent_data
     
-env = make('SushiGo)
-count_win, agent_data = env.numba_main_2(Agent, count_game_train, agent_data, level)
+env = make('SushiGo')
+env.numba_main_2(Agent, 1000, [0], 0)
+# count_win, agent_data = env.numba_main_2(Agent, count_game_train, agent_data, level)
 ```
 
 Please refer to [Wiki](https://github.com/ngoxuanphong/ENV/wiki/Using) for complete usage details
