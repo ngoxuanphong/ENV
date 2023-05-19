@@ -36,7 +36,6 @@ jobs:
           changed_files=$(curl -s $api_url | jq -r '.files | .[] | .filename')
           
           echo "$changed_files"
-          echo "::set-output name=changed_files::$changed_files"
           echo "random_number=$(($RANDOM % 2))" >> $GITHUB_OUTPUT
       
       - name: Run pytest check env sushi go

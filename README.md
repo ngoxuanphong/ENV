@@ -44,7 +44,7 @@ Please refer to [Wiki](https://github.com/ngoxuanphong/ENV/wiki/Using) for compl
 ##  Environment
 ENV includes 20 games:
 
-|Game        |Win-lv0       |win-lv1        |win-lv2        |Time-lv0       |Time-lv1       |Time-lv2       |
+|Game        |Win lv0       |win lv1        |win lv1        |Time lv0       |Time lv1       |Time lv1       |
 |:-----------|:-----------  |:-----------   |:-----------   |:-----------   |:-----------   |:-----------   |
 |Catan     |2535| 211| 13      |307| 224| 324|
 |CatanNoExchange     |2464| 339| False      |190| 673| False|
