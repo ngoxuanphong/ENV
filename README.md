@@ -17,7 +17,7 @@ To install the base ENV library, use:
 - Directly from source (recommended):
     ```python
     git clone https://github.com/ngoxuanphong/ENV.git
-    cd ma-gym
+    cd ENV
     pip install -r requirements.txt
     ```
 
@@ -32,18 +32,19 @@ def Agent(state, agent_data):
     validActions = env.getValidActions(state)
     actions = np.where(validActions==1)[0]
     action = np.random.choice(actions)
-    return arr_action[idx], agent_data
+    return action, agent_data
     
-env = make('SushiGo)
-count_win, agent_data = env.numba_main_2(Agent, count_game_train, agent_data, level)
+env = make('SushiGo')
+env.numba_main_2(Agent, 1000, [0], 0)
+# count_win, agent_data = env.numba_main_2(Agent, count_game_train, agent_data, level)
 ```
-
+[Example](https://github.com/ngoxuanphong/ENV/blob/main/Log/Example.ipynb)
 Please refer to [Wiki](https://github.com/ngoxuanphong/ENV/wiki/Using) for complete usage details
 
 ##  Environment
 ENV includes 20 games:
 
-|Game        |Win-lv0       |win-lv1        |win-lv2        |Time-lv0       |Time-lv1       |Time-lv2       |
+|Game        |Win lv0       |win lv1        |win lv1        |Time lv0       |Time lv1       |Time lv1       |
 |:-----------|:-----------  |:-----------   |:-----------   |:-----------   |:-----------   |:-----------   |
 |Catan     |2535| 211| 13      |307| 224| 324|
 |CatanNoExchange     |2464| 339| False      |190| 673| False|
