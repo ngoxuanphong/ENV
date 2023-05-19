@@ -42,5 +42,4 @@ jobs:
       - name: Run pytest check env sushi go
         run: |
           pytest -q -s --name SushiGo
-          pytest -q -s --name ${{ steps.pytest.outputs.changed_files }}
 
