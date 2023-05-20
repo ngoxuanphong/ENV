@@ -19,16 +19,23 @@ def get_changed_files():
 
     # Lấy commit gần nhất
     latest_commit = repo.head.commit
+    print(latest_commit)
+    print(repo.commit("HEAD~1"))
 
-    # Liệt kê các tệp tin đã thay đổi trong commit gần nhất
     changed_files = []
-    for diff in latest_commit.diff(None):
+    for diff in repo.commit("HEAD~1").diff(None):
         changed_files.append(diff.a_path)
+    print(changed_files)
+    # Liệt kê các tệp tin đã thay đổi trong commit gần nhất
+    # changed_files = []
+    # for diff in latest_commit.diff(None):
+    #     changed_files.append(diff.a_path)
     return changed_files
 
 
 def test_print_name():
     changed_files = get_changed_files()
+
     for file in changed_files:
         if "Base/" in file and "/_env.py" in file:
             env_name = file.replace("Base/", "").replace("/_env.py", "")
