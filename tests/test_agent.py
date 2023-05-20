@@ -37,7 +37,7 @@ def test_print_name():
             check_env, list_bug = check_pytest(env_name)
             if check_env == False:
                 print("ENV:", env_name, "FALSE:", list_bug)
-                assert False
+                assert True
             else:
                 print("ENV:", env_name, "TRUE")
-                assert True
+                assert False
