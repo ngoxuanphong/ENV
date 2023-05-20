@@ -1,7 +1,8 @@
-from PIL import Image, ImageEnhance, ImageDraw, ImageFont
 import numpy as np
-from setup import SHORT_PATH
+from PIL import Image, ImageDraw, ImageEnhance, ImageFont
+
 from Base.Durak import _env
+from setup import SHORT_PATH
 
 IMG_PATH = SHORT_PATH + "Base/TLMN/playing_card_images/"
 tl = 3

@@ -1943,7 +1943,9 @@ def bot_lv0(state, perData):
     return arr_action[idx], perData
 
 
-import importlib.util, json, sys
+import importlib.util
+import json
+import sys
 
 try:
     from setup import SHORT_PATH

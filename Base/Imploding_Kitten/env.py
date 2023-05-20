@@ -1,9 +1,12 @@
-from Base.Imploding_Kitten import _env as __env
-from render_template import Render as __Render, import_files as __import_files
+import warnings as __warnings
+
 from numba.core.errors import (
     NumbaPendingDeprecationWarning as __NumbaPendingDeprecationWarning,
 )
-import warnings as __warnings
+
+from Base.Imploding_Kitten import _env as __env
+from render_template import Render as __Render
+from render_template import import_files as __import_files
 
 __warnings.simplefilter("ignore", __NumbaPendingDeprecationWarning)
 

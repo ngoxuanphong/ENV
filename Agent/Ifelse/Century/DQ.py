@@ -1,10 +1,13 @@
-import numpy as np
-import random as rd
-from numba import njit, jit
-from numba.typed import List
-import sys, os
-from setup import SHORT_PATH
 import importlib.util
+import os
+import random as rd
+import sys
+
+import numpy as np
+from numba import jit, njit
+from numba.typed import List
+
+from setup import SHORT_PATH
 
 game_name = sys.argv[1]
 

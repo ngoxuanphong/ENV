@@ -1,5 +1,5 @@
 import numpy as np
-from numba import njit, jit
+from numba import jit, njit
 from numba.typed import List
 
 perData = np.array([0])
@@ -362,7 +362,9 @@ def n_games_numba(p0, num_game, per_player, list_other, per1, per2, per3, p1, p2
 
 
 #  -----------------------------------------------------------------------------------
-import importlib.util, json, sys
+import importlib.util
+import json
+import sys
 
 try:
     from setup import SHORT_PATH

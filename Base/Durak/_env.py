@@ -1,14 +1,15 @@
-import numpy as np
-from numba import njit, jit
-import numba
-from numba.typed import List
 import sys
+import warnings
+
+import numba
+import numpy as np
+from numba import jit, njit
 from numba.core.errors import (
     NumbaDeprecationWarning,
     NumbaPendingDeprecationWarning,
     NumbaWarning,
 )
-import warnings
+from numba.typed import List
 
 warnings.simplefilter("ignore", category=NumbaDeprecationWarning)
 warnings.simplefilter("ignore", category=NumbaPendingDeprecationWarning)
@@ -193,7 +194,7 @@ def stepEnv(action, env):
         if env[53] == 1:  # defense
             env[0:52][np.where(env[0:52] == 5)] = 6  # defense this card successful
             env[action] = 6
-            if len(np.where(env[0:52]==env[58])[0])==0:
+            if len(np.where(env[0:52] == env[58])[0]) == 0:
                 env[0:52][np.where(env[0:52] == 5)] = -1  # Thrown away card
                 env[0:52][np.where(env[0:52] == 6)] = -1  # Thrown away card
                 env = drawCard(env)  # draw card
@@ -295,7 +296,9 @@ def n_game_numba(p0, num_game, per_player, list_other, per1, per2, per3, p1, p2,
     return win, per_player
 
 
-import importlib.util, json, sys
+import importlib.util
+import json
+import sys
 
 try:
     from setup import SHORT_PATH

@@ -1,7 +1,8 @@
-from PIL import Image, ImageEnhance, ImageDraw, ImageFont
 import numpy as np
-from setup import SHORT_PATH
+from PIL import Image, ImageDraw, ImageEnhance, ImageFont
+
 from Base.StoneAge import _env
+from setup import SHORT_PATH
 
 BUILDING_CARDS, CIV_CARDS = _env.BUILDING_CARDS, _env.CIV_CARDS
 IMG_PATH = SHORT_PATH + "Base/StoneAge/playing_card_images/"

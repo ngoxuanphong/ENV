@@ -1,5 +1,6 @@
 import numpy as np
 from numba import njit
+
 from Base.TicketToRide.index import *
 
 
@@ -1219,7 +1220,7 @@ def one_game_numba(p0, list_other, per_player, per1, per2, per3, per4, p1, p2, p
             action, per4 = p4(player_state, per4)
         else:
             raise Exception("Sai list_other.")
-        
+
         env_state = stepEnv(env_state, action)
         count_turn += 1
 
@@ -1328,7 +1329,9 @@ def n_games_normal(
     return win, per_player
 
 
-import importlib.util, json, sys
+import importlib.util
+import json
+import sys
 
 try:
     from setup import SHORT_PATH

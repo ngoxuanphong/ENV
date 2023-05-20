@@ -1,14 +1,14 @@
 import importlib.util
-from setup import SHOT_PATH
 import sys
-
 import warnings
+
+from setup import SHORT_PATH
 
 warnings.filterwarnings("ignore")
 from numba.core.errors import (
     NumbaDeprecationWarning,
-    NumbaPendingDeprecationWarning,
     NumbaExperimentalFeatureWarning,
+    NumbaPendingDeprecationWarning,
     NumbaWarning,
 )
 

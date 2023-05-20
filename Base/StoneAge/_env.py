@@ -1,15 +1,14 @@
-from numba import njit, jit
-import numpy as np
+import warnings
 
 # Building Card
 import numpy as np
-import warnings
+from numba import jit, njit
 
 warnings.filterwarnings("ignore")
 from numba.core.errors import (
     NumbaDeprecationWarning,
-    NumbaPendingDeprecationWarning,
     NumbaExperimentalFeatureWarning,
+    NumbaPendingDeprecationWarning,
     NumbaWarning,
 )
 
@@ -2307,7 +2306,9 @@ def n_games_normal(p0, num_game, per_player, list_other, per1, per2, per3, p1, p
     return win, per_player
 
 
-import importlib.util, json, sys
+import importlib.util
+import json
+import sys
 
 try:
     from setup import SHORT_PATH

@@ -1,7 +1,8 @@
-from PIL import Image, ImageDraw, ImageFont
 import numpy as np
-from setup import SHORT_PATH
+from PIL import Image, ImageDraw, ImageFont
+
 from Base.Exploding_Kitten import _env
+from setup import SHORT_PATH
 
 IMG_PATH = SHORT_PATH + "Base/Exploding_Kitten/images/"
 

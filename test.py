@@ -1,11 +1,12 @@
 #  Check hệ thống
 #  import Base.WelcomeToTheDungeon_v2.env as env
-from tests.CheckEnv import check_env
+import time
+
+import numpy as np
+from numba import jit, njit
 
 from setup import make
-import numpy as np
-from numba import njit, jit
-import time
+from tests.CheckEnv import check_env
 
 env = make("Imploding_Kitten")
 print(check_env(env))

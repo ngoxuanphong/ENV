@@ -1,6 +1,7 @@
-import numpy as np
-from numba import njit, jit
 import json
+
+import numpy as np
+from numba import jit, njit
 
 __STATE_SIZE__ = 83
 __ACTION_SIZE__ = 14
@@ -436,7 +437,9 @@ def n_games_numba(p0, num_game, per_player, list_other, per1, per2, per3, p1, p2
     return win, per_player
 
 
-import importlib.util, json, sys
+import importlib.util
+import json
+import sys
 
 try:
     from setup import SHORT_PATH

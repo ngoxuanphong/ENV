@@ -1,11 +1,13 @@
-import numpy as np
+import importlib.util
+import os
 import random as rd
-from numba import njit, jit
-import sys, os
+import sys
+
+import numpy as np
+from numba import jit, njit
 
 #  SHOT_PATH=''
 from setup import SHORT_PATH
-import importlib.util
 
 game_name = sys.argv[1]
 
@@ -31,7 +33,7 @@ getReward = env.getReward
 
 import numpy as np
 from numba import njit
-from numba.typed import List, Dict
+from numba.typed import Dict, List
 
 CHAIN_LENGTH = 4
 
