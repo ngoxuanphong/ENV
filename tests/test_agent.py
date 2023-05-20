@@ -23,8 +23,8 @@ def get_changed_files():
         changed_files.append(diff.a_path)
     print(latest_commit)
     commits = list(repo.iter_commits())
+    print(commits)
     second_latest_commit = commits[-2]
-    print(second_latest_commit)
     changed_files = []
     for diff in second_latest_commit.diff(None):
         changed_files.append(diff.a_path)
