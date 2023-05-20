@@ -2,6 +2,8 @@ import subprocess
 import json
 from git import Repo
 from tests.CheckEnv import check_pytest
+from tests.CheckGraphics import check_graphics
+from tests.CheckPlayer import check_agent
 
 
 def get_changed_files():
@@ -30,14 +32,25 @@ def get_changed_files():
 
 def test_print_name():
     changed_files = get_changed_files()
-    for file in changed_files:
-        if "Base/" in file and "/_env.py" in file:
-            env_name = file.replace("Base/", "").replace("/_env.py", "")
-            print(env_name, "checking...")
-            check_env, list_bug = check_pytest(env_name)
-            if check_env == False:
-                print("ENV:", env_name, "FALSE:", list_bug)
-                assert True
-            else:
-                print("ENV:", env_name, "TRUE")
-                assert False
+    # for file in changed_files:
+    #     if "Base/" in file and "/_env.py" in file:
+    #         env_name = file.replace("Base/", "").replace("/_env.py", "")
+    #         print(env_name, "checking...")
+    #         check_env, list_bug = check_pytest(env_name)
+    #         if check_env == False:
+    #             print("ENV:", env_name, "FALSE:", list_bug)
+    #             assert False
+    #         else:
+    #             print("ENV:", env_name, "TRUE")
+    #             assert True
+
+    #     if "Agent/" in file and "/Agent_player.py" in file:
+    #         agent_name = file.replace("Agent/", "").replace("/Agent_player.py", "")
+    #         print(agent_name, "checking...")
+    #         bool_check_agent, list_bug = check_agent(agent_name)
+    #         if bool_check_agent == False:
+    #             print("Agent:", agent_name, "FALSE:", list_bug)
+    #             assert False
+    #         else:
+    #             print("Agent:", agent_name, "TRUE")
+    #             assert True

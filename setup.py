@@ -15,10 +15,7 @@ SHORT_PATH = ""
 #  DRIVE_FOLDER = 'H:/Drive của tôi/AutomaticColab/'
 
 import importlib.util
-import os
 import sys
-
-game_name = "Catan"
 
 
 def make(game_name):
@@ -52,15 +49,16 @@ def setup_game(game_name):
     return module
 
 
-import subprocess
-
-
-def get_changed_files():
-    command = "git diff --name-only HEAD"
-    result = subprocess.run(command, shell=True, capture_output=True, text=True)
-    changed_files = result.stdout.strip().split("\n")
-    return changed_files
-
-
-# changed_files = get_changed_files()
-# print(changed_files)
+def load_module_player(player, game_name=None):
+    if game_name == None:
+        spec = importlib.util.spec_from_file_location(
+            "Agent_player", f"{SHORT_PATH}Agent/{player}/Agent_player.py"
+        )
+    else:
+        spec = importlib.util.spec_from_file_location(
+            "Agent_player", f"{SHORT_PATH}Agent/ifelse/{game_name}/{player}.py"
+        )
+    module = importlib.util.module_from_spec(spec)
+    sys.modules[spec.name] = module
+    spec.loader.exec_module(module)
+    return module
