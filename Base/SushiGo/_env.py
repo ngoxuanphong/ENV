@@ -3,7 +3,7 @@ from numba import njit
 
 
 @njit()
-def initEnv(n):  # SushiGo
+def initEnv(n):
     """
     n : số lượng người chơi\n
     id| Name card    | Amount\n
