@@ -34,7 +34,7 @@ def CheckAllFunc(Agent, BOOL_CHECK_ENV, msg):
 def setup_game(game_name):
     try:
         spec = importlib.util.spec_from_file_location(
-            "env", f"{SHOT_PATH}base/{game_name}/env.py"
+            "env", f"{SHORT_PATH}base/{game_name}/env.py"
         )
     except:
         spec = importlib.util.spec_from_file_location("env", f"base/{game_name}/env.py")
