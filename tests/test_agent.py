@@ -19,17 +19,18 @@ def get_changed_files():
 
     # Lấy commit gần nhất
     latest_commit = repo.head.commit
-    print(latest_commit)
-    print(repo.commit("HEAD~1"), repo.commit("HEAD~1").diff())
+    print(latest_commit, type(latest_commit))
+    print(repo.commit("HEAD~1"), type(repo.commit("HEAD~1")))
 
+    # changed_files = []
+    # for diff in repo.commit("HEAD~1").diff():
+    #     changed_files.append(diff.a_path)
+
+    # Liệt kê các tệp tin đã thay đổi trong commit gần nhất
     changed_files = []
-    for diff in repo.commit("HEAD~1").diff():
+    for diff in latest_commit.diff(None):
         changed_files.append(diff.a_path)
     print(changed_files)
-    # Liệt kê các tệp tin đã thay đổi trong commit gần nhất
-    # changed_files = []
-    # for diff in latest_commit.diff(None):
-    #     changed_files.append(diff.a_path)
     return changed_files
 
 
