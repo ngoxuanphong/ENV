@@ -60,7 +60,7 @@ def Train(state, perData):
     per_bias = perData[2]
     count_bias = perData[3]
 
-    reward = env.getReward()
+    reward = env.getReward(state)
     validActions = env.getValidActions(state)
 
     if count_match[0] < 10000:
@@ -180,7 +180,7 @@ def Test(state, perData):
     action_history = perData[0][1]
     count_turn = perData[0][2]
 
-    reward = env.getReward()
+    reward = env.getReward(state)
     validActions = env.getValidActions(state)
 
     if reward == -1:

@@ -74,7 +74,7 @@ def Test(state, per):
     if state[60] <= 6:
         per = np.zeros((3, 13))
 
-    if env.getReward() != -1:
+    if env.getReward(state) != -1:
         per = np.zeros((3, 13))
 
     return returnAction, per

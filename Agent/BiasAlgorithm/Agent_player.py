@@ -39,7 +39,7 @@ def Train(state, per):
     actions = env.getValidActions(state)
     output = actions * per[0] + actions
     action = np.argmax(output)
-    win = env.getReward()
+    win = env.getReward(state)
     if win == 1:
         per[1] += per[0]
     if win == 0:

@@ -39,7 +39,7 @@ def Train(state, per):
     output = np.sum((per[0] * nState) ** 2, axis=1)
     output = actions * output + actions
     action = np.argmax(output)
-    win = env.getReward()
+    win = env.getReward(state)
     if win == 1:
         per[1] += per[0]
         per[4] += per[3]

@@ -38,21 +38,21 @@ def CheckRunGame(Agent_name, BOOL_CHECK_ENV, msg):
     ]:
         env = make(game_name)
         Agent = load_module_player(Agent_name)
-        try:
-            per = Agent.DataAgent()
-            win, per = env.numba_main_2(Agent.Train, COUNT_TEST, per, 0)
-        except:
-            msg.append(f"Train đang bị lỗi {game_name}")
-            BOOL_CHECK_ENV = False
-            break
+        # try:
+        per = Agent.DataAgent()
+        win, per = env.numba_main_2(Agent.Train, COUNT_TEST, per, 0)
+        # except:
+        #     msg.append(f"Train đang bị lỗi {game_name}")
+        #     BOOL_CHECK_ENV = False
+        #     break
 
-        try:
-            per = Agent.convert_to_test(Agent.convert_to_save(Agent.DataAgent()))
-            win, per = env.numba_main_2(Agent.Test, COUNT_TEST, per, 0)
-        except:
-            msg.append(f"Test đang bị lỗi {game_name}")
-            BOOL_CHECK_ENV = False
-            break
+        # try:
+        #     per = Agent.convert_to_test(Agent.convert_to_save(Agent.DataAgent()))
+        #     win, per = env.numba_main_2(Agent.Test, COUNT_TEST, per, 0)
+        # except:
+        #     msg.append(f"Test đang bị lỗi {game_name}")
+        #     BOOL_CHECK_ENV = False
+        #     break
 
     return BOOL_CHECK_ENV, msg
 

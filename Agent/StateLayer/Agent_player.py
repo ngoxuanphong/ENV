@@ -42,9 +42,9 @@ def Train(state, per):
             output = np.random.rand(env.getActionSize()) * actions + actions
             action = np.argmax(output)
         per[4][0][0] += 1
-        if env.getReward() != -1:
+        if env.getReward(state) != -1:
             per[4][0][0] = 0
-            if env.getReward() == 1:
+            if env.getReward(state) == 1:
                 per[3][0] += per[0][0]
             else:
                 per[0][0] = (
@@ -63,10 +63,10 @@ def Train(state, per):
         per[0][0] += actions[0] / np.max(actions)
         list_action = np.where(env.getValidActions(state) == 1)[0]
         action = list_action[np.argmax(per[0][0][list_action])]
-        if env.getReward() != -1:
+        if env.getReward(state) != -1:
             per[5][0][0] += 1
             per[0][0] = per[3][0].copy()
-            if env.getReward() == 1:
+            if env.getReward(state) == 1:
                 per[6][0][0] += 1
             if per[5][0][0] % 1000 == 0:
                 if per[6][0][0] / 1000 > per[7][0][0]:
@@ -81,10 +81,10 @@ def Train(state, per):
         list_action = np.where(env.getValidActions(state) == 1)[0]
         action = list_action[np.argmax(per[0][0][list_action])]
         per[0][0] += per[2][int(action)]
-        if env.getReward() != -1:
+        if env.getReward(state) != -1:
             per[5][0][0] += 1
             per[0][0] = per[3][0].copy()
-            if env.getReward() == 1:
+            if env.getReward(state) == 1:
                 per[6][0][0] += 1
             if per[5][0][0] % 1000 == 0:
                 if per[6][0][0] / 1000 > per[8][0][0]:
@@ -99,10 +99,10 @@ def Train(state, per):
         list_action = np.where(env.getValidActions(state) == 1)[0]
         action = list_action[np.argmax(per[0][0][list_action])]
         per[0][0] += per[2][int(action)]
-        if env.getReward() != -1:
+        if env.getReward(state) != -1:
             per[5][0][0] += 1
             per[0][0] = per[3][0].copy()
-            if env.getReward() == 1:
+            if env.getReward(state) == 1:
                 per[6][0][0] += 1
             if per[5][0][0] % 1000 == 0:
                 if (per[5][0][0] % 100000) % 2 == 1:
@@ -159,7 +159,7 @@ def Test(state, per):
     list_action = np.where(env.getValidActions(state) == 1)[0]
     action = list_action[np.argmax(per[0][0][list_action])]
     per[0][0] += per[2][action]
-    if env.getReward() != -1:
+    if env.getReward(state) != -1:
         per[0][0] = per[3][0]
     return action, per
 

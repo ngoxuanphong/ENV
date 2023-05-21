@@ -44,7 +44,7 @@ def Train(state, per):
             per[2][0][0] = max_ + 1
 
     #  Bắt đầu lưu array bias
-    reward = env.getReward()
+    reward = env.getReward(state)
     if per[2][0][1] >= 9000:
         if reward == 1:
             per[0] += per[1]

@@ -272,7 +272,7 @@ def devCard(state, validActions):
 
 @njit
 def Test(state, per):
-    if env.getReward() != -1:
+    if env.getReward(state) != -1:
         per[0][0] = 0
     else:
         per[0][0] += 1

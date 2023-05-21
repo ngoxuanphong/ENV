@@ -87,7 +87,7 @@ def comboActions(myCard, arr, arr1):
 
 @njit
 def Test(state, per):
-    if env.getReward() != -1:
+    if env.getReward(state) != -1:
         per = DataAgent()
 
     validActions = env.getValidActions(state)

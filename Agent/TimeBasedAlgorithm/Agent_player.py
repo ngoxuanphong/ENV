@@ -56,7 +56,7 @@ def Train(state, per):
         weights = per[1][turn]
     output = actions * weights + actions
     action = np.argmax(output)
-    win = env.getReward()
+    win = env.getReward(state)
     per[0] += 1
     if win != -1:
         if win == 1:
@@ -79,7 +79,7 @@ def Test(state, per):
         actions = np.where(actions == 1)[0]
         action = actions[np.random.randint(0, actions.shape[0])]
 
-    win = env.getReward()
+    win = env.getReward(state)
     per[0][0][0] += 1
     if win != -1:
         per[0][0][0] = 0

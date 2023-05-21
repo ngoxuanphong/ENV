@@ -38,7 +38,7 @@ def Train(state, perData):
         bias = perData[1][1] * validActions
         action = np.argmax(bias)
 
-        reward = env.getReward()
+        reward = env.getReward(state)
         if reward != -1:
             perData[0][0][0] += 1
             if reward == 1:
@@ -65,7 +65,7 @@ def Train(state, perData):
         actions = np.where(validActions == 1)[0]
         a_idx = np.random.randint(0, actions.shape[0])
 
-        reward = env.getReward()
+        reward = env.getReward(state)
         if reward != -1:
             perData[0][0][0] += 1
             if perData[0][0][0] == 20000:
@@ -124,7 +124,7 @@ def Train(state, perData):
         perData[8][0][0] = actions[a_idx]
         perData[6][actions[a_idx]] = state
 
-        reward = env.getReward()
+        reward = env.getReward(state)
         if reward != -1:
             perData[0][0][0] += 1
             perData[8][0][0] = -1.0

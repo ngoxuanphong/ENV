@@ -47,7 +47,7 @@ def Train(state, per):
                 )
     output = weights * actions + actions
     action = np.argmax(output)
-    win = env.getReward()
+    win = env.getReward(state)
     if win != -1:
         if win == 1:
             #  print("đây")

@@ -135,7 +135,7 @@ def Test(state, per):
     #    print('-----Vong', state[0], '------------------')
     #  print(state[1])
 
-    if env.getReward() != -1:
+    if env.getReward(state) != -1:
         per = DataAgent()
         #  print('điểm')
         #  for i in range(5):

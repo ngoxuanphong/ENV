@@ -64,7 +64,7 @@ def Train(state, per):
     action = c[np.random.randint(0, c.shape[0])]
 
     per[0] += per[1][action]
-    win = env.getReward()
+    win = env.getReward(state)
 
     if win != -1:
         per[0][:, :] = 0.0
@@ -85,7 +85,7 @@ def Test(state, per):
     action = np.argmax(output)
 
     weight[:] += per[1][action]
-    win = env.getReward()
+    win = env.getReward(state)
     if win != -1:
         per[0][:, :] = 0.0
     return action, per

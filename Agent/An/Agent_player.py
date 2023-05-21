@@ -34,7 +34,7 @@ def Train(state, per):
         kq = actions * bias
         action = np.argmax(kq)
 
-        win = env.getReward()
+        win = env.getReward(state)
         if win != -1:
             if win == 1:
                 per[1][0][choice_id] += 1
@@ -63,7 +63,7 @@ def Train(state, per):
                 per[5][a][list_action] += 1
                 per[5][a][a] = 0
 
-        win = env.getReward()
+        win = env.getReward(state)
         if win != -1:
             id_match = int(per[4][0][0]) % 1000
             per[4][0][0] += 1
@@ -86,7 +86,7 @@ def Train(state, per):
                 per[5][a][list_action] += 1
                 per[5][a][a] = 0
 
-        win = env.getReward()
+        win = env.getReward(state)
         if win != -1:
             id_match = int(per[4][0][0]) % 1000
             per[4][0][0] += 1
@@ -133,7 +133,7 @@ def Train(state, per):
             kq = actions * per[0][0]
             action = np.argmax(kq)
 
-            win = env.getReward()
+            win = env.getReward(state)
             if win != -1:
                 per[2][0][0] += 1
                 if win == 1:
@@ -144,7 +144,7 @@ def Train(state, per):
             kq = actions * per[0][1]
             action = np.argmax(kq)
 
-            win = env.getReward()
+            win = env.getReward(state)
             if win != -1:
                 per[2][0][1] += 1
                 if win == 1:

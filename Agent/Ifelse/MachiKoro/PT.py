@@ -157,7 +157,7 @@ def Test(state, per):
         return 43, per
     if getQuanCaPhe(state) > 1:
         per[37] = -1
-    if env.getReward() == 0 or env.getReward() == 1:
+    if env.getReward(state) == 0 or env.getReward(state) == 1:
         per = np.array(
             [
                 0,

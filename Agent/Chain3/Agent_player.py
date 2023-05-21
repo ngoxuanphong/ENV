@@ -65,7 +65,7 @@ def generateArr(w):
 
 @njit
 def Train(state, per):
-    #  if env.getReward()!=-1:
+    #  if env.getReward(state)!=-1:
     #      if per[3][0][0]%100==0:
     #          print(per[3][0][0])
     if env.getActionSize() < 150:
@@ -80,9 +80,9 @@ def Train(state, per):
             action = np.argmax(weight * env.getValidActions(state))
             per[2][0][0] = per[2][0][1]
             per[2][0][1] = action
-        if env.getReward() != -1:
+        if env.getReward(state) != -1:
             per[3][0][0] += 1
-            if env.getReward() == 1:
+            if env.getReward(state) == 1:
                 per[0] += per[1] * 1.0
             else:
                 per[1] = (
@@ -98,7 +98,7 @@ def Train(state, per):
         if per[3][0][0] < 10000:
             action = np.random.choice(np.where(env.getValidActions(state) == 1)[0])
             per[4][0][int(action)] += 1
-            if env.getReward() != -1:
+            if env.getReward(state) != -1:
                 per[3][0][0] += 1
                 if per[3][0][0] == 10000:
                     per[5][0] = np.arange(env.getActionSize())[
@@ -144,9 +144,9 @@ def Train(state, per):
                         )
                         per[2][0][0] = per[2][0][1]
                         per[2][0][1] = action
-            if env.getReward() != -1:
+            if env.getReward(state) != -1:
                 per[3][0][0] += 1
-                if env.getReward() == 1:
+                if env.getReward(state) == 1:
                     per[0] += per[1] * 1.0
                 else:
                     per[1] = generateArr(per[6])
