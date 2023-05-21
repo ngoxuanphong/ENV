@@ -1,7 +1,8 @@
-from PIL import Image, ImageDraw, ImageFont
 import numpy as np
-from setup import SHORT_PATH
+from PIL import Image, ImageDraw, ImageFont
+
 from Base.Imploding_Kitten import _env
+from setup import SHORT_PATH
 
 IMG_PATH = SHORT_PATH + "Base/Exploding_Kitten/images/"
 
@@ -59,7 +60,7 @@ params = Params()
 
 class Sprites:
     def __init__(self) -> None:
-        self.background = Image.open(IMG_PATH + "Im_background.png").resize((2100, 900))
+        self.background = Image.open(IMG_PATH + "im_background.png").resize((2100, 900))
         self._background_ = self.background.copy()
         self.card_back = (
             Image.open(IMG_PATH + "Cardback.png").resize((120, 168)).convert("RGBA")

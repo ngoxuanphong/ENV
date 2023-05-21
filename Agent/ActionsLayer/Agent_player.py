@@ -1,9 +1,11 @@
+import importlib.util
+import sys
+
 import numpy as np
 from numba import njit
-import sys
-from setup import SHORT_PATH
-import importlib.util
 from numba.typed import List
+
+from setup import SHORT_PATH
 
 game_name = sys.argv[1]
 
@@ -26,8 +28,6 @@ getAgentSize = env.getAgentSize
 
 getValidActions = env.getValidActions
 getReward = env.getReward
-
-
 
 
 def convert_to_save(perData):

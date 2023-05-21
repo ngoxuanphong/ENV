@@ -1,8 +1,9 @@
-import numpy as np
-from numba import njit, jit
-import numba
-from numba.typed import List
 import sys
+
+import numba
+import numpy as np
+from numba import jit, njit
+from numba.typed import List
 
 
 @njit
@@ -263,7 +264,9 @@ def getValidActions(state):
 
         type_card = (state[0:16] > 0).astype(np.float64)
         type_card[13] = 0
-        if (np.sum(type_card) + state[13] >= 5) and np.sum(state[17:34]) > 0:  # five of a kind
+        if (np.sum(type_card) + state[13] >= 5) and np.sum(
+            state[17:34]
+        ) > 0:  # five of a kind
             list_action[9] = True
         list_action[11:13] = (state[11:13] > 0).astype(np.float64)  # 4 new action
         list_action[13:15] = (state[14:16] > 0).astype(np.float64)
@@ -765,7 +768,7 @@ def stepEnv(env, draw_pile, discard_pile, action):
             low, high = getCardRange(type_card)
             if np.where(env[low:high] == 6)[0].shape[0] > 0:
                 env[low:high][np.where(env[low:high] == 6)[0][0]] = env[77]
-                discard_pile[int(type_card)]-=1
+                discard_pile[int(type_card)] -= 1
         env[94] = -1  # reset last action
         env[89] = 0
         env[76] = 0
@@ -778,7 +781,7 @@ def stepEnv(env, draw_pile, discard_pile, action):
         env[91:94] = env[91:94][list_change[act]]
         index_future = np.where(draw_pile != -1)[0]
         if index_future.shape[0] >= 3:
-            if act>0:
+            if act > 0:
                 draw_pile[index_future[0:3]] = env[91:94]
         elif index_future.shape[0] == 2:
             if act == 2:
@@ -952,7 +955,9 @@ def n_game_numba(
     return win, per_player
 
 
-import importlib.util, json, sys
+import importlib.util
+import json
+import sys
 
 try:
     from setup import SHORT_PATH

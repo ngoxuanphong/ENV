@@ -1,10 +1,12 @@
 #  state based
 #  small NN deep
+import importlib.util
+import sys
+
 import numpy as np
 from numba import njit
-import sys
+
 from setup import SHORT_PATH
-import importlib.util
 
 game_name = sys.argv[1]
 

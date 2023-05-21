@@ -1,7 +1,8 @@
-from PIL import Image, ImageFont, ImageDraw
 import numpy as np
-from setup import SHORT_PATH
+from PIL import Image, ImageDraw, ImageFont
+
 from Base.Poker import _env
+from setup import SHORT_PATH
 
 IMG_PATH = SHORT_PATH + "Base/Poker/playing_card_images/"
 BG_SIZE = (1680, 900)

@@ -1,8 +1,8 @@
-from PIL import Image, ImageEnhance, ImageFont, ImageDraw
-
 import numpy as np
-from setup import SHORT_PATH
+from PIL import Image, ImageDraw, ImageEnhance, ImageFont
+
 from Base.TicketToRide import _env
+from setup import SHORT_PATH
 
 IMG_PATH = SHORT_PATH + "Base/TicketToRide/Images/"
 BG_SIZE_BASE = np.array((1600, 1100))

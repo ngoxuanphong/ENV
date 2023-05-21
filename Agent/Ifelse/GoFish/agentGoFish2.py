@@ -1,9 +1,12 @@
+import importlib.util
+import os
+import sys
+
 import numpy as np
 from numba import njit
 from numba.typed import List
-import sys, os
+
 from setup import SHORT_PATH
-import importlib.util
 
 game_name = sys.argv[1]
 

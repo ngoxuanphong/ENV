@@ -1,9 +1,12 @@
+import importlib.util
+import math
+
 import ipywidgets as widgets
 import numpy as np
-import math
-from IPython.display import display, clear_output
-import importlib.util
+from IPython.display import clear_output, display
+
 from setup import SHORT_PATH
+
 
 def import_files(game_name):
     spec = importlib.util.spec_from_file_location(

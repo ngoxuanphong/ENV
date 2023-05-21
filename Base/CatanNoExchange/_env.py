@@ -1,5 +1,5 @@
 import numpy as np
-from numba import njit, jit
+from numba import jit, njit
 from numba.typed import List
 
 TILE_TILE = np.array(
@@ -324,8 +324,8 @@ import warnings
 warnings.filterwarnings("ignore")
 from numba.core.errors import (
     NumbaDeprecationWarning,
-    NumbaPendingDeprecationWarning,
     NumbaExperimentalFeatureWarning,
+    NumbaPendingDeprecationWarning,
     NumbaWarning,
 )
 
@@ -1968,7 +1968,9 @@ def bot_lv0(state, perData):
     return arr_action[idx], perData
 
 
-import importlib.util, json, sys
+import importlib.util
+import json
+import sys
 
 try:
     from setup import SHORT_PATH

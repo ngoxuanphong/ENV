@@ -1,13 +1,15 @@
+import warnings
+
 import numpy as np
 from numba import njit
-from setup import setup_game
-import warnings
 from numba.core.errors import (
     NumbaDeprecationWarning,
-    NumbaPendingDeprecationWarning,
     NumbaExperimentalFeatureWarning,
+    NumbaPendingDeprecationWarning,
     NumbaWarning,
 )
+
+from setup import setup_game
 
 warnings.simplefilter("ignore", category=NumbaDeprecationWarning)
 warnings.simplefilter("ignore", category=NumbaPendingDeprecationWarning)
@@ -172,18 +174,22 @@ def CheckRandomState(_env_, BOOL_CHECK_ENV, msg):
         return BOOL_CHECK_ENV
     return BOOL_CHECK_ENV
 
-import sys, os
-from setup import SHORT_PATH
-import importlib.util
 
-def setup_game(game_name):
-    spec = importlib.util.spec_from_file_location(
-        "env", f"{SHORT_PATH}Base/{game_name}/env.py"
-    )
-    module = importlib.util.module_from_spec(spec)
-    sys.modules[spec.name] = module
-    spec.loader.exec_module(module)
-    return module
+# import importlib.util
+# import os
+# import sys
+
+# from setup import SHORT_PATH
+
+# def setup_game(game_name):
+#     spec = importlib.util.spec_from_file_location(
+#         "env", f"{SHORT_PATH}Base/{game_name}/env.py"
+#     )
+#     module = importlib.util.module_from_spec(spec)
+#     sys.modules[spec.name] = module
+#     spec.loader.exec_module(module)
+#     return module
+
 
 def check_env(_env_):
     BOOL_CHECK_ENV = True
@@ -193,6 +199,7 @@ def check_env(_env_):
     BOOL_CHECK_ENV = CheckRunGame(_env_, BOOL_CHECK_ENV, msg)
     BOOL_CHECK_ENV = CheckRandomState(_env_, BOOL_CHECK_ENV, msg)
     return BOOL_CHECK_ENV, msg
+
 
 def check_pytest(env_str):
     _env_ = setup_game(env_str)

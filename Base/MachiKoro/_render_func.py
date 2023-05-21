@@ -1,7 +1,8 @@
-from PIL import Image, ImageEnhance, ImageFont, ImageDraw
 import numpy as np
-from setup import SHORT_PATH
+from PIL import Image, ImageDraw, ImageEnhance, ImageFont
+
 from Base.MachiKoro import _env
+from setup import SHORT_PATH
 
 IMG_PATH = SHORT_PATH + "Base/MachiKoro/images/"
 ROBBER_ICON = (40, 40)

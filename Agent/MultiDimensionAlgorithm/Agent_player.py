@@ -1,10 +1,12 @@
 #  không gian n chiều
 #  small NN deep
+import importlib.util
+import sys
+
 import numpy as np
 from numba import njit
-import sys
+
 from setup import SHORT_PATH
-import importlib.util
 
 game_name = sys.argv[1]
 
@@ -30,6 +32,7 @@ getReward = env.getReward
 
 
 from numba.typed import List
+
 
 # Agent function
 def DataAgent():

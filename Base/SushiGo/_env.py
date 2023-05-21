@@ -1,5 +1,6 @@
 import numpy as np
 from numba import njit
+from setup import load_module_player
 
 
 @njit()
@@ -557,27 +558,13 @@ def n_games_normal(
     return win, per_player
 
 
-import importlib.util, json, sys
+import json
+import sys
 
 try:
     from setup import SHORT_PATH
 except:
     pass
-
-
-def load_module_player(player, game_name=None):
-    if game_name == None:
-        spec = importlib.util.spec_from_file_location(
-            "Agent_player", f"{SHORT_PATH}Agent/{player}/Agent_player.py"
-        )
-    else:
-        spec = importlib.util.spec_from_file_location(
-            "Agent_player", f"{SHORT_PATH}Agent/ifelse/{game_name}/{player}.py"
-        )
-    module = importlib.util.module_from_spec(spec)
-    sys.modules[spec.name] = module
-    spec.loader.exec_module(module)
-    return module
 
 
 @njit()

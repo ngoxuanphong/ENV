@@ -1,6 +1,8 @@
 import numpy as np
-from numba import njit, jit
+from numba import jit, njit
+
 from Base.MachiKoro.index import *
+
 
 #########################
 @njit()
@@ -56,7 +58,7 @@ def getAgentState(env_state):
     player_state[P_NORMAL_CARD:P_CARD_SELL] = env_state[ENV_NORMAL_CARD:ENV_CARD_SELL]
     # card sell
     if env_state[ENV_CARD_SELL] != -0.5:
-        player_state[P_CARD_SELL + int(env_state[ENV_CARD_SELL])] = 1
+        player_state[P_CARD_SELL + int(env_state[ENV_CARD_SELL]) - 1] = 1
     # player_continue
     player_state[P_PLAYER_CONTINUE] = env_state[ENV_PLAYER_CONTINUE]
     player_state[P_LAST_DICE] = env_state[ENV_LAST_DICE]
@@ -246,7 +248,7 @@ def stepEnv(env_state, action):
             env_state[ENV_PLAYER_CONTINUE] = 1
         if player_in4[-4] > 0:
             # nếu đổ lại đc thì truyền xem có đổ lại k
-            env_state[-ENV_LAST_DICE] = dice
+            env_state[ENV_LAST_DICE] = dice
             env_state[ENV_PHASE] = 2
         else:
             if dice == 1:
@@ -853,7 +855,9 @@ def n_games_normal(p0, num_game, per_player, list_other, per1, per2, per3, p1, p
     return win, per_player
 
 
-import importlib.util, json, sys
+import importlib.util
+import json
+import sys
 
 try:
     from setup import SHORT_PATH
