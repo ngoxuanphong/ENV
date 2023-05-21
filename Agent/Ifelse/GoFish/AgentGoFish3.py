@@ -1,34 +1,11 @@
-import importlib.util
-import os
 import sys
-
 import numpy as np
 from numba import njit
 from numba.typed import List
-
-from setup import SHORT_PATH
+from setup import setup_game
 
 game_name = sys.argv[1]
-
-
-def setup_game(game_name):
-    spec = importlib.util.spec_from_file_location(
-        "env", f"{SHORT_PATH}Base/{game_name}/env.py"
-    )
-    module = importlib.util.module_from_spec(spec)
-    sys.modules[spec.name] = module
-    spec.loader.exec_module(module)
-    return module
-
-
 env = setup_game(game_name)
-
-getActionSize = env.getActionSize
-getStateSize = env.getStateSize
-getAgentSize = env.getAgentSize
-
-getValidActions = env.getValidActions
-getReward = env.getReward
 
 
 def DataAgent():
@@ -37,7 +14,7 @@ def DataAgent():
 
 @njit()
 def Test(state, per):
-    ValidAction = getValidActions(state)
+    ValidAction = env.getValidActions(state)
     ValidAction = np.where(ValidAction == 1)[0]
 
     returnAction = -1
@@ -97,7 +74,7 @@ def Test(state, per):
     if state[60] <= 6:
         per = np.zeros((3, 13))
 
-    if getReward(state) != -1:
+    if env.getReward() != -1:
         per = np.zeros((3, 13))
 
     return returnAction, per

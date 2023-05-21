@@ -1,45 +1,24 @@
-import importlib.util
 import sys
-
 import numpy as np
 from numba import njit
-
-from setup import SHORT_PATH
+from setup import setup_game
 
 game_name = sys.argv[1]
-
-
-def setup_game(game_name):
-    spec = importlib.util.spec_from_file_location(
-        "env", f"{SHORT_PATH}Base/{game_name}/env.py"
-    )
-    module = importlib.util.module_from_spec(spec)
-    sys.modules[spec.name] = module
-    spec.loader.exec_module(module)
-    return module
-
-
 env = setup_game(game_name)
-
-getActionSize = env.getActionSize
-getStateSize = env.getStateSize
-getAgentSize = env.getAgentSize
-
-getValidActions = env.getValidActions
-getReward = env.getReward
 
 
 from numba.typed import List
 
 
 def DataAgent():
-    if getActionSize() < 150:
+    if env.getActionSize() < 150:
         perx_Chain3 = List(
             [
-                np.zeros((getActionSize() ** 2, getActionSize())),
+                np.zeros((env.getActionSize() ** 2, env.getActionSize())),
                 np.argsort(
                     np.argsort(
-                        np.random.rand(getActionSize() ** 2, getActionSize()), axis=1
+                        np.random.rand(env.getActionSize() ** 2, env.getActionSize()),
+                        axis=1,
                     ),
                     axis=1,
                 )
@@ -58,7 +37,7 @@ def DataAgent():
                 + 1.0,
                 np.zeros((1, 2)) - 1.0,
                 np.zeros((1, 1)),
-                np.zeros((1, getActionSize())),
+                np.zeros((1, env.getActionSize())),
                 np.zeros((1, 150)),
                 np.full((150**2, 150), np.arange(1, 151)).astype(np.float64),
             ]
@@ -86,29 +65,29 @@ def generateArr(w):
 
 @njit
 def Train(state, per):
-    #  if getReward(state)!=-1:
+    #  if env.getReward()!=-1:
     #      if per[3][0][0]%100==0:
     #          print(per[3][0][0])
-    if getActionSize() < 150:
+    if env.getActionSize() < 150:
         if per[2][0][0] == -1 or per[2][0][1] == -1:
-            action = np.random.choice(np.where(getValidActions(state) == 1)[0])
+            action = np.random.choice(np.where(env.getValidActions(state) == 1)[0])
             if per[2][0][0] == -1:
                 per[2][0][0] = action
             elif per[2][0][1] == -1:
                 per[2][0][1] = action
         else:
-            weight = per[1][int(per[2][0][0] * getActionSize() + per[2][0][1])]
-            action = np.argmax(weight * getValidActions(state))
+            weight = per[1][int(per[2][0][0] * env.getActionSize() + per[2][0][1])]
+            action = np.argmax(weight * env.getValidActions(state))
             per[2][0][0] = per[2][0][1]
             per[2][0][1] = action
-        if getReward(state) != -1:
+        if env.getReward() != -1:
             per[3][0][0] += 1
-            if getReward(state) == 1:
+            if env.getReward() == 1:
                 per[0] += per[1] * 1.0
             else:
                 per[1] = (
                     argSortSpecial(
-                        np.random.rand(getActionSize() ** 2, getActionSize())
+                        np.random.rand(env.getActionSize() ** 2, env.getActionSize())
                     )
                     * 1.0
                     + 1.0
@@ -117,17 +96,17 @@ def Train(state, per):
         return int(action), per
     else:
         if per[3][0][0] < 10000:
-            action = np.random.choice(np.where(getValidActions(state) == 1)[0])
+            action = np.random.choice(np.where(env.getValidActions(state) == 1)[0])
             per[4][0][int(action)] += 1
-            if getReward(state) != -1:
+            if env.getReward() != -1:
                 per[3][0][0] += 1
                 if per[3][0][0] == 10000:
-                    per[5][0] = np.arange(getActionSize())[np.argsort(per[4][0, :])][
-                        -150:
-                    ]
+                    per[5][0] = np.arange(env.getActionSize())[
+                        np.argsort(per[4][0, :])
+                    ][-150:]
         else:
             if per[2][0][0] == -1 or per[2][0][1] == -1:
-                action = np.random.choice(np.where(getValidActions(state) == 1)[0])
+                action = np.random.choice(np.where(env.getValidActions(state) == 1)[0])
                 if per[2][0][0] == -1:
                     per[2][0][0] = action
                 elif per[2][0][1] == -1:
@@ -137,34 +116,37 @@ def Train(state, per):
                     np.where(per[5][0] == per[2][0][0])[0].shape[0] == 0
                     or np.where(per[5][0] == per[2][0][1])[0].shape[0] == 0
                 ):
-                    action = np.random.choice(np.where(getValidActions(state) == 1)[0])
+                    action = np.random.choice(
+                        np.where(env.getValidActions(state) == 1)[0]
+                    )
                     per[2][0][0] = per[2][0][1]
                     per[2][0][1] = action
                 else:
                     id1 = np.where(per[5][0] == per[2][0][0])[0][0]
                     id2 = np.where(per[5][0] == per[2][0][1])[0][0]
-                    idx = int(id1 * getActionSize() + id2)
+                    idx = int(id1 * env.getActionSize() + id2)
                     if idx >= 0 and idx <= 150**2:
                         weight = per[1][int(id1 * 150 + id2)]
                         list_action = (
-                            weight * getValidActions(state)[per[5][0].astype(np.int64)]
+                            weight
+                            * env.getValidActions(state)[per[5][0].astype(np.int64)]
                         )
                         action = per[5][0][np.argmax(list_action)]
-                        if getValidActions(state)[int(action)] == 0:
+                        if env.getValidActions(state)[int(action)] == 0:
                             action = np.random.choice(
-                                np.where(getValidActions(state) == 1)[0]
+                                np.where(env.getValidActions(state) == 1)[0]
                             )
                         per[2][0][0] = per[2][0][1]
                         per[2][0][1] = action
                     else:
                         action = np.random.choice(
-                            np.where(getValidActions(state) == 1)[0]
+                            np.where(env.getValidActions(state) == 1)[0]
                         )
                         per[2][0][0] = per[2][0][1]
                         per[2][0][1] = action
-            if getReward(state) != -1:
+            if env.getReward() != -1:
                 per[3][0][0] += 1
-                if getReward(state) == 1:
+                if env.getReward() == 1:
                     per[0] += per[1] * 1.0
                 else:
                     per[1] = generateArr(per[6])
@@ -173,9 +155,9 @@ def Train(state, per):
 
 @njit
 def Test(state, per):
-    validActions = getValidActions(state)
+    validActions = env.getValidActions(state)
     actions = np.where(validActions == 1)[0]
-    actionSize = getActionSize()
+    actionSize = env.getActionSize()
     if actionSize < 150:
         if per[1][0][0] == -1 or per[1][0][1] == -1:
             action = actions[np.random.randint(0, actions.shape[0])]
@@ -231,7 +213,7 @@ def Test(state, per):
 
 def convert_to_save(perData):
     data = List()
-    if getActionSize() < 150:
+    if env.getActionSize() < 150:
         if len(perData) == 2:
             raise Exception("Data này đã được convert rồi.")
         data.append(perData[0])

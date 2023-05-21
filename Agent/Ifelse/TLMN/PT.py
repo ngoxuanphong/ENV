@@ -1,35 +1,11 @@
-import importlib.util
-import os
-import random as rd
 import sys
-
 import numpy as np
-from numba import jit, njit
+from numba import njit
 from numba.typed import List
-
-from setup import SHORT_PATH
+from setup import setup_game
 
 game_name = sys.argv[1]
-
-
-def setup_game(game_name):
-    spec = importlib.util.spec_from_file_location(
-        "env", f"{SHORT_PATH}Base/{game_name}/env.py"
-    )
-    module = importlib.util.module_from_spec(spec)
-    sys.modules[spec.name] = module
-    spec.loader.exec_module(module)
-    return module
-
-
 env = setup_game(game_name)
-
-getActionSize = env.getActionSize
-getStateSize = env.getStateSize
-getAgentSize = env.getAgentSize
-
-getValidActions = env.getValidActions
-getReward = env.getReward
 
 
 @njit
@@ -184,7 +160,7 @@ def getActionLaDon(state, actions):
 def Test(state, per):
     cards_on_hand = state[0:52]
     cards_on_hand = np.where(cards_on_hand == 1)[0]
-    actions = getValidActions(state)
+    actions = env.getValidActions(state)
     specialCards = getSpecialCard(state)
     boDay = getBoDay(state)
     if np.min(state[107:110]) >= 8:

@@ -1,32 +1,10 @@
-import importlib.util
 import sys
-
 import numpy as np
 from numba import njit
-
-from setup import SHORT_PATH
+from setup import setup_game
 
 game_name = sys.argv[1]
-
-
-def setup_game(game_name):
-    spec = importlib.util.spec_from_file_location(
-        "env", f"{SHORT_PATH}Base/{game_name}/env.py"
-    )
-    module = importlib.util.module_from_spec(spec)
-    sys.modules[spec.name] = module
-    spec.loader.exec_module(module)
-    return module
-
-
 env = setup_game(game_name)
-
-getActionSize = env.getActionSize
-getStateSize = env.getStateSize
-getAgentSize = env.getAgentSize
-
-getValidActions = env.getValidActions
-getReward = env.getReward
 
 
 from numba.typed import List
@@ -39,13 +17,13 @@ def DataAgent():
 
     perData.append(np.array([[0.0]], dtype=np.float64))  #  0: Đếm số trận đấu đã train
     perData.append(
-        np.full((2, getActionSize()), 1e-9, dtype=np.float64)
+        np.full((2, env.getActionSize()), 1e-9, dtype=np.float64)
     )  #  Bias và temp Bias
-    perData[1][1] = np.arange(1, getActionSize() + 1, dtype=np.float64)
+    perData[1][1] = np.arange(1, env.getActionSize() + 1, dtype=np.float64)
     np.random.shuffle(perData[1][1])
 
     perData.append(
-        np.full((2, getStateSize()), 0.0, dtype=np.float64)
+        np.full((2, env.getStateSize()), 0.0, dtype=np.float64)
     )  #  Minimum state và maximum state
     perData[2][0] = 1e9
     perData[2][1] = -1e9
@@ -56,11 +34,11 @@ def DataAgent():
 @njit
 def Train(state, perData):
     if perData[0][0][0] < 10000:
-        validActions = getValidActions(state)
+        validActions = env.getValidActions(state)
         bias = perData[1][1] * validActions
         action = np.argmax(bias)
 
-        reward = getReward(state)
+        reward = env.getReward()
         if reward != -1:
             perData[0][0][0] += 1
             if reward == 1:
@@ -83,44 +61,50 @@ def Train(state, perData):
         perData[2][0] = np.minimum(perData[2][0], state)
         perData[2][1] = np.maximum(perData[2][1], state)
 
-        validActions = getValidActions(state)
+        validActions = env.getValidActions(state)
         actions = np.where(validActions == 1)[0]
         a_idx = np.random.randint(0, actions.shape[0])
 
-        reward = getReward(state)
+        reward = env.getReward()
         if reward != -1:
             perData[0][0][0] += 1
             if perData[0][0][0] == 20000:
                 size_ = int(np.round(np.max(perData[2][1] - perData[2][0])))
                 if len(perData) < 11:
                     perData.append(
-                        np.full((getStateSize(), size_), 0.0, dtype=np.float64)
+                        np.full((env.getStateSize(), size_), 0.0, dtype=np.float64)
                     )  #  3 win_state
                     perData.append(
-                        np.full((getStateSize(), size_), 1e-9, dtype=np.float64)
+                        np.full((env.getStateSize(), size_), 1e-9, dtype=np.float64)
                     )  #  4 last_state
                     perData.append(
                         np.full(
-                            (getActionSize(), getStateSize()), 0.0, dtype=np.float64
+                            (env.getActionSize(), env.getStateSize()),
+                            0.0,
+                            dtype=np.float64,
                         )
                     )  #  5 Delta_state
                     perData.append(
                         np.full(
-                            (getActionSize(), getStateSize()), 0.0, dtype=np.float64
+                            (env.getActionSize(), env.getStateSize()),
+                            0.0,
+                            dtype=np.float64,
                         )
                     )  #  6 Pre_state
                     perData.append(
-                        np.full((getActionSize(), 1), 0.0, dtype=np.float64)
+                        np.full((env.getActionSize(), 1), 0.0, dtype=np.float64)
                     )  #  7 Số lần xuất hiện
                     perData.append(
                         np.array([[-1.0]], dtype=np.float64)
                     )  #  8 Pre_action
                     perData.append(
-                        np.full((getStateSize(), size_), 0.01, dtype=np.float64)
+                        np.full((env.getStateSize(), size_), 0.01, dtype=np.float64)
                     )  #  9 = 3 / 4
                     perData.append(
                         np.full(
-                            (getActionSize(), getStateSize()), 0.0, dtype=np.float64
+                            (env.getActionSize(), env.getStateSize()),
+                            0.0,
+                            dtype=np.float64,
                         )
                     )  #  10 = 5 / 7
 
@@ -133,14 +117,14 @@ def Train(state, perData):
             )
             perData[7][0][int(perData[8][0][0])] += 1
 
-        validActions = getValidActions(state)
+        validActions = env.getValidActions(state)
         actions = np.where(validActions == 1)[0]
         a_idx = np.random.randint(0, actions.shape[0])
 
         perData[8][0][0] = actions[a_idx]
         perData[6][actions[a_idx]] = state
 
-        reward = getReward(state)
+        reward = env.getReward()
         if reward != -1:
             perData[0][0][0] += 1
             perData[8][0][0] = -1.0
@@ -189,9 +173,9 @@ def scoring(action, state, depth, delta, bias, score):
     new_state = state + delta[action]
     new_state_round = np.empty_like(new_state)
     new_state_round = np.round(new_state, 0, new_state_round)
-    validActions = getValidActions(new_state_round)
+    validActions = env.getValidActions(new_state_round)
     actions = np.where(validActions == 1)[0]
-    reward = getReward(new_state_round)
+    reward = env.getReward(new_state_round)
 
     if depth >= MAX_DEPTH:
         return get_value_state(new_state_round, score)
@@ -219,7 +203,7 @@ def scoring(action, state, depth, delta, bias, score):
 
 @njit
 def Test(state, perData):
-    validActions = getValidActions(state)
+    validActions = env.getValidActions(state)
     actions = np.where(validActions == 1)[0]
     score = np.full(actions.shape, 0.0, dtype=np.float64)
     for i in range(actions.shape[0]):

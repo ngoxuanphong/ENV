@@ -1,40 +1,19 @@
-import importlib.util
-import os
 import sys
-
 import numpy as np
 from numba import njit
-from numba.typed import List
-
-from setup import SHORT_PATH
+from setup import setup_game
 
 game_name = sys.argv[1]
-
-
-def setup_game(game_name):
-    spec = importlib.util.spec_from_file_location(
-        "env", f"{SHORT_PATH}Base/{game_name}/env.py"
-    )
-    module = importlib.util.module_from_spec(spec)
-    sys.modules[spec.name] = module
-    spec.loader.exec_module(module)
-    return module
-
-
 env = setup_game(game_name)
 
-getActionSize = env.getActionSize
-getStateSize = env.getStateSize
-getAgentSize = env.getAgentSize
 
-getValidActions = env.getValidActions
-getReward = env.getReward
+from numba.typed import List
 
 
 def DataAgent():
     perx_ = List()
-    stateSize = getStateSize()
-    actionSize = getActionSize()
+    stateSize = env.getStateSize()
+    actionSize = env.getActionSize()
     perx_.append(np.zeros((1000 * stateSize, actionSize)))
     perx_.append(np.zeros((1000 * stateSize, actionSize)))
     perx_.append(np.zeros((1, 2)))
@@ -48,7 +27,7 @@ def DataAgent():
 def Train(state, per):
     weight = per[3][0]
     np.random.shuffle(weight)
-    actions = getValidActions(state)
+    actions = env.getValidActions(state)
     output = (weight + 1) * actions
     action = np.argmax(output)
 
@@ -65,7 +44,7 @@ def Train(state, per):
             per[2][0][0] = max_ + 1
 
     #  Bắt đầu lưu array bias
-    reward = getReward(state)
+    reward = env.getReward()
     if per[2][0][1] >= 9000:
         if reward == 1:
             per[0] += per[1]
@@ -82,14 +61,14 @@ def Train(state, per):
 @njit
 def Test(state, per):
     state_int = state.astype(np.int64)
-    stateSize = getStateSize()
-    actionSize = getActionSize()
+    stateSize = env.getStateSize()
+    actionSize = env.getActionSize()
     where_ = np.where((state_int < per[stateSize][0]) & (state_int >= 0))[0]
     weight = np.zeros(actionSize)
     for i in where_:
         weight += per[i][state_int[i]]
 
-    actions = getValidActions(state)
+    actions = env.getValidActions(state)
     output = (weight + 1) * actions
 
     #  action = np.argmax(output)
@@ -100,12 +79,12 @@ def Test(state, per):
 
 
 def convert_to_save(per_data):
-    if len(per_data) == getStateSize() + 1:
+    if len(per_data) == env.getStateSize() + 1:
         raise Exception("Data này đã được convert rồi.")
 
     data = List()
-    arr = np.zeros(getStateSize(), np.int64)
-    for i in range(getStateSize()):
+    arr = np.zeros(env.getStateSize(), np.int64)
+    for i in range(env.getStateSize()):
         for j in range(1000):
             if (per_data[0][1000 * i + j] == 0).all():
                 check = True
@@ -119,7 +98,7 @@ def convert_to_save(per_data):
         else:
             arr[i] = 1000
 
-    for i in range(getStateSize()):
+    for i in range(env.getStateSize()):
         data.append(per_data[0][1000 * i : 1000 * i + arr[i]])
 
     data.append(np.array([arr.astype(float)]))

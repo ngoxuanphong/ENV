@@ -13,7 +13,6 @@ print(check_env(env))
 getActionSize = env.getActionSize
 getStateSize = env.getStateSize
 getAgentSize = env.getAgentSize
-
 getValidActions = env.getValidActions
 getReward = env.getReward
 numba_main_2 = env.numba_main_2
@@ -21,7 +20,7 @@ numba_main_2 = env.numba_main_2
 
 @njit()
 def Test(state, perData):
-    validActions = getValidActions(state)
+    validActions = env.getValidActions(state)
     arr_action = np.where(validActions == 1)[0]
     idx = np.random.randint(0, arr_action.shape[0])
     return arr_action[idx], perData
