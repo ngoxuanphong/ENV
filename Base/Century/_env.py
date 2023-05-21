@@ -786,7 +786,7 @@ def n_games_normal(
     win = 0
     for _n in range(num_game):
         np.random.shuffle(list_other)
-        winner, per_player = one_game_numba(
+        winner, per_player = one_game_normal(
             p0, list_other, per_player, per1, per2, per3, per4, p1, p2, p3, p4
         )
         win += winner
