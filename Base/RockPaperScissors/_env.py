@@ -14,9 +14,8 @@ def getStateSize():
 @njit
 def initEnv():
   env = np.zeros(7)
-  env[0: 2] -= 1
-  env[2] = 0
-  env[5] = -1
+  env[0: 2] -= 1 # Each player has not made any choice yet
+  env[5] = -1 # No winner
   return env
 
 @njit
@@ -24,58 +23,64 @@ def getAgentState(env):
   state = np.zeros(8)
   state[6] = env[4] # phase
 
-  if env[4] == 1: #Nếu mà ở phase xác nhận thì hiện ra
-    player = int(env[3]) #người đang chơi
-    state[0 + int(env[player]) ] = 1
-    state[3 + int(env[(player + 1) % 2]) ] = 1
-  state[-1] = env[-1]
+  if env[4] == 1: # The phase where players confirm the information of the game turn.
+    player = int(env[3]) # player who is currently playing 
+    state[0 + int(env[player]) ] = 1 # Player's choice
+    state[3 + int(env[(player + 1) % 2]) ] = 1 # Opponent's choice
 
+  state[-1] = env[-1] # endgame?
   return state
 
 @njit
 def getValidActions(state):
   validActions = np.zeros(4)
-  if state[6] == 0:
-    validActions[:3] += 1
+  if state[6] == 0: # phase = 0
+    validActions[:3] += 1 # The player makes a choice
   else:
-    validActions[3] = 1 ### cho người chơi ghi nhận kết quả
+    validActions[3] = 1 # phase = 1
   return validActions
 
 @njit
 def stepEnv(action, env):
   if action < 3:
-    env[ int(env[3]) ] = action
-    env[3] = (env[3] + 1) % 2
-    if env[3] == 0:
-      env[4] = 1
-      # Kiểm tra người chiến thắng
+    env[ int(env[3]) ] = action # Player's choice
+    env[3] = (env[3] + 1) % 2 # Switch to another player
+
+    if env[3] == 0: # If it goes back to player 0, it means that all players have made their choices
+      env[4] = 1 # phase = 1
+
+      # check winner
       check = env[0] - env[1]
       if check == 1 or check == -2:
         env[5] = 0
       if check == -1 or check == 2:
         env[5] = 1
-  else:
-    env[3] = (env[3] + 1) % 2
+
+  else: # comfirmation phase 
+    env[3] = (env[3] + 1) % 2 #Switch to another player
     if env[3] == 0:
-      if env[5] != -1: env[6] = 1 #game kết thúc
-      else: 
+      if env[5] != -1: env[6] = 1 # game over
+      else: # game continue
         env[4] = 0
-        env[2] += 1
+        env[2] += 1 # turn += 1
         env[0:2] = np.zeros(2) -1
            
 @njit
 def checkEnded(env):
-  if env[-1] == 1:
-    return env[5]
+  if env[-1] == 1: # game over
+    return env[5] # winner
   return -1
 
 @njit
 def getReward(state):
-  if state[-1] == 0:
+  if state[-1] == 0: # game over# The game is not yet over
     return -1
+  
+  #check winner
   check = np.where( state[: 3])[0][0] - np.where( state[3: 6])[0][0]
   if check == 1 or check == -2:
-    return 1
+    return 1 #Player win
+  
   return 0
 
 @njit
@@ -86,13 +91,11 @@ def bot_lv0(state, per):
   return action, per
 
 def one_game_normal(p0, list_other, per_player, per1, p1):
-  # print(list_other)
   env = initEnv()
-  while env[2] < 100:
-    idx = int(env[3])
+  while env[2] < 100: # turn < 100
+    idx = int(env[3]) # idx_player
     player_state = getAgentState(env)
-    # print('\n', env)
-    # print(player_state)
+
     if list_other[idx] == -1:
       action, per_player = p0(player_state,per_player)
       list_action = getValidActions(player_state)
@@ -102,6 +105,7 @@ def one_game_normal(p0, list_other, per_player, per1, p1):
       action, per1 = p1(player_state,per1)
     else:
       raise Exception('Sai list_other.')
+    
     stepEnv(action, env)
     winner = checkEnded(env)
     if winner != -1:
@@ -135,13 +139,10 @@ def n_games_normal(p0, num_game, per_player, list_other, per1, p1):
 
 @njit
 def one_game_numba(p0, list_other, per_player, per1, p1):
-  # print(list_other)
   env = initEnv()
   while env[2] < 100:
     idx = int(env[3])
     player_state = getAgentState(env)
-    # print('\n', env)
-    # print(player_state)
     if list_other[idx] == -1:
       action, per_player = p0(player_state,per_player)
       list_action = getValidActions(player_state)
@@ -151,7 +152,6 @@ def one_game_numba(p0, list_other, per_player, per1, p1):
       action, per1 = p1(player_state,per1)
     else:
       raise Exception('Sai list_other.')
-    # print(action,getValidActions(player_state))
     stepEnv(action, env)
     winner = checkEnded(env)
     if winner != -1:

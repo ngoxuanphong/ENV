@@ -1,19 +1,25 @@
 ##  :video_game: Action
-    * [0: 3]: Kéo, búa, bao
-    * [3]: Xác nhận (xem thông tin bàn chơi)
+    * [0]: Scissors
+    * [1]: Rock
+    * [2]: Paper
+    * [3]: Comfirm
     
 ##  :bust_in_silhouette: P_state
-    * [0: 3]: Loại mình đưa ra
-    * [3: 6]: Loại đối phương đưa ra
+    * [0: 3]: Player's choice
+    * [3: 6]: Opponent's choice
     * [6]: Phase
-    * [7]: game kết thúc chưa?
+    * [7]: 1 if the game over
 ##  :globe_with_meridians: ENV_state
-    * [0: 2]: Loại các người chơi đưa ra (-1: chưa có, 0 = kéo, 1 = búa, 2 = bao)
-    * [2]: Số turn đã chơi
-    * [3]: Người chơi (0: người chơi 0, 1: người chơi 1)
+    * [0: 2]: The hand shape of each player 
+        -values: -1: if no choice has been made yet
+                  0: Scissors
+                  1: Rock
+                  2: Paper
+    * [2]: Turn
+    * [3]: The player who is currently playing ( 0 or 1)
     * [4]: Phase:
-        + 0: Người chơi đưa ra
-        + 1: Người chơi xác nhận
-    * [5]: Người chiến thắng
-    * [6]: EndGame
+        + 0: Each player makes a choice
+        + 1: comfirm the information of the game turn
+    * [5]: winner ( -1: no winner, 0, 1)
+    * [6]: 1 is the game over, if not, it's not
 
