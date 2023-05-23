@@ -77,13 +77,15 @@ def RunGame(_env_, BOOL_CHECK_ENV, msg):
             per_file[5] = 1
         if arr_action.dtype != np.float64:
             per_file[6] = 1
+        if np.where((arr_action != 1) & (arr_action != 0))[0].shape[0] > 0:
+            per_file[7] = 1
         arr_action = np.where(arr_action == 1)[0]
         act_idx = np.random.randint(0, len(arr_action))
         return arr_action[act_idx], per_file
 
     try:
         per = np.array(
-            [0, 0, 0, 0, 0, 0, 0]
+            [0, 0, 0, 0, 0, 0, 0, 0]
         )  # end, win end, state âm, state thay đổi, actions thay đổi, type state, type action
         win, per = _env_.numba_main_2(test_numba, COUNT_TEST, per, 0)
 
@@ -117,7 +119,10 @@ def RunGame(_env_, BOOL_CHECK_ENV, msg):
                 msg.append(f"STATE đang trả ra sai output")
                 BOOL_CHECK_ENV = False
             if per[6] == 1:
-                msg.append(f"array ACTION đang trả ra sai output")
+                msg.append(f"array ACTION đang trả ra sai định dạng output")
+                BOOL_CHECK_ENV = False
+            if per[7] == 1:
+                msg.append(f"array ACTION đang trả ra sai output, != 0, 1")
                 BOOL_CHECK_ENV = False
         except:
             msg.append("hàm numba_main_2 không train được với agent không numba")

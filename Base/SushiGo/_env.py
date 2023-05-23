@@ -558,8 +558,7 @@ def n_games_normal(
     return win, per_player
 
 
-import json
-import sys
+import json, sys
 
 try:
     from setup import SHORT_PATH
