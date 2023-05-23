@@ -54,13 +54,14 @@ jobs:
             Please make sure you are NOT addressing multiple issues with one PR.
             Note this PR might be rejected due to its size  
   
-  agent:
+  label:
     runs-on: ubuntu-latest
     permissions:
       issues: write
       pull-requests: write
     steps:
-      - uses: actions/labeler@v4
+      - name: "Labeler"
+        uses: actions/labeler@v4
         with:
           repo-token: ${{ secrets.GITHUB_TOKEN}}
           

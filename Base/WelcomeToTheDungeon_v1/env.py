@@ -466,6 +466,7 @@ def n_games_normal(p0, num_game, per_player, list_other, per1, per2, per3, p1, p
     return win, per_player
 
 
+import importlib.util
 import json, sys
 
 try:
