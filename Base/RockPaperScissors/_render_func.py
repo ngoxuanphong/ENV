@@ -79,7 +79,7 @@ def get_description(action): #-----------------------------------------
     elif action == 2:
         return "Paper"
     else:
-        return "continue"
+        return "Comfirm"
 
 
 class Env_components:
