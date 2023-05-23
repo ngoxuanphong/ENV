@@ -45,28 +45,27 @@ Please refer to [Wiki](https://github.com/ngoxuanphong/ENV/wiki/Using) for compl
 ##  Environment
 ENV includes 20 games:
 
-|Game        |Win lv0       |win lv1        |win lv1        |Time lv0       |Time lv1       |Time lv1       |
-|:-----------|:-----------  |:-----------   |:-----------   |:-----------   |:-----------   |:-----------   |
-|Catan     |2535| 211| 13      |307| 224| 324|
-|CatanNoExchange     |2464| 339| False      |190| 673| False|
-|Century     |1932| 12| 1      |48| 51| 52|
-|Durak     |2561| 447| False      |15| 18| False|
-|Exploding_Kitten     |2002| 1631| False      |18| 16| False|
-|Fantan     |2413| 117| False      |27| 63| False|
-|GoFish     |2536| 2499| False      |10| 12| False|
-|Imploding_Kitten     |1659| 1316| False      |37| 39| False|
-|MachiKoro     |2542| 53| 7      |13| 14| 18|
-|Phom     |2444| 500| False      |31| 33| False|
-|Poker     |1109| 1155| False      |71| 59| False|
-|Sheriff     |2510| 3| 362      |28| 30| 33|
-|Splendor     |2449| 28| 1      |114| 154| 90|
-|Splendor_v2     |2621| 15| 1      |48| 51| 50|
-|Splendor_v3     |2615| 677| 29      |29| 26| 36|
-|StoneAge     |2467| 36| 0      |92| 217| 133|
-|SushiGo     |2010| 141| 154      |11| 14| 14|
-|TicketToRide     |2041| 0| False      |60| 913| False|
-|TLMN     |2456| 772| 262      |16| 17| 26|
-|WelcomeToTheDungeon_v1     |2530| 833| 796      |3| 12| 15|
-|WelcomeToTheDungeon_v2     |2481| 914| 464      |4| 15| 14|
+|Game        |Win-lv0       |win-lv1        |win-lv2        |Time-lv0       |Time-lv1       |Time-lv2       | Graphics      | Link|
+|:-----------|:-----------  |:-----------   |:-----------   |:-----------   |:-----------   |:-----------   |:-----------   |:-----------   |
+|Catan      |2440           | 354           | 7             |252            | 230           | 183           |True           |[Catan](https://github.com/ngoxuanphong/ENV/tree/main/Base/Catan)|
+|CatanNoExchange|2491| 424| 22|168| 1021| 96|True|[CatanNoExchange](https://github.com/ngoxuanphong/ENV/tree/main/Base/CatanNoExchange)|
+|Century|1970| 7| |36| 61| |True|[Century](https://github.com/ngoxuanphong/ENV/tree/main/Base/Century)|
+|Durak|2540| 460| |15| 21| |True|[Durak](https://github.com/ngoxuanphong/ENV/tree/main/Base/Durak)|
+|Exploding_Kitten|2044| 1695| |24| 35| |True|[Exploding_Kitten](https://github.com/ngoxuanphong/ENV/tree/main/Base/Exploding_Kitten)|
+|Fantan|2464| 114| |17| 31| ||[Fantan](https://github.com/ngoxuanphong/ENV/tree/main/Base/Fantan)|
+|GoFish|2466| 2517| 497|9| 34| 13|True|[GoFish](https://github.com/ngoxuanphong/ENV/tree/main/Base/GoFish)|
+|Imploding_Kitten|1646| 1274| |62| 51| |True|[Imploding_Kitten](https://github.com/ngoxuanphong/ENV/tree/main/Base/Imploding_Kitten)|
+|MachiKoro|2468| 31| 3|11| 9| 8|True|[MachiKoro](https://github.com/ngoxuanphong/ENV/tree/main/Base/MachiKoro)|
+|Poker|1100| 1112| |81| 127| |True|[Poker](https://github.com/ngoxuanphong/ENV/tree/main/Base/Poker)|
+|Sheriff|2481| 4| 365|29| 29| 19|True|[Sheriff](https://github.com/ngoxuanphong/ENV/tree/main/Base/Sheriff)|
+|Splendor|2517| 21| 4|105| 154| 85|True|[Splendor](https://github.com/ngoxuanphong/ENV/tree/main/Base/Splendor)|
+|Splendor_v2|2632| 9| 4|50| 180| 123|True|[Splendor_v2](https://github.com/ngoxuanphong/ENV/tree/main/Base/Splendor_v2)|
+|Splendor_v3|2700| 681| 28|34| 33| 41|True|[Splendor_v3](https://github.com/ngoxuanphong/ENV/tree/main/Base/Splendor_v3)|
+|StoneAge|2485| 40| 0|65| 229| 100|True|[StoneAge](https://github.com/ngoxuanphong/ENV/tree/main/Base/StoneAge)|
+|SushiGo|2096| 144| 187|8| 14| 14|True|[SushiGo](https://github.com/ngoxuanphong/ENV/tree/main/Base/SushiGo)|
+|TicketToRide|2017| 0| |84| 313| |True|[TicketToRide](https://github.com/ngoxuanphong/ENV/tree/main/Base/TicketToRide)|
+|TLMN|2532| 766| 279|23| 25| 31|True|[TLMN](https://github.com/ngoxuanphong/ENV/tree/main/Base/TLMN)|
+|WelcomeToTheDungeon_v1|2512| 830| |5| 11| ||[WelcomeToTheDungeon_v1](https://github.com/ngoxuanphong/ENV/tree/main/Base/WelcomeToTheDungeon_v1)|
+|WelcomeToTheDungeon_v2|2458| 889| 443|8| 11| 23||[WelcomeToTheDungeon_v2](https://github.com/ngoxuanphong/ENV/tree/main/Base/WelcomeToTheDungeon_v2)|
 
 Please refer to [Wiki](https://github.com/ngoxuanphong/ENV/wiki/Environments) for more details.
