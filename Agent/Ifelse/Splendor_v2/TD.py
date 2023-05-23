@@ -1,35 +1,11 @@
-import importlib.util
-import os
-import random as rd
 import sys
-
 import numpy as np
-from numba import jit, njit
+from numba import njit
 from numba.typed import List
-
-from setup import SHORT_PATH
+from setup import setup_game
 
 game_name = sys.argv[1]
-
-
-def setup_game(game_name):
-    spec = importlib.util.spec_from_file_location(
-        "env", f"{SHORT_PATH}Base/{game_name}/env.py"
-    )
-    module = importlib.util.module_from_spec(spec)
-    sys.modules[spec.name] = module
-    spec.loader.exec_module(module)
-    return module
-
-
 env = setup_game(game_name)
-
-getActionSize = env.getActionSize
-getStateSize = env.getStateSize
-getAgentSize = env.getAgentSize
-
-getValidActions = env.getValidActions
-getReward = env.getReward
 
 
 @njit()
@@ -63,7 +39,7 @@ def allCardYouCanGet(p_state):  # tất cả các thẻ có thẻ mua: 12 + 3 th
 
 @njit()
 def checkGetCard(state):
-    actCard = getValidActions(state)[1:16]
+    actCard = env.getValidActions(state)[1:16]
     actCard = np.where(actCard)[0]
     arr_card = allCardYouCanGet(state)
     size = actCard.size
@@ -97,7 +73,7 @@ def nhamThe(state):
 
     for i in range(14, 3, -1):  ###quan tâm tới thẻ cấp 2,3, hold
         card = arr_card[i]
-        ngLieuCanGet = getValidActions(state)[31:36]
+        ngLieuCanGet = env.getValidActions(state)[31:36]
         cost = card[6:11]
         ngLieuCanGet[cost == 0] = np.zeros(cost[cost == 0].size)
         ngLieu = state[6:11] + state[12:17]
@@ -130,7 +106,7 @@ def checkGetStock(state):  # lay đủ 3 nguyên liệu
 ###cần thiết thì hold thẻ đang chuẩn bị ăn
 @njit()
 def checkHold(state):
-    actHold = getValidActions(state)[16:31]
+    actHold = env.getValidActions(state)[16:31]
     if sum(actHold) and state[11] < 3 and sum(state[6:12]) < 10:
         return True
     return False
@@ -139,7 +115,7 @@ def checkHold(state):
 @njit()
 def holdCard(state):
     card = getCardOnBoard(state)
-    actHold = getValidActions(state)[16:28]
+    actHold = env.getValidActions(state)[16:28]
     stt = np.where(actHold == 1)[0]
     size = stt.size
 
@@ -159,7 +135,7 @@ def holdCard(state):
     if action >= 16 and action <= 27:
         return action  ###  hold thẻ cấp 3 ẩn
     else:
-        if getValidActions(state)[29]:
+        if env.getValidActions(state)[29]:
             return 29
         else:
             return stt[np.random.randint(size)] + 16
@@ -167,7 +143,7 @@ def holdCard(state):
 
 @njit()
 def Test(state, per):
-    validActions = getValidActions(state)
+    validActions = env.getValidActions(state)
     actions = np.where(validActions)[0]
     #  print(state)
     #  print(actions)

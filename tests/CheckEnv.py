@@ -175,22 +175,6 @@ def CheckRandomState(_env_, BOOL_CHECK_ENV, msg):
     return BOOL_CHECK_ENV
 
 
-# import importlib.util
-# import os
-# import sys
-
-# from setup import SHORT_PATH
-
-# def setup_game(game_name):
-#     spec = importlib.util.spec_from_file_location(
-#         "env", f"{SHORT_PATH}Base/{game_name}/env.py"
-#     )
-#     module = importlib.util.module_from_spec(spec)
-#     sys.modules[spec.name] = module
-#     spec.loader.exec_module(module)
-#     return module
-
-
 def check_env(_env_):
     BOOL_CHECK_ENV = True
     msg = []

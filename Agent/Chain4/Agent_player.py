@@ -1,39 +1,13 @@
-import importlib.util
-import os
-import random as rd
 import sys
-
-import numpy as np
-from numba import jit, njit
-
-#  SHOT_PATH=''
-from setup import SHORT_PATH
-
-game_name = sys.argv[1]
-
-
-def setup_game(game_name):
-    spec = importlib.util.spec_from_file_location(
-        "env", f"{SHORT_PATH}Base/{game_name}/env.py"
-    )
-    module = importlib.util.module_from_spec(spec)
-    sys.modules[spec.name] = module
-    spec.loader.exec_module(module)
-    return module
-
-
-env = setup_game(game_name)
-
-getActionSize = env.getActionSize
-getStateSize = env.getStateSize
-getAgentSize = env.getAgentSize
-
-getValidActions = env.getValidActions
-getReward = env.getReward
-
 import numpy as np
 from numba import njit
-from numba.typed import Dict, List
+from setup import setup_game
+
+game_name = sys.argv[1]
+env = setup_game(game_name)
+
+
+from numba.typed import Dict
 
 CHAIN_LENGTH = 4
 
@@ -56,11 +30,11 @@ def DataAgent():
     perData[0][3] = np.full(10000, -1, dtype=np.int64)  #  Lưu các chuỗi xuất hiện
 
     #  Bias tự do (Temp)
-    perData[1][-1] = np.arange(getActionSize(), dtype=np.int64) + 1
+    perData[1][-1] = np.arange(env.getActionSize(), dtype=np.int64) + 1
     np.random.shuffle(perData[1][-1])
 
     #  Bias tự do (Per)
-    perData[2][-1] = np.full(getActionSize(), 0, dtype=np.int64) + 1
+    perData[2][-1] = np.full(env.getActionSize(), 0, dtype=np.int64) + 1
 
     #
     return perData
@@ -70,7 +44,7 @@ def DataAgent():
 def encode(arr_chain):
     res = 0
     for i in range(arr_chain.shape[0]):
-        res += arr_chain[i] * getActionSize() ** i
+        res += arr_chain[i] * env.getActionSize() ** i
 
     return res
 
@@ -86,8 +60,8 @@ def Train(state, perData):
     per_bias = perData[2]
     count_bias = perData[3]
 
-    reward = getReward(state)
-    validActions = getValidActions(state)
+    reward = env.getReward(state)
+    validActions = env.getValidActions(state)
 
     if count_match[0] < 10000:
         if count_match[0] == -1:
@@ -119,8 +93,8 @@ def Train(state, perData):
                 key = encode(action_history)
                 if key not in count_bias:
                     count_bias[key] = np.full(1, 0, dtype=np.int64)
-                    per_bias[key] = np.full(getActionSize(), 0, dtype=np.int64) + 1
-                    temp_bias[key] = np.arange(getActionSize(), dtype=np.int64) + 1
+                    per_bias[key] = np.full(env.getActionSize(), 0, dtype=np.int64) + 1
+                    temp_bias[key] = np.arange(env.getActionSize(), dtype=np.int64) + 1
                     np.random.shuffle(temp_bias[key])
 
                 action = np.argmax(validActions * temp_bias[key])
@@ -206,8 +180,8 @@ def Test(state, perData):
     action_history = perData[0][1]
     count_turn = perData[0][2]
 
-    reward = getReward(state)
-    validActions = getValidActions(state)
+    reward = env.getReward(state)
+    validActions = env.getValidActions(state)
 
     if reward == -1:
         if count_turn[0] < CHAIN_LENGTH:

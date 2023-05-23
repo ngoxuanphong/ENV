@@ -22,24 +22,17 @@ def setup_game(game_name):
 
 env = setup_game(game_name)
 
-getActionSize = env.getActionSize
-getStateSize = env.getStateSize
-getAgentSize = env.getAgentSize
-
-getValidActions = env.getValidActions
-getReward = env.getReward
-
 
 def convert_to_save(perData):
     if len(perData) == 2:
         raise Exception("Data này đã được convert rồi.")
 
     data = List()
-    data.append(np.zeros((1, getActionSize())))
-    temp = np.zeros((getActionSize(), getActionSize()))
+    data.append(np.zeros((1, env.getActionSize())))
+    temp = np.zeros((env.getActionSize(), env.getActionSize()))
     for i in range(temp.shape[0]):
         temp[i] = np.argsort(np.argsort(perData[2][i])) + 1e-6 * np.random.rand(
-            getActionSize()
+            env.getActionSize()
         )
 
     data.append(temp)
@@ -54,16 +47,16 @@ def convert_to_test(perData):
 def DataAgent():
     return List(
         [
-            np.zeros((1, getActionSize())),
-            np.random.rand(getActionSize(), getActionSize()),
-            np.zeros((getActionSize(), getActionSize())),
+            np.zeros((1, env.getActionSize())),
+            np.random.rand(env.getActionSize(), env.getActionSize()),
+            np.zeros((env.getActionSize(), env.getActionSize())),
         ]
     )
 
 
 @njit()
 def Train(state, per):
-    actions = getValidActions(state)
+    actions = env.getValidActions(state)
     weight = per[0][0]
 
     output = actions * weight + actions
@@ -71,28 +64,28 @@ def Train(state, per):
     action = c[np.random.randint(0, c.shape[0])]
 
     per[0] += per[1][action]
-    win = getReward(state)
+    win = env.getReward(state)
 
     if win != -1:
         per[0][:, :] = 0.0
         if win == 1:
             per[2] += per[1]
         else:
-            per[1] = np.random.rand(getActionSize(), getActionSize())
+            per[1] = np.random.rand(env.getActionSize(), env.getActionSize())
 
     return action, per
 
 
 @njit()
 def Test(state, per):
-    actions = getValidActions(state)
+    actions = env.getValidActions(state)
     weight = per[0][0]
 
     output = actions * weight + actions
     action = np.argmax(output)
 
     weight[:] += per[1][action]
-    win = getReward(state)
+    win = env.getReward(state)
     if win != -1:
         per[0][:, :] = 0.0
     return action, per

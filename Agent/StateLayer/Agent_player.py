@@ -1,32 +1,10 @@
-import importlib.util
 import sys
-
 import numpy as np
 from numba import njit
-
-from setup import SHORT_PATH
+from setup import setup_game
 
 game_name = sys.argv[1]
-
-
-def setup_game(game_name):
-    spec = importlib.util.spec_from_file_location(
-        "env", f"{SHORT_PATH}Base/{game_name}/env.py"
-    )
-    module = importlib.util.module_from_spec(spec)
-    sys.modules[spec.name] = module
-    spec.loader.exec_module(module)
-    return module
-
-
 env = setup_game(game_name)
-
-getActionSize = env.getActionSize
-getStateSize = env.getStateSize
-getAgentSize = env.getAgentSize
-
-getValidActions = env.getValidActions
-getReward = env.getReward
 
 
 from numba.typed import List
@@ -36,19 +14,19 @@ def DataAgent():
     perx_ = List(
         [
             np.random.choice(
-                getActionSize(), size=getActionSize(), replace=False
+                env.getActionSize(), size=env.getActionSize(), replace=False
             ).reshape(1, -1)
             * 1.0,
-            np.random.rand(getStateSize(), getActionSize()) * 2 - 1,
-            np.random.rand(getActionSize(), getActionSize()),
-            np.zeros((1, getActionSize())),
+            np.random.rand(env.getStateSize(), env.getActionSize()) * 2 - 1,
+            np.random.rand(env.getActionSize(), env.getActionSize()),
+            np.zeros((1, env.getActionSize())),
             np.zeros((1, 1)),
             np.zeros((1, 1)),
             np.zeros((1, 1)),
             np.zeros((1, 1)),
             np.zeros((1, 1)),
-            np.random.rand(getStateSize(), getActionSize()) * 2 - 1,
-            np.random.rand(getActionSize(), getActionSize()),
+            np.random.rand(env.getStateSize(), env.getActionSize()) * 2 - 1,
+            np.random.rand(env.getActionSize(), env.getActionSize()),
         ]
     )
     return perx_
@@ -57,21 +35,21 @@ def DataAgent():
 @njit
 def Train(state, per):
     if per[5][0][0] <= 10000:  # phase1
-        actions = getValidActions(state)
+        actions = env.getValidActions(state)
         if per[4][0][0] == 0:
             action = np.argmax(actions * per[0][0] + actions)
         else:
-            output = np.random.rand(getActionSize()) * actions + actions
+            output = np.random.rand(env.getActionSize()) * actions + actions
             action = np.argmax(output)
         per[4][0][0] += 1
-        if getReward(state) != -1:
+        if env.getReward(state) != -1:
             per[4][0][0] = 0
-            if getReward(state) == 1:
+            if env.getReward(state) == 1:
                 per[3][0] += per[0][0]
             else:
                 per[0][0] = (
                     np.random.choice(
-                        getActionSize(), size=getActionSize(), replace=False
+                        env.getActionSize(), size=env.getActionSize(), replace=False
                     )
                     * 1.0
                 )
@@ -83,80 +61,82 @@ def Train(state, per):
     elif per[5][0][0] > 10000 and per[5][0][0] <= 110000:  # phase 2
         actions = state.reshape(1, -1).dot(per[1])
         per[0][0] += actions[0] / np.max(actions)
-        list_action = np.where(getValidActions(state) == 1)[0]
+        list_action = np.where(env.getValidActions(state) == 1)[0]
         action = list_action[np.argmax(per[0][0][list_action])]
-        if getReward(state) != -1:
+        if env.getReward(state) != -1:
             per[5][0][0] += 1
             per[0][0] = per[3][0].copy()
-            if getReward(state) == 1:
+            if env.getReward(state) == 1:
                 per[6][0][0] += 1
             if per[5][0][0] % 1000 == 0:
                 if per[6][0][0] / 1000 > per[7][0][0]:
                     per[7][0][0] = per[6][0][0] / 1000
                     per[9] = per[1].copy()
-                per[1] = np.random.rand(getStateSize(), getActionSize()) * 2 - 1
+                per[1] = np.random.rand(env.getStateSize(), env.getActionSize()) * 2 - 1
                 per[6][0][0] = 0
 
     elif per[5][0][0] > 110000 and per[5][0][0] <= 210000:  # phase 3
         actions = state.reshape(1, -1).dot(per[1])
         per[0][0] += actions[0] / np.max(actions)
-        list_action = np.where(getValidActions(state) == 1)[0]
+        list_action = np.where(env.getValidActions(state) == 1)[0]
         action = list_action[np.argmax(per[0][0][list_action])]
         per[0][0] += per[2][int(action)]
-        if getReward(state) != -1:
+        if env.getReward(state) != -1:
             per[5][0][0] += 1
             per[0][0] = per[3][0].copy()
-            if getReward(state) == 1:
+            if env.getReward(state) == 1:
                 per[6][0][0] += 1
             if per[5][0][0] % 1000 == 0:
                 if per[6][0][0] / 1000 > per[8][0][0]:
                     per[8][0][0] = per[6][0][0] / 1000
                     per[10] = per[2].copy()
-                per[2] = np.random.rand(getActionSize(), getActionSize())
+                per[2] = np.random.rand(env.getActionSize(), env.getActionSize())
                 per[6][0][0] = 0
 
     else:
         actions = state.reshape(1, -1).dot(per[1])
         per[0][0] += actions[0] / np.max(actions)
-        list_action = np.where(getValidActions(state) == 1)[0]
+        list_action = np.where(env.getValidActions(state) == 1)[0]
         action = list_action[np.argmax(per[0][0][list_action])]
         per[0][0] += per[2][int(action)]
-        if getReward(state) != -1:
+        if env.getReward(state) != -1:
             per[5][0][0] += 1
             per[0][0] = per[3][0].copy()
-            if getReward(state) == 1:
+            if env.getReward(state) == 1:
                 per[6][0][0] += 1
             if per[5][0][0] % 1000 == 0:
                 if (per[5][0][0] % 100000) % 2 == 1:
                     if per[6][0][0] / 1000 > per[8][0][0]:
                         per[8][0][0] = per[6][0][0] / 1000
                         per[10] = per[2].copy()
-                    per[2] = np.random.rand(getActionSize(), getActionSize())
+                    per[2] = np.random.rand(env.getActionSize(), env.getActionSize())
                     per[6][0][0] = 0
                 else:
                     if per[6][0][0] / 1000 > per[7][0][0]:
                         per[7][0][0] = per[6][0][0] / 1000
                         per[9] = per[1].copy()
-                    per[1] = np.random.rand(getStateSize(), getActionSize()) * 2 - 1
+                    per[1] = (
+                        np.random.rand(env.getStateSize(), env.getActionSize()) * 2 - 1
+                    )
                     per[6][0][0] = 0
     return action, per
 
 
 perx = [
-    np.random.choice(getActionSize(), size=getActionSize(), replace=False).reshape(
-        1, -1
-    )
+    np.random.choice(
+        env.getActionSize(), size=env.getActionSize(), replace=False
+    ).reshape(1, -1)
     * 1.0,
-    np.random.rand(getStateSize(), getActionSize()) * 2 - 1,
-    np.random.rand(getActionSize(), getActionSize()),
-    np.zeros((1, getActionSize())),
+    np.random.rand(env.getStateSize(), env.getActionSize()) * 2 - 1,
+    np.random.rand(env.getActionSize(), env.getActionSize()),
+    np.zeros((1, env.getActionSize())),
     np.zeros((1, 1)),
     np.zeros((1, 1)),
     np.zeros((1, 1)),
     np.zeros((1, 1)),
     np.zeros((1, 1)),
-    np.random.rand(getStateSize(), getActionSize()) * 2 - 1,
-    np.random.rand(getActionSize(), getActionSize()),
+    np.random.rand(env.getStateSize(), env.getActionSize()) * 2 - 1,
+    np.random.rand(env.getActionSize(), env.getActionSize()),
 ]
 
 # per[0]: arr ban đầu: size = ActionSize, value in range(ActionSize)
@@ -176,10 +156,10 @@ perx = [
 def Test(state, per):
     actions = state.reshape(1, -1).dot(per[1])
     per[0][0] += actions[0] / np.max(actions)
-    list_action = np.where(getValidActions(state) == 1)[0]
+    list_action = np.where(env.getValidActions(state) == 1)[0]
     action = list_action[np.argmax(per[0][0][list_action])]
     per[0][0] += per[2][action]
-    if getReward(state) != -1:
+    if env.getReward(state) != -1:
         per[0][0] = per[3][0]
     return action, per
 

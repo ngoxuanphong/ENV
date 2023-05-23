@@ -1,32 +1,10 @@
-import importlib.util
 import sys
-
 import numpy as np
 from numba import njit
-
-from setup import SHORT_PATH
+from setup import setup_game
 
 game_name = sys.argv[1]
-
-
-def setup_game(game_name):
-    spec = importlib.util.spec_from_file_location(
-        "env", f"{SHORT_PATH}Base/{game_name}/env.py"
-    )
-    module = importlib.util.module_from_spec(spec)
-    sys.modules[spec.name] = module
-    spec.loader.exec_module(module)
-    return module
-
-
 env = setup_game(game_name)
-
-getActionSize = env.getActionSize
-getStateSize = env.getStateSize
-getAgentSize = env.getAgentSize
-
-getValidActions = env.getValidActions
-getReward = env.getReward
 
 
 from numba.typed import List
@@ -52,11 +30,11 @@ def Train(state, per):
 
         choice_id = int(per[3][0][0])
         bias = per[0][choice_id]
-        actions = getValidActions(state)
+        actions = env.getValidActions(state)
         kq = actions * bias
         action = np.argmax(kq)
 
-        win = getReward(state)
+        win = env.getReward(state)
         if win != -1:
             if win == 1:
                 per[1][0][choice_id] += 1
@@ -75,7 +53,7 @@ def Train(state, per):
         return action, per
 
     if per[4][0][0] < 11000:
-        actions = getValidActions(state)
+        actions = env.getValidActions(state)
         kq = actions * per[0][0]
         action = np.argmax(kq)
         list_action = np.where(actions == 1)[0]
@@ -85,7 +63,7 @@ def Train(state, per):
                 per[5][a][list_action] += 1
                 per[5][a][a] = 0
 
-        win = getReward(state)
+        win = env.getReward(state)
         if win != -1:
             id_match = int(per[4][0][0]) % 1000
             per[4][0][0] += 1
@@ -98,7 +76,7 @@ def Train(state, per):
         return action, per
 
     if per[2][0][99] == 0:
-        actions = getValidActions(state)
+        actions = env.getValidActions(state)
         kq = actions * per[0][0]
         action = np.argmax(kq)
         list_action = np.where(actions == 1)[0]
@@ -108,7 +86,7 @@ def Train(state, per):
                 per[5][a][list_action] += 1
                 per[5][a][a] = 0
 
-        win = getReward(state)
+        win = env.getReward(state)
         if win != -1:
             id_match = int(per[4][0][0]) % 1000
             per[4][0][0] += 1
@@ -151,22 +129,22 @@ def Train(state, per):
 
     if per[2][0][99] == 1:
         if per[2][0][0] < 2000:
-            actions = getValidActions(state)
+            actions = env.getValidActions(state)
             kq = actions * per[0][0]
             action = np.argmax(kq)
 
-            win = getReward(state)
+            win = env.getReward(state)
             if win != -1:
                 per[2][0][0] += 1
                 if win == 1:
                     per[1][0][0] += 1
 
         else:
-            actions = getValidActions(state)
+            actions = env.getValidActions(state)
             kq = actions * per[0][1]
             action = np.argmax(kq)
 
-            win = getReward(state)
+            win = env.getReward(state)
             if win != -1:
                 per[2][0][1] += 1
                 if win == 1:
@@ -189,7 +167,7 @@ def Train(state, per):
 
 @njit()
 def Test(state, per):
-    actions = getValidActions(state)
+    actions = env.getValidActions(state)
     kq = actions * per + actions
     action = np.argmax(kq)
     return action, per
@@ -198,13 +176,13 @@ def Test(state, per):
 @njit()
 def DataAgent():
     per_Ann = List()
-    per_Ann.append(np.random.rand(100, getActionSize()))  #  0
+    per_Ann.append(np.random.rand(100, env.getActionSize()))  #  0
     per_Ann.append(np.zeros((1, 100)))  #  1
     per_Ann.append(np.zeros((1, 100)))  #  2
     per_Ann.append(np.array([[-1.0]]))  #  3
     per_Ann.append(np.array([[0.0]]))  #  4
-    per_Ann.append(np.zeros((getActionSize(), getActionSize())))  #  5
-    per_Ann.append(np.zeros((1, getActionSize())))  #  6
+    per_Ann.append(np.zeros((env.getActionSize(), env.getActionSize())))  #  5
+    per_Ann.append(np.zeros((1, env.getActionSize())))  #  6
     per_Ann.append(np.zeros((1, 1000)))  #  7
-    per_Ann.append(np.zeros((getActionSize(), getActionSize())))  #  8
+    per_Ann.append(np.zeros((env.getActionSize(), env.getActionSize())))  #  8
     return per_Ann
