@@ -1,8 +1,10 @@
+import sys
+
+import numba
 import numpy as np
 from numba import njit
-import numba
 from numba.typed import List
-import sys
+
 
 ###########################
 @njit
@@ -569,7 +571,7 @@ def stepEnv(env, draw_pile, discard_pile, action):
             low, high = getCardRange(type_card)  # range
             if np.where(env[low:high] == 6)[0].shape[0] > 0:
                 env[low:high][np.where(env[low:high] == 6)[0][0]] = env[57]
-                discard_pile[int(type_card)]-=1
+                discard_pile[int(type_card)] -= 1
         env[72] = -1
         env[67] = 0
 
@@ -760,7 +762,8 @@ def n_game_numba(
     return win, per_player
 
 
-import importlib.util, json, sys
+import importlib.util
+import json, sys
 
 try:
     from setup import SHORT_PATH
@@ -781,7 +784,6 @@ def load_module_player(player, game_name=None):
     sys.modules[spec.name] = module
     spec.loader.exec_module(module)
     return module
-
 
 
 @njit()

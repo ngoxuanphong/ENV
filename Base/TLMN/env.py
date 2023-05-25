@@ -1,7 +1,13 @@
-from Base.TLMN import _env as __env
-from render_template import Render as __Render, import_files as __import_files
-from numba.core.errors import NumbaPendingDeprecationWarning as __NumbaPendingDeprecationWarning
 import warnings as __warnings
+
+from numba.core.errors import (
+    NumbaPendingDeprecationWarning as __NumbaPendingDeprecationWarning,
+)
+
+from Base.TLMN import _env as __env
+from render_template import Render as __Render
+from render_template import import_files as __import_files
+
 __warnings.simplefilter("ignore", __NumbaPendingDeprecationWarning)
 
 
@@ -14,7 +20,9 @@ getAgentSize = __env.getAgentSize
 getStateSize = __env.getStateSize
 getReward = __env.getReward
 numba_main_2 = __env.numba_main_2
+bot_lv0 = __env.bot_lv0
 __ACTIONS__ = __env._ACTIONS_
+
 
 def render(Agent, per_data, level, *args, max_temp_frame=100):
     list_agent, list_data = __env.load_agent(level, *args)

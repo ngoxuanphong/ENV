@@ -1,32 +1,11 @@
+import sys
 import numpy as np
-import random as rd
-from numba import njit, jit
+from numba import njit
 from numba.typed import List
-import sys, os
-from setup import SHORT_PATH
-import importlib.util
+from setup import setup_game
 
 game_name = sys.argv[1]
-
-
-def setup_game(game_name):
-    spec = importlib.util.spec_from_file_location(
-        "env", f"{SHORT_PATH}Base/{game_name}/env.py"
-    )
-    module = importlib.util.module_from_spec(spec)
-    sys.modules[spec.name] = module
-    spec.loader.exec_module(module)
-    return module
-
-
 env = setup_game(game_name)
-
-getActionSize = env.getActionSize
-getStateSize = env.getStateSize
-getAgentSize = env.getAgentSize
-
-getValidActions = env.getValidActions
-getReward = env.getReward
 
 
 @njit
@@ -74,8 +53,8 @@ def checkCiv(state, validActions):
 
 @njit
 def thuHoach(state, validActions):
-    arr1 = getValidActions(state)[29:37]
-    arr2 = getValidActions(state)[48:56]
+    arr1 = env.getValidActions(state)[29:37]
+    arr2 = env.getValidActions(state)[48:56]
     action = 0
     if arr1[arr1 > 0].size:
         policy = np.array([8, 7, 6, 2, 3, 4, 5, 1])
@@ -93,7 +72,7 @@ def thuHoach(state, validActions):
 @njit
 def datLayNgL(state, validActions):
     arr = np.array([3, 2, 1])
-    arr = arr * getValidActions(state)[15:18]
+    arr = arr * env.getValidActions(state)[15:18]
     action = 0
     if sum(arr):
         act = np.argmax(arr)
@@ -104,7 +83,7 @@ def datLayNgL(state, validActions):
 @njit
 def chonXX(state, validActions):
     arr = np.arange(6) + 1
-    arrAct = arr * getValidActions(state)[57:63]
+    arrAct = arr * env.getValidActions(state)[57:63]
     action = 0
     if sum(arrAct):
         action = np.argmax(arrAct) + 57
@@ -114,7 +93,7 @@ def chonXX(state, validActions):
 @njit
 def chonNgL(state, validActions):
     arr = np.arange(4) + 1
-    arrAct = arr * getValidActions(state)[64:68]
+    arrAct = arr * env.getValidActions(state)[64:68]
     action = 0
     if sum(arrAct):
         action = np.argmax(arrAct) + 64
@@ -132,8 +111,8 @@ def checkLuongThuc(state, validActions):
 
 @njit
 def checkCongCu(state, validActions):
-    arr1 = getValidActions(state)[37:40]
-    arr2 = getValidActions(state)[44:47]
+    arr1 = env.getValidActions(state)[37:40]
+    arr2 = env.getValidActions(state)[44:47]
     arrAct = np.array([37, 38, 39, 44, 45, 46])
     action = 0
     if sum(arr1) + sum(arr2):
@@ -146,7 +125,7 @@ def checkCongCu(state, validActions):
 @njit
 def traNgL(state, validActions):
     arr = np.arange(4) + 1
-    arr = arr * getValidActions(state)[40:44]
+    arr = arr * env.getValidActions(state)[40:44]
     phase = state[412:423]
     action = 0
     if sum(arr) and phase[3]:
@@ -159,7 +138,7 @@ def traNgL(state, validActions):
 @njit
 def traNgLNuoi(state, validActions):
     arr = np.array([4, 3, 2, 1])
-    arr = arr * getValidActions(state)[40:44]
+    arr = arr * env.getValidActions(state)[40:44]
     phase = state[412:423]
     action = 0
     if sum(arr) and phase[10]:
@@ -171,7 +150,7 @@ def traNgLNuoi(state, validActions):
 
 @njit
 def Test(state, per):
-    validActions = getValidActions(state)
+    validActions = env.getValidActions(state)
     validActions = np.where(validActions)[0]
 
     # Đặt dân --------------------------------------

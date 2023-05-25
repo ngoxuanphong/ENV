@@ -1,43 +1,24 @@
+import sys
 import numpy as np
 from numba import njit
-import sys
-from setup import SHORT_PATH
-import importlib.util
+from setup import setup_game
 
 game_name = sys.argv[1]
-
-
-def setup_game(game_name):
-    spec = importlib.util.spec_from_file_location(
-        "env", f"{SHORT_PATH}Base/{game_name}/env.py"
-    )
-    module = importlib.util.module_from_spec(spec)
-    sys.modules[spec.name] = module
-    spec.loader.exec_module(module)
-    return module
-
-
 env = setup_game(game_name)
-
-getActionSize = env.getActionSize
-getStateSize = env.getStateSize
-getAgentSize = env.getAgentSize
-
-getValidActions = env.getValidActions
-getReward = env.getReward
 
 
 from numba.typed import List
 
-#Agent function
+
+# Agent function
 def DataAgent():
     per = List(
         [
             np.random.choice(
-                np.arange(getActionSize()), size=getActionSize(), replace=False
+                np.arange(env.getActionSize()), size=env.getActionSize(), replace=False
             )
             * 1.0,
-            np.zeros(getActionSize()),
+            np.zeros(env.getActionSize()),
         ]
     )
     return per
@@ -55,10 +36,10 @@ def convert_to_test(perData):
 
 @njit()
 def Train(state, per):
-    actions = getValidActions(state)
+    actions = env.getValidActions(state)
     output = actions * per[0] + actions
     action = np.argmax(output)
-    win = getReward(state)
+    win = env.getReward(state)
     if win == 1:
         per[1] += per[0]
     if win == 0:
@@ -68,7 +49,7 @@ def Train(state, per):
 
 @njit()
 def Test(state, per):
-    actions = getValidActions(state)
+    actions = env.getValidActions(state)
     output = per * actions + actions
     action = np.argmax(output)
     return action, per

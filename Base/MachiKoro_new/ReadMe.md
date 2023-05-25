@@ -101,7 +101,7 @@
       *   [122:129]:  Phase game
       *   [129]:  Check end game
       *   [130:142]: Số lượng mỗi loại thẻ còn trên bàn chơi
-      *   [142:146]: Người chơi đang action, có giá trị là 0 hoặc 1, 1 ở 142 thì là bản thân đang hành động, còn 143 -> 142 là người chơi kế tiếp sau mình
+      *   [142:146]: Người chơi đang action, có giá trị là 0 hoặc 1, 1 ở 142 thì là bản thân đang hành động, còn 143 -> 142 là người chơi kế tiếp sau minh
 
 ##  :globe_with_meridians: ENV_state
       *   [0:80] Thông tin các người chơi (coin, số lượng thẻ mỗi loại): 

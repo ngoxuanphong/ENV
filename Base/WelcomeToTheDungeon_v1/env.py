@@ -1,8 +1,6 @@
 import numpy as np
-from numba import njit, jit
-
+from numba import jit, njit
 from numba.typed import List
-import importlib.util, json, sys
 
 #  from setup import SHOT_PATH
 
@@ -468,7 +466,8 @@ def n_games_normal(p0, num_game, per_player, list_other, per1, per2, per3, p1, p
     return win, per_player
 
 
-import importlib.util, json, sys
+import importlib.util
+import json, sys
 
 try:
     from setup import SHORT_PATH

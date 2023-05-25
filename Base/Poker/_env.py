@@ -1,6 +1,7 @@
 import numba as nb
-from numba import njit
 import numpy as np
+from numba import njit
+
 from Base.Poker.index import *
 
 
@@ -1151,7 +1152,8 @@ def n_games_normal(
     return win, per_player
 
 
-import importlib.util, json, sys
+import importlib.util
+import json, sys
 
 try:
     from setup import SHORT_PATH

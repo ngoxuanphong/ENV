@@ -1,9 +1,12 @@
-from Base.Catan import _env as __env
-from render_template import Render as __Render, import_files as __import_files
+import warnings as __warnings
+
 from numba.core.errors import (
     NumbaPendingDeprecationWarning as __NumbaPendingDeprecationWarning,
 )
-import warnings as __warnings
+
+from Base.Catan import _env as __env
+from render_template import Render as __Render
+from render_template import import_files as __import_files
 
 __warnings.simplefilter("ignore", __NumbaPendingDeprecationWarning)
 
@@ -17,6 +20,7 @@ getAgentSize = __env.getAgentSize
 getStateSize = __env.getStateSize
 getReward = __env.getReward
 numba_main_2 = __env.numba_main_2
+bot_lv0 = __env.bot_lv0
 POINT_TILE = __env.POINT_TILE
 POINT_POINT = __env.POINT_POINT
 POINT_ROAD = __env.POINT_ROAD
