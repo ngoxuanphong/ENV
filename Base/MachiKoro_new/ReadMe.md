@@ -1,7 +1,7 @@
 ##   Thông tin quan trọng:
       16-17-18-19: Thông tin 4 thẻ chiến thắng của bản thân
       [36:40], [56:60], [76:80]: Thông tin 4 thẻ chiến thắng của các người chơi khác
-      Total: player state length = 130
+      Total: player state length = 146
       
 ##  :video_game: ALL_ACTION
       0	Không đổ lại xúc sắc
@@ -90,8 +90,8 @@
             thẻ 10đ
             thẻ 4đ
 
-      *   [0:20]: Coin và số lượng từng loại thẻ của người chơi
-      *   [20:80] Thông tin 3 người chơi còn lại
+      *   [0:20]: Coin và số lượng từng loại thẻ của người chơi được hành động
+      *   [20:80] Thông tin 3 người chơi còn lại theo thứ tự kế tiếp của người chơi đang được hành động
       *   [80:92]:   số lượng các loại thẻ còn trên bàn
       *   [92:104]:   số lượng các loại thẻ người chơi mua trong turn
       *   [104:116]:   Thẻ người chơi dùng để đổi
@@ -100,7 +100,8 @@
       *   [118:122] : người chơi bị chọn
       *   [122:129]:  Phase game
       *   [129]:  Check end game
-
+      *   [130:142]: Số lượng mỗi loại thẻ còn trên bàn chơi
+      *   [142:146]: Người chơi đang action, có giá trị là 0 hoặc 1, 1 ở 142 thì là bản thân đang hành động, còn 143 -> 142 là người chơi kế tiếp sau mình
 
 ##  :globe_with_meridians: ENV_state
       *   [0:80] Thông tin các người chơi (coin, số lượng thẻ mỗi loại): 
