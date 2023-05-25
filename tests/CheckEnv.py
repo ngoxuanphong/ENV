@@ -113,7 +113,7 @@ def RunGame(_env_, BOOL_CHECK_ENV, msg):
             BOOL_CHECK_ENV = False
 
         try:
-            per = np.array([0, 0, 0, 0, 0, 0, 0])
+            per = np.array([0, 0, 0, 0, 0, 0, 0, 0])
             win, per = _env_.numba_main_2(test_no_numba, COUNT_TEST, per, 0)
             if per[5] == 1:
                 msg.append(f"STATE đang trả ra sai output")
