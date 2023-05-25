@@ -50,6 +50,8 @@ test_math.py
 
 #  env.py
 #  index.py
+.vscode
+.mypy_cache
 _.ipynb
 hi.txt
 a.py
