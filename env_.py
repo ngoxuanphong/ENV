@@ -1,4 +1,4 @@
-from setup_ import _game_name
+from setup import _game_name
 game_name = _game_name
 base_module = __import__("Base." + game_name  + "._env", fromlist=["*"])
 from render_template import Render as __Render, import_files as __import_files

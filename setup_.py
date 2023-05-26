@@ -41,9 +41,9 @@ def make(game_name):
     return env
 
 
-def setup_game(game_name):
+def setup_game():
     spec = importlib.util.spec_from_file_location(
-        "env", f"{SHORT_PATH}Base/{game_name}/env.py"
+        "env", f"{SHORT_PATH}env_.py"
     )
     module = importlib.util.module_from_spec(spec)
     sys.modules[spec.name] = module
