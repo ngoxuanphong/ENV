@@ -10,6 +10,8 @@ __warnings.simplefilter("ignore", __NumbaPendingDeprecationWarning)
 __import_files(game_name)
 
 __env = base_module
+
+bot_lv0 = __env.bot_lv0
 getValidActions = __env.getValidActions
 getActionSize = __env.getActionSize
 getAgentSize = __env.getAgentSize
