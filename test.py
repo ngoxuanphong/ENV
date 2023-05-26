@@ -1,12 +1,10 @@
-import time
-
 import numpy as np
 from numba import njit
 
 from setup import make
 from tests.CheckEnv import check_env
 
-env = make("SushiGo")
+env = make("RockPaperScissors")
 print(check_env(env))
 
 
