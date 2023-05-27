@@ -1,13 +1,13 @@
 from setup import _game_name
-game_name = _game_name
-base_module = __import__("Base." + game_name  + "._env", fromlist=["*"])
+
+base_module = __import__(f"Base.{_game_name}._env", fromlist=["*"])
 from render_template import Render as __Render, import_files as __import_files
 from numba.core.errors import NumbaPendingDeprecationWarning as __NumbaPendingDeprecationWarning
 import warnings as __warnings
 __warnings.simplefilter("ignore", __NumbaPendingDeprecationWarning)
 
 
-__import_files(game_name)
+__import_files(_game_name)
 
 __env = base_module
 
