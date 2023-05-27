@@ -1,7 +1,7 @@
 import numpy as np
 from PIL import Image, ImageDraw, ImageEnhance, ImageFont
 
-from Base.GoFish import _env
+from Base.GoFish import env as _env
 from setup import SHORT_PATH
 
 IMG_PATH = SHORT_PATH + "Base/GoFish/playing_card_images/"

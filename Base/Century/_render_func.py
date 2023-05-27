@@ -1,7 +1,7 @@
 import numpy as np
 from PIL import Image, ImageDraw, ImageEnhance, ImageFont
 
-from Base.Century import _env
+from Base.Century import env as _env
 from setup import SHORT_PATH
 
 IMG_PATH = SHORT_PATH + "Base/Century/images/"

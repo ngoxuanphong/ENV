@@ -1,7 +1,7 @@
 import numpy as np
 from PIL import Image, ImageDraw, ImageFont
 
-from Base.Sheriff import _env, index
+from Base.Sheriff import env as _env, index
 from setup import SHORT_PATH
 
 IMG_PATH = SHORT_PATH + "Base/Sheriff/images/"

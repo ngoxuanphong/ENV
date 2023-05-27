@@ -1,7 +1,7 @@
 import numpy as np
 from PIL import Image, ImageEnhance
 
-from Base.TLMN import _env
+from Base.TLMN import env as _env
 from setup import SHORT_PATH
 
 IMG_PATH = SHORT_PATH + "Base/TLMN/playing_card_images/"

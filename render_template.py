@@ -10,7 +10,7 @@ from setup import SHORT_PATH
 
 def import_files(game_name):
     spec = importlib.util.spec_from_file_location(
-        "_env", f"{SHORT_PATH}Base/{game_name}/_env.py"
+        "_env", f"{SHORT_PATH}Base/{game_name}/env.py"
     )
     global _env
     _env = importlib.util.module_from_spec(spec)

@@ -1,7 +1,7 @@
 import numpy as np
 from PIL import Image, ImageDraw, ImageFont
 
-from Base.Poker import _env
+from Base.Poker import env as _env
 from setup import SHORT_PATH
 
 IMG_PATH = SHORT_PATH + "Base/Poker/playing_card_images/"

@@ -1,7 +1,7 @@
 import numpy as np
 from PIL import Image, ImageDraw, ImageEnhance, ImageFont
 
-from Base.Splendor_v3 import _env
+from Base.Splendor_v3 import env as _env
 from setup import SHORT_PATH
 
 NORMAL_CARD, NOBLE_CARD = _env.normal_cards_infor, _env.noble_cards_infor

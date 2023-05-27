@@ -1,7 +1,7 @@
 import numpy as np
 from PIL import Image, ImageDraw, ImageEnhance, ImageFont
 
-from Base.SushiGo import _env
+from Base.SushiGo import env as _env
 from setup import SHORT_PATH
 
 IMG_PATH = SHORT_PATH + "Base/SushiGo/playing_card_images/"

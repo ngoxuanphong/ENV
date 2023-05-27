@@ -1,7 +1,7 @@
 import numpy as np
 from PIL import Image, ImageDraw, ImageEnhance, ImageFont
 
-from Base.StoneAge import _env
+from Base.StoneAge import env as _env
 from setup import SHORT_PATH
 
 BUILDING_CARDS, CIV_CARDS = _env.BUILDING_CARDS, _env.CIV_CARDS

@@ -1,8 +1,8 @@
 import numpy as np
 from PIL import Image, ImageDraw, ImageFont
 
-from Base.Catan import _env
-from Base.Catan._env import __MAX_TURN_IN_ONE_GAME__
+from Base.Catan import env as _env
+from Base.Catan.env import __MAX_TURN_IN_ONE_GAME__
 from setup import SHORT_PATH
 
 IMG_PATH = SHORT_PATH + "Base/CatanNoExchange/images/"
