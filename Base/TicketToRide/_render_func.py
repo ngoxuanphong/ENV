@@ -18,14 +18,14 @@ class Sprites:
     def __init__(self) -> None:
         self.background = Image.open(IMG_PATH + "back_ground.jpg").resize(BG_SIZE)
         self.myFont = ImageFont.truetype(
-            "Base/TicketToRide/FreeMonoBoldOblique.ttf", size=40 * RATIO
+            "ImageFonts/FreeMonoBoldOblique.ttf", size=40 * RATIO
         )
         self.myFont_end = ImageFont.truetype(
-            "Base/TicketToRide/FreeMonoBoldOblique.ttf", size=20 * RATIO
+            "ImageFonts/FreeMonoBoldOblique.ttf", size=20 * RATIO
         )
 
         self.font2 = ImageFont.truetype(
-            "Base/TicketToRide/FreeMonoBoldOblique.ttf", size=60 * RATIO
+            "ImageFonts/FreeMonoBoldOblique.ttf", size=60 * RATIO
         )
         self.PLAYER_TRAIN_CARD_COOR = (
             np.array(

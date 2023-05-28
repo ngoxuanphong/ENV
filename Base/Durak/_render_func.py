@@ -4,7 +4,7 @@ from PIL import Image, ImageDraw, ImageEnhance, ImageFont
 from Base.Durak import env as _env
 from setup import SHORT_PATH
 
-IMG_PATH = SHORT_PATH + "Base/TLMN/playing_card_images/"
+IMG_PATH = SHORT_PATH + "Base/TLMN/images/"
 tl = 3
 BG_SIZE = (1680, 720)
 CARD_SIZE = (80, 112)
@@ -42,7 +42,7 @@ class Sprites:
         card_suits = ["Spade", "Club", "Diamond", "Heart"]
         self.cards = []
         self.card_name = []
-        path = "Base/Durak/playing_card_images/"
+        path = "Base/Durak/images/"
         for suit in card_suits:
             for value in card_values:
                 self.cards.append(

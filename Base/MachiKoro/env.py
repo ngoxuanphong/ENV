@@ -1,7 +1,7 @@
 import numpy as np
 from numba import jit, njit
 
-from Base.MachiKoro.index import *
+from Base.MachiKoro.docs.index import *
 
 
 #########################

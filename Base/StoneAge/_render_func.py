@@ -5,7 +5,7 @@ from Base.StoneAge import env as _env
 from setup import SHORT_PATH
 
 BUILDING_CARDS, CIV_CARDS = _env.BUILDING_CARDS, _env.CIV_CARDS
-IMG_PATH = SHORT_PATH + "Base/StoneAge/playing_card_images/"
+IMG_PATH = SHORT_PATH + "Base/StoneAge/images/"
 SIZE_BOARD = (1080, 607)
 
 tl = 2

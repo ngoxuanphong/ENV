@@ -4,7 +4,7 @@ from PIL import Image, ImageEnhance
 from Base.TLMN import env as _env
 from setup import SHORT_PATH
 
-IMG_PATH = SHORT_PATH + "Base/TLMN/playing_card_images/"
+IMG_PATH = SHORT_PATH + "Base/TLMN/images/"
 BG_SIZE = (1680, 720)
 CARD_SIZE = (80, 112)
 

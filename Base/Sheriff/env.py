@@ -1,7 +1,7 @@
 import numpy as np
 from numba import njit
 
-from Base.Sheriff.index import *
+from Base.Sheriff.docs.index import *
 
 # from index import*
 

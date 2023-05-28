@@ -4,7 +4,7 @@ from PIL import Image, ImageDraw, ImageEnhance, ImageFont
 from Base.SushiGo import env as _env
 from setup import SHORT_PATH
 
-IMG_PATH = SHORT_PATH + "Base/SushiGo/playing_card_images/"
+IMG_PATH = SHORT_PATH + "Base/SushiGo/images/"
 BG_SIZE = (1680, 720)
 CARD_SIZE = (90, 130)
 

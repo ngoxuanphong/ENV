@@ -377,7 +377,7 @@ def draw_card(card_back_ground, card_in4, list_img_source):
         if np.sum(give) != 0:
             # print('vào đây')
             card_back_ground = Image.open(
-                f"./Base/Century/img/resource-card-trading.png"
+                f"./Base/Century/images/img/resource-card-trading.png"
             ).resize((300, 400))
             down_img = Image.open("./Base/Century/images/downarrow.png")
             index_run = 0
@@ -402,7 +402,7 @@ def draw_card(card_back_ground, card_in4, list_img_source):
             # print('vào đây2')
 
             card_back_ground = Image.open(
-                f"./Base/Century/img/resource-card-production.png"
+                f"./Base/Century/images/img/resource-card-production.png"
             ).resize((300, 400))
             index_run = 0
             for type in range(4):
@@ -442,6 +442,6 @@ def draw_point_card(card_back_ground, card_in4, list_img_source):
 
 # list_type = []
 # for type_i in type:
-#     list_type.append(Image.open(f'./Base/Century/img/cube-{type_i}.png'))
+#     list_type.append(Image.open(f'./Base/Century/images/img/cube-{type_i}.png'))
 
 # list_type

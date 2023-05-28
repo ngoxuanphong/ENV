@@ -1,7 +1,7 @@
 import numpy as np
 from numba import njit
 
-from Base.TicketToRide.index import *
+from Base.TicketToRide.docs.index import *
 
 
 @njit()

@@ -5,7 +5,7 @@ from Base.Splendor_v3 import env as _env
 from setup import SHORT_PATH
 
 NORMAL_CARD, NOBLE_CARD = _env.normal_cards_infor, _env.noble_cards_infor
-IMG_PATH = SHORT_PATH + "Base/Splendor_v2/playing_card_images/"
+IMG_PATH = SHORT_PATH + "Base/Splendor_v2/images/"
 
 tl = 3
 BG_SIZE = (np.array([2048, 2384]) / tl).astype(np.int64)

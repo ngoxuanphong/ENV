@@ -2,7 +2,7 @@ import numba as nb
 import numpy as np
 from numba import njit
 
-from Base.Poker.index import *
+from Base.Poker.docs.index import *
 
 
 @njit()

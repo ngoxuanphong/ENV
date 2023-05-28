@@ -2,7 +2,7 @@ import numba as nb
 import numpy as np
 from numba import njit
 
-from Base.Century.index import *
+from Base.Century.docs.index import *
 
 
 @njit()
