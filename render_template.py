@@ -10,14 +10,14 @@ from setup import SHORT_PATH
 
 def import_files(game_name):
     spec = importlib.util.spec_from_file_location(
-        "_env", f"{SHORT_PATH}Base/{game_name}/env.py"
+        "_env", f"{SHORT_PATH}src/Base/{game_name}/env.py"
     )
     global _env
     _env = importlib.util.module_from_spec(spec)
     spec.loader.exec_module(_env)
 
     spec_1 = importlib.util.spec_from_file_location(
-        "_render_func", f"{SHORT_PATH}Base/{game_name}/_render_func.py"
+        "_render_func", f"{SHORT_PATH}src/Base/{game_name}/_render_func.py"
     )
     global _render_func
     _render_func = importlib.util.module_from_spec(spec_1)
