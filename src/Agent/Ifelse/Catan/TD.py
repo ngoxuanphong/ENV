@@ -8,7 +8,7 @@ game_name = sys.argv[1]
 env = setup_game(game_name)
 
 
-from Base.Catan.env import POINT_POINT, POINT_TILE, ROAD_POINT
+from src.Base.Catan.env import POINT_POINT, POINT_TILE, ROAD_POINT
 
 
 @njit

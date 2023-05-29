@@ -12,7 +12,7 @@ def DataAgent():
     return np.array([])
 
 
-from Base.Century.index import ALL_CARD_IN4
+from src.Base.Century.docs.index import ALL_CARD_IN4
 
 
 @njit()

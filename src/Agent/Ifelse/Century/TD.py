@@ -8,7 +8,7 @@ game_name = sys.argv[1]
 env = setup_game(game_name)
 
 
-from Base.Century._env import ALL_CARD_IN4
+from src.Base.Century.env import ALL_CARD_IN4
 
 
 @njit

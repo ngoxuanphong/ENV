@@ -13,7 +13,7 @@ def DataAgent():
     return per
 
 
-from Base.Splendor.env import __NORMAL_CARD__
+from src.Base.Splendor.env import __NORMAL_CARD__
 
 
 @njit()

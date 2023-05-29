@@ -8,7 +8,7 @@ game_name = sys.argv[1]
 env = setup_game(game_name)
 
 
-from Base.CatanNoExchange._env import POINT_TILE
+from src.Base.CatanNoExchange.env import POINT_TILE
 
 
 def DataAgent():
