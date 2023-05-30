@@ -40,28 +40,13 @@ def make(game_name):
 
     return env
 
-
 def setup_game(game_name):
     global _game_name
     _game_name = game_name
+    # print(game_name)
     spec = importlib.util.spec_from_file_location(
         "env", f"{SHORT_PATH}src/env.py"
     )
-    module = importlib.util.module_from_spec(spec)
-    sys.modules[spec.name] = module
-    spec.loader.exec_module(module)
-    return module
-
-
-def load_module_player(player, game_name=None):
-    if game_name == None:
-        spec = importlib.util.spec_from_file_location(
-            "Agent_player", f"{SHORT_PATH}src/Agent/{player}/Agent_player.py"
-        )
-    else:
-        spec = importlib.util.spec_from_file_location(
-            "Agent_player", f"{SHORT_PATH}src/Agent/ifelse/{game_name}/{player}.py"
-        )
     module = importlib.util.module_from_spec(spec)
     sys.modules[spec.name] = module
     spec.loader.exec_module(module)

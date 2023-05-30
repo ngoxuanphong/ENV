@@ -881,10 +881,10 @@ def load_agent(level, *args):
             env_name = sys.argv[1]
             if len(args) > 0:
                 dict_level = json.load(
-                    open(f"{SHORT_PATH}Log/check_system_about_level.json")
+                    open(f"{SHORT_PATH}src/Log/check_system_about_level.json")
                 )
             else:
-                dict_level = json.load(open(f"{SHORT_PATH}Log/level_game.json"))
+                dict_level = json.load(open(f"{SHORT_PATH}src/Log/level_game.json"))
 
             if str(_level_) not in dict_level[env_name]:
                 raise Exception("Hiện tại không có level này")
