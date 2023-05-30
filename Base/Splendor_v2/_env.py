@@ -741,7 +741,7 @@ def load_module_player(player, game_name=None):
         )
     else:
         spec = importlib.util.spec_from_file_location(
-            "Agent_player", f"{SHORT_PATH}Agent/ifelse/{game_name}/{player}.py"
+            "Agent_player", f"{SHORT_PATH}Agent/Ifelse/{game_name}/{player}.py"
         )
     module = importlib.util.module_from_spec(spec)
     sys.modules[spec.name] = module
