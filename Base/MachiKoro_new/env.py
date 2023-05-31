@@ -21,7 +21,7 @@ def getStateSize():
 @njit()
 def initEnv():
     normal_card = np.full(NUMBER_TYPE_NORMAL_CARD, NUMBER_PER_NORMAL_CARD)      #khởi tạo mảng thẻ 
-    start_player = np.concatenate((np.array([0, 1, 0, 1]), np.zeros(16)))       #thông tin ban đầu 4 người chơi
+    start_player = np.concatenate((np.array([3, 1, 0, 1]), np.zeros(16)))       #thông tin ban đầu 4 người chơi
     card_buy_in_turn = np.zeros(NUMBER_TYPE_NORMAL_CARD)                        #thẻ mua trong lượt
     env_state = np.concatenate(
         (

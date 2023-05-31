@@ -757,6 +757,7 @@ def getPredictState(state_original, action):
                 state_predict[P_PHASE : P_PHASE + NUMBER_PHASE] = 0
                 id_card_buy = action - 1
                 state_predict[P_TOKEN_NEED_DROP] = id_card_buy
+                state_predict[P_ID_CARD_BUY : P_ID_CARD_BUY + NUMBER_OPEN_ACTION_CARD] = 0
                 state_predict[P_ID_CARD_BUY + id_card_buy] = 1
                 new_phase = 2
                 state_predict[P_PHASE + new_phase - 1] = 1
