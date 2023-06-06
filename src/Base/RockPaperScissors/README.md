@@ -2,7 +2,7 @@
     * [0]: Scissors
     * [1]: Rock
     * [2]: Paper
-    * [3]: Comfirm
+    * [3]: Confirm
     
 ##  :bust_in_silhouette: P_state
     * [0: 3]: Player's choice
@@ -19,7 +19,7 @@
     * [3]: The player who is currently playing ( 0 or 1)
     * [4]: Phase:
         + 0: Each player makes a choice
-        + 1: comfirm the information of the game turn
+        + 1: confirm the information of the game turn
     * [5]: winner ( -1: no winner, 0, 1)
     * [6]: 1 is the game over, if not, it's not
 
