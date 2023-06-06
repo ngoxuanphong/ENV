@@ -67,7 +67,7 @@ def stepEnv(action, env):
             if check == -1 or check == 2:
                 env[5] = 1
 
-    else:  # comfirmation phase
+    else:  # confirmation phase
         env[3] = (env[3] + 1) % 2  # Switch to another player
         if env[3] == 0:
             if env[5] != -1:
