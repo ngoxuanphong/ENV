@@ -1,4 +1,4 @@
-## :dart: Báo cáo Ticket To Ride 
+## :dart: Báo cáo Century
 1.   `Tốc độ chạy`
       - **1000 Game**: 
       - **1000 Game full numba**: 
