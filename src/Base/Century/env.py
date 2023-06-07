@@ -796,6 +796,9 @@ def n_games_normal(
 import importlib.util
 import json, sys
 
+import importlib.util
+import json, sys
+
 try:
     from setup import SHORT_PATH
 except:
