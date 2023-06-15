@@ -1,24 +1,15 @@
-game_name = "Splendor"
-time_run_game = 100
-N_AGENT = 5
-N_GAME = 15
-PASS_LEVEL = 2500
-COUNT_TRAIN = 10000
-COUNT_TEST = 1000
 
-#  path = "C:\AutomaticTrain\State.xlsx"
-#  SHOT_PATH = 'A:/AutoTrain/GAME/'
 DRIVE_FOLDER = "G:/My Drive/AutomaticColab/"
-
-
 SHORT_PATH = ""
-#  DRIVE_FOLDER = 'H:/Drive của tôi/AutomaticColab/'
-
 import importlib.util
 import sys
 
 
-def make(game_name):
+def make(game_name: str = 'RockPaperScissors'):
+    '''
+    This function is used to setup the game environment.
+    It is used to import the game environment from the game folder.
+    '''
     global _game_name
     _game_name = game_name
     def add_game_to_syspath(game_name):
