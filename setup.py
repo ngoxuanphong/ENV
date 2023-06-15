@@ -34,7 +34,6 @@ def make(game_name: str = 'RockPaperScissors'):
 def setup_game(game_name):
     global _game_name
     _game_name = game_name
-    # print(game_name)
     spec = importlib.util.spec_from_file_location(
         "env", f"{SHORT_PATH}src/env.py"
     )
