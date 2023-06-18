@@ -611,4 +611,4 @@ def run(
 #     idx = np.random.randint(0, arr_action.shape[0])
 #     return arr_action[idx], perData
 
-# numba_main_2(stupid,1,np.zeros(1),0)
+# run(stupid,1,np.zeros(1),0)
