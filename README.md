@@ -50,7 +50,7 @@ env.run(Agent, num_game = 1000, agent_model = [0], level = 0)
 Please refer to [Wiki](https://github.com/ngoxuanphong/ENV/wiki/Using) for complete usage details
 
 ##  Environment
-ENV includes 20 games:
+ENV includes 20 games, which are listed below along with the number of actions, observations, time run, win rate they have:
 
 |Game        |Win-lv0       |win-lv1        |win-lv2        |Time-lv0       |Time-lv1       |Time-lv2       | Graphics      | Link|
 |:-----------|:-----------  |:-----------   |:-----------   |:-----------   |:-----------   |:-----------   |:-----------   |:-----------   |
