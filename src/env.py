@@ -20,9 +20,9 @@
 # run = __env.run
 
 # def render(Agent = 'human',
-#            per_data: any = [0], 
+#            per_data: any = [0],
 #            level: int = 0,
-#             *args, 
+#             *args,
 #             max_temp_frame=100):
 #     list_agent, list_data = __env.load_agent(level, *args)
 

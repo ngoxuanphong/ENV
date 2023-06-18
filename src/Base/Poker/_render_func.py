@@ -46,7 +46,9 @@ class Params:
         y_0 = 0.2 * BG_SIZE[1] - 0.25 * CARD_SIZE[1]
         y_1 = 0.8 * BG_SIZE[1] - 0.75 * CARD_SIZE[1]
         self.list_coords_1 = [(x_0, y_1), (x_1, y_1), (x_1, y_0), (x_0, y_0)]
-        self.myFont = ImageFont.truetype("src/ImageFonts/FreeMonoBoldOblique.ttf", size=40)
+        self.myFont = ImageFont.truetype(
+            "src/ImageFonts/FreeMonoBoldOblique.ttf", size=40
+        )
         self.fontFold = ImageFont.truetype(
             "src/ImageFonts/FreeMonoBoldOblique.ttf", size=60
         )

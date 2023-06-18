@@ -7,11 +7,13 @@ from numba.core.errors import (
     NumbaPendingDeprecationWarning as __NumbaPendingDeprecationWarning,
 )
 import warnings as __warnings
+
 __warnings.simplefilter("ignore", __NumbaPendingDeprecationWarning)
-_game_name_ = 'RockPaperScissors'
+_game_name_ = "RockPaperScissors"
+
 
 def make(game_name: str = "RockPaperScissors") -> any:
-    '''
+    """
     make the environment
     Parameters
     ----------
@@ -39,7 +41,7 @@ def make(game_name: str = "RockPaperScissors") -> any:
             'TicketToRide',
             'WelcomeToTheDungeon_v1',
             'WelcomeToTheDungeon_v2',
-    '''
+    """
 
     global _game_name_, __env__, agent_random
     _game_name_ = game_name
@@ -48,18 +50,21 @@ def make(game_name: str = "RockPaperScissors") -> any:
     import_files(_game_name_)
     agent_random = __env__.bot_lv0
 
+
 def add_game_to_syspath():
     if len(sys.argv) >= 2:
         sys.argv = [sys.argv[0]]
     sys.argv.append(_game_name_)
 
+
 #'------------------------------------------------------------------------------------------------------'
 #'------------------------------------------------------------------------------------------------------'
 #'------------------------------------------------------------------------------------------------------'
 
+
 @njit()
 def getValidActions(state):
-    '''
+    """
     return a array of valid actions
     Parameters
     ----------
@@ -69,46 +74,50 @@ def getValidActions(state):
     -------
     ValidActions : np.array 1D
         np.array of valid actions
-    '''
+    """
 
     return __env__.getValidActions(state)
 
+
 @njit()
 def getActionSize():
-    '''
+    """
     return the size of action space
     Returns
     -------
     ActionSize : int
-    '''
+    """
 
     return __env__.getActionSize()
 
+
 @njit()
 def getAgentSize():
-    '''
+    """
     return the size of agent space
     Returns
     -------
     AgentSize : int
-    '''
+    """
 
     return __env__.getAgentSize()
 
+
 @njit()
 def getStateSize():
-    '''
+    """
     return the size of state space
     Returns
     -------
     StateSize : int
-    '''
+    """
 
     return __env__.getStateSize()
 
+
 @njit()
-def getReward( state):
-    '''
+def getReward(state):
+    """
     return the reward of the state
     Parameters
     ----------
@@ -116,12 +125,13 @@ def getReward( state):
         current state of the game
     Returns
     -------
-    Reward : int 
+    Reward : int
         0 if the game is not end
         1 if the game is end and the player win
         -1 if the game is end and the player lose
-    '''
+    """
     return __env__.getReward(state)
+
 
 # @njit()
 def run(
@@ -131,12 +141,12 @@ def run(
     level: int = 0,
     *args,
 ):
-    '''
+    """
     run the game
     Parameters
     ----------
     p0 : any, optional
-        the agent of environment, this is function, 
+        the agent of environment, this is function,
         by default 'bot_lv0'
     num_game : int, optional
         number of game, by default 100
@@ -149,23 +159,22 @@ def run(
         -1: hard mode
     Returns
     -------
-    result : 
+    result :
         result of the game
     agent_model :
         model of agent
-    '''
+    """
     return __env__.run(agent, num_game, agent_model, level, *args)
 
 
 def render(
-    
     Agent="human",
     agent_model: any = [0],
     level: int = 0,
     *args,
     max_temp_frame=100,
 ):
-    '''
+    """
     render the game
     Parameters
     ----------
@@ -180,11 +189,11 @@ def render(
         -1: hard mode
     Returns
     -------
-    result : 
+    result :
         result of the game
     agent_model :
         model of agent
-    '''
+    """
     list_agent, list_data = __env__.load_agent(level, *args)
 
     if "__render" not in globals():
