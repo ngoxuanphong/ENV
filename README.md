@@ -23,7 +23,14 @@ To install the base ENV library, use:
 
 ##  API
 ```python
-from setup import make
+import env
+
+env.make()
+env.run(env.agent_random)
+```
+
+```python
+import env
 from numba import njit
 import numpy as np
 
@@ -34,9 +41,9 @@ def Agent(state, agent_data):
     action = np.random.choice(actions)
     return action, agent_data
     
-env = make('SushiGo')
-env.numba_main_2(Agent, 1000, [0], 0)
-# count_win, agent_data = env.numba_main_2(Agent, count_game_train, agent_data, level)
+env.make('SushiGo')
+env.run(Agent, num_game = 1000, agent_model = [0], level = 0)
+
 ```
 [Example](https://github.com/ngoxuanphong/ENV/blob/main/Log/Example.ipynb)
 

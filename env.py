@@ -40,13 +40,13 @@ def make(game_name: str = "RockPaperScissors") -> any:
             'WelcomeToTheDungeon_v1',
             'WelcomeToTheDungeon_v2',
     '''
-    
-    global _game_name_, __env__, bot_lv0
+
+    global _game_name_, __env__, agent_random
     _game_name_ = game_name
     add_game_to_syspath()
     __env__ = __import__(f"src.Base.{_game_name_}.env", fromlist=["*"])
     import_files(_game_name_)
-    bot_lv0 = __env__.bot_lv0
+    agent_random = __env__.bot_lv0
 
 def add_game_to_syspath():
     if len(sys.argv) >= 2:
