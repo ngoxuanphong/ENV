@@ -45,7 +45,7 @@ env.make('SushiGo')
 env.run(Agent, num_game = 1000, agent_model = [0], level = 0)
 
 ```
-[Example](https://github.com/ngoxuanphong/ENV/blob/main/Log/Example.ipynb)
+[Example](https://github.com/ngoxuanphong/ENV/blob/main/src/Log/Example.ipynb)
 
 Please refer to [Wiki](https://github.com/ngoxuanphong/ENV/wiki/Using) for complete usage details
 
