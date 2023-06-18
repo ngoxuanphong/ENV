@@ -1,6 +1,6 @@
 from PIL import Image, ImageEnhance, ImageDraw, ImageFont
 import numpy as np
-from setup import SHORT_PATH
+from env import SHORT_PATH
 from src.Base.RockPaperScissors import env as _env
 IMG_PATH = SHORT_PATH + "src/Base/RockPaperScissors/images/"
 BG_SIZE = (1680, 720)

@@ -1947,7 +1947,7 @@ import importlib.util
 import json, sys
 
 try:
-    from setup import SHORT_PATH
+    from env import SHORT_PATH
 except:
     pass
 

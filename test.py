@@ -1,7 +1,5 @@
-from setup import make
+import env
 
-env = make("Splendor_v3")
-print(env.run())
-
-from .src.Base.Catan.env import *
-run()
+env.make("Splendor_v2")
+win, per = env.run(env.bot_lv0, level=1)
+print(win, per)

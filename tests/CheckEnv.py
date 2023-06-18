@@ -9,7 +9,7 @@ from numba.core.errors import (
     NumbaWarning,
 )
 
-from setup import setup_game
+from env import setup_game
 
 warnings.simplefilter("ignore", category=NumbaDeprecationWarning)
 warnings.simplefilter("ignore", category=NumbaPendingDeprecationWarning)

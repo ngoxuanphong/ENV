@@ -1,6 +1,6 @@
 from PIL import Image, ImageEnhance, ImageDraw, ImageFont
 import numpy as np
-from setup import SHORT_PATH
+from env import SHORT_PATH
 from src.Base.WelcomeToTheDungeon_v1 import env as _env
 IMG_PATH = SHORT_PATH + "src/Base/WelcomeToTheDungeon_v1/images/"
 BG_SIZE = (1680, 720)

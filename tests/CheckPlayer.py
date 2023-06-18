@@ -1,5 +1,5 @@
 import warnings
-from setup import make
+from env import make
 from src.Utils import load_module_player
 
 warnings.filterwarnings("ignore")
