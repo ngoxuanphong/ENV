@@ -50,7 +50,6 @@ def make(game_name: str = "RockPaperScissors") -> any:
     import_files(_game_name_)
     agent_random = __env__.bot_lv0
 
-
 def add_game_to_syspath():
     if len(sys.argv) >= 2:
         sys.argv = [sys.argv[0]]

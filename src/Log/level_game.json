@@ -94,7 +94,7 @@
    ],
    [
     "StateBasedAlgorithm",
-    "Chain4",
+    "An",
     "KhanhNhat"
    ]
   ],
@@ -426,7 +426,7 @@
    ],
    [
     "KhanhNhat",
-    "Chain4",
+    "An",
     "MultiDimensionAlgorithm",
     "StateBasedAlgorithm",
     "BiasAlgorithm"
