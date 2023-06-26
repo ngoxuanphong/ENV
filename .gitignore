@@ -7,6 +7,10 @@
 **/.ipynb_checkpoints/
 .pytest_cache
 # .github
+build/
+dist/
+*.egg-info/
+setup.py
 
 src/Agent/Chain3/Data/Catan_1
 src/Agent/Chain3/Data/Century_1
