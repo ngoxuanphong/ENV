@@ -15,6 +15,7 @@ _game_name_ = "RockPaperScissors"
 def make(game_name: str = "RockPaperScissors") -> any:
     """
     make the environment
+
     Parameters
     ----------
     game_name : str, optional
@@ -65,10 +66,12 @@ def add_game_to_syspath():
 def getValidActions(state):
     """
     return a array of valid actions
+
     Parameters
     ----------
     state : any
         current state of the game
+
     Returns
     -------
     ValidActions : np.array 1D
@@ -82,6 +85,7 @@ def getValidActions(state):
 def getActionSize():
     """
     return the size of action space
+
     Returns
     -------
     ActionSize : int
@@ -94,6 +98,7 @@ def getActionSize():
 def getAgentSize():
     """
     return the size of agent space
+
     Returns
     -------
     AgentSize : int
@@ -106,6 +111,7 @@ def getAgentSize():
 def getStateSize():
     """
     return the size of state space
+    
     Returns
     -------
     StateSize : int
@@ -118,6 +124,7 @@ def getStateSize():
 def getReward(state):
     """
     return the reward of the state
+
     Parameters
     ----------
     state : any
@@ -142,6 +149,7 @@ def run(
 ):
     """
     run the game
+
     Parameters
     ----------
     p0 : any, optional
@@ -156,6 +164,7 @@ def run(
         0: random mode
         1: easy mode
         -1: hard mode
+
     Returns
     -------
     result :
@@ -175,6 +184,7 @@ def render(
 ):
     """
     render the game
+
     Parameters
     ----------
     Agent : str, optional
@@ -186,6 +196,7 @@ def render(
         0: random mode
         1: easy mode
         -1: hard mode
+
     Returns
     -------
     result :
