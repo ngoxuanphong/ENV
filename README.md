@@ -1,4 +1,4 @@
-# VIS - Environment for Reinforcement Learning
+    # VIS - Environment for Reinforcement Learning
 vis is an open source Python library for developing and comparing reinforcement learning algorithms by providing a standard API to communicate between learning algorithms and environments, as well as a standard set of environments compliant with that API
 
 ![Python package](https://github.com/ngoxuanphong/ENV/workflows/Python%20package/badge.svg) 
@@ -26,7 +26,15 @@ To install the base **vis** library, use:
 import env
 
 env.make()
-env.run(env.agent_random)
+# Run game
+print(env.run())
+
+# Visualization one game
+env.render(Agent = env.Agent_random)
+
+#Play with bot in game
+
+env.render(Agent = 'human')
 ```
 
 ```python
@@ -41,9 +49,10 @@ def Agent(state, agent_data):
     action = np.random.choice(actions)
     return action, agent_data
     
-env.make('SushiGo')
+env.make()
 env.run(Agent, num_game = 1000, agent_model = [0], level = 0)
 
+env.render(Agent = Agent)
 ```
 [Example](https://github.com/ngoxuanphong/ENV/blob/main/src/Log/Example.ipynb)
 
