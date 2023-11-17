@@ -22,3 +22,6 @@ a.py
 b.py
 
 a.ipynb
+MAINFEST.in
+CHANGELOG.txt
+.env
