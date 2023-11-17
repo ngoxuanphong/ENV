@@ -21,6 +21,6 @@ a.py
 b.py
 
 a.ipynb
-MAINFEST.in
+MANIFEST.in
 CHANGELOG.txt
 .env
